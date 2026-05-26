@@ -30,8 +30,14 @@ export const loginController = async (req: Request, res: Response) => {
         return res.status(401).json({ error: "Authentication failed" });
     }
 
-    return res.status(200).json({
-        token: data.session?.access_token,
+    return res.status(200)
+    .cookie("token", data.session?.access_token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000
+    })
+    .json({
         user: {
             id: user.id,
             email: user.email,
