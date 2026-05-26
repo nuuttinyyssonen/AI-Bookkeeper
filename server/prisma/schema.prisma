@@ -13,4 +13,5 @@ model User {
   first_name  String
   last_name   String
   phonenumber String
+  supabase_id String? @unique
 }
