@@ -3,7 +3,14 @@ export type LoginInput = {
   password: string;
 };
 
-// export type SignupInput = {}
+export type SignupInput = {
+  email: string;
+  password: string;
+  passwordRepeat: string;
+  firstName: string;
+  lastName: string;
+  phonenumber: string;
+};
 
 export type FormState<T> = {
   data?: T;
@@ -16,3 +23,9 @@ export const initialState: FormState<LoginInput> = {
   error: null,
   success: false,
 };
+
+export const initialStateSignup: FormState<SignupInput> = {
+  data: undefined,
+  error: null,
+  success: false
+}

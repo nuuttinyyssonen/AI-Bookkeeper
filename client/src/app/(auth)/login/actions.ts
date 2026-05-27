@@ -1,7 +1,6 @@
 'use server';
 
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 import { LoginInput } from "@/app/types/FormTypes";
 import { FormState } from "@/app/types/FormTypes";
 
@@ -29,7 +28,7 @@ export default async function loginAction(
 
         if(!response.ok) {
             const data = await response.json();
-            return { error: data.message || "Invalid Credentials" };
+            return { error: data.error || data.message || "Invalid Credentials" };
         }
 
         const data = await response.json();
