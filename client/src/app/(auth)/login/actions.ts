@@ -2,19 +2,13 @@
 
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { LoginInput } from "@/app/types/FormTypes";
+import { FormState } from "@/app/types/FormTypes";
 
-export type LoginInput = {
-  email: string;
-  password: string;
-};
-
-export type FormState<T> = {
-  data?: T;
-  error: string | null;
-  success?: boolean;
-};
-
-export default async function loginAction(_prevState: FormState<LoginInput>, formData: FormData) {
+export default async function loginAction(
+    _prevState: FormState<LoginInput>, 
+    formData: FormData
+    ): Promise<FormState<LoginInput>> {
     // Getting email and password from forms.
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
@@ -38,9 +32,15 @@ export default async function loginAction(_prevState: FormState<LoginInput>, for
             return { error: data.message || "Invalid Credentials" };
         }
 
-        console.log(response.json());
+        const data = await response.json();
+        console.log(data);
         // redirect("/main");
     } catch(error) {
         return { error: "Something went wrong. Please try again." };
     }
+    return {
+        data: { email, password },
+        error: null,
+        success: true,
+    };
 }
