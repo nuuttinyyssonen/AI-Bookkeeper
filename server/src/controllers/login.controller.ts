@@ -31,14 +31,9 @@ export const loginController = async (req: Request, res: Response) => {
     }
 
     return res.status(200)
-    .cookie("token", data.session?.access_token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: 7 * 24 * 60 * 60 * 1000
-    })
     .json({
         user: {
+            token: data.session.access_token,
             id: user.id,
             email: user.email,
             first_name: user.first_name,
