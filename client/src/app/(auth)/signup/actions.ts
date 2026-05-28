@@ -15,14 +15,17 @@ export default async function signupAction(
     const lastName = formData.get("lastName") as string;
     const phonenumber = formData.get("phonenumber") as string;
 
+    // validating form fields
     if(!email || !password || !passwordRepeat || !lastName || !firstName || !phonenumber) {
         return { error: "All fields are required" };
     }
 
+    // validating password match
     if(password !== passwordRepeat) {
         return { error: "Passwords do not match" };
     }
 
+    // sending signup request to our backend API route.
     try {
         const response = await fetch("http://localhost:3001/api/auth/signup", {
             method: 'POST',
@@ -38,16 +41,15 @@ export default async function signupAction(
             })
         });
 
+        // If response is not ok, return error message from server or a default one.
         if(!response.ok) {
             const data = await response.json();
             return { error: data.error || data.message || "Invalid Credentials" };
         }
-
-        const data = await response.json();
-        console.log(data);
     } catch(error) {
         return { error: "Something went wrong. Please try again." }
     }
 
+    // Redirecting to login page after successful signup
     redirect("/login");
 };

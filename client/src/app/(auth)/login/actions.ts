@@ -1,6 +1,7 @@
 'use server';
 
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import { LoginInput } from "@/app/types/FormTypes";
 import { FormState } from "@/app/types/FormTypes";
 
@@ -18,6 +19,7 @@ export default async function loginAction(
     }
 
     try {
+        // Sending login request to our backend API route.
         const response = await fetch("http://localhost:3001/api/auth/login", {
             method: 'POST',
             headers: {
@@ -26,20 +28,24 @@ export default async function loginAction(
             body: JSON.stringify({email, password}),
         });
 
+        // If response is not ok, return error message from server or a default one.
         if(!response.ok) {
             const data = await response.json();
             return { error: data.error || data.message || "Invalid Credentials" };
         }
 
         const data = await response.json();
-        console.log(data);
-        // redirect("/main");
+        
+        // Setting token in cookies manually
+        const cookieStore = await cookies();
+        cookieStore.set("token", data.token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 7 * 24 * 60 * 60 // 7 days
+        });
     } catch(error) {
         return { error: "Something went wrong. Please try again." };
     }
-    return {
-        data: { email, password },
-        error: null,
-        success: true,
-    };
+    redirect("/dashboard");
 }
