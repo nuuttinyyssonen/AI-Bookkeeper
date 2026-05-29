@@ -5,6 +5,10 @@ import { supabase } from '../lib/supabase';
 
 export const signupController = async (req: Request, res: Response) => {
     const { email, password, first_name, last_name, phonenumber } = req.body;
+
+    if(!(email && password && first_name && last_name && phonenumber)) {
+        return res.status(400).json({ "error": "All fields are required" });
+    }
     
     // Password valdiation
     if (password.length < 5) {

@@ -17,13 +17,25 @@ describe('Login routes', () => {
             .post('/api/auth/login')
             .send({ email: email, password: "123456" })
         expect(response.status).toBe(200);
+        expect(response.body.user.token).toBeDefined();
+        expect(typeof response.body.user.token).toBe('string');
+        expect(response.body.user.token.length).toBeGreaterThan(0);
     });
 
-    it("Fails with unvalid data", async () => {
+    it("Fails with unvalid password", async () => {
         const response = await request(app)
             .post('/api/auth/login')
             .send({ email: email, password: "12345678" })
         expect(response.status).toBe(401);
+        expect(response.body.error).toBe("Password or email is not correct");
+    });
+
+    it("Fails with unvalid email", async () => {
+        const response = await request(app)
+            .post('/api/auth/login')
+            .send({ email: "integration.login.test123@admin.com", password: "123456" })
+        expect(response.status).toBe(401);
+        expect(response.body.error).toBe("Password or email is not correct");
     });
 
     afterAll(async () => {

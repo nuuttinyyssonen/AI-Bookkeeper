@@ -21,6 +21,7 @@ describe('Signup route', () => {
                 phonenumber: phonenumber
             });
         expect(response.status).toBe(201);
+        expect(response.body.email).toBe(email);
     });
 
     it('Fails with ununique email', async () => {
@@ -34,6 +35,7 @@ describe('Signup route', () => {
                 phonenumber: phonenumber
             });
         expect(response.status).toBe(409);
+        expect(response.body.error).toBe("Email is already in use");
     });
 
     it('Fails with too short password', async () => {
@@ -47,6 +49,7 @@ describe('Signup route', () => {
                 phonenumber: phonenumber
             });
         expect(response.status).toBe(400);
+        expect(response.body.error).toBe("Password must be more than 5 characters");
     });
 
     it('Fails if not all fields are used', async () => {
@@ -58,7 +61,8 @@ describe('Signup route', () => {
                 first_name: firstName,
                 last_name: lastName,
             });
-        expect(response.status).toBe(500);
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe("All fields are required");
     });
 
     afterAll(async() => {
