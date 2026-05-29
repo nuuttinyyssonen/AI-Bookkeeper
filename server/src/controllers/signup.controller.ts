@@ -17,7 +17,7 @@ export const signupController = async (req: Request, res: Response) => {
     });
 
     if (existingUser) {
-        return res.status(400).json({ error: "Email is already in use" });
+        return res.status(409).json({ error: "Email is already in use" });
     }
 
     // Password hashing
@@ -33,15 +33,6 @@ export const signupController = async (req: Request, res: Response) => {
 
     if (supabaseError || !supabaseData.user) {
         return res.status(500).json({ error: "Failed to create user in Supabase" });
-    }
-
-    // User data
-    const data = {
-        email: email,
-        password: passwordHash,
-        first_name: first_name,
-        last_name: last_name,
-        phonenumber: phonenumber
     }
 
     // Creating user in database
