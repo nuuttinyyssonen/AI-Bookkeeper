@@ -10,11 +10,9 @@ describe("Logout route", () => {
     let user_id: number;
 
     beforeEach(async () => {
-        // Creating prock user with helper function
         const user = await createUser(email);
         user_id = user.id;
 
-        // Logging to created user to get token
         const response = await request(app)
             .post('/api/auth/login')
             .send({ email: email, password: "123456" });
