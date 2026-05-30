@@ -38,7 +38,7 @@ export default async function loginAction(
         
         // Setting token in cookies manually
         const cookieStore = await cookies();
-        cookieStore.set("token", data.token, {
+        cookieStore.set("token", data.user.token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: "strict",
