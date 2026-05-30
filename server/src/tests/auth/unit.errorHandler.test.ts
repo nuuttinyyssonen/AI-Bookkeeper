@@ -1,0 +1,67 @@
+import { Request, Response, NextFunction } from "express";
+import { errorHandler } from "../../middleware/errorHandler";
+import { ValidationError, AuthenticationError, AuthorizationError, ConflictError, NotFoundError, ServerError, RateLimitError } from "../../utils/error";
+
+describe("Error Handler Middleware", () => {
+    let req: Partial<Request>;
+    let res: Partial<Response>;
+    let next: NextFunction;
+
+    beforeEach(() => {
+        req = {};
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn().mockReturnThis()
+        };
+        next = jest.fn()
+    });
+
+    it("Handles ValidationError with 400", () => {
+        const error = new ValidationError("Email is requried");
+        errorHandler(error, req as Request, res as Response, next);
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({"message": "Email is requried", "status": "error"});
+    });
+
+    it("Handles AuthenticationError with 401", () => {
+        const error = new AuthenticationError("Authentication Error");
+        errorHandler(error, req as Request, res as Response, next);
+        expect(res.status).toHaveBeenCalledWith(401);
+        expect(res.json).toHaveBeenCalledWith({"message": "Authentication Error", "status": "error"});
+    });
+
+    it("Handles AuthorizationError with 403", () => {
+        const error = new AuthorizationError("Authorization Error");
+        errorHandler(error, req as Request, res as Response, next);
+        expect(res.status).toHaveBeenCalledWith(403);
+        expect(res.json).toHaveBeenCalledWith({"message": "Authorization Error", "status": "error"});
+    });
+
+    it("Handles ConflictError with 409", () => {
+        const error = new ConflictError("Email is already in use");
+        errorHandler(error, req as Request, res as Response, next);
+        expect(res.status).toHaveBeenCalledWith(409);
+        expect(res.json).toHaveBeenCalledWith({"message": "Email is already in use", "status": "error"});
+    });
+
+    it("Handles NotFoundError with 404", () => {
+        const error = new NotFoundError("Resource not found");
+        errorHandler(error, req as Request, res as Response, next);
+        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.json).toHaveBeenCalledWith({"message": "Resource not found", "status": "error"});
+    });
+
+    it("Handles ServerError with 500", () => {
+        const error = new ServerError("Internal server error");
+        errorHandler(error, req as Request, res as Response, next);
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith({"message": "Internal server error", "status": "error"});
+    });
+
+    it("Handles RateLimitError with 429", () => {
+        const error = new ServerError("Too many requests");
+        errorHandler(error, req as Request, res as Response, next);
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith({"message": "Too many requests", "status": "error"});
+    });
+});
