@@ -1,18 +1,21 @@
 import { prisma } from '../lib/prisma';
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
 import { supabase } from '../lib/supabase';
+import { ValidationError, ConflictError, ServerError } from '../utils/error';
 
-export const signupController = async (req: Request, res: Response) => {
+export const signupController = async (req: Request, res: Response, next: NextFunction) => {
     const { email, password, first_name, last_name, phonenumber } = req.body;
 
     if(!(email && password && first_name && last_name && phonenumber)) {
-        return res.status(400).json({ "error": "All fields are required" });
+        const err = new ValidationError("All fields are required");
+        return next(err);
     }
     
     // Password valdiation
     if (password.length < 5) {
-        return res.status(400).json({ "error": "Password must be more than 5 characters" });
+        const err = new ValidationError("Password must be more than 5 characters");
+        return next(err);
     }
 
      // Querying user to see if it already exists
@@ -21,7 +24,8 @@ export const signupController = async (req: Request, res: Response) => {
     });
 
     if (existingUser) {
-        return res.status(409).json({ error: "Email is already in use" });
+        const err = new ConflictError("Email is already in use");
+        return next(err);
     }
 
     // Password hashing
@@ -59,8 +63,9 @@ export const signupController = async (req: Request, res: Response) => {
             last_name: newUser.last_name
         });
     } catch (error) {
-        // Jos Prisma epäonnistuu, poistetaan Supabase käyttäjä
+        // If Prisma fails, delete user from supabase
         await supabase.auth.admin.deleteUser(supabaseData.user.id);
-        return res.status(500).json({ error: "Internal Server Error" });
+        const err = new ServerError("Internal Server Error");
+        return next(err);
     }
 };

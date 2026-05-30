@@ -12,28 +12,28 @@ export class AppError extends Error {
 };
 
 export class ValidationError extends AppError {
-    constructor(message: 'Validation error') {
+    constructor(message: string = 'Validation error') {
         super(400, message);
         Object.setPrototypeOf(this, ValidationError.prototype);
     };
 };
 
 export class AuthenticationError extends AppError {
-    constructor(message: 'Authentication error') {
+    constructor(message: string = 'Authentication error') {
         super(401, message);
         Object.setPrototypeOf(this, AuthenticationError.prototype);
     };
 };
 
 export class AuthorizationError extends AppError {
-    constructor(message: 'Authorization error') {
+    constructor(message: string = 'Authorization error') {
         super(403, message);
         Object.setPrototypeOf(this, AuthorizationError.prototype);
     }
 }
 
 export class NotFoundError extends AppError {
-    constructor(message: 'Resource not found') {
+    constructor(message: string = 'Resource not found') {
         super(404, message);
         Object.setPrototypeOf(this, NotFoundError.prototype);
     };

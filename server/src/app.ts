@@ -7,6 +7,8 @@ import loginRouter from "./routes/login.routes";
 import signupRouter from "./routes/signup.routes";
 import logoutRouter from "./routes/logout.routes";
 
+import { errorHandler } from "./middleware/errorHandler";
+
 dotenv.config();
 
 const app = express();
@@ -18,5 +20,7 @@ app.use(cookieParser());
 app.use('/api/auth/login', loginRouter);
 app.use('/api/auth/signup', signupRouter);
 app.use('/api/auth/logout', logoutRouter);
+
+app.use(errorHandler);
 
 export default app;

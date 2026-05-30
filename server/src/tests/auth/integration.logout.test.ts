@@ -46,7 +46,7 @@ describe("Logout route", () => {
         const response = await request(app)
             .post('/api/auth/logout')
         expect(response.status).toBe(401);
-        expect(response.body.error).toBe("Not logged in");
+        expect(response.body.message).toBe("Not logged in");
     });
 
     it("Fails to logout if token is invalid", async () => {
@@ -54,7 +54,7 @@ describe("Logout route", () => {
             .post('/api/auth/logout')
             .set('Cookie', `token=invalid-token`)
         expect(response.status).toBe(401);
-        expect(response.body.error).toBe("Invalid or expired session");
+        expect(response.body.message).toBe("Invalid or expired session");
     });
 
     afterEach(async () => {
