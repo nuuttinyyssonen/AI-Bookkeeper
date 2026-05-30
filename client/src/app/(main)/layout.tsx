@@ -35,7 +35,7 @@ export default function MainLayout({
                 </aside>
 
                 <section className="flex min-w-0 flex-1 flex-col">
-                    <nav className="flex gap-2 overflow-x-auto border-b border-slate-200 bg-white px-4 py-4 sm:px-6 lg:hidden">
+                    <nav className="border-b border-slate-200 bg-white px-4 py-4 sm:px-6 lg:hidden">
                         <MainNavigation variant="mobile" />
                     </nav>
 

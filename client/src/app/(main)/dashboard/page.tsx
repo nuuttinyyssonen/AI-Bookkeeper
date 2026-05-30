@@ -1,3 +1,7 @@
+import { authenticateUser } from "@/lib/auth";
+import { logoutUser } from "./action";
+import LogoutButton from "./logoutButton";
+
 const stats = [
     { label: "Revenue", value: "24,820 EUR", change: "+12.4%", accent: "bg-teal-600" },
     { label: "Expenses", value: "8,940 EUR", change: "-3.1%", accent: "bg-rose-500" },
@@ -21,9 +25,6 @@ const transactions = [
     { name: "Consulting retainer", category: "Invoice paid", amount: "+5,500 EUR", tone: "text-teal-700" },
 ];
 
-import { logoutUser } from "./action";
-import { authenticateUser } from "@/lib/auth";
-
 export default async function Page() {
     await authenticateUser();
     
@@ -37,14 +38,12 @@ export default async function Page() {
                             Business overview
                         </h1>
                     </div>
-                    <div className="flex items-center gap-2 overflow-x-auto">
-                        <button onClick={logoutUser} className="h-10 rounded-md border border-slate-300 bg-white px-4 text-sm font-medium text-slate-700 hover:bg-slate-50">
-                            Logout
-                        </button>
-                        <button className="h-10 rounded-md border border-slate-300 bg-white px-4 text-sm font-medium text-slate-700 hover:bg-slate-50">
+                    <div className="grid grid-cols-3 gap-2 sm:flex sm:items-center">
+                        <LogoutButton />
+                        <button className="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-700 hover:bg-slate-50 sm:w-auto sm:px-4">
                             Export
                         </button>
-                        <button className="h-10 rounded-md bg-teal-600 px-4 text-sm font-semibold text-white hover:bg-teal-700">
+                        <button className="h-10 w-full rounded-md bg-teal-600 px-3 text-sm font-semibold text-white hover:bg-teal-700 sm:w-auto sm:px-4">
                             Add receipt
                         </button>
                     </div>
@@ -75,16 +74,18 @@ export default async function Page() {
                         </div>
                     </div>
 
-                    <div className="mt-6 grid h-72 grid-cols-6 items-end gap-3 border-b border-slate-200 pb-4">
-                        {cashflow.map((item) => (
-                            <div key={item.month} className="flex h-full flex-col justify-end gap-3">
-                                <div className="flex flex-1 items-end justify-center gap-2">
-                                    <div className="w-5 rounded-t-md bg-teal-600" style={{ height: `${item.income}%` }} />
-                                    <div className="w-5 rounded-t-md bg-amber-500" style={{ height: `${item.expense}%` }} />
+                    <div className="mt-6 overflow-x-auto">
+                        <div className="grid h-72 min-w-[34rem] grid-cols-6 items-end gap-3 border-b border-slate-200 pb-4">
+                            {cashflow.map((item) => (
+                                <div key={item.month} className="flex h-full flex-col justify-end gap-3">
+                                    <div className="flex flex-1 items-end justify-center gap-2">
+                                        <div className="w-5 rounded-t-md bg-teal-600" style={{ height: `${item.income}%` }} />
+                                        <div className="w-5 rounded-t-md bg-amber-500" style={{ height: `${item.expense}%` }} />
+                                    </div>
+                                    <p className="text-center text-xs font-medium text-slate-500">{item.month}</p>
                                 </div>
-                                <p className="text-center text-xs font-medium text-slate-500">{item.month}</p>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
                 </section>
 

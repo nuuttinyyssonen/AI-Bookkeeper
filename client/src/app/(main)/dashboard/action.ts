@@ -2,7 +2,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export const logoutUser = async () => {
+export const logoutUser = async (_prevState: any, _formData: FormData) => {
     try {
         const cookieStore = await cookies();
         const token = cookieStore.get("token")?.value;
@@ -17,9 +17,9 @@ export const logoutUser = async () => {
         });
 
         // If response is not ok, return error message from server or a default one.
-        if(!response.ok) {
+       if (!response.ok) {
             const data = await response.json();
-            return { error: data.error || data.message || "Invalid Credentials" };
+            return { error: data.error || "Invalid or expired session token" };
         }
 
         // Removing token from cookie
