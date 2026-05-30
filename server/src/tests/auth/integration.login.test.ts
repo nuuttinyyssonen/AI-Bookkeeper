@@ -26,16 +26,16 @@ describe('Login routes', () => {
         const response = await request(app)
             .post('/api/auth/login')
             .send({ email: email, password: "12345678" })
-        expect(response.status).toBe(401);
-        expect(response.body.error).toBe("Password or email is not correct");
+        expect(response.status).toBe(409);
+        expect(response.body.message).toBe("Password or email is not correct");
     });
 
     it("Fails with unvalid email", async () => {
         const response = await request(app)
             .post('/api/auth/login')
             .send({ email: "integration.login.test123@admin.com", password: "123456" })
-        expect(response.status).toBe(401);
-        expect(response.body.error).toBe("Password or email is not correct");
+        expect(response.status).toBe(409);
+        expect(response.body.message).toBe("Password or email is not correct");
     });
 
     afterAll(async () => {

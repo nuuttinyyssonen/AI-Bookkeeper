@@ -1,9 +1,10 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { prisma } from '../lib/prisma';
 import { supabase } from "../lib/supabase";
 import bcrypt from 'bcrypt';
+import { ConflictError, AuthenticationError } from "../utils/error";
 
-export const loginController = async (req: Request, res: Response) => {
+export const loginController = async (req: Request, res: Response, next: NextFunction) => {
     // Getting user's email and password from the request
     const { email, password } = req.body;
 
@@ -17,7 +18,8 @@ export const loginController = async (req: Request, res: Response) => {
     // Checking is provided password matches with user's password in database
     const passwordCorrect = user ? await bcrypt.compare(password, user.password) : false;
     if(!(passwordCorrect && user)) {
-        return res.status(401).json({ "error": "Password or email is not correct" });
+        const err = new ConflictError("Password or email is not correct");
+        return next(err);
     }
 
     // Logging in to Supabase and getting session + JWT token
@@ -27,7 +29,8 @@ export const loginController = async (req: Request, res: Response) => {
     });
 
     if (error || !data.session) {
-        return res.status(401).json({ error: "Authentication failed" });
+        const err = new AuthenticationError("Authentication error");
+        return next(err);
     }
 
     return res.status(200)

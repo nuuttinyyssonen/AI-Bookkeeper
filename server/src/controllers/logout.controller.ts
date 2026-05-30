@@ -1,18 +1,21 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { supabase } from "../lib/supabase";
+import { AuthenticationError } from "../utils/error";
 
-export const logoutController = async (req: Request, res: Response) => {
+export const logoutController = async (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies.token;
 
     if (!token) {
-        return res.status(401).json({ error: "Not logged in" });
+        const err = new AuthenticationError("Not logged in");
+        return next(err);
     }
 
     // Verify token is valid
     const { data, error } = await supabase.auth.getUser(token);
 
     if (error || !data.user) {
-        return res.status(401).json({ error: "Invalid or expired session" });
+        const err = new AuthenticationError("Invalid or expired session");
+        return next(err);
     }
 
     // Logout from Supabase
