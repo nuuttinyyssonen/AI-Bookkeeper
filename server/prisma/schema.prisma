@@ -14,4 +14,17 @@ model User {
   last_name   String
   phonenumber String
   supabase_id String? @unique
+  documents   Document[]
 }
+
+model Document {
+  id              Int        @id @default(autoincrement())
+  document_name   String
+  document_type   String
+  document_size   Float
+  file_path       String
+  uploaded_at     DateTime   @default(now())
+  user_id         Int
+  user            User  @relation(fields: [user_id], references: [id])
+}
+
