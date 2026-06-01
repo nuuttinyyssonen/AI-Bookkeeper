@@ -1,6 +1,6 @@
 import { deleteFileFromSupabase, uploadFileToSupabase } from "../services/supabase.service";
 import { Request, Response, NextFunction } from "express";
-import { NotFoundError, ServerError, ValidationError } from "../utils/error";
+import { AuthenticationError, NotFoundError, ServerError, ValidationError } from "../utils/error";
 import { prisma } from "../lib/prisma";
 
 // Sanitizes file name by removing special characters and replacing them with underscores.
@@ -18,15 +18,14 @@ const sanitizeFileName = (fileName: string): string => {
 
 export const uploadFile = async (req: Request, res: Response, next: NextFunction) => {
     const files = req.files as Express.Multer.File[];
-    const { user_id } = req.body ?? {};
-    const userId = Number(user_id);
+    const user = req.user;
 
     // Validate that at least one file was provided
     if (!files || files.length == 0) {
         return next(new ValidationError("No files were found"));
     }
 
-    if (!Number.isInteger(userId)) {
+    if (!user || !Number.isInteger(user.id)) {
         return next(new ValidationError("User id is required"));
     }
 
@@ -36,19 +35,24 @@ export const uploadFile = async (req: Request, res: Response, next: NextFunction
             files.map(async (file) => {
                 // Upload file to Supabase Storage with sanitized file name
                 const uploadedFile = await uploadFileToSupabase(sanitizeFileName(file.originalname), file);
-                
-                // Save file metadata to database
-                const document = await prisma.document.create({
-                    data: {
-                        document_name: uploadedFile.path,
-                        user_id: userId,
-                        file_path: uploadedFile.path,
-                        document_type: file.mimetype,
-                        document_size: file.size
-                    }
-                });
 
-                return document;
+                try {
+                    // Save file metadata to database
+                    const document = await prisma.document.create({
+                        data: {
+                            document_name: uploadedFile.path,
+                            user_id: user.id,
+                            file_path: uploadedFile.path,
+                            document_type: file.mimetype,
+                            document_size: file.size
+                        }
+                    });
+
+                    return document;
+                } catch (error) {
+                    await deleteFileFromSupabase(uploadedFile.path);
+                    throw error;
+                }
             })
         );
 
@@ -73,6 +77,11 @@ export const deleteFile = async (req: Request, res: Response, next: NextFunction
 
         if (!document) {
             return next(new NotFoundError("File not found"));
+        }
+
+        // Ensure user can only delete their own files
+        if (document.user_id !== req.user.id) {
+            return next(new AuthenticationError("Unauthorized"));
         }
 
         // Delete file from Supabase Storage and remove metadata from database

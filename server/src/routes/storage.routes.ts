@@ -2,6 +2,7 @@ import { Router } from "express";
 import { uploadFile, deleteFile } from "../controllers/storage.controller";
 import multer from "multer";
 import { ValidationError } from "../utils/error";
+import { authMiddleware } from "../middleware/authentication";
 
 const storageRouter = Router();
 const upload = multer({
@@ -25,7 +26,7 @@ const upload = multer({
     }
 });
 
-storageRouter.post('/', upload.array("files"), uploadFile);
-storageRouter.delete('/', deleteFile);
+storageRouter.post('/', authMiddleware, upload.array("files"), uploadFile);
+storageRouter.delete('/', authMiddleware, deleteFile);
 
 export default storageRouter;

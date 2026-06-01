@@ -1,7 +1,7 @@
-import { supabase } from "../lib/supabase";
+import { supabaseAdmin } from "../lib/supabase";
 
 export async function uploadFileToSupabase(fileName: string, file: Express.Multer.File) {
-    const { data, error } = await supabase.storage
+    const { data, error } = await supabaseAdmin.storage
         .from("Bookkeeper-FileSystem")
         .upload(fileName, file.buffer, {
             cacheControl: '3600',
@@ -25,7 +25,7 @@ export async function uploadFileToSupabase(fileName: string, file: Express.Multe
 }
 
 export async function deleteFileFromSupabase(fileName: string) {
-    const { data, error } = await supabase.storage
+    const { data, error } = await supabaseAdmin.storage
         .from("Bookkeeper-FileSystem")
         .remove([`${fileName}`])
     

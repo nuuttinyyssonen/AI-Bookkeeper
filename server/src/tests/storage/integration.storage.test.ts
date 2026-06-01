@@ -2,24 +2,31 @@ import { prisma } from "../../lib/prisma";
 import request from "supertest";
 import createUser from "../helpers/createUser";
 import app from "../../app";
-import { supabase } from "../../lib/supabase";
+import { supabaseAdmin } from "../../lib/supabase";
 import path from 'path';
 
 describe("Storage routes", () => {
     let email = "integration.storage.test@admin.com";
     let user_id: number;
     let fileName: string;
+    let token: string;
 
     beforeAll(async () => {
         const user = await createUser(email);
         user_id = user.id;
+
+        // Login to get token
+        const response = await request(app)
+            .post("/api/auth/login")
+            .send({ email, password: "123456" });
+        token = response.body.user.token;
     });
 
     it("Uploads file successfully", async () => {
         const response = await request(app)
             .post("/api/storage/")
+            .set('Cookie', `token=${token}`)
             .attach("files", path.join(__dirname, "../fixtures/test.webp"))
-            .field("user_id", String(user_id));
 
         expect(response.status).toBe(200);
         expect(response.body).toHaveLength(1);
@@ -36,6 +43,7 @@ describe("Storage routes", () => {
     it("Deletes file successfully", async () => {
         const response = await request(app)
             .delete("/api/storage/")
+            .set('Cookie', `token=${token}`)
             .send({
                 fileName: fileName
             })
@@ -47,6 +55,7 @@ describe("Storage routes", () => {
     it("Fails to upload file if file is not provided", async () => {
         const response = await request(app)
             .post("/api/storage/")
+            .set('Cookie', `token=${token}`)
             .send({
                 user_id: user_id
             });
@@ -57,6 +66,7 @@ describe("Storage routes", () => {
     it("Fails to upload file if format is not valid", async () => {
         const response = await request(app)
             .post("/api/storage/")
+            .set('Cookie', `token=${token}`)
             .attach("files", path.join(__dirname, "../fixtures/test2.docx"))
             .field("user_id", String(user_id));
 
@@ -67,6 +77,7 @@ describe("Storage routes", () => {
     it("Fails to delete file if fileName is not provided", async () => {
         const response = await request(app)
             .delete("/api/storage/")
+            .set('Cookie', `token=${token}`)
         
         expect(response.status).toBe(400);
         expect(response.body.message).toBe("File name is required");
@@ -75,6 +86,7 @@ describe("Storage routes", () => {
     it("Fails to delete file if fileName is not valid", async () => {
         const response = await request(app)
             .delete("/api/storage/")
+            .set('Cookie', `token=${token}`)
             .send({
                 fileName: "test"
             })
@@ -87,7 +99,7 @@ describe("Storage routes", () => {
         const user = await prisma.user.findUnique({ where: { email: email } });
 
         if (fileName) {
-            await supabase.storage
+            await supabaseAdmin.storage
                 .from("Bookkeeper-FileSystem")
                 .remove([fileName]);
         }
@@ -99,7 +111,7 @@ describe("Storage routes", () => {
         }
         
         if (user?.supabase_id) {
-            await supabase.auth.admin.deleteUser(user.supabase_id);
+            await supabaseAdmin.auth.admin.deleteUser(user.supabase_id);
         }
 
         await prisma.user.delete({ where: { email: email } });

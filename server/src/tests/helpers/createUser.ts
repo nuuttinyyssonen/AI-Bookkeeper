@@ -1,6 +1,6 @@
 import { prisma } from "../../lib/prisma";
 import bcrypt from "bcrypt";
-import { supabase } from "../../lib/supabase";
+import { supabaseAdmin } from "../../lib/supabase";
 
 export default async function createUser(email: string) {
     const password = "123456";
@@ -8,7 +8,7 @@ export default async function createUser(email: string) {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const { data: supabaseData, error: supabaseError } =
-        await supabase.auth.admin.createUser({
+        await supabaseAdmin.auth.admin.createUser({
             email,
             password,
             email_confirm: true

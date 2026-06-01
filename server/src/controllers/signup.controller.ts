@@ -1,7 +1,7 @@
 import { prisma } from '../lib/prisma';
 import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
-import { supabase } from '../lib/supabase';
+import { supabaseAdmin } from '../lib/supabase';
 import { ValidationError, ConflictError, ServerError } from '../utils/error';
 
 export const signupController = async (req: Request, res: Response, next: NextFunction) => {
@@ -33,7 +33,7 @@ export const signupController = async (req: Request, res: Response, next: NextFu
     const passwordHash = await bcrypt.hash(password, saltRounds);
 
     // Creating user in Supabase Auth
-    const { data: supabaseData, error: supabaseError } = await supabase.auth.admin.createUser({
+    const { data: supabaseData, error: supabaseError } = await supabaseAdmin.auth.admin.createUser({
         email,
         password,
         email_confirm: true
@@ -64,7 +64,7 @@ export const signupController = async (req: Request, res: Response, next: NextFu
         });
     } catch (error) {
         // If Prisma fails, delete user from supabase
-        await supabase.auth.admin.deleteUser(supabaseData.user.id);
+        await supabaseAdmin.auth.admin.deleteUser(supabaseData.user.id);
         const err = new ServerError("Internal Server Error");
         return next(err);
     }
