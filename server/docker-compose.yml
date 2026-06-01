@@ -10,8 +10,6 @@ services:
       POSTGRES_USER: prisma
       POSTGRES_PASSWORD: prisma
       POSTGRES_DB: tests
-    tmpfs:
-      - /var/lib/postgresql/data
   
   redis:
     image: redis:7-alpine
