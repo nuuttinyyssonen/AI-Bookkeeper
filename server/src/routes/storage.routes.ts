@@ -25,6 +25,7 @@ const upload = multer({
     }
 });
 
-storageRouter.post('/', upload.array("files"),uploadFile);
+storageRouter.post('/', upload.array("files"), uploadFile);
+storageRouter.delete('/', deleteFile);
 
 export default storageRouter;

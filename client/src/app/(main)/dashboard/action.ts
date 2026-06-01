@@ -8,7 +8,7 @@ export const logoutUser = async (_prevState: any, _formData: FormData) => {
         const token = cookieStore.get("token")?.value;
 
         // Sending logout request to our backend API route.
-        const response = await fetch("http://localhost:3001/api/auth/logout", {
+        const response = await fetch("http://localhost:5001/api/auth/logout", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

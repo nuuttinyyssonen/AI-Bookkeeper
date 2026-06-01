@@ -19,7 +19,7 @@ model User {
 
 model Document {
   id              Int        @id @default(autoincrement())
-  document_name   String
+  document_name   String     @unique
   document_type   String
   document_size   Float
   file_path       String

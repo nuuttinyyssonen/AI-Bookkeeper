@@ -24,10 +24,10 @@ export async function uploadFileToSupabase(fileName: string, file: Express.Multe
     }
 }
 
-export async function deleteFileFromSupabase(filetype: string, fileName: string, filePath: string) {
+export async function deleteFileFromSupabase(fileName: string) {
     const { data, error } = await supabase.storage
         .from("Bookkeeper-FileSystem")
-        .remove([`${filePath}/${fileName}.${filetype}`])
+        .remove([`${fileName}`])
     
     if(error) {
         throw error;
