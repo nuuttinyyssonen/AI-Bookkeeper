@@ -2,7 +2,7 @@ import request from "supertest";
 import app from "../../app";
 import { prisma } from "../../lib/prisma";
 import createUser from "../helpers/createUser";
-import { supabase } from "../../lib/supabase";
+import { supabaseAdmin } from "../../lib/supabase";
 
 describe('Login routes', () => {
     let user_id: any;
@@ -42,7 +42,7 @@ describe('Login routes', () => {
         const user = await prisma.user.findUnique({ where: { id: user_id } });
         
         if (user?.supabase_id) {
-            await supabase.auth.admin.deleteUser(user.supabase_id);
+            await supabaseAdmin.auth.admin.deleteUser(user.supabase_id);
         }
 
         await prisma.user.delete({ where: { id: user_id } });

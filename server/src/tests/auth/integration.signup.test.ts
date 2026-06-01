@@ -1,7 +1,7 @@
 import { prisma } from "../../lib/prisma";
 import request from 'supertest';
 import app from "../../app";
-import { supabase } from "../../lib/supabase";
+import { supabaseAdmin } from "../../lib/supabase";
 
 describe('Signup route', () => {
     let email = "integration.auth.test.ts@admin.com";
@@ -69,7 +69,7 @@ describe('Signup route', () => {
         const user = await prisma.user.findUnique({ where: { email: email } });
 
         if (user?.supabase_id) {
-            await supabase.auth.admin.deleteUser(user.supabase_id);
+            await supabaseAdmin.auth.admin.deleteUser(user.supabase_id);
         }
 
         await prisma.user.delete({ where: { email: email } });
