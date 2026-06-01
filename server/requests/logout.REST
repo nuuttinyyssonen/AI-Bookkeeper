@@ -1,1 +1,1 @@
-POST http://localhost:3001/api/auth/logout
+POST http://localhost:5001/api/auth/logout

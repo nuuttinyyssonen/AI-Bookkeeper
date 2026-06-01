@@ -20,7 +20,7 @@ export default async function loginAction(
 
     try {
         // Sending login request to our backend API route.
-        const response = await fetch("http://localhost:3001/api/auth/login", {
+        const response = await fetch("http://localhost:5001/api/auth/login", {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"

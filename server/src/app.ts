@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import loginRouter from "./routes/login.routes";
 import signupRouter from "./routes/signup.routes";
 import logoutRouter from "./routes/logout.routes";
+import storageRouter from "./routes/storage.routes";
 
 import { errorHandler } from "./middleware/errorHandler";
 
@@ -20,6 +21,7 @@ app.use(cookieParser());
 app.use('/api/auth/login', loginRouter);
 app.use('/api/auth/signup', signupRouter);
 app.use('/api/auth/logout', logoutRouter);
+app.use('/api/storage', storageRouter);
 
 app.use(errorHandler);
 

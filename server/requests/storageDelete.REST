@@ -1,0 +1,6 @@
+DELETE http://localhost:5001/api/storage/
+Content-Type: application/json
+
+{
+    "fileName": "1780226691260_test.webp"
+}
