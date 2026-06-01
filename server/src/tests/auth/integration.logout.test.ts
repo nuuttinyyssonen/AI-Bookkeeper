@@ -6,10 +6,11 @@ import { supabaseAdmin } from '../../lib/supabase';
 
 describe("Logout route", () => {
     let token: string;
-    let email = "integration.logout.test@admin.com";
+    let email: string;
     let user_id: number;
 
     beforeEach(async () => {
+        email = `integration.logout.test${Date.now()}@admin.com`;
         const user = await createUser(email);
         user_id = user.id;
 
@@ -57,13 +58,16 @@ describe("Logout route", () => {
         expect(response.body.message).toBe("Invalid or expired session");
     });
 
-    afterEach(async () => {
+    afterAll(async () => {
+        if(!user_id) return;  
+
         const user = await prisma.user.findUnique({ where: { id: user_id } });
-        
         if (user?.supabase_id) {
             await supabaseAdmin.auth.admin.deleteUser(user.supabase_id);
         }
 
-        await prisma.user.delete({ where: { id: user_id } });
+        if (user_id) {
+            await prisma.user.delete({ where: { id: user_id } });
+        }
     });
 });
