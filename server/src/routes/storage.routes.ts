@@ -3,6 +3,7 @@ import { uploadFile, deleteFile } from "../controllers/storage.controller";
 import multer from "multer";
 import { ValidationError } from "../utils/error";
 import { authMiddleware } from "../middleware/authentication";
+import path from "path";
 
 const storageRouter = Router();
 const upload = multer({
@@ -15,7 +16,16 @@ const upload = multer({
             "application/pdf"
         ];
 
-        if (allowedTypes.includes(file.mimetype)) {
+        const allowedExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.pdf'];
+        const fileExtension = file.originalname 
+            ? path.extname(file.originalname).toLowerCase()
+            : '';
+        // Filter out files without a name
+        if (!file.originalname || file.originalname === 'undefined') {
+            return cb(null, false);
+        }
+
+        if (allowedTypes.includes(file.mimetype) || allowedExtensions.includes(fileExtension)) {
             cb(null, true);
         } else {
             cb(new ValidationError("File type not supported. Only JPEG, PNG, WEBP and PDF are allowed"));
