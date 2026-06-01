@@ -14,7 +14,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     try {
         // Validate token against Supabase
         const { data, error } = await supabase.auth.getUser(token);
-        if(error || !data) {
+        if(error || !data.user) {
             return next(new AuthenticationError("Token is invalid or expired"));
         }
 
