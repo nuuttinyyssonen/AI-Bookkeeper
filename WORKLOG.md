@@ -10,4 +10,6 @@
 | 27.5.2026 | Learned Next.Js since it's relatively new conecpt for me. Created login and signup components. Pages communicate with the backend authentication routes created in the previous session, storing the JWT token in a cookie upon successful login and redirecting the user to the dashboard. | 6h |
 | 28.5.2026 | Integration tests for authentication (signup, login and logout). Made tests with supertest and Jest and covered all possible edge cases. I also wrote 6 tickets for future sprints. | 3h |
 | 29.5.2026 | Error handler middleware and classes to make error handling more consistent. Unit testing for error handler. Main Dashboard and navigation bar. Added authentication and logout to dashboard.  | 4h |
-|In Total||40h|
+| 31.5.2026 | Started working on file uploading. Configured supabase upload and delete functions. Started to make routes as well as file name and formatting functions. Modified database. | 3h |
+| 1.6.2026 | Started Sprint 2. Continued working on file uploading. Finished it and made integration tests to it. Also made JWT auth middleware to protect future routes as well as new storage routes. Made unittests to it. Made client side pages for uploading documents. Client side also include functionality to add pictures from mobile environment. It was particularly time consuming to make. | 6h |
+|In Total||49h|
