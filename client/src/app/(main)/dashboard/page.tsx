@@ -1,6 +1,6 @@
 import { authenticateUser } from "@/lib/auth";
-import { logoutUser } from "./action";
 import LogoutButton from "./logoutButton";
+import Link from "next/link";
 
 const stats = [
     { label: "Revenue", value: "24,820 EUR", change: "+12.4%", accent: "bg-teal-600" },
@@ -27,6 +27,7 @@ const transactions = [
 
 export default async function Page() {
     await authenticateUser();
+
     
     return (
         <>
@@ -43,9 +44,9 @@ export default async function Page() {
                         <button className="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-700 hover:bg-slate-50 sm:w-auto sm:px-4">
                             Export
                         </button>
-                        <button className="h-10 w-full rounded-md bg-teal-600 px-3 text-sm font-semibold text-white hover:bg-teal-700 sm:w-auto sm:px-4">
+                        <Link href="/upload" className="h-10 w-full rounded-md bg-teal-600 px-3 text-sm font-semibold text-white hover:bg-teal-700 sm:w-auto sm:px-4 flex items-center justify-center">
                             Add receipt
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </header>
