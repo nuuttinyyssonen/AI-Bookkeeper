@@ -35,10 +35,6 @@ export const uploadFile = async (req: Request, res: Response, next: NextFunction
         return next(new ValidationError("No files were found"));
     }
 
-    if (!user || !Number.isInteger(user.id)) {
-        return next(new ValidationError("User id is required"));
-    }
-
     try {
         // Upload all files concurrently and save metadata to database
         const uploadedFiles = await Promise.all(

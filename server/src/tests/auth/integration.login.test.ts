@@ -5,7 +5,7 @@ import createUser from "../helpers/createUser";
 import { supabaseAdmin } from "../../lib/supabase";
 
 describe('Login routes', () => {
-    let user_id: any;
+    let user_id: string;
     let email: string;
 
     beforeAll(async () => {

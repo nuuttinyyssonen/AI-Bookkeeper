@@ -7,7 +7,7 @@ import path from 'path';
 
 describe("Storage routes", () => {
     let email: string;
-    let user_id: number;
+    let user_id: string;
     let fileName: string;
     let token: string;
 
