@@ -1,0 +1,9 @@
+POST http://localhost:5001/api/ocr/
+Content-Type: multipart/form-data; boundary=----boundary
+
+------boundary
+Content-Disposition: form-data; name="files"; filename="test.jpg"
+Content-Type: image/jpeg
+
+< ./test.jpg
+------boundary--
