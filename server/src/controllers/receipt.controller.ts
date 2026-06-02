@@ -33,17 +33,3 @@ export const getReceiptById = async (req: Request<{id: string}>, res: Response, 
         return next(new ServerError("Internal server error"));
     }
 };
-
-export const deleteReceipById = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
-    const { id } = req.params;
-    if(!id) {
-        return next(new NotFoundError("Resource not found"));
-    }
-
-    try {
-        await prisma.receipt.delete({ where: { id: id } });
-        res.status(200).json({ message: "Receipt deleted successfully" });
-    } catch(err) {
-        return next(new ServerError("Internal Server error"));
-    }
-};

@@ -97,8 +97,16 @@ export const deleteFile = async (req: Request, res: Response, next: NextFunction
             return next(new AuthenticationError("Unauthorized"));
         }
 
-        // Delete file from Supabase Storage and remove metadata from database
-        await deleteFileFromSupabase(document?.document_name);
+        
+        const receipt = await prisma.receipt.findFirst({ where: { document_id: document.id } });
+
+        // Delete associated receipt vats and receipt (if any), then delete file
+        if (receipt) {
+            await prisma.receiptVat.deleteMany({ where: { receipt_id: receipt.id } });
+            await prisma.receipt.delete({ where: { id: receipt.id } });
+        }
+
+        await deleteFileFromSupabase(document.document_name);
         await prisma.document.delete({ where: { id: document.id } });
         res.status(200).json({ message: "File was deleted successfully" });
     } catch (error) {
