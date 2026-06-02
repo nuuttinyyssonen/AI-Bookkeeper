@@ -6,12 +6,13 @@ import { supabaseAdmin } from "../../lib/supabase";
 import path from 'path';
 
 describe("Storage routes", () => {
-    let email = "integration.storage.test@admin.com";
+    let email: string;
     let user_id: number;
     let fileName: string;
     let token: string;
 
     beforeAll(async () => {
+        email = `integration.storage.test${Date.now()}@admin.com`;
         const user = await createUser(email);
         user_id = user.id;
 
@@ -114,6 +115,8 @@ describe("Storage routes", () => {
             await supabaseAdmin.auth.admin.deleteUser(user.supabase_id);
         }
 
-        await prisma.user.delete({ where: { email: email } });
+        if (user_id) {
+            await prisma.user.delete({ where: { id: user_id } });
+        }
     });
 });

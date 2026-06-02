@@ -6,8 +6,10 @@ import { supabaseAdmin } from "../../lib/supabase";
 
 describe('Login routes', () => {
     let user_id: any;
-    let email = "integration.login.test@admin.com";
+    let email: string;
+
     beforeAll(async () => {
+        email = `integration.login.test${Date.now()}@admin.com`;
         const user = await createUser(email);
         user_id = user.id;
     });
@@ -39,12 +41,15 @@ describe('Login routes', () => {
     });
 
     afterAll(async () => {
+        if(!user_id) return;  
+
         const user = await prisma.user.findUnique({ where: { id: user_id } });
-        
         if (user?.supabase_id) {
             await supabaseAdmin.auth.admin.deleteUser(user.supabase_id);
         }
 
-        await prisma.user.delete({ where: { id: user_id } });
+        if (user_id) {
+            await prisma.user.delete({ where: { id: user_id } });
+        }
     });
 });
