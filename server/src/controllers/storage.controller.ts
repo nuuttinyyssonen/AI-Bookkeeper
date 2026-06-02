@@ -2,6 +2,7 @@ import { deleteFileFromSupabase, uploadFileToSupabase } from "../services/supaba
 import { Request, Response, NextFunction } from "express";
 import { AuthenticationError, NotFoundError, ServerError, ValidationError } from "../utils/error";
 import { prisma } from "../lib/prisma";
+import { receiptQueue } from "../queues/queue";
 
 // Sanitizes file name by removing special characters and replacing them with underscores.
 // Also adds a timestamp prefix to avoid name conflicts in storage.
@@ -16,12 +17,21 @@ const sanitizeFileName = (fileName: string): string => {
     return `${timestamp}_${sanitized}`;
 };
 
+const normalizeMulterFiles = (
+    multerFiles?: Express.Multer.File[] | { [fieldname: string]: Express.Multer.File[] }
+): Express.Multer.File[] => {
+    if (!multerFiles) return [];
+    return Array.isArray(multerFiles)
+        ? multerFiles
+        : Object.values(multerFiles).flat();
+};
+
 export const uploadFile = async (req: Request, res: Response, next: NextFunction) => {
-    const files = req.files as Express.Multer.File[];
+    const files = normalizeMulterFiles(req.files as Express.Multer.File[] | { [fieldname: string]: Express.Multer.File[] });
     const user = req.user;
 
     // Validate that at least one file was provided
-    if (!files || files.length == 0) {
+    if (files.length === 0) {
         return next(new ValidationError("No files were found"));
     }
 
@@ -46,6 +56,13 @@ export const uploadFile = async (req: Request, res: Response, next: NextFunction
                             document_type: file.mimetype,
                             document_size: file.size
                         }
+                    });
+
+                    // Add a job to the receipt processing queue for this document
+                    await receiptQueue.add("process-receipt", {
+                        documentId: document.id,
+                        filePath: uploadedFile.path,
+                        userId: user.id
                     });
 
                     return document;

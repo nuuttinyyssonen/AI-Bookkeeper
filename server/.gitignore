@@ -22,3 +22,6 @@ benchmarks/graphs
 # env files (can opt-in for committing if needed)
 .env*
 /src/generated/prisma
+
+// Google Cloud credentials
+credentials/
