@@ -4,6 +4,7 @@ import multer from "multer";
 import { ValidationError } from "../utils/error";
 import { authMiddleware } from "../middleware/authentication";
 import path from "path";
+import { uploadRateLimiterMiddleware } from "../middleware/rateLimiter";
 
 const storageRouter = Router();
 const upload = multer({
@@ -36,7 +37,7 @@ const upload = multer({
     }
 });
 
-storageRouter.post('/', authMiddleware, upload.array("files"), uploadFile);
-storageRouter.delete('/', authMiddleware, deleteFile);
+storageRouter.post('/', authMiddleware, uploadRateLimiterMiddleware, upload.array("files"), uploadFile);
+storageRouter.delete('/', authMiddleware, uploadRateLimiterMiddleware, deleteFile);
 
 export default storageRouter;
