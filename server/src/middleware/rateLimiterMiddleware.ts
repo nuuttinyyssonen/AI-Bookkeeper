@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { uploadRateLimiter, standardRateLimiter } from "../utils/ratelimiter";
+import { standardRateLimiter, uploadRateLimiter } from "../utils/rateLimiter";
 
 // Middleware for standard rate limiting
 export const standardRateLimiterMiddleware = (keyPrefix: string) => {

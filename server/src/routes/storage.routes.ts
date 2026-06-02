@@ -4,7 +4,7 @@ import multer from "multer";
 import { ValidationError } from "../utils/error";
 import { authMiddleware } from "../middleware/authentication";
 import path from "path";
-import { uploadRateLimiterMiddleware } from "../middleware/rateLimiter";
+import { uploadRateLimiterMiddleware } from "../middleware/rateLimiterMiddleware";
 
 const storageRouter = Router();
 const upload = multer({

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { logoutController } from "../controllers/logout.controller";
-import { standardRateLimiterMiddleware } from "../middleware/rateLimiter";
+import { standardRateLimiterMiddleware } from "../middleware/rateLimiterMiddleware";
 
 // Router
 const logoutRouter = Router();

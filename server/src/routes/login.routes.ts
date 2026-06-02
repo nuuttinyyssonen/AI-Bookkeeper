@@ -1,6 +1,6 @@
 import { loginController } from "../controllers/login.controller";
 import { Router } from "express";
-import { standardRateLimiterMiddleware } from "../middleware/rateLimiter";
+import { standardRateLimiterMiddleware } from "../middleware/rateLimiterMiddleware";
 
 // Router
 const loginRouter = Router();

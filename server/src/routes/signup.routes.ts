@@ -1,6 +1,6 @@
 import { signupController } from "../controllers/signup.controller";
 import { Router } from "express";
-import { standardRateLimiterMiddleware } from "../middleware/rateLimiter";
+import { standardRateLimiterMiddleware } from "../middleware/rateLimiterMiddleware";
 
 // Router
 const signupRouter = Router();
