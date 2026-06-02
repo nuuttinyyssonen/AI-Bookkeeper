@@ -7,7 +7,10 @@ import { uploadRateLimiterMiddleware } from "../middleware/rateLimiterMiddleware
 const storageRouter = Router();
 
 
-storageRouter.post('/', authMiddleware, uploadRateLimiterMiddleware, upload.array("files"), uploadFile);
+storageRouter.post('/', authMiddleware, uploadRateLimiterMiddleware, upload.fields([
+    { name: "files", maxCount: 10 },
+    { name: "cameraFile", maxCount: 1 }
+]), uploadFile);
 storageRouter.delete('/', authMiddleware, uploadRateLimiterMiddleware, deleteFile);
 
 export default storageRouter;

@@ -28,3 +28,16 @@ model Document {
   user            User  @relation(fields: [user_id], references: [id])
 }
 
+model Receipt {
+  id              Int       @id @default(autoincrement())
+  document_id     Int
+  user_id         Int
+  vendor_name     String
+  total_amount    Float
+  vat_amount      Float
+  vat_rate        Float
+  receipt_date    DateTime
+  created_at      DateTime  @default(now())
+  user            User  @relation(fields: [user_id], references: [id])
+  document        Document  @relation(fields: [document_id], references: [id])
+}

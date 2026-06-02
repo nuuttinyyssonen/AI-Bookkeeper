@@ -1,4 +1,5 @@
 import app from "./app";
+import "./workers/receipt.worker";
 
 const PORT = process.env.PORT || 5001;
 

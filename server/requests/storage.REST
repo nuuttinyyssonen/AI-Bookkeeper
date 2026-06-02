@@ -1,9 +1,10 @@
 POST http://localhost:5001/api/storage/
+Authorization: Bearer eyJhbGciOiJFUzI1NiIsImtpZCI6IjIzYjM5NmEwLWJmMDItNDdiMi1hYTZlLWQyNWUwNDExZTUyYyIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3N5cGttdXVleHVvb2lvemRqaHNwLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJjODkwOGU4MS03MzZhLTQ5NWQtOTJkZi04ZTZjNzFkMjQ3MmIiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzgwMzg5ODcyLCJpYXQiOjE3ODAzODYyNzIsImVtYWlsIjoidGVzdGlAZXhhbXBsZS5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImVtYWlsX3ZlcmlmaWVkIjp0cnVlfSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTc4MDM4NjI3Mn1dLCJzZXNzaW9uX2lkIjoiZDVlZDYwYWYtOTM0My00NmUwLThkNWItOTg1YjM3ODUyOGE2IiwiaXNfYW5vbnltb3VzIjpmYWxzZX0.56xfHOSau9b0n-2uwRYdrtON1e8CjM9Ests9pl6kGlHmhluRzmenRC4dTBHE9CIOQkU90Js-c0EVyLbAxooVgA
 Content-Type: multipart/form-data; boundary=----boundary
 
 ------boundary
-Content-Disposition: form-data; name="files"; filename="test.webp"
-Content-Type: image/webp
+Content-Disposition: form-data; name="files"; filename="test.jpg"
+Content-Type: image/jpeg
 
-< ./test.webp
+< ./test.jpg
 ------boundary--

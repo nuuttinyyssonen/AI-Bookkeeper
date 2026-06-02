@@ -35,3 +35,19 @@ export async function deleteFileFromSupabase(fileName: string) {
 
     return data;
 }
+
+export async function downloadFileFromSupabase(filePath: string) {
+    const { data, error } = await supabaseAdmin.storage
+        .from("Bookkeeper-FileSystem")
+        .download(filePath);
+
+    if (error) {
+        throw error;
+    }
+
+    if (!data) {
+        throw new Error("Failed to download file from Supabase");
+    }
+
+    return Buffer.from(await data.arrayBuffer());
+}
