@@ -6,7 +6,7 @@
     "dev": "nodemon --exec ts-node src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "test": "NODE_ENV=test jest",
+    "test": "npm run setup:testdb && NODE_ENV=test jest",
     "setup:testdb": "node scripts/setupTestDb.js",
     "test:docker": "docker compose up -d db && node scripts/setupTestDb.js && NODE_ENV=test jest"
   },
@@ -31,6 +31,8 @@
     "ioredis": "^5.11.0",
     "multer": "^2.1.1",
     "openai": "^6.41.0",
+    "pdf-to-img": "^6.1.0",
+    "pdf2pic": "^3.2.0",
     "pg": "^8.21.0",
     "prisma": "^7.8.0",
     "rate-limit-redis": "^5.0.0",

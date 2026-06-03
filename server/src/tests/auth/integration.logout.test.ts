@@ -7,7 +7,7 @@ import { supabaseAdmin } from '../../lib/supabase';
 describe("Logout route", () => {
     let token: string;
     let email: string;
-    let user_id: number;
+    let user_id: string;
 
     beforeEach(async () => {
         email = `integration.logout.test${Date.now()}@admin.com`;
