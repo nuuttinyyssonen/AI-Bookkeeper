@@ -76,8 +76,13 @@ export const uploadFile = async (req: Request, res: Response, next: NextFunction
     }
 };
 
-export const deleteFile = async (req: Request, res: Response, next: NextFunction) => {
-    const { fileName } = req.body ?? {};
+export const deleteFile = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+
+    const receipt = await prisma.receipt.findUnique({ where: { id } });
+    const document = await prisma.document.findUnique({ where: { id: receipt?.document_id } });
+
+    const fileName = document?.document_name
 
     // Validate that fileName is provided and is a string
     if (!fileName || typeof fileName !== "string") {

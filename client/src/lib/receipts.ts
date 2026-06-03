@@ -1,9 +1,18 @@
+export type ReceiptVat = {
+  id: string;
+  receipt_id: string;
+  rate: number;
+  net_amount: number;
+  vat_amount: number;
+  total: number;
+};
+
 export type Receipt = {
   id: string;
   vendor_name: string;
   receipt_date: string;
-  total_amount: string;
-//   vat?: string;
+  total_amount: number | string;
+  receiptVats?: ReceiptVat[];
 };
 
 export const receipts: Receipt[] = [];

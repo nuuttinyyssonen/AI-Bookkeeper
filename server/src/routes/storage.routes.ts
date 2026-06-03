@@ -11,6 +11,6 @@ storageRouter.post('/', authMiddleware, uploadRateLimiterMiddleware, upload.fiel
     { name: "files", maxCount: 10 },
     { name: "cameraFile", maxCount: 1 }
 ]), uploadFile);
-storageRouter.delete('/', authMiddleware, uploadRateLimiterMiddleware, deleteFile);
+storageRouter.delete('/:id', authMiddleware, uploadRateLimiterMiddleware, deleteFile);
 
 export default storageRouter;

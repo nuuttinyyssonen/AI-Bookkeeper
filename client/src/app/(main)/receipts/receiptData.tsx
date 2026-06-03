@@ -1,31 +1,14 @@
 'use client';
 
 import { useState, useMemo } from "react";
-import * as React from "react";
 import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
-interface ReceiptVat {
-    id: string;
-    receipt_id: string;
-    rate: number;
-    net_amount: number;
-    vat_amount: number;
-    total: number;
-}
-
-interface ReceiptDataItem {
-    id: string;
-    vendor_name: string;
-    receipt_date: string;
-    total_amount: number | string;
-    receiptVats?: ReceiptVat[];
-}
+import { Receipt } from "@/lib/receipts";
 
 interface ReceiptDataProps {
-    receiptList: ReceiptDataItem[];
+    receiptList: Receipt[];
 }
 
 export const ReceiptData = ({ receiptList }: ReceiptDataProps) => {
@@ -66,7 +49,11 @@ export const ReceiptData = ({ receiptList }: ReceiptDataProps) => {
                             <CardHeader>
                                 <div>
                                     <CardTitle>{r.vendor_name}</CardTitle>
-                                    <CardDescription>{new Date(r.receipt_date).toLocaleDateString()}</CardDescription>
+                                    <CardDescription>{new Date(r.receipt_date).toLocaleDateString("fi-FI", {
+                                        day: "numeric",
+                                        month: "numeric",
+                                        year: "numeric",
+                                    })}</CardDescription>
                                 </div>
                                 <div className="text-right">
                                     <div className="text-lg font-semibold">{r.total_amount}</div>

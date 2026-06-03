@@ -27,7 +27,7 @@ export const getReceiptById = async (req: Request<{id: string}>, res: Response, 
     }
 
     try {
-        const receipt = await prisma.receipt.findUnique({ where: { id } });
+        const receipt = await prisma.receipt.findUnique({ where: { id }, include: { receiptVats: true } });
         return res.status(200).json({ receipt });
     } catch (err) {
         return next(new ServerError("Internal server error"));

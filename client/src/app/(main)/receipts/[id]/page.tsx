@@ -5,13 +5,40 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { getReceiptById, type Receipt } from "@/lib/receipts";
+import { type Receipt } from "@/lib/receipts";
+import { getReceiptById, deleteReceiptById } from "../action";
 
 export default function ReceiptDetailPage() {
   const params = useParams();
   const receiptId = params?.id as string | undefined;
   const [deleted, setDeleted] = React.useState(false);
-  const receipt = React.useMemo(() => (receiptId ? getReceiptById(receiptId) : undefined), [receiptId]);
+  const [receipt, setReceipt] = React.useState<Receipt | null>(null);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    if (!receiptId) {
+      setLoading(false);
+      return;
+    }
+
+    const fetchReceipt = async () => {
+      const data = await getReceiptById(receiptId);
+      setReceipt(data?.receipt || null);
+      setLoading(false);
+    };
+
+    fetchReceipt();
+  }, [receiptId]);
+
+  if (loading) {
+    return (
+      <div className="px-6 py-8">
+        <div className="mx-auto max-w-4xl rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+          <p className="text-lg font-semibold text-slate-900">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!receipt) {
     return (
@@ -41,7 +68,8 @@ export default function ReceiptDetailPage() {
     );
   }
 
-  const handleDelete = () => {
+  const handleDelete = async() => {
+    await deleteReceiptById(receiptId);
     setDeleted(true);
   };
 
@@ -63,7 +91,11 @@ export default function ReceiptDetailPage() {
             <CardHeader>
               <div>
                 <CardTitle>{receipt.vendor_name}</CardTitle>
-                <CardDescription>{new Date(receipt.receipt_date).toLocaleDateString()}</CardDescription>
+                <CardDescription>{new Date(receipt.receipt_date).toLocaleDateString("fi-FI", {
+                  day: "numeric",
+                  month: "numeric",
+                  year: "numeric",
+                })}</CardDescription>
               </div>
               <div className="text-right">
                 <div className="text-lg font-semibold">{receipt.total_amount}</div>
@@ -76,6 +108,24 @@ export default function ReceiptDetailPage() {
                   <p className="text-sm text-slate-500">Document ID</p>
                   <p className="text-base font-medium text-slate-900">{receipt.id}</p>
                 </div>
+
+                <div className="space-y-3">
+                  {Array.isArray(receipt.receiptVats) && receipt.receiptVats.length > 0 ? (
+                      <div className="space-y-2 rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+                          <div className="font-semibold">VAT breakdown</div>
+                          {receipt.receiptVats.map((vat) => (
+                              <div key={vat.id} className="grid gap-2 sm:grid-cols-4">
+                                  <div>Rate: {vat.rate}%</div>
+                                  <div>Net: €{vat.net_amount.toFixed(2)}</div>
+                                  <div>VAT: €{vat.vat_amount.toFixed(2)}</div>
+                                  <div>Total: €{vat.total.toFixed(2)}</div>
+                              </div>
+                          ))}
+                      </div>
+                  ) : (
+                      <div className="text-sm text-slate-500">VAT details not available.</div>
+                  )}
+              </div>
 
                 {/* <div className="grid gap-2 rounded-xl bg-slate-50 p-4">
                   <p className="text-sm text-slate-500">Category</p>
