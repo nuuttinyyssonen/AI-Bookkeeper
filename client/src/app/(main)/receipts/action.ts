@@ -65,12 +65,49 @@ export const deleteReceiptById = async (id: string | undefined) => {
 
         if(!response.ok) {
             console.log("Error in deleting the receipt", response.status);
-            return
+            return;
         }
 
-        const data = response.json();
+        const data = await response.json();
         console.log(data);
         // redirect("/receipts")
+    } catch(error) {
+        console.log(error);
+    }
+};
+
+export const getReceiptFile = async (id: string | undefined): Promise<{ base64: string; contentType: string; filename: string } | undefined> => {
+    if (!id) return;
+
+    try {
+        const cookieStore = await cookies();
+        const token = cookieStore.get("token")?.value;
+
+        const response = await fetch(`http://localhost:5001/api/storage/${id}`, {
+            method: 'GET',
+            headers: {
+                'Cookie': `token=${token}`
+            }
+        });
+
+        if(!response.ok) {
+            console.log("Error in getting the receipt file", response.status);
+            return;
+        }
+
+        const contentType = response.headers.get("content-type") ?? "application/octet-stream";
+        const contentDisposition = response.headers.get("content-disposition") ?? "";
+        const fileNameMatch = contentDisposition.match(/filename="?(.*?)"?(;|$)/i);
+        const filename = fileNameMatch?.[1] ?? `${id}`;
+
+        const buffer = Buffer.from(await response.arrayBuffer());
+        const base64 = buffer.toString("base64");
+
+        return {
+            base64,
+            contentType,
+            filename,
+        };
     } catch(error) {
         console.log(error);
     }

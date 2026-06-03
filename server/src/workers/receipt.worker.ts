@@ -24,20 +24,20 @@ const worker = new Worker(
       console.log("Receipt worker: error downloading file", filePath, err);
       throw err;
     }
-    const { fullText } = await analyzeReceipt(fileBuffer);
-    const aiData = await parseReceiptData(fullText);
-
-    try {
-      const document = await prisma.document.findFirst({
+    const document = await prisma.document.findFirst({
           where: {
             file_path: filePath
           }
       });
 
-      if (!document?.id || !document?.user_id) {
-        throw new Error("Missing document data");
-      }
-      
+    if (!document?.id || !document?.user_id) {
+      throw new Error("Missing document data");
+    }
+
+    const { fullText } = await analyzeReceipt(fileBuffer, document?.document_type ?? undefined);
+    const aiData = await parseReceiptData(fullText);
+
+    try {
       const data = {
         document_id: document.id,
         user_id: document.user_id,

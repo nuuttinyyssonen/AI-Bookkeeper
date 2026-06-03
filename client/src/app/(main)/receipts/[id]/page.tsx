@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { type Receipt } from "@/lib/receipts";
-import { getReceiptById, deleteReceiptById } from "../action";
+import { getReceiptById, deleteReceiptById, getReceiptFile } from "../action";
 
 export default function ReceiptDetailPage() {
   const params = useParams();
@@ -14,6 +14,11 @@ export default function ReceiptDetailPage() {
   const [deleted, setDeleted] = React.useState(false);
   const [receipt, setReceipt] = React.useState<Receipt | null>(null);
   const [loading, setLoading] = React.useState(true);
+  const [fileUrl, setFileUrl] = React.useState<string | null>(null);
+  const [fileType, setFileType] = React.useState<string | null>(null);
+  const [fileName, setFileName] = React.useState<string | null>(null);
+  const [loadingFile, setLoadingFile] = React.useState(true);
+  const [fileError, setFileError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     if (!receiptId) {
@@ -28,6 +33,44 @@ export default function ReceiptDetailPage() {
     };
 
     fetchReceipt();
+  }, [receiptId]);
+
+  React.useEffect(() => {
+    if (!receiptId) {
+      setLoadingFile(false);
+      return;
+    }
+
+    let objectUrl: string | null = null;
+
+    const fetchFile = async () => {
+      setLoadingFile(true);
+      setFileError(null);
+
+      const fileData = await getReceiptFile(receiptId);
+      if (!fileData) {
+        setFileError("Unable to load receipt preview.");
+        setLoadingFile(false);
+        return;
+      }
+
+      const binary = Uint8Array.from(atob(fileData.base64), (char) => char.charCodeAt(0));
+      const blob = new Blob([binary], { type: fileData.contentType });
+      objectUrl = URL.createObjectURL(blob);
+
+      setFileUrl(objectUrl);
+      setFileType(fileData.contentType);
+      setFileName(fileData.filename);
+      setLoadingFile(false);
+    };
+
+    fetchFile();
+
+    return () => {
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl);
+      }
+    };
   }, [receiptId]);
 
   if (loading) {
@@ -99,7 +142,6 @@ export default function ReceiptDetailPage() {
               </div>
               <div className="text-right">
                 <div className="text-lg font-semibold">{receipt.total_amount}</div>
-                {/* <div className="mt-1 text-xs text-slate-500">VAT: {receipt.vat}</div> */}
               </div>
             </CardHeader>
             <CardContent>
@@ -126,16 +168,6 @@ export default function ReceiptDetailPage() {
                       <div className="text-sm text-slate-500">VAT details not available.</div>
                   )}
               </div>
-
-                {/* <div className="grid gap-2 rounded-xl bg-slate-50 p-4">
-                  <p className="text-sm text-slate-500">Category</p>
-                  <p className="text-base font-medium text-slate-900">{receipt.category}</p>
-                </div> */}
-
-                {/* <div className="grid gap-2 rounded-xl bg-slate-50 p-4">
-                  <p className="text-sm text-slate-500">Notes</p>
-                  <p className="text-base font-medium text-slate-900">{receipt.note}</p>
-                </div> */}
               </div>
 
               <div className="mt-6 flex flex-wrap gap-3">
@@ -153,13 +185,35 @@ export default function ReceiptDetailPage() {
               <CardDescription>Preview the uploaded receipt for this entry.</CardDescription>
             </CardHeader>
             <CardContent>
-              {/* <div className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-100">
-                <img
-                  src={receipt.imageUrl}
-                  alt={`Receipt from ${receipt.vendor}`}
-                  className="h-full w-full object-cover"
-                />
-              </div> */}
+              {loadingFile ? (
+                <div className="flex h-80 items-center justify-center rounded-3xl border border-slate-200 bg-slate-100 text-sm text-slate-500">
+                  Loading receipt preview...
+                </div>
+              ) : fileError ? (
+                <div className="flex h-80 items-center justify-center rounded-3xl border border-slate-200 bg-slate-100 text-sm text-slate-500">
+                  {fileError}
+                </div>
+              ) : fileUrl ? (
+                <div className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-100">
+                  {fileType?.includes("pdf") ? (
+                    <iframe
+                      src={fileUrl}
+                      title={fileName ?? "Receipt PDF"}
+                      className="h-96 w-full"
+                    />
+                  ) : (
+                    <img
+                      src={fileUrl}
+                      alt={`Receipt file ${fileName ?? "preview"}`}
+                      className="h-full w-full object-contain"
+                    />
+                  )}
+                </div>
+              ) : (
+                <div className="flex h-80 items-center justify-center rounded-3xl border border-slate-200 bg-slate-100 text-sm text-slate-500">
+                  No preview available.
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>

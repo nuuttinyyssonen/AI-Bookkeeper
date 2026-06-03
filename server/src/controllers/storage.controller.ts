@@ -1,4 +1,4 @@
-import { deleteFileFromSupabase, uploadFileToSupabase } from "../services/supabase.service";
+import { deleteFileFromSupabase, downloadFileFromSupabase, uploadFileToSupabase } from "../services/supabase.service";
 import { Request, Response, NextFunction } from "express";
 import { AuthenticationError, NotFoundError, ServerError, ValidationError } from "../utils/error";
 import { prisma } from "../lib/prisma";
@@ -114,6 +114,35 @@ export const deleteFile = async (req: Request<{id: string}>, res: Response, next
         await deleteFileFromSupabase(document.document_name);
         await prisma.document.delete({ where: { id: document.id } });
         res.status(200).json({ message: "File was deleted successfully" });
+    } catch (error) {
+        return next(new ServerError("Internal server error"));
+    }
+}
+
+export const downloadFile = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+
+    try {
+        const receipt = await prisma.receipt.findUnique({ where: { id } });
+        if (!receipt) {
+            return next(new NotFoundError("Receipt not found"));
+        }
+
+        const document = await prisma.document.findUnique({ where: { id: receipt.document_id } });
+        if (!document) {
+            return next(new NotFoundError("File not found"));
+        }
+
+        if (document.user_id !== req.user.id) {
+            return next(new AuthenticationError("Unauthorized"));
+        }
+
+        const fileBuffer = await downloadFileFromSupabase(document.document_name);
+        const filename = document.document_name.split("/").pop() ?? document.document_name;
+
+        res.setHeader("Content-Type", document.document_type || "application/octet-stream");
+        res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+        res.send(fileBuffer);
     } catch (error) {
         return next(new ServerError("Internal server error"));
     }
