@@ -27,5 +27,5 @@ export const logoutUser = async (_prevState: any, _formData: FormData) => {
     } catch (error) {
         console.error(error);
     }
-    redirect("/login")
+    redirect("/login?message=logged-out");
 }

@@ -1,4 +1,5 @@
 import MainNavigation from "@/components/main-navigation";
+import { Toaster } from "sonner";
 
 export default function MainLayout({
     children,
@@ -38,7 +39,7 @@ export default function MainLayout({
                     <nav className="border-b border-slate-200 bg-white px-4 py-4 sm:px-6 lg:hidden">
                         <MainNavigation variant="mobile" />
                     </nav>
-
+                    <Toaster richColors position="top-center"/>
                     {children}
                 </section>
             </div>
