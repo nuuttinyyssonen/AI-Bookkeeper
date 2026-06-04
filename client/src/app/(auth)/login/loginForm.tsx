@@ -1,16 +1,39 @@
 'use client';
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import Link from "next/link";
 import loginAction from "./actions";
 import { initialState } from "@/app/types/FormTypes";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import { useSearchParams } from "next/navigation";
 
 export default function LoginForm() {
     const [state, formAction, isPending] = useActionState(loginAction, initialState);
+    const searchParams = useSearchParams();
+    const hasShownToast = useRef(false);
+
+    useEffect(() => {
+        const message = searchParams.get("message");
+        if (message === "logged-out" && !hasShownToast.current) {
+            hasShownToast.current = true;
+            toast.success("Logged out successfully");
+        }
+
+        if (message === "account-created" && !hasShownToast.current) {
+            hasShownToast.current = true;
+            toast.success("Account created successfully!");
+        }
+    }, [searchParams]);
+
+    useEffect(() => {
+        if(state.error) {
+            toast.error(state.error);
+        }
+    }, [state]);
 
     return (
         <main className="grid min-h-screen place-items-center bg-[radial-gradient(circle_at_top_left,rgba(20,184,166,0.18),transparent_34%),linear-gradient(135deg,#f8fafc_0%,#eef2f7_48%,#fff7ed_100%)] px-4 py-8 text-slate-950">
@@ -47,7 +70,6 @@ export default function LoginForm() {
                             </Field>
 
                             <Field>
-                                <FieldError>{state.error}</FieldError>
                                 <Button type="submit" disabled={isPending}>
                                     {isPending ? "Logging in..." : "Log in"}
                                 </Button>

@@ -51,5 +51,5 @@ export default async function signupAction(
     }
 
     // Redirecting to login page after successful signup
-    redirect("/login");
+    redirect("/login?message=account-created");
 };

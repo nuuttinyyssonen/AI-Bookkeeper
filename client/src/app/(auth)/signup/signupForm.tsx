@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import Link from "next/link";
 import { initialStateSignup } from "@/app/types/FormTypes";
 import signupAction from "./actions";
@@ -8,9 +8,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 
 export default function SignupForm() {
     const [state, formAction, isPending] = useActionState(signupAction, initialStateSignup);
+
+    useEffect(() => {
+        if(state.error) {
+            toast.error(state.error);
+        }
+    }, [state]);
 
     return (
         <main className="grid min-h-screen place-items-center bg-[radial-gradient(circle_at_top_left,rgba(20,184,166,0.18),transparent_34%),linear-gradient(135deg,#f8fafc_0%,#eef2f7_48%,#fff7ed_100%)] px-4 py-8 text-slate-950">
@@ -95,7 +102,6 @@ export default function SignupForm() {
                             </div>
 
                             <Field>
-                                <FieldError>{state.error}</FieldError>
                                 <Button type="submit" disabled={isPending}>
                                     {isPending ? "Creating account..." : "Create account"}
                                 </Button>

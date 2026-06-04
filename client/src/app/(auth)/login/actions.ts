@@ -47,5 +47,5 @@ export default async function loginAction(
     } catch(error) {
         return { error: "Something went wrong. Please try again." };
     }
-    redirect("/dashboard");
+    redirect("/dashboard?message=logged-in");
 }

@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useRef } from "react";
 import { UploadFiles, type UploadState } from "./action";
+import { toast } from "sonner";
 
 const initialState: UploadState = {};
 
@@ -12,14 +13,15 @@ export default function UploadButton() {
     useEffect(() => {
         if (state.success) {
             formRef.current?.reset();
+            toast.success("File uploaded successfully")
         }
-    }, [state.success]);
+        if (state.error) {
+            toast.error(state.error);
+        }
+    }, [state]);
 
     return (
         <form ref={formRef} action={formAction} className="grid gap-3">
-            {state.error && <p className="text-sm text-red-500">{state.error}</p>}
-            {state.success && <p className="text-sm text-teal-600">{state.success}</p>}
-
             <div className="grid gap-3 sm:grid-cols-2">
                 <label className="grid gap-2 rounded-md bg-teal-600 p-4 text-sm font-semibold text-white">
                     <span>Select documents</span>

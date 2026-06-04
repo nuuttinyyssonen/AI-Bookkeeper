@@ -7,6 +7,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Button } from "@/components/ui/button";
 import { type Receipt } from "@/lib/receipts";
 import { getReceiptById, deleteReceiptById, getReceiptFile } from "../action";
+import { toast } from "sonner";
 
 export default function ReceiptDetailPage() {
   const params = useParams();
@@ -19,6 +20,12 @@ export default function ReceiptDetailPage() {
   const [fileName, setFileName] = React.useState<string | null>(null);
   const [loadingFile, setLoadingFile] = React.useState(true);
   const [fileError, setFileError] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    if(deleted) {
+      toast.success("File deleted successfully");
+    }
+  }, [deleted]);
 
   React.useEffect(() => {
     if (!receiptId) {
