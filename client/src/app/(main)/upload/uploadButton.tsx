@@ -33,17 +33,6 @@ export default function UploadButton() {
                         className="w-full text-sm text-white file:mr-3 file:rounded-md file:border-0 file:bg-white file:px-3 file:py-2 file:text-sm file:font-semibold file:text-teal-700"
                     />
                 </label>
-
-                {/* <label className="grid gap-2 rounded-md bg-slate-950 p-4 text-sm font-semibold text-white">
-                    <span>Take picture</span>
-                    <input
-                        type="file"
-                        name="files"
-                        accept="image/*"
-                        capture="environment"
-                        className="w-full text-sm text-white file:mr-3 file:rounded-md file:border-0 file:bg-white file:px-3 file:py-2 file:text-sm file:font-semibold file:text-slate-900"
-                    />
-                </label> */}
             </div>
 
             <div className="rounded-md border border-slate-200 bg-white p-4">
