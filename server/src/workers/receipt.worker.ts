@@ -116,7 +116,9 @@ const worker = new Worker(
     }
   },
   {
-    connection: { host: "localhost", port: 6379 }
+    connection: { host: "localhost", port: 6379 },
+    removeOnComplete: { count: 100 },
+    removeOnFail: { count: 50 }
   }
 );
 

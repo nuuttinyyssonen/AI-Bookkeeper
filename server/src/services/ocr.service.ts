@@ -9,14 +9,18 @@ const convertPdfToImage = async (buffer: Buffer): Promise<Buffer> => {
     return firstPage;
 };
 
-export const analyzeReceipt = async (fileBuffer: Buffer, mimeType?: string) => {
+export const analyzeReceipt = async (
+    fileBuffer: Buffer,
+    mimeType?: string,
+    imageClient = client
+) => {
     let buffer = fileBuffer;
 
     if (mimeType === "application/pdf") {
         buffer = await convertPdfToImage(fileBuffer);
     }
 
-    const [result] = await client.textDetection({
+    const [result] = await imageClient.textDetection({
         image: { content: buffer.toString("base64") }
     });
 

@@ -5,3 +5,10 @@ export const receiptQueue = new Queue("receiptQueue", {
         url: process.env.REDIS_URL,
     },
 });
+
+export const clearQueue = async () => {
+    await receiptQueue.drain();
+    await receiptQueue.clean(0, 100, "failed");
+};
+
+clearQueue().catch(console.error);
