@@ -51,6 +51,19 @@ describe('Receipt routes', () => {
         expect(response.status).toBe(200);
     });
 
+    it('Returns 401 if user is not authenticated', async () => {
+        await request(app)
+            .post('/api/auth/logout')
+            .set('Cookie', `token=${token}`)
+        
+        const response = await request(app)
+            .get('/api/receipt')
+            .set('Cookie', `token=${token}`)
+        
+        expect(response.status).toBe(401);
+        expect(response.body.message).toBe("Token is invalid or expired");
+    });
+
     afterAll(async () => {
         const user = await prisma.user.findUnique({ where: { email: email } });
         const receiptVats = await prisma.receiptVat.findMany({ where: { receipt_id: receipt_id } });

@@ -59,6 +59,20 @@ describe("Storage routes", () => {
         expect(fileName).toContain("test.jpg");
     });
 
+    it("Fails to upload file if file is too large", async () => {
+        const largeBuffer = Buffer.alloc(11 * 1024 * 1024, "a");
+
+        const response = await request(app)
+            .post("/api/storage/")
+            .set('Cookie', `token=${token}`)
+            .attach("files", largeBuffer, {
+                filename: "large-file.jpg",
+                contentType: "image/jpeg"
+            });
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe("File too large. Maximum size is 10MB");
+    });
+
     it("Deletes file successfully", async () => {
         const response = await request(app)
             .delete(`/api/storage/${receipt_id}`)
@@ -88,6 +102,19 @@ describe("Storage routes", () => {
 
         expect(response.status).toBe(400);
         expect(response.body.message).toBe("File type not supported. Only JPEG, PNG, WEBP and PDF are allowed");
+    });
+
+    it("Gives 401 if user is not auhtenticated", async () => {
+        await request(app)
+            .post('/api/auth/logout')
+            .set('Cookie', `token=${token}`)
+        
+        const response = await request(app)
+            .post("/api/storage/")
+            .set('Cookie', `token=${token}`)
+            .attach("files", path.join(__dirname, "../fixtures/test.jpg"))
+        expect(response.status).toBe(401);
+        expect(response.body.message).toBe("Token is invalid or expired");
     });
 
     afterAll(async () => {
