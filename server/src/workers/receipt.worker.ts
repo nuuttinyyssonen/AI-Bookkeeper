@@ -4,6 +4,39 @@ import { parseReceiptData } from "../services/openai.service";
 import { downloadFileFromSupabase } from "../services/supabase.service";
 import { prisma } from "../lib/prisma";
 
+// Retry logic with exponential backoff for handling race conditions
+const retryWithBackoff = async (
+  fn: () => Promise<any>,
+  maxAttempts: number = 5,
+  initialDelayMs: number = 1000
+): Promise<any> => {
+  let lastError: any;
+  
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await fn();
+    } catch (err: any) {
+      lastError = err;
+      
+      // Don't retry on non-transient errors
+      if (err && err.__isStorageError && err.status && ![404, 400].includes(err.status)) {
+        throw err;
+      }
+      
+      if (attempt < maxAttempts) {
+        const delayMs = initialDelayMs * Math.pow(2, attempt - 1);
+        console.log(
+          `Receipt worker: attempt ${attempt} failed, retrying in ${delayMs}ms:`,
+          err?.message
+        );
+        await new Promise(resolve => setTimeout(resolve, delayMs));
+      }
+    }
+  }
+  
+  throw lastError;
+};
+
 const worker = new Worker(
   "receiptQueue",
   async job => {
@@ -15,20 +48,30 @@ const worker = new Worker(
 
     let fileBuffer;
     try {
-      fileBuffer = await downloadFileFromSupabase(filePath);
+      fileBuffer = await retryWithBackoff(
+        () => downloadFileFromSupabase(filePath),
+        5,
+        500
+      );
     } catch (err: any) {
       if (err && err.__isStorageError && (err.status === 400 || err.status === 404)) {
-        console.log("Receipt worker: file not found in storage", filePath, err);
+        console.log("Receipt worker: file not found in storage after retries", filePath, err);
         throw new Error(`File not found in storage: ${filePath}`);
       }
       console.log("Receipt worker: error downloading file", filePath, err);
       throw err;
     }
-    const document = await prisma.document.findFirst({
+
+    const document = await retryWithBackoff(
+      () =>
+        prisma.document.findFirst({
           where: {
             file_path: filePath
           }
-      });
+        }),
+      5,
+      500
+    );
 
     if (!document?.id || !document?.user_id) {
       throw new Error("Missing document data");
@@ -73,7 +116,9 @@ const worker = new Worker(
     }
   },
   {
-    connection: { host: "localhost", port: 6379 }
+    connection: { host: "localhost", port: 6379 },
+    removeOnComplete: { count: 100 },
+    removeOnFail: { count: 50 }
   }
 );
 

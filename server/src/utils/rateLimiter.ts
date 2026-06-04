@@ -15,6 +15,6 @@ export const standardRateLimiter = (keyPrefix: string) => {
 export const uploadRateLimiter = new RateLimiterRedis({
   storeClient: redis,
   keyPrefix: "upload", // Prefix for Redis keys to avoid collisions
-  points: 10, // Number of points
+  points: 100, // Number of points
   duration: 60, // Per second(s)
 });

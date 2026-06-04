@@ -54,12 +54,19 @@ export const uploadFile = async (req: Request, res: Response, next: NextFunction
                         }
                     });
 
-                    // Add a job to the receipt processing queue for this document
-                    await receiptQueue.add("process-receipt", {
-                        documentId: document.id,
-                        filePath: uploadedFile.path,
-                        userId: user.id
-                    });
+                    // Add a small delay to ensure file is fully available in storage and DB transaction is committed
+                    // This helps prevent race conditions where the worker tries to access the file before it's ready
+                    setTimeout(async () => {
+                        try {
+                            await receiptQueue.add("process-receipt", {
+                                documentId: document.id,
+                                filePath: uploadedFile.path,
+                                userId: user.id
+                            });
+                        } catch (error) {
+                            console.error("Failed to queue receipt processing job:", error);
+                        }
+                    }, 500);
 
                     return document;
                 } catch (error) {
