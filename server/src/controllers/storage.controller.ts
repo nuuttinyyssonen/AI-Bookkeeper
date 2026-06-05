@@ -3,6 +3,9 @@ import { Request, Response, NextFunction } from "express";
 import { AuthenticationError, NotFoundError, ServerError, ValidationError } from "../utils/error";
 import { prisma } from "../lib/prisma";
 import { receiptQueue } from "../queues/queue";
+import { randomUUID } from "crypto";
+
+const batchId = randomUUID();
 
 // Sanitizes file name by removing special characters and replacing them with underscores.
 // Also adds a timestamp prefix to avoid name conflicts in storage.
@@ -50,7 +53,8 @@ export const uploadFile = async (req: Request, res: Response, next: NextFunction
                             user_id: user.id,
                             file_path: uploadedFile.path,
                             document_type: file.mimetype,
-                            document_size: file.size
+                            document_size: file.size,
+                            upload_batch_id: batchId
                         }
                     });
 

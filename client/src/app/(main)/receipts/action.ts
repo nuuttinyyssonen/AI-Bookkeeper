@@ -3,7 +3,13 @@
 import { cookies } from "next/headers";
 import { Receipt } from "@/lib/receipts";
 
-export const getReceipts = async () => {
+export type ReceiptsResponse = {
+    receipts: any[];
+    is_documents_processing: boolean;
+    is_documents_pending: boolean;
+};
+
+export const getReceipts = async (): Promise<ReceiptsResponse> => {
     try {
         const cookieStore = await cookies();
         const token = cookieStore.get("token")?.value;
@@ -15,15 +21,20 @@ export const getReceipts = async () => {
             }
         });
 
-        if(!response.ok) {
+        if (!response.ok) {
             console.log("Error in getting receipts", response.status);
-            return [];
+            return { receipts: [], is_documents_processing: false, is_documents_pending: false };
         }
 
         const data = await response.json();
-        return Array.isArray(data) ? data : data?.receipts ?? [];
-    } catch(error) {
+        return {
+            receipts: Array.isArray(data) ? data : data?.receipts ?? [],
+            is_documents_processing: data?.is_documents_processing ?? false,
+            is_documents_pending: data?.is_documents_pending ?? false
+        };
+    } catch (error) {
         console.log(error);
+        return { receipts: [], is_documents_processing: false, is_documents_pending: false };
     }
 };
 

@@ -77,6 +77,11 @@ const worker = new Worker(
       throw new Error("Missing document data");
     }
 
+    await prisma.document.update({
+        where: { id: document.id },
+        data: { status: "PROCESSING" }
+    });
+
     const { fullText } = await analyzeReceipt(fileBuffer, document?.document_type ?? undefined);
     const aiData = await parseReceiptData(fullText);
 
@@ -100,15 +105,11 @@ const worker = new Worker(
 
       const receipt = await prisma.receipt.create({ data });
 
-      const queriedDocument = await prisma.receipt.findUnique({
-        where: {
-          id: receipt.id
-        },
-        include: {
-          receiptVats: true
-        }
+      await prisma.document.update({
+          where: { id: document.id },
+          data: { status: "COMPLETED" }
       });
-      console.log(queriedDocument?.receiptVats);
+
       return receipt;
     } catch (err) {
       console.log("Receipt worker: error parsing receipt data with OpenAI", err);

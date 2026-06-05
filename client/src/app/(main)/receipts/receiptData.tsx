@@ -1,37 +1,66 @@
 'use client';
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Receipt } from "@/lib/receipts";
+import { ReceiptsResponse } from "./action";
 
 interface ReceiptDataProps {
     receiptList: Receipt[];
+    is_documents_processing: boolean;
+    is_documents_pending: boolean;
+    fetchReceipts: () => Promise<ReceiptsResponse>;
 }
 
-export const ReceiptData = ({ receiptList }: ReceiptDataProps) => {
+export const ReceiptData = ({ receiptList, is_documents_processing, is_documents_pending, fetchReceipts }: ReceiptDataProps) => {
     const [query, setQuery] = useState("");
+    const [receipts, setReceipts] = useState(receiptList);
+    const [isProcessing, setIsProcessing] = useState(is_documents_processing);
+    const [isPending, setIsPending] = useState(is_documents_pending);
+
+    useEffect(() => {
+        if (!isProcessing && !isPending) return;
+
+        const interval = setInterval(async () => {
+            const data = await fetchReceipts();
+            setReceipts(data.receipts);
+            setIsProcessing(data.is_documents_processing);
+            setIsPending(data.is_documents_pending);
+
+            const isDone = !data.is_documents_processing && !data.is_documents_pending;
+
+            if (isDone) {
+                clearInterval(interval);
+            }
+        }, 2000);
+
+        return () => clearInterval(interval);
+    }, []);
 
     const filtered = useMemo(
         () =>
-            Array.isArray(receiptList)
-                ? receiptList.filter(
+            Array.isArray(receipts)
+                ? receipts.filter(
                       (r) => typeof r.vendor_name === "string" && r.vendor_name.toLowerCase().includes(query.toLowerCase())
                   )
                 : [],
-        [receiptList, query]
+        [receipts, query]
     );
 
     return (
         <div>
             <div className="mx-auto max-w-7xl">
                 <div className="mb-6 flex items-center justify-between gap-4">
-                    <div>
-                        <h1 className="text-3xl font-semibold">Receipts</h1>
-                        <p className="mt-1 text-sm text-slate-600">Your uploaded receipts and parsed totals.</p>
-                    </div>
+                   <div>
+                    <h1 className="text-3xl font-semibold">Receipts</h1>
+                    <p className="mt-1 text-sm text-slate-600">Your uploaded receipts and parsed totals.</p>
+                    {isProcessing && (
+                        <p className="mt-1 text-sm text-teal-600 animate-pulse">Processing documents...</p>
+                    )}
+                </div>
 
                     <div className="flex w-full max-w-md items-center gap-3 lg:w-auto">
                         <Input
@@ -44,7 +73,7 @@ export const ReceiptData = ({ receiptList }: ReceiptDataProps) => {
                 </div>
 
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {receiptList.map((r) => (
+                    {receipts.map((r) => (
                         <Card key={r.id}>
                             <CardHeader>
                                 <div>
