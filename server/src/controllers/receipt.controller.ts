@@ -5,6 +5,23 @@ import { NotFoundError, ServerError } from '../utils/error';
 export const getAllReceiptsByUserId = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
     try {
+        const pending_document_count = await prisma.document.count({
+            where: {
+                user_id: user.id,
+                status: "PENDING"
+            }
+        });
+
+        const processing_document_count = await prisma.document.count({
+            where: {
+                user_id: user.id,
+                status: "PROCESSING"
+            }
+        });
+
+        const is_documents_processing = processing_document_count > 0;
+        const is_documents_pending = pending_document_count > 0;
+
         const receipts = await prisma.receipt.findMany({
             where: {
                 user_id: user.id
@@ -14,7 +31,7 @@ export const getAllReceiptsByUserId = async (req: Request, res: Response, next: 
             }
         });
 
-        return res.status(200).json({ receipts });
+        return res.status(200).json({ receipts, is_documents_pending, is_documents_processing });
     } catch (err) {
         next(new ServerError("Internal server error"));
     }
