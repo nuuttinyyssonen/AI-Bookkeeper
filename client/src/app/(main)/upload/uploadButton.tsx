@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from "react";
-import { UploadFiles, type UploadState } from "./action";
+import { getBatchStatus, UploadFiles, type UploadState } from "./action";
 import { toast } from "sonner";
 
 const initialState: UploadState = {};
@@ -8,6 +8,28 @@ const initialState: UploadState = {};
 export default function UploadButton() {
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [isPending, setIsPending] = useState(false);
+    const [progress, setProgress] = useState<string | null>(null);
+
+    const pollBatchStatus = (batchId?: string) => {
+        return new Promise<{ pending_documents: number; completed_documents: number; total: number }>((resolve, reject) => {
+            const interval = setInterval(async () => {
+                try {
+                    if (!batchId) return;
+                    
+                    const data = await getBatchStatus(batchId);
+                    setProgress(`${data.completed_documents}/${data.total} analyzed`);
+
+                    if (data.pending_documents === 0 && data.processing_documents === 0) {
+                        clearInterval(interval);
+                        resolve(data);
+                    }
+                } catch (error) {
+                    clearInterval(interval);
+                    reject(error);
+                }
+            }, 3000);
+        });
+    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files ?? []);
@@ -33,7 +55,18 @@ export default function UploadButton() {
         if (result.success) {
             toast.success("Files uploaded successfully");
             setSelectedFiles([]);
+            setProgress("Analyzing receipts...");
+
+            try {
+                const data = await pollBatchStatus(result.upload_batch_id);
+                setProgress(null);
+                toast.success(`${data.completed_documents}/${data.total} receipt(s) analyzed successfully`);
+            } catch (error) {
+                setProgress(null);
+                toast.error("Receipt analysis failed");
+            }
         }
+
         if (result.error) {
             toast.error(result.error);
         }
@@ -56,6 +89,9 @@ export default function UploadButton() {
             </div>
 
             <div className="rounded-md border border-slate-200 bg-white p-4">
+                {progress && (
+                    <p className="mb-3 text-sm font-medium text-teal-600">{progress}</p>
+                )}
                 {selectedFiles.length > 0 ? (
                     <ul className="mb-3 space-y-1">
                         {selectedFiles.map(file => (

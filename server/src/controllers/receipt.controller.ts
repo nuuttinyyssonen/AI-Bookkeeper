@@ -37,3 +37,49 @@ export const getReceiptById = async (req: Request<{id: string}>, res: Response, 
         return next(new ServerError("Internal server error"));
     }
 };
+
+export const getReceiptStatus = async(req: Request<{batchId: string}>, res: Response, next: NextFunction) => {
+    const user = req.user;
+    const { batchId } = req.params;
+
+    if(!batchId) {
+        return next(new NotFoundError("Resource not found"));
+    }
+
+    try {
+        const pending_documents = await prisma.document.count({
+            where: { 
+                user_id: user.id,
+                status: "PENDING",
+                upload_batch_id: batchId
+            }
+        });
+
+        const completed_documents = await prisma.document.count({
+            where: {
+                user_id: user.id,
+                status: "COMPLETED",
+                upload_batch_id: batchId
+            }
+        });
+
+        const processing_documents = await prisma.document.count({
+            where: {
+                user_id: user.id,
+                status: "PROCESSING",
+                upload_batch_id: batchId
+            }
+        });
+
+        const total = await prisma.document.count({
+            where: {
+                user_id: user.id,
+                upload_batch_id: batchId
+            }
+        });
+
+        return res.status(200).json({ pending_documents, completed_documents, total, processing_documents });
+    } catch(error) {
+        return next(new ServerError("Internal server error"));
+    }  
+};
