@@ -13,6 +13,7 @@ export type Receipt = {
   receipt_date: string;
   total_amount: number | string;
   receiptVats?: ReceiptVat[];
+  receipt_type: string;
 };
 
 export const receipts: Receipt[] = [];

@@ -3,6 +3,7 @@ import { analyzeReceipt } from "../services/ocr.service";
 import { parseReceiptData } from "../services/openai.service";
 import { downloadFileFromSupabase } from "../services/supabase.service";
 import { prisma } from "../lib/prisma";
+import { ReceiptType } from "@prisma/client";
 
 // Retry logic with exponential backoff for handling race conditions
 const retryWithBackoff = async (
@@ -41,6 +42,7 @@ const worker = new Worker(
   "receiptQueue",
   async job => {
     const { filePath } = job.data as { filePath?: string };
+    const { receipt_type } = job.data as { receipt_type?: string };
 
     if (!filePath) {
       throw new Error("Receipt worker job missing filePath");
@@ -92,6 +94,7 @@ const worker = new Worker(
         vendor_name: aiData.vendor,
         total_amount: aiData.total,
         receipt_date: new Date(aiData.date),
+        receipt_type: (receipt_type as ReceiptType) ?? ReceiptType.EXPENSE,
 
         receiptVats: {
           create: aiData.vat.map((v: any) => ({
