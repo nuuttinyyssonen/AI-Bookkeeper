@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { type Receipt } from "@/lib/receipts";
 import { getReceiptById, deleteReceiptById, getReceiptFile } from "../action";
 import { toast } from "sonner";
+import { changeReceiptCategory, changeReceiptDeductible } from "./action";
 
 const CATEGORIES = [
   { type: "TOIMISTOKULUT",              label: "Toimistokulut" },
@@ -122,14 +123,15 @@ export default function ReceiptDetailPage() {
     setDeleted(true);
   };
 
-  // TODO: wire up to your server action
-  const handleCategoryChange = (type: string) => {
+  const handleCategoryChange = async (type: string) => {
     setSelectedCategory(type);
+    await changeReceiptCategory(receiptId!, type);
   };
 
-  // TODO: wire up to your server action
-  const handleDeductibleToggle = () => {
-    setIsDeductible((prev) => !prev);
+  const handleDeductibleToggle = async () => {
+    const newValue = !isDeductible;
+    setIsDeductible(newValue);
+    await changeReceiptDeductible(receiptId!, newValue);
   };
 
   return (

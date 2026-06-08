@@ -103,3 +103,47 @@ export const getReceiptStatus = async(req: Request<{batchId: string}>, res: Resp
         return next(new ServerError("Internal server error"));
     }  
 };
+
+
+export const changeReceiptCategory = async(req: Request<{id: string}>, res: Response, next: NextFunction) => {
+    const { category } = req.body;
+    const { id } = req.params;
+    if(!category) {
+        return next(new NotFoundError("Resource not found"));
+    }
+
+    try {
+        await prisma.receipt.update({
+            where: { id },
+            data: {
+                category: {
+                    connect: { type: category }
+                }
+            }
+        });
+        return res.status(200).json({ message: "Category updated" });
+    } catch (err) {
+        return next(new ServerError("Internal server error"));
+    }
+};
+
+export const changeReceiptDeductible = async(req: Request<{id: string}>, res: Response, next: NextFunction) => {
+    const { isDeductible } = req.body;
+    const { id } = req.params;
+
+    if(isDeductible === undefined) {
+        return next(new NotFoundError("Resource not found"));
+    }
+
+    try {
+        await prisma.receipt.update({
+            where: { id },
+            data: {
+                is_deductible: isDeductible
+            }
+        });
+        return res.status(200).json({ message: "is_deductible updated" });
+    } catch (err) {
+        return next(new ServerError("Internal server error"));
+    }
+};
