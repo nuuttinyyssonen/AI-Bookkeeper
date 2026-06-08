@@ -33,17 +33,27 @@ model Document {
 }
 
 model Receipt {
-  id              String       @id @default(uuid())
-  document_id     String
-  user_id         String
-  vendor_name     String
-  total_amount    Float
-  receipt_date    DateTime
-  receipt_type    ReceiptType @default(EXPENSE)
-  created_at      DateTime    @default(now())
-  user            User        @relation(fields: [user_id], references: [id])
-  document        Document    @relation(fields: [document_id], references: [id])
-  receiptVats     ReceiptVat[]
+  id                 String      @id @default(uuid())
+  document_id        String
+  user_id            String
+  category_id        String?
+  vendor_name        String
+  total_amount       Float
+  receipt_date       DateTime
+  receipt_type       ReceiptType @default(EXPENSE)
+  is_deductible      Boolean     @default(true)
+  created_at         DateTime    @default(now())
+  user               User        @relation(fields: [user_id], references: [id])
+  document           Document    @relation(fields: [document_id], references: [id])
+  category           Category?   @relation(fields: [category_id], references: [id])
+  receiptVats        ReceiptVat[]
+}
+
+model Category {
+  id       String       @id @default(uuid())
+  type     CategoryType @unique
+  label    String
+  receipts Receipt[]
 }
 
 model ReceiptVat {
@@ -59,6 +69,30 @@ model ReceiptVat {
 enum ReceiptType {
   INCOME
   EXPENSE
+}
+
+enum CategoryType {
+  TOIMISTOKULUT
+  MATKAKULUT
+  EDUSTUSKULUT
+  ATERIA
+  MARKKINOINTI_JA_MAINONTA
+  KALUSTO_JA_LAITTEET
+  PALKKAKULUT_JA_PALKKIOT
+  VUOKRA
+  VAKUUTUKSET
+  PUHELIN_JA_TIETOLIIKENNE
+  OHJELMISTOT_JA_LISENSSIT
+  KOULUTUS_JA_KURSSIT
+  KIRJANPITO_JA_LAKIPALVELUT
+  PANKKIKULUT
+  AJONEUVOKULUT
+  KOTITOIMISTON_KULUT
+  YKSITYISOTOT
+  MUUT_KULUT
+  MYYNTI_TUOTTEET
+  MYYNTI_PALVELUT
+  MUUT_TULOT
 }
 
 enum DocumentStatus {
