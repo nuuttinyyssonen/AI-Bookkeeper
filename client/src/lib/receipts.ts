@@ -14,6 +14,8 @@ export type Receipt = {
   total_amount: number | string;
   receiptVats?: ReceiptVat[];
   receipt_type: string;
+  category?: { type: string; label: string } | null
+  is_deductible: boolean;
 };
 
 export const receipts: Receipt[] = [];

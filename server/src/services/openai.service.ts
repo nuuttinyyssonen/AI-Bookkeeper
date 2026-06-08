@@ -4,7 +4,13 @@ const client = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
 
-export const parseReceiptData = async (rawText: string) => {
+export const parseReceiptData = async (rawText: string, categoryTypes: string[], receiptType: string) => {
+    const incomeCategories = ['MYYNTI_TUOTTEET', 'MYYNTI_PALVELUT', 'MUUT_TULOT'];
+    
+    const filteredCategories = receiptType === 'INCOME'
+        ? categoryTypes.filter(c => incomeCategories.includes(c))
+        : categoryTypes.filter(c => !incomeCategories.includes(c));
+
     const response = await client.chat.completions.create({
         model: "gpt-4o-mini",
         messages: [
@@ -18,6 +24,7 @@ export const parseReceiptData = async (rawText: string) => {
                     "date": "YYYY-MM-DD",
                     "total": number,
                     "currency": "EUR",
+                    "category": "string (pick exactly one from: ${filteredCategories.join(', ')})",
                     "vat": [{ "rate": number, "net": number, "vat_amount": number, "total": number }],
                     "items": [{ "name": "string", "price": number }]
                 }
