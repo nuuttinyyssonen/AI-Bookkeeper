@@ -5,8 +5,6 @@ import { prisma } from "../lib/prisma";
 import { receiptQueue } from "../queues/queue";
 import { randomUUID } from "crypto";
 
-const batchId = randomUUID();
-
 // Sanitizes file name by removing special characters and replacing them with underscores.
 // Also adds a timestamp prefix to avoid name conflicts in storage.
 const sanitizeFileName = (fileName: string): string => {
@@ -32,6 +30,8 @@ const normalizeMulterFiles = (
 export const uploadFile = async (req: Request, res: Response, next: NextFunction) => {
     const files = normalizeMulterFiles(req.files as Express.Multer.File[] | { [fieldname: string]: Express.Multer.File[] });
     const user = req.user;
+    const receipt_type = req.body.receipt_type ?? "EXPENSE";
+    const batchId = randomUUID();
 
     // Validate that at least one file was provided
     if (files.length === 0) {
@@ -65,7 +65,8 @@ export const uploadFile = async (req: Request, res: Response, next: NextFunction
                             await receiptQueue.add("process-receipt", {
                                 documentId: document.id,
                                 filePath: uploadedFile.path,
-                                userId: user.id
+                                userId: user.id,
+                                receipt_type
                             });
                         } catch (error) {
                             console.error("Failed to queue receipt processing job:", error);

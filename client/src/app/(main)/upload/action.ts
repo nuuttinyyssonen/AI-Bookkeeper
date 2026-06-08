@@ -9,7 +9,8 @@ export type UploadState = {
 
 export const UploadFiles = async (
     _prevState: UploadState,
-    formData: FormData
+    formData: FormData,
+    isIncome: boolean
 ): Promise<UploadState> => {
     // Get JWT token from cookie to authenticate the request
     const cookieStore = await cookies();
@@ -22,6 +23,7 @@ export const UploadFiles = async (
     }
 
     try {
+        formData.append("receipt_type", isIncome ? "INCOME" : "EXPENSE");
         // Send files to backend storage API
         const response = await fetch("http://localhost:5001/api/storage", {
             method: 'POST',

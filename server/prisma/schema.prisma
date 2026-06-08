@@ -39,6 +39,7 @@ model Receipt {
   vendor_name     String
   total_amount    Float
   receipt_date    DateTime
+  receipt_type    ReceiptType @default(EXPENSE)
   created_at      DateTime    @default(now())
   user            User        @relation(fields: [user_id], references: [id])
   document        Document    @relation(fields: [document_id], references: [id])
@@ -53,6 +54,11 @@ model ReceiptVat {
   vat_amount     Float
   total          Float
   receipt        Receipt  @relation(fields: [receipt_id], references: [id])
+}
+
+enum ReceiptType {
+  INCOME
+  EXPENSE
 }
 
 enum DocumentStatus {
