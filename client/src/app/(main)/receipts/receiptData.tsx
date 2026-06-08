@@ -137,6 +137,15 @@ export const ReceiptData = ({ receiptList, is_documents_processing, is_documents
                                     )}
                                 </div>
 
+                                <div className="mt-3 flex items-center justify-between text-sm">
+                                    <span className="text-slate-500">
+                                        {r.category?.label ?? "Ei kategoriaa"}
+                                    </span>
+                                    <span className={`font-medium ${r.is_deductible ? "text-teal-600" : "text-red-500"}`}>
+                                        {r.is_deductible ? "Vähennyskelpoinen" : "Ei vähennyskelpoinen"}
+                                    </span>
+                                </div>
+
                                 <div className="mt-4 flex gap-2">
                                     <Link
                                         href={`/receipts/${r.id}`}

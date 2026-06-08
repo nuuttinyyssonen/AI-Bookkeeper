@@ -9,7 +9,7 @@ export const getAllReceiptsByUserId = async (req: Request, res: Response, next: 
             where: {
                 user_id: user.id,
                 status: "PENDING"
-            }
+            },
         });
 
         const processing_document_count = await prisma.document.count({
@@ -27,7 +27,10 @@ export const getAllReceiptsByUserId = async (req: Request, res: Response, next: 
                 user_id: user.id
             },
             include: {
-                receiptVats: true
+                receiptVats: true,
+                category: {
+                select: { label: true }
+            }
             }
         });
 

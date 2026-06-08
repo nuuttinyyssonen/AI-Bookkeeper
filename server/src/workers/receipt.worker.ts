@@ -90,6 +90,8 @@ const worker = new Worker(
     const { fullText } = await analyzeReceipt(fileBuffer, document?.document_type ?? undefined);
     const aiData = await parseReceiptData(fullText, categoryTypes, receipt_type ?? 'EXPENSE');
 
+    console.log("aiData:", JSON.stringify(aiData));
+
     const category = await prisma.category.findUnique({ where: { type: aiData.category } });
     if(!category) {
       throw new Error("Error extracting category");
