@@ -3,7 +3,7 @@ import { analyzeReceipt } from "../services/ocr.service";
 import { parseReceiptData } from "../services/openai.service";
 import { downloadFileFromSupabase } from "../services/supabase.service";
 import { prisma } from "../lib/prisma";
-import { ReceiptType } from "@prisma/client";
+import { ReceiptType, CategoryType } from "@prisma/client";
 
 // Retry logic with exponential backoff for handling race conditions
 const retryWithBackoff = async (
@@ -84,8 +84,16 @@ const worker = new Worker(
         data: { status: "PROCESSING" }
     });
 
+    const categories = await prisma.category.findMany({ select: { type: true } });
+    const categoryTypes = categories.map(c => c.type);
+
     const { fullText } = await analyzeReceipt(fileBuffer, document?.document_type ?? undefined);
-    const aiData = await parseReceiptData(fullText);
+    const aiData = await parseReceiptData(fullText, categoryTypes, receipt_type ?? 'EXPENSE');
+
+    const category = await prisma.category.findUnique({ where: { type: aiData.category } });
+    if(!category) {
+      throw new Error("Error extracting category");
+    }
 
     try {
       const data = {
@@ -95,6 +103,8 @@ const worker = new Worker(
         total_amount: aiData.total,
         receipt_date: new Date(aiData.date),
         receipt_type: (receipt_type as ReceiptType) ?? ReceiptType.EXPENSE,
+        is_deductible: receipt_type === 'INCOME' ? false : true,
+        category_id: category.id,
 
         receiptVats: {
           create: aiData.vat.map((v: any) => ({
