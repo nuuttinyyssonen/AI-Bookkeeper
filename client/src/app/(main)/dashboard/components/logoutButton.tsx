@@ -1,6 +1,6 @@
 'use client';
 import { useActionState, useEffect, useRef } from "react";
-import { logoutUser } from "./action";
+import { logoutUser } from "../action";
 import { toast } from "sonner";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";

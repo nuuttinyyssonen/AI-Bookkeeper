@@ -92,9 +92,14 @@ const worker = new Worker(
 
     console.log("aiData:", JSON.stringify(aiData));
 
-    const category = await prisma.category.findUnique({ where: { type: aiData.category } });
-    if(!category) {
-      throw new Error("Error extracting category");
+    const category = await prisma.category.findUnique({ 
+        where: { type: aiData.category } 
+    }) ?? await prisma.category.findUnique({ 
+        where: { type: "MUUT_KULUT" } 
+    });
+
+    if (!category) {
+        throw new Error("No categories found in database");
     }
 
     try {

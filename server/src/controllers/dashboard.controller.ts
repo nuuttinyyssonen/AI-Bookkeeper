@@ -1,0 +1,104 @@
+import { Request, Response, NextFunction } from "express";
+import { prisma } from "../lib/prisma";
+
+export const getDashboardData = async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    try {
+        const revenue = await prisma.receipt.aggregate({
+            where: {
+                user_id: user.id,
+                receipt_type: "INCOME",
+                receipt_date: {
+                    gte: new Date(new Date().getFullYear(), 0, 1),
+                    lte: new Date(new Date().getFullYear(), 11, 31)
+                }
+            },
+            _sum: {
+                total_amount: true
+            }
+        });
+
+        const expenses = await prisma.receipt.aggregate({
+            where: {
+                user_id: user.id,
+                receipt_type: "EXPENSE",
+                receipt_date: {
+                    gte: new Date(new Date().getFullYear(), 0, 1),
+                    lte: new Date(new Date().getFullYear(), 11, 31)
+                }
+            },
+            _sum: {
+                total_amount: true
+            }
+        });
+
+        const recent_receipts = await prisma.receipt.findMany({
+            where: {
+                user_id: user.id
+            },
+            orderBy: {
+                receipt_date: "desc"
+            },
+            take: 5,
+            include: {
+                receiptVats: true
+            }
+        });
+
+        const net_profit = (revenue._sum.total_amount ?? 0) - (expenses._sum.total_amount ?? 0);
+
+        return res.status(200).json({ revenue, expenses, net_profit, recent_receipts });
+    } catch(error) {
+        next(error);
+    }
+};
+
+export const getCashFlowData = async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    try {
+        const months = Array.from({ length: 6 }, (_, i) => {
+            const date = new Date();
+            date.setMonth(date.getMonth() - i);
+            return {
+                year: date.getFullYear(),
+                month: date.getMonth()
+            };
+        }).reverse();
+
+        const cashflow = await Promise.all(
+            months.map(async ({ year, month }) => {
+                const start = new Date(year, month, 1);
+                const end = new Date(year, month + 1, 0);
+
+                const [income, expense] = await Promise.all([
+                    prisma.receipt.aggregate({
+                        where: {
+                            user_id: user.id,
+                            receipt_type: "INCOME",
+                            receipt_date: { gte: start, lte: end }
+                        },
+                        _sum: { total_amount: true }
+                    }),
+                    prisma.receipt.aggregate({
+                        where: {
+                            user_id: user.id,
+                            receipt_type: "EXPENSE",
+                            receipt_date: { gte: start, lte: end }
+                        },
+                        _sum: { total_amount: true }
+                    })
+                ]);
+
+                return {
+                    month: start.toLocaleString("fi-FI", { month: "short" }),
+                    income: income._sum.total_amount ?? 0,
+                    expense: expense._sum.total_amount ?? 0
+                };
+            })
+        );
+
+        return res.status(200).json({ cashflow })
+    } catch(error) {
+        next(error)
+    }
+};
