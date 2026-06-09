@@ -29,3 +29,61 @@ export const logoutUser = async (_prevState: any, _formData: FormData) => {
     }
     redirect("/login?message=logged-out");
 }
+
+export const getDashboardData = async () => {
+    try {
+        const cookieStore = await cookies();
+        const token = cookieStore.get("token")?.value;
+
+        // Sending logout request to our backend API route.
+        const response = await fetch("http://localhost:5001/api/dashboard", {
+            method: 'GET',
+            headers: {
+                'Cookie': `token=${token}`
+            }
+        });
+
+        // If response is not ok, return error message from server or a default one.
+       if (!response.ok) {
+            const data = await response.json();
+            return { error: data.error || "Invalid or expired session token" };
+        }
+
+        const data = await response.json();
+        return {
+            revenue: Number(data.revenue?._sum?.total_amount ?? 0),
+            expenses: Number(data.expenses?._sum?.total_amount ?? 0),
+            net_profit: Number(data.revenue?._sum?.total_amount ?? 0) - Number(data.expenses?._sum?.total_amount ?? 0),
+            recent_receipts: data.recent_receipts ?? []
+        };
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const getCashFlowData = async () => {
+    try {
+        const cookieStore = await cookies();
+        const token = cookieStore.get("token")?.value;
+
+        // Sending logout request to our backend API route.
+        const response = await fetch("http://localhost:5001/api/dashboard/cashflow", {
+            method: 'GET',
+            headers: {
+                'Cookie': `token=${token}`
+            }
+        });
+
+        // If response is not ok, return error message from server or a default one.
+       if (!response.ok) {
+            const data = await response.json();
+            return { error: data.error || "Invalid or expired session token" };
+        }
+
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+};
