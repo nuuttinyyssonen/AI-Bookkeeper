@@ -1,9 +1,10 @@
-import { createReport } from "../controllers/report.controller";
+import { createReport, getReports } from "../controllers/report.controller";
 import { Router } from "express";
 import { authMiddleware } from "../middleware/authentication";
 
 const reportRouter = Router();
 
 reportRouter.post('/', authMiddleware, createReport);
+reportRouter.get('/', authMiddleware, getReports);
 
 export default reportRouter;

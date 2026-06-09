@@ -99,9 +99,11 @@ model VatReport {
 
 enum VatReportPeriod {
   MONTHLY
-  QUARTERLY
   YEARLY
-  CUSTOM
+  Q1
+  Q2
+  Q3
+  Q4
 }
 
 enum ReceiptType {

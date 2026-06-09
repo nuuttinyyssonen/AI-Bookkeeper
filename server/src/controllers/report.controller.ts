@@ -86,3 +86,14 @@ export const createReport = async (req: Request, res: Response, next: NextFuncti
         next(error);
     }
 };
+
+export const getReports = async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+
+    try {
+        const reports = await prisma.vatReport.findMany({ where: { user_id: user.id } });
+        return res.status(200).json({ reports });
+    } catch(error) {
+        next(error)
+    }
+};
