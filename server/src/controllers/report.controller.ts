@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { prisma } from "../lib/prisma";
+import { NotFoundError } from "../utils/error";
 
 const getDateRange = (timePeriod: string): { start: Date; end: Date } => {
     const now = new Date();
@@ -95,5 +96,21 @@ export const getReports = async (req: Request, res: Response, next: NextFunction
         return res.status(200).json({ reports });
     } catch(error) {
         next(error)
+    }
+};
+
+export const getReportById = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    
+    try {
+        const report = await prisma.vatReport.findUnique({ where: { id } });
+        
+        if (!report) {
+            return next(new NotFoundError("Report not found"));
+        }
+        
+        return res.status(200).json(report);
+    } catch(error) {
+        next(error);
     }
 };
