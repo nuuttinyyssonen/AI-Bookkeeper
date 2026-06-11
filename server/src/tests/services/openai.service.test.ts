@@ -1,5 +1,6 @@
 import { parseReceiptData } from "../../services/openai.service";
 import OpenAI from "openai";
+import { prisma } from "../../lib/prisma";
 
 // Mock OpenAI
 jest.mock("openai");
@@ -7,6 +8,13 @@ jest.mock("openai");
 const mockOpenAI = OpenAI as jest.MockedClass<typeof OpenAI>;
 
 describe("parseReceiptData", () => {
+    let categoryTypes: string[];
+
+    beforeAll(async () => {
+        const categories = await prisma.category.findMany({ select: { type: true } });
+        categoryTypes = categories.map(c => c.type);
+    });
+
     beforeEach(() => {
         jest.clearAllMocks();
     });
@@ -46,7 +54,7 @@ describe("parseReceiptData", () => {
                 }
             } as any;
 
-            const result = await parseReceiptData("Receipt text here");
+            const result = await parseReceiptData("Receipt text here", categoryTypes, "EXPENSE");
 
             expect(result).toEqual({
                 vendor: "Supermarket ABC",
@@ -105,7 +113,7 @@ describe("parseReceiptData", () => {
                 }
             } as any;
 
-            const result = await parseReceiptData("Receipt with multiple VAT rates");
+            const result = await parseReceiptData("Receipt with multiple VAT rates", categoryTypes, "EXPENSE");
 
             expect(result.vat).toHaveLength(2);
             expect(result.vat[0].rate).toBe(0.10);
@@ -138,7 +146,7 @@ describe("parseReceiptData", () => {
                 }
             } as any;
 
-            const result = await parseReceiptData("Unclear receipt");
+            const result = await parseReceiptData("Unclear receipt", categoryTypes, "EXPENSE");
 
             expect(result.vendor).toBeNull();
         });
@@ -167,7 +175,7 @@ describe("parseReceiptData", () => {
                 }
             } as any;
 
-            const result = await parseReceiptData("Receipt without date");
+            const result = await parseReceiptData("Receipt without date", categoryTypes, "EXPENSE");
 
             expect(result.date).toBeNull();
         });
@@ -196,7 +204,7 @@ describe("parseReceiptData", () => {
                 }
             } as any;
 
-            const result = await parseReceiptData("Receipt without total");
+            const result = await parseReceiptData("Receipt without total", categoryTypes, "EXPENSE");
 
             expect(result.total).toBeNull();
         });
@@ -225,7 +233,7 @@ describe("parseReceiptData", () => {
                 }
             } as any;
 
-            const result = await parseReceiptData("Receipt without details");
+            const result = await parseReceiptData("Receipt without details", categoryTypes, "EXPENSE");
 
             expect(result.vat).toEqual([]);
             expect(result.items).toEqual([]);
@@ -255,7 +263,7 @@ describe("parseReceiptData", () => {
                 }
             } as any;
 
-            const result = await parseReceiptData("Partial receipt");
+            const result = await parseReceiptData("Partial receipt", categoryTypes, "EXPENSE");
 
             expect(result.vendor).toBe("Store");
             expect(result.date).toBeNull();
@@ -283,7 +291,7 @@ describe("parseReceiptData", () => {
                 }
             } as any;
 
-            await expect(parseReceiptData("Receipt")).rejects.toThrow("No response from OpenAI");
+            await expect(parseReceiptData("Receipt", categoryTypes, "EXPENSE")).rejects.toThrow("No response from OpenAI");
         });
 
         it("should throw error when OpenAI API call fails", async () => {
@@ -293,7 +301,7 @@ describe("parseReceiptData", () => {
                 }
             } as any;
 
-            await expect(parseReceiptData("Receipt")).rejects.toThrow("API Error");
+            await expect(parseReceiptData("Receipt", categoryTypes, "EXPENSE")).rejects.toThrow("API Error");
         });
 
         it("should throw error when response is invalid JSON", async () => {
@@ -313,7 +321,7 @@ describe("parseReceiptData", () => {
                 }
             } as any;
 
-            await expect(parseReceiptData("Receipt")).rejects.toThrow();
+            await expect(parseReceiptData("Receipt", categoryTypes, "EXPENSE")).rejects.toThrow();
         });
     });
 
@@ -343,7 +351,7 @@ describe("parseReceiptData", () => {
                 }
             } as any;
 
-            await parseReceiptData("Receipt text");
+            await parseReceiptData("Receipt text", categoryTypes, "EXPENSE");
 
             expect(mockCreate).toHaveBeenCalledWith({
                 model: "gpt-4o-mini",
@@ -378,7 +386,7 @@ describe("parseReceiptData", () => {
             } as any;
 
             const receiptText = "Some receipt text";
-            await parseReceiptData(receiptText);
+            await parseReceiptData(receiptText, categoryTypes, "EXPENSE");
 
             const calls = mockCreate.mock.calls[0];
             const messages = calls[0].messages;
