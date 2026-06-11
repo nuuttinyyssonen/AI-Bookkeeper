@@ -58,7 +58,7 @@ describe("Logout route", () => {
         expect(response.body.message).toBe("Invalid or expired session");
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if(!user_id) return;  
 
         const user = await prisma.user.findUnique({ where: { id: user_id } });
