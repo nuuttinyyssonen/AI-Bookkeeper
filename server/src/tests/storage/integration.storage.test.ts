@@ -25,7 +25,6 @@ describe("Storage routes", () => {
         const user = await createUser(email);
         user_id = user.id;
 
-        // Login to get token
         const response = await request(app)
             .post("/api/auth/login")
             .send({ email, password: "123456" });
@@ -34,9 +33,17 @@ describe("Storage routes", () => {
         const storageResponse = await request(app)
             .post("/api/storage/")
             .set('Cookie', `token=${token}`)
-            .attach("files", path.join(__dirname, "../fixtures/test.jpg"))
+            .attach("files", path.join(__dirname, "../fixtures/test.jpg"));
+
+        // Fail fast with a useful message instead of cascading undefined errors
+        if (!storageResponse.body?.[0]?.id) {
+            throw new Error(
+                `beforeAll upload failed. Status: ${storageResponse.status}, Body: ${JSON.stringify(storageResponse.body)}`
+            );
+        }
+
         document_id = storageResponse.body[0].id;
-        
+
         const receipt = await createReceipt(document_id, user_id);
         receipt_id = receipt.id;
     });
