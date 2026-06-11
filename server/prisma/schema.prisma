@@ -16,6 +16,7 @@ model User {
   supabase_id String? @unique
   documents   Document[]
   receipts    Receipt[]
+  vatReports  VatReport[]
 }
 
 model Document {
@@ -64,6 +65,45 @@ model ReceiptVat {
   vat_amount     Float
   total          Float
   receipt        Receipt  @relation(fields: [receipt_id], references: [id])
+}
+
+model VatReport {
+  id                      String            @id @default(uuid())
+  user_id                 String
+  period_start            DateTime
+  period_end              DateTime
+  period_type             VatReportPeriod
+  
+  // Sales VAT (INCOME)
+  sales_net               Decimal
+  sales_vat_amount        Decimal
+  sales_gross             Decimal
+
+  // Purchase VAT (EXPENSE)
+  purchase_net            Decimal
+  purchase_vat_amount     Decimal
+  purchase_gross          Decimal
+
+  // Result
+  vat_payable             Decimal           // sales_vat - purchase_vat (positiivinen = maksettava, negatiivinen = palautus)
+
+  // VAT breakdown by rate
+  vat_breakdown           Json              // tallentaa erittelyt JSON muodossa
+
+  vat_declaration_sent    Boolean           @default(false)
+  pdf_path                String?
+  created_at              DateTime          @default(now())
+
+  user                    User              @relation(fields: [user_id], references: [id])
+}
+
+enum VatReportPeriod {
+  MONTHLY
+  YEARLY
+  Q1
+  Q2
+  Q3
+  Q4
 }
 
 enum ReceiptType {
