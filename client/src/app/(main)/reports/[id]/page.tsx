@@ -2,6 +2,7 @@ import { authenticateUser } from "@/lib/auth";
 import { getReportById } from "./action";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import DownloadPDF from "./components/DownloadPDF";
 
 export default async function ReportPage({ params }: { params: { id: string } }) {
     await authenticateUser();
@@ -41,9 +42,7 @@ export default async function ReportPage({ params }: { params: { id: string } })
                         }`}>
                             {report.vat_declaration_sent ? "Submitted" : "Pending"}
                         </span>
-                        <button className="rounded-md bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700">
-                            Download PDF
-                        </button>
+                        <DownloadPDF id={id} />
                     </div>
                 </div>
             </header>

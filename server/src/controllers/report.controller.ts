@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { prisma } from "../lib/prisma";
 import { NotFoundError } from "../utils/error";
+import PDFDocument from "pdfkit";
 
 const getDateRange = (timePeriod: string): { start: Date; end: Date } => {
     const now = new Date();
@@ -110,6 +111,119 @@ export const getReportById = async (req: Request<{id: string}>, res: Response, n
         }
         
         return res.status(200).json(report);
+    } catch(error) {
+        next(error);
+    }
+};
+
+export const getReportPdf = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const user = req.user;
+
+    try {
+        const report = await prisma.vatReport.findUnique({
+            where: { id, user_id: user.id }
+        });
+
+        if (!report) {
+            return next(new NotFoundError("Report not found"));
+        }
+
+        const vatBreakdown = report.vat_breakdown as {
+            sales: { rate: number; net: number; vat_amount: number; gross: number }[];
+            purchases: { rate: number; net: number; vat_amount: number; gross: number }[];
+        };
+
+        const doc = new PDFDocument({ margin: 50 });
+
+        // Set response headers
+        res.setHeader("Content-Type", "application/pdf");
+        res.setHeader("Content-Disposition", `attachment; filename=vat-report-${report.period_type}-${id}.pdf`);
+        doc.pipe(res);
+
+        // Title
+        doc.fontSize(20).font("Helvetica-Bold").text("VAT Report", { align: "center" });
+        doc.moveDown(0.5);
+        doc.fontSize(12).font("Helvetica").text(`Period: ${report.period_type}`, { align: "center" });
+        doc.fontSize(10).text(
+            `${new Date(report.period_start).toLocaleDateString("fi-FI")} – ${new Date(report.period_end).toLocaleDateString("fi-FI")}`,
+            { align: "center" }
+        );
+
+        doc.moveDown(1.5);
+        doc.moveTo(50, doc.y).lineTo(550, doc.y).stroke();
+        doc.moveDown(1);
+
+        // Summary
+        doc.fontSize(14).font("Helvetica-Bold").text("Summary");
+        doc.moveDown(0.5);
+        doc.fontSize(10).font("Helvetica");
+        doc.text(`Sales VAT:        ${Number(report.sales_vat_amount).toFixed(2)} €`);
+        doc.text(`Purchase VAT:     ${Number(report.purchase_vat_amount).toFixed(2)} €`);
+        doc.moveDown(0.3);
+        const isRefund = Number(report.vat_payable) < 0;
+        doc.fontSize(11).font("Helvetica-Bold").text(
+            `${isRefund ? "VAT Refund" : "VAT Payable"}:      ${Math.abs(Number(report.vat_payable)).toFixed(2)} €`
+        );
+
+        doc.moveDown(1.5);
+
+        // Sales breakdown table
+        doc.fontSize(13).font("Helvetica-Bold").text("Sales VAT Breakdown");
+        doc.moveDown(0.5);
+
+        const col1 = 50, col2 = 150, col3 = 280, col4 = 410;
+
+        doc.fontSize(9).font("Helvetica-Bold");
+        doc.text("VAT Rate", col1, doc.y, { width: 100 });
+        doc.text("Net", col2, doc.y - doc.currentLineHeight(), { width: 130 });
+        doc.text("VAT Amount", col3, doc.y - doc.currentLineHeight(), { width: 130 });
+        doc.text("Gross", col4, doc.y - doc.currentLineHeight(), { width: 100 });
+        doc.moveDown(0.3);
+        doc.moveTo(50, doc.y).lineTo(550, doc.y).stroke();
+        doc.moveDown(0.3);
+
+        doc.font("Helvetica").fontSize(9);
+        vatBreakdown.sales.forEach(row => {
+            doc.text(`${row.rate}%`, col1, doc.y, { width: 100 });
+            doc.text(`${row.net.toFixed(2)} €`, col2, doc.y - doc.currentLineHeight(), { width: 130 });
+            doc.text(`${row.vat_amount.toFixed(2)} €`, col3, doc.y - doc.currentLineHeight(), { width: 130 });
+            doc.text(`${row.gross.toFixed(2)} €`, col4, doc.y - doc.currentLineHeight(), { width: 100 });
+            doc.moveDown(0.3);
+        });
+
+        doc.moveDown(1);
+
+        // Purchases breakdown table
+        doc.fontSize(13).font("Helvetica-Bold").text("Purchase VAT Breakdown");
+        doc.moveDown(0.5);
+
+        doc.fontSize(9).font("Helvetica-Bold");
+        doc.text("VAT Rate", col1, doc.y, { width: 100 });
+        doc.text("Net", col2, doc.y - doc.currentLineHeight(), { width: 130 });
+        doc.text("VAT Amount", col3, doc.y - doc.currentLineHeight(), { width: 130 });
+        doc.text("Gross", col4, doc.y - doc.currentLineHeight(), { width: 100 });
+        doc.moveDown(0.3);
+        doc.moveTo(50, doc.y).lineTo(550, doc.y).stroke();
+        doc.moveDown(0.3);
+
+        doc.font("Helvetica").fontSize(9);
+        vatBreakdown.purchases.forEach(row => {
+            doc.text(`${row.rate}%`, col1, doc.y, { width: 100 });
+            doc.text(`${row.net.toFixed(2)} €`, col2, doc.y - doc.currentLineHeight(), { width: 130 });
+            doc.text(`${row.vat_amount.toFixed(2)} €`, col3, doc.y - doc.currentLineHeight(), { width: 130 });
+            doc.text(`${row.gross.toFixed(2)} €`, col4, doc.y - doc.currentLineHeight(), { width: 100 });
+            doc.moveDown(0.3);
+        });
+
+        doc.moveDown(1);
+        doc.moveTo(50, doc.y).lineTo(550, doc.y).stroke();
+        doc.moveDown(0.5);
+        doc.fontSize(9).font("Helvetica").fillColor("#666666")
+            .text(`Generated: ${new Date().toLocaleDateString("fi-FI")}`, { align: "right" });
+
+        doc.end();
+
     } catch(error) {
         next(error);
     }

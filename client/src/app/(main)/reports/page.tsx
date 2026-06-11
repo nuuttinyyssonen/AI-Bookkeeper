@@ -1,6 +1,7 @@
 import { authenticateUser } from "@/lib/auth";
 import { getReports } from "./action";
 import Link from "next/link";
+import DownloadButton from "./components/DownloadButton";
 
 export default async function ReportsPage() {
     await authenticateUser();
@@ -88,9 +89,7 @@ export default async function ReportsPage() {
                                                 >
                                                     View
                                                 </Link>
-                                                <button className="rounded-md bg-teal-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-teal-700">
-                                                    Download PDF
-                                                </button>
+                                                <DownloadButton id={report.id}/>
                                             </div>
                                         </td>
                                     </tr>
