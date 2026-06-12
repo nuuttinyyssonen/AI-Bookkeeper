@@ -15,18 +15,7 @@ export const signupController = async (req: Request, res: Response, next: NextFu
 
     const { email, password, first_name, last_name, phonenumber } = result.data;
 
-    if(!(email && password && first_name && last_name && phonenumber)) {
-        const err = new ValidationError("All fields are required");
-        return next(err);
-    }
-    
-    // Password valdiation
-    if (password.length < 5) {
-        const err = new ValidationError("Password must be more than 5 characters");
-        return next(err);
-    }
-
-     // Querying user to see if it already exists
+    // Querying user to see if it already exists
     const existingUser = await prisma.user.findUnique({
         where: { email }
     });

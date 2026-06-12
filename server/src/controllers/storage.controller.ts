@@ -4,6 +4,7 @@ import { AuthenticationError, NotFoundError, ServerError, ValidationError } from
 import { prisma } from "../lib/prisma";
 import { receiptQueue } from "../queues/queue";
 import { randomUUID } from "crypto";
+import { idSchema } from "../schemas/id.schema";
 
 // Sanitizes file name by removing special characters and replacing them with underscores.
 // Also adds a timestamp prefix to avoid name conflicts in storage.
@@ -89,7 +90,13 @@ export const uploadFile = async (req: Request, res: Response, next: NextFunction
 };
 
 export const deleteFile = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
-    const { id } = req.params;
+    // Getting id from params and validating with zod
+    const result = idSchema.safeParse(req.params);
+    if(!result.success) {
+        return next(new ValidationError(result.error.issues[0].message));
+    }
+
+    const { id } = result.data;
 
     const receipt = await prisma.receipt.findUnique({ where: { id } });
     const document = await prisma.document.findUnique({ where: { id: receipt?.document_id } });
@@ -132,7 +139,13 @@ export const deleteFile = async (req: Request<{id: string}>, res: Response, next
 }
 
 export const downloadFile = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
-    const { id } = req.params;
+    // Getting id from params and validating with zod
+    const result = idSchema.safeParse(req.params);
+    if(!result.success) {
+        return next(new ValidationError(result.error.issues[0].message));
+    }
+
+    const { id } = result.data;
 
     try {
         const receipt = await prisma.receipt.findUnique({ where: { id } });
