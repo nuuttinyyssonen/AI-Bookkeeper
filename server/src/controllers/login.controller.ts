@@ -3,10 +3,18 @@ import { prisma } from '../lib/prisma';
 import { supabase } from "../lib/supabase";
 import bcrypt from 'bcrypt';
 import { ConflictError, AuthenticationError } from "../utils/error";
+import { loginSchema } from "../schemas/auth.schema";
+import { ValidationError } from "../utils/error";
 
 export const loginController = async (req: Request, res: Response, next: NextFunction) => {
-    // Getting user's email and password from the request
-    const { email, password } = req.body;
+    // Getting user's email and password from the request with using zod schema.
+    const result = loginSchema.safeParse(req.body);
+    
+    if (!result.success) {
+        return next(new ValidationError(result.error.issues[0].message));
+    }
+
+    const { email, password } = result.data;
 
     // Finding user from database
     const user = await prisma.user.findUnique({

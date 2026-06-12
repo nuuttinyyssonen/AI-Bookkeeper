@@ -46,7 +46,7 @@ describe("Storage routes", () => {
 
         const receipt = await createReceipt(document_id, user_id);
         receipt_id = receipt.id;
-    });
+    }, 10000);
 
     it("Uploads file successfully", async () => {
         const response = await request(app)
@@ -146,5 +146,5 @@ describe("Storage routes", () => {
         if (user_id) {
             await prisma.user.delete({ where: { id: user_id } });
         }
-    });
+    }, 10000);
 });

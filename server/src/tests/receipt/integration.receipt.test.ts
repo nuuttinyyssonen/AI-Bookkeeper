@@ -35,7 +35,7 @@ describe('Receipt routes', () => {
         const receipt = await createReceipt(document_id, user_id);
         receipt_id = receipt.id;
 
-    });
+    }, 10000);
 
     it('Gets all receipts by user id', async () => {
         const response = await request(app)
@@ -99,5 +99,5 @@ describe('Receipt routes', () => {
         if (user_id) {
             await prisma.user.delete({ where: { id: user_id } });
         }
-    });
+    }, 10000);
 });

@@ -1,0 +1,14 @@
+import { z } from "zod";
+
+export const loginSchema = z.object({
+    email: z.email("Invalid email"),
+    password: z.string().min(5, "Password must be at least 5 characters")
+});
+
+export const signupSchema = z.object({
+    email: z.email("Invalid email"),
+    password: z.string().min(5, "Password must be at least 5 characters"),
+    first_name: z.string().min(2, "First name is required"),
+    last_name: z.string().min(2, "Last name is required"),
+    phonenumber: z.string().min(7, "Phone number is too short").max(15, "Phone number is too long")
+});
