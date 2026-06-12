@@ -128,13 +128,13 @@ describe('dashboard data route', () => {
         expect(response.body.slice(0, 4).toString()).toBe('%PDF');
     });
 
-    it('Returns 404 if report not found', async () => {
+    it('Returns 400 if report id is not uuid', async () => {
         const response = await request(app)
             .get(`/api/report/non-existent-id/pdf`)
             .set('Cookie', `token=${token}`);
 
-        expect(response.status).toBe(404);
-        expect(response.body.message).toBe('Report not found');
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe('Invalid ID format');
     });
 
     it('Returns 401 for PDF route if not authenticated', async () => {
