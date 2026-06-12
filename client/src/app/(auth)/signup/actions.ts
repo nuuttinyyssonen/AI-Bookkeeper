@@ -3,17 +3,28 @@
 import { SignupInput } from "@/app/types/FormTypes";
 import { FormState } from "@/app/types/FormTypes";
 import { redirect } from "next/navigation";
+import { signupSchema } from "@/schemas/auth.schema";
 
 export default async function signupAction(
     _prevState: FormState<SignupInput>,
     formData: FormData
     ): Promise<FormState<SignupInput>> {
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    const passwordRepeat = formData.get("passwordRepeat") as string;
-    const firstName = formData.get("firstName") as string;
-    const lastName = formData.get("lastName") as string;
-    const phonenumber = formData.get("phonenumber") as string;
+    
+    // Zod validation
+    const result = signupSchema.safeParse({
+        email: formData.get("email"),
+        password: formData.get("password"),
+        passwordRepeat: formData.get("passwordRepeat"),
+        firstName: formData.get("firstName"),
+        lastName: formData.get("lastName"),
+        phonenumber: formData.get("phonenumber")
+    });
+
+    if (!result.success) {
+        return { error: result.error.issues[0].message };
+    }
+
+    const { email, password, passwordRepeat, firstName, lastName, phonenumber } = result.data;
 
     // validating form fields
     if(!email || !password || !passwordRepeat || !lastName || !firstName || !phonenumber) {

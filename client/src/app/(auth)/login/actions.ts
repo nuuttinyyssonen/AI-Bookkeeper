@@ -4,19 +4,24 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { LoginInput } from "@/app/types/FormTypes";
 import { FormState } from "@/app/types/FormTypes";
+import { loginSchema } from "@/schemas/auth.schema";
 
 export default async function loginAction(
     _prevState: FormState<LoginInput>, 
     formData: FormData
     ): Promise<FormState<LoginInput>> {
-    // Getting email and password from forms.
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
 
-    // validating form fields
-    if(!email || !password) {
-        return { error: "Email and password are required" };
+    // Getting email and password from forms.
+    const result = loginSchema.safeParse({
+        email: formData.get("email"),
+        password: formData.get("password")
+    });
+
+    if (!result.success) {
+        return { error: result.error.issues[0].message };
     }
+
+    const { email, password } = result.data;
 
     try {
         // Sending login request to our backend API route.

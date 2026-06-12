@@ -2,6 +2,10 @@ import { Request, Response, NextFunction } from "express";
 import { prisma } from "../lib/prisma";
 import { NotFoundError } from "../utils/error";
 import PDFDocument from "pdfkit";
+import { timePeriodSchema } from "../schemas/report.schema";
+import { ValidationError } from "../utils/error";
+import { VatReportPeriod } from "@prisma/client";
+import { idSchema } from "../schemas/id.schema";
 
 const getDateRange = (timePeriod: string): { start: Date; end: Date } => {
     const now = new Date();
@@ -20,7 +24,14 @@ const getDateRange = (timePeriod: string): { start: Date; end: Date } => {
 
 export const createReport = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
-    const { timePeriod } = req.body;
+
+    // Getting time period from request body and validating with zod
+    const result = timePeriodSchema.safeParse(req.body);
+    if(!result.success) {
+        return next(new ValidationError(result.error.issues[0].message));
+    }
+
+    const { timePeriod } = result.data;
 
     try {
         const { start, end } = getDateRange(timePeriod);
@@ -70,7 +81,7 @@ export const createReport = async (req: Request, res: Response, next: NextFuncti
                 user_id: user.id,
                 period_start: start,
                 period_end: end,
-                period_type: timePeriod.toUpperCase(),
+                period_type: timePeriod.toUpperCase() as VatReportPeriod,
                 sales_net: sales.reduce((sum, v) => sum + v.net, 0),
                 sales_vat_amount: sales_vat_total,
                 sales_gross: sales.reduce((sum, v) => sum + v.gross, 0),
@@ -101,7 +112,13 @@ export const getReports = async (req: Request, res: Response, next: NextFunction
 };
 
 export const getReportById = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
-    const { id } = req.params;
+    // Getting ID from params and validating with zod.
+    const idResult = idSchema.safeParse(req.params);
+    if (!idResult.success) {
+        return next(new ValidationError(idResult.error.issues[0].message));
+    }
+
+    const { id } = idResult.data;
     
     try {
         const report = await prisma.vatReport.findUnique({ where: { id } });
@@ -117,8 +134,14 @@ export const getReportById = async (req: Request<{id: string}>, res: Response, n
 };
 
 export const getReportPdf = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
-    const { id } = req.params;
     const user = req.user;
+    // Getting ID from params and validating with zod.
+    const idResult = idSchema.safeParse(req.params);
+    if (!idResult.success) {
+        return next(new ValidationError(idResult.error.issues[0].message));
+    }
+    
+    const { id } = idResult.data;
 
     try {
         const report = await prisma.vatReport.findUnique({

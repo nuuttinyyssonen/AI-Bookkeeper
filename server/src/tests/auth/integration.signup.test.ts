@@ -49,7 +49,7 @@ describe('Signup route', () => {
                 phonenumber: phonenumber
             });
         expect(response.status).toBe(400);
-        expect(response.body.message).toBe("Password must be more than 5 characters");
+        expect(response.body.message).toBe("Password must be at least 5 characters");
     });
 
     it('Fails if not all fields are used', async () => {
@@ -62,7 +62,7 @@ describe('Signup route', () => {
                 last_name: lastName,
             });
         expect(response.status).toBe(400);
-        expect(response.body.message).toBe("All fields are required");
+        expect(response.body.message).toBe("Invalid input: expected string, received undefined");
     });
 
     afterAll(async() => {

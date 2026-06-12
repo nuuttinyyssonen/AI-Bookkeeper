@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { prisma } from '../lib/prisma';
-import { NotFoundError, ServerError } from '../utils/error';
+import { NotFoundError, ServerError, ValidationError } from '../utils/error';
+import { idSchema, batchIdSchema } from '../schemas/id.schema';
+import { categorySchema, isDeductibleSchema } from '../schemas/receipt.schema';
+import { CategoryType } from "@prisma/client";
 
 export const getAllReceiptsByUserId = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
@@ -41,10 +44,13 @@ export const getAllReceiptsByUserId = async (req: Request, res: Response, next: 
 };
 
 export const getReceiptById = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
-    const { id } = req.params;
-    if(!id) {
-        return next(new NotFoundError("Resource not found"));
+    // Getting id from params and validating with zod
+    const result = idSchema.safeParse(req.params);
+    if(!result.success) {
+        return next(new ValidationError(result.error.issues[0].message));
     }
+
+    const { id } = result.data;
 
     try {
         const receipt = await prisma.receipt.findUnique({ where: { id, user_id: req.user.id }, include: { receiptVats: true } });
@@ -60,11 +66,14 @@ export const getReceiptById = async (req: Request<{id: string}>, res: Response, 
 
 export const getReceiptStatus = async(req: Request<{batchId: string}>, res: Response, next: NextFunction) => {
     const user = req.user;
-    const { batchId } = req.params;
 
-    if(!batchId) {
-        return next(new NotFoundError("Resource not found"));
+    // Getting batch ID and validating with zod.
+    const result = batchIdSchema.safeParse(req.params);
+    if(!result.success) {
+        return next(new ValidationError(result.error.issues[0].message));
     }
+
+    const { batchId } = result.data;
 
     try {
         const pending_documents = await prisma.document.count({
@@ -106,18 +115,27 @@ export const getReceiptStatus = async(req: Request<{batchId: string}>, res: Resp
 
 
 export const changeReceiptCategory = async(req: Request<{id: string}>, res: Response, next: NextFunction) => {
-    const { category } = req.body;
-    const { id } = req.params;
-    if(!category) {
-        return next(new NotFoundError("Resource not found"));
+    // Getting category from req.body and id from params and validating with zod
+    const cateogryResult = categorySchema.safeParse(req.body);
+    const idResult = idSchema.safeParse(req.params);
+
+    if(!cateogryResult.success) {
+        return next(new ValidationError(cateogryResult.error.issues[0].message));
     }
+
+    if(!idResult.success) {
+        return next(new ValidationError(idResult.error.issues[0].message));
+    }
+
+    const { category } = cateogryResult.data;
+    const { id } = idResult.data;
 
     try {
         await prisma.receipt.update({
             where: { id },
             data: {
                 category: {
-                    connect: { type: category }
+                    connect: { type: category as CategoryType }
                 }
             }
         });
@@ -128,12 +146,19 @@ export const changeReceiptCategory = async(req: Request<{id: string}>, res: Resp
 };
 
 export const changeReceiptDeductible = async(req: Request<{id: string}>, res: Response, next: NextFunction) => {
-    const { isDeductible } = req.body;
-    const { id } = req.params;
+    // Getting category from req.body and id from params and validating with zod
+    const deductibleResult = isDeductibleSchema.safeParse(req.body);
+    const idResult = idSchema.safeParse(req.params);
 
-    if(isDeductible === undefined) {
-        return next(new NotFoundError("Resource not found"));
+    if (!deductibleResult.success) {
+        return next(new ValidationError(deductibleResult.error.issues[0].message));
     }
+    if (!idResult.success) {
+        return next(new ValidationError(idResult.error.issues[0].message));
+    }
+
+    const { isDeductible } = deductibleResult.data;
+    const { id } = idResult.data;
 
     try {
         await prisma.receipt.update({
