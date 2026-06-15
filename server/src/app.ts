@@ -3,6 +3,7 @@ import "./types/express";
 import cors from 'cors';
 import dotenv from 'dotenv';
 import cookieParser from "cookie-parser";
+import helmet from 'helmet';
 
 import loginRouter from "./routes/login.routes";
 import signupRouter from "./routes/signup.routes";
@@ -19,9 +20,21 @@ import { requestLogger } from "./middleware/requestLogger";
 dotenv.config();
 
 const app = express();
-app.use(cors());
+
+// CORS configuration to allow requests from frontend
+app.use(cors({
+    origin: process.env.NODE_ENV === "production" 
+        ? "https://aibookkeeper.fi" 
+        : "http://localhost:3000",
+    credentials: true
+}));
+
 app.use(express.json());
+
 app.use(cookieParser());
+
+// Use Helmet to set secure HTTP headers
+app.use(helmet());
 
 // Winston request logger
 app.use(requestLogger);
