@@ -3,10 +3,10 @@
 import { useActionState, useEffect } from "react";
 import Link from "next/link";
 import { initialStateSignup } from "@/app/types/FormTypes";
-import signupAction from "./actions";
+import signupAction from "../actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 

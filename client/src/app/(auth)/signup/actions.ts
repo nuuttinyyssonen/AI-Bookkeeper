@@ -1,6 +1,6 @@
 'use server';
 
-import { SignupInput } from "@/app/types/FormTypes";
+import { initialStateSignup, SignupInput } from "@/app/types/FormTypes";
 import { FormState } from "@/app/types/FormTypes";
 import { redirect } from "next/navigation";
 import { signupSchema } from "@/schemas/auth.schema";
@@ -51,6 +51,14 @@ export default async function signupAction(
                 phonenumber
             })
         });
+
+        if (response.status === 429) {
+            const data = await response.json();
+            return {
+                ...initialStateSignup,
+                error: data.message, // "You have exceeded the rate limit. Please try again later."
+            };
+        }
 
         // If response is not ok, return error message from server or a default one.
         if(!response.ok) {

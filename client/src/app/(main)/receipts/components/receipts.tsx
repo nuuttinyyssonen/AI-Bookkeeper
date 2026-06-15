@@ -1,0 +1,71 @@
+import { Receipt } from "@/lib/receipts";
+import { CardContent, CardDescription, CardHeader, CardTitle, Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+
+interface Props {
+    filtered: Receipt[];
+}
+
+export default function Receipts({ filtered }: Props) {
+    return (
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((r) => (
+                <Card key={r.id}>
+                    <CardHeader>
+                        <div>
+                            <CardTitle>{r.vendor_name}</CardTitle>
+                            <CardDescription>{new Date(r.receipt_date).toLocaleDateString("fi-FI", {
+                                day: "numeric",
+                                month: "numeric",
+                                year: "numeric",
+                            })}</CardDescription>
+                        </div>
+                        <div className="text-right">
+                            <div className="text-lg font-semibold">{r.total_amount}</div>
+                        </div>
+                    </CardHeader>
+
+                    <CardContent>
+                        <div className="space-y-3">
+                            {Array.isArray(r.receiptVats) && r.receiptVats.length > 0 ? (
+                                <div className="space-y-2 rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+                                    <div className="font-semibold">VAT breakdown</div>
+                                    {r.receiptVats.map((vat) => (
+                                        <div key={vat.id} className="grid gap-2 sm:grid-cols-4">
+                                            <div>Rate: {vat.rate}%</div>
+                                            <div>Net: €{vat.net_amount.toFixed(2)}</div>
+                                            <div>VAT: €{vat.vat_amount.toFixed(2)}</div>
+                                            <div>Total: €{vat.total.toFixed(2)}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="text-sm text-slate-500">VAT details not available.</div>
+                            )}
+                        </div>
+
+                        <div className="mt-3 flex items-center justify-between text-sm">
+                            <span className="text-slate-500">
+                                {r.category?.label ?? "Ei kategoriaa"}
+                            </span>
+                            <span className={`font-medium ${r.is_deductible ? "text-teal-600" : "text-red-500"}`}>
+                                {r.is_deductible ? "Vähennyskelpoinen" : "Ei vähennyskelpoinen"}
+                            </span>
+                        </div>
+
+                        <div className="mt-4 flex gap-2">
+                            <Link
+                                href={`/receipts/${r.id}`}
+                                className="inline-flex flex-1 h-11 items-center justify-center rounded-lg bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-slate-700"
+                            >
+                                View
+                            </Link>
+                            <Button className="flex-1 bg-teal-600 text-white hover:bg-teal-700">Export</Button>
+                        </div>
+                    </CardContent>
+                </Card>
+            ))}
+        </div>
+    )
+}
