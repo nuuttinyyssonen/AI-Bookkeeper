@@ -19,6 +19,8 @@ const sanitizeFileName = (fileName: string): string => {
     return `${timestamp}_${sanitized}`;
 };
 
+// Normalizes the structure of multer files to a flat array for easier processing, 
+// regardless of whether the files were uploaded using single or multiple file fields.
 const normalizeMulterFiles = (
     multerFiles?: Express.Multer.File[] | { [fieldname: string]: Express.Multer.File[] }
 ): Express.Multer.File[] => {

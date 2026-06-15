@@ -8,6 +8,7 @@ import { CategoryType } from "@prisma/client";
 export const getAllReceiptsByUserId = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
     try {
+        // Count pending and processing documents for the user to determine if there are any documents in those states
         const pending_document_count = await prisma.document.count({
             where: {
                 user_id: user.id,
@@ -25,6 +26,7 @@ export const getAllReceiptsByUserId = async (req: Request, res: Response, next: 
         const is_documents_processing = processing_document_count > 0;
         const is_documents_pending = pending_document_count > 0;
 
+        // Fetch all receipts for the user, including related VAT and category information
         const receipts = await prisma.receipt.findMany({
             where: {
                 user_id: user.id
@@ -76,6 +78,7 @@ export const getReceiptStatus = async(req: Request<{batchId: string}>, res: Resp
     const { batchId } = result.data;
 
     try {
+        // Count documents in different statuses for the given batch ID to provide an overview of the processing status
         const pending_documents = await prisma.document.count({
             where: { 
                 user_id: user.id,

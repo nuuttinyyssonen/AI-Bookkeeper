@@ -1,5 +1,6 @@
 import { Queue } from "bullmq";
 
+// Create a BullMQ queue for processing receipt jobs
 export const receiptQueue = new Queue("receiptQueue", {
     connection: {
         url: process.env.REDIS_URL,

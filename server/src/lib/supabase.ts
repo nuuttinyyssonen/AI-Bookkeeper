@@ -7,6 +7,7 @@ const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? supabase
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+// Create a separate Supabase client with service role key for server-side operations that require elevated permissions
 export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey, {
     auth: {
         autoRefreshToken: false,
