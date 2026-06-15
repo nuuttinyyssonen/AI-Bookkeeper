@@ -25,3 +25,6 @@ benchmarks/graphs
 
 // Google Cloud credentials
 credentials/
+
+# Winston logs
+logs/
