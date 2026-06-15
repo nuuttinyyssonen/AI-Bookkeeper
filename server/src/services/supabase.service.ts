@@ -1,5 +1,6 @@
 import { supabaseAdmin } from "../lib/supabase";
 
+// Service functions for handling file uploads, downloads, and deletions with Supabase Storage
 export async function uploadFileToSupabase(fileName: string, file: Express.Multer.File) {
     const { data, error } = await supabaseAdmin.storage
         .from("Bookkeeper-FileSystem")

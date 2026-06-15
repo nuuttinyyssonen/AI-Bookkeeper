@@ -4,9 +4,12 @@ const client = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
 
+// Service function to parse receipt data using OpenAI's GPT-4.0 model
 export const parseReceiptData = async (rawText: string, categoryTypes: string[], receiptType: string) => {
+    // Define income categories for filtering based on receipt type
     const incomeCategories = ['MYYNTI_TUOTTEET', 'MYYNTI_PALVELUT', 'MUUT_TULOT'];
     
+    // Filter categories based on receipt type (INCOME or EXPENSE)
     const filteredCategories = receiptType === 'INCOME'
         ? categoryTypes.filter(c => incomeCategories.includes(c))
         : categoryTypes.filter(c => !incomeCategories.includes(c));
@@ -38,6 +41,7 @@ export const parseReceiptData = async (rawText: string, categoryTypes: string[],
         response_format: { type: "json_object" }
     });
 
+    // Extract the content from the response and parse it as JSON
     const content = response.choices[0].message.content;
     if (!content) {
         throw new Error("No response from OpenAI");

@@ -14,6 +14,7 @@ const retryWithBackoff = async (
 ): Promise<any> => {
   let lastError: any;
   
+  // loop to retry the function with exponential backoff
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
       return await fn();
@@ -27,10 +28,6 @@ const retryWithBackoff = async (
       
       if (attempt < maxAttempts) {
         const delayMs = initialDelayMs * Math.pow(2, attempt - 1);
-        console.log(
-          `Receipt worker: attempt ${attempt} failed, retrying in ${delayMs}ms:`,
-          err?.message
-        );
         await new Promise(resolve => setTimeout(resolve, delayMs));
       }
     }
@@ -42,6 +39,8 @@ const retryWithBackoff = async (
 const worker = new Worker(
   "receiptQueue",
   async job => {
+
+    // Extract filePath and receipt_type from job data
     const { filePath } = job.data as { filePath?: string };
     const { receipt_type } = job.data as { receipt_type?: string };
 
@@ -53,6 +52,8 @@ const worker = new Worker(
     }
 
     let fileBuffer;
+
+    // First, try to download the file with retries to handle potential race conditions
     try {
       fileBuffer = await retryWithBackoff(
         () => downloadFileFromSupabase(filePath),
@@ -60,14 +61,14 @@ const worker = new Worker(
         500
       );
     } catch (err: any) {
+      // If the error indicates the file is not found after retries, log and throw a specific error
       if (err && err.__isStorageError && (err.status === 400 || err.status === 404)) {
-        console.log("Receipt worker: file not found in storage after retries", filePath, err);
         throw new Error(`File not found in storage: ${filePath}`);
       }
-      console.log("Receipt worker: error downloading file", filePath, err);
       throw err;
     }
 
+    // After successfully downloading the file, we can proceed to find the document record in the database
     const document = await retryWithBackoff(
       () =>
         prisma.document.findFirst({
@@ -83,19 +84,21 @@ const worker = new Worker(
       throw new Error("Missing document data");
     }
 
+    // Update document status to "PROCESSING" before starting analysis
     await prisma.document.update({
         where: { id: document.id },
         data: { status: "PROCESSING" }
     });
 
+    // Fetch categories to pass to OpenAI for better parsing accuracy
     const categories = await prisma.category.findMany({ select: { type: true } });
     const categoryTypes = categories.map(c => c.type);
 
+    // Analyze the receipt with OCR and parse data with OpenAI
     const { fullText } = await analyzeReceipt(fileBuffer, document?.document_type ?? undefined);
     const aiData = await parseReceiptData(fullText, categoryTypes, receipt_type ?? 'EXPENSE');
 
-    console.log("aiData:", JSON.stringify(aiData));
-
+    // Find the category in the database based on AI-parsed category, fallback to "MUUT_KULUT" if not found
     const category = await prisma.category.findUnique({ 
         where: { type: aiData.category } 
     }) ?? await prisma.category.findUnique({ 
@@ -107,6 +110,7 @@ const worker = new Worker(
     }
 
     try {
+      // Create the receipt record in the database with the parsed data
       const data = {
         document_id: document.id,
         user_id: document.user_id,
@@ -117,6 +121,7 @@ const worker = new Worker(
         is_deductible: receipt_type === 'INCOME' ? false : true,
         category_id: category.id,
 
+        // Map AI-parsed VAT data to the receiptVats relation
         receiptVats: {
           create: aiData.vat.map((v: any) => ({
             rate: v.rate,
@@ -129,6 +134,7 @@ const worker = new Worker(
 
       const receipt = await prisma.receipt.create({ data });
 
+      // Update document status to "COMPLETED" after successful processing
       await prisma.document.update({
           where: { id: document.id },
           data: { status: "COMPLETED" }
@@ -136,7 +142,6 @@ const worker = new Worker(
 
       return receipt;
     } catch (err) {
-      console.log("Receipt worker: error parsing receipt data with OpenAI", err);
       throw err;
     }
   },
@@ -147,6 +152,7 @@ const worker = new Worker(
   }
 );
 
+// Event listeners for logging job completion and failures
 worker.on("completed", job => {
   logger.info({
         message: "Receipt job completed",
