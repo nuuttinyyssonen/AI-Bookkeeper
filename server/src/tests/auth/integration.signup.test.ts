@@ -2,6 +2,7 @@ import { prisma } from "../../lib/prisma";
 import request from 'supertest';
 import app from "../../app";
 import { supabaseAdmin } from "../../lib/supabase";
+import redis from "../../lib/redis";
 
 describe('Signup route', () => {
     let email = "integration.auth.test.ts@admin.com";
@@ -9,6 +10,10 @@ describe('Signup route', () => {
     let firstName = "test";
     let lastName = "integration";
     let phonenumber = "040123456";
+    
+    beforeAll(async () => {
+        await redis.flushdb();
+    });
 
     it('Works with valid data', async () => {
         const response = await request(app)

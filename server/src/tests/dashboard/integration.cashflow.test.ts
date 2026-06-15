@@ -3,6 +3,7 @@ import app from "../../app";
 import createUser from "../helpers/createUser";
 import { prisma } from "../../lib/prisma";
 import { supabaseAdmin } from "../../lib/supabase";
+import redis from "../../lib/redis";
 
 describe('dashboard data route', () => {
     let token: string;
@@ -10,6 +11,7 @@ describe('dashboard data route', () => {
     let user_id: string;
 
     beforeAll(async () => {
+        await redis.flushdb();
         email = `integration.cashflow.test${Date.now()}@admin.com`;
         const user = await createUser(email);
         user_id = user.id;

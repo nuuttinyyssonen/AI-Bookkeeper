@@ -1,12 +1,15 @@
 import { createReport, getReports, getReportById, getReportPdf } from "../controllers/report.controller";
 import { Router } from "express";
 import { authMiddleware } from "../middleware/authentication";
+import { rateLimiters } from "../utils/rateLimiter";
 
+// Router
 const reportRouter = Router();
 
-reportRouter.post('/', authMiddleware, createReport);
-reportRouter.get('/', authMiddleware, getReports);
-reportRouter.get('/:id', authMiddleware, getReportById);
-reportRouter.get('/:id/pdf', authMiddleware, getReportPdf);
+// Create report, get all reports, get report by ID, and get report PDF routes with authentication and rate limiting
+reportRouter.post('/', authMiddleware, rateLimiters.write("report"), createReport);
+reportRouter.get('/', authMiddleware, rateLimiters.read("reports"), getReports);
+reportRouter.get('/:id', authMiddleware, rateLimiters.read("report_by_id"), getReportById);
+reportRouter.get('/:id/pdf', authMiddleware, rateLimiters.read("report_pdf"), getReportPdf);
 
 export default reportRouter;

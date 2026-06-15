@@ -1,6 +1,9 @@
 import Redis from 'ioredis';
 
 const redisUrl = process.env.REDIS_URL || 'redis://localhost:6379';
-const redis = new Redis(redisUrl);
+
+const redis = new Redis(redisUrl, {
+  db: process.env.NODE_ENV === "test" ? 1 : 0,
+});
 
 export default redis;
