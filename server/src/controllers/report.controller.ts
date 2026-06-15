@@ -7,6 +7,7 @@ import { ValidationError } from "../utils/error";
 import { VatReportPeriod } from "@prisma/client";
 import { idSchema } from "../schemas/id.schema";
 
+// Helper function to calculate the start and end dates based on the selected time period (quarterly, monthly, yearly)
 const getDateRange = (timePeriod: string): { start: Date; end: Date } => {
     const now = new Date();
     const year = now.getFullYear();
@@ -21,7 +22,8 @@ const getDateRange = (timePeriod: string): { start: Date; end: Date } => {
     }
 };
 
-
+// Controller for handling VAT report generation and retrieval. 
+// It includes functions to create a new report based on a specified time period, get all reports for the authenticated user
 export const createReport = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
 
@@ -44,7 +46,7 @@ export const createReport = async (req: Request, res: Response, next: NextFuncti
             include: { receiptVats: true }
         });
 
-        // Muodosta VAT breakdown
+        // Group VAT entries by rate and type (income/expense) to prepare for report generation
         const groupVats = (type: "INCOME" | "EXPENSE") => {
             return receipts
                 .filter(r => r.receipt_type === type)
@@ -70,12 +72,12 @@ export const createReport = async (req: Request, res: Response, next: NextFuncti
         const sales = groupVats("INCOME");
         const purchases = groupVats("EXPENSE");
 
-        // Laske yhteissummat
+        // Calculate total VAT for sales and purchases to determine VAT payable or refundable
         const sales_vat_total = sales.reduce((sum, v) => sum + v.vat_amount, 0);
         const purchase_vat_total = purchases.reduce((sum, v) => sum + v.vat_amount, 0);
         const vat_payable = sales_vat_total - purchase_vat_total;
 
-        // Tallenna raportti tietokantaan
+        // Create a new VAT report record in the database with the calculated values and breakdown
         const report = await prisma.vatReport.create({
             data: {
                 user_id: user.id,

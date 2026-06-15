@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { prisma } from "../lib/prisma";
-import { NotFoundError, ServerError } from "../utils/error";
+import { ServerError } from "../utils/error";
 import { idSchema, receiptIdSchema } from "../schemas/id.schema";
 import { ValidationError } from "../utils/error";
 

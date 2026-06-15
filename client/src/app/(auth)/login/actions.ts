@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import { LoginInput } from "@/app/types/FormTypes";
+import { initialState, LoginInput } from "@/app/types/FormTypes";
 import { FormState } from "@/app/types/FormTypes";
 import { loginSchema } from "@/schemas/auth.schema";
 
@@ -32,6 +32,14 @@ export default async function loginAction(
             },
             body: JSON.stringify({email, password}),
         });
+
+        if (response.status === 429) {
+            const data = await response.json();
+            return {
+                ...initialState,
+                error: data.message, // "You have exceeded the rate limit. Please try again later."
+            };
+        }
 
         // If response is not ok, return error message from server or a default one.
         if(!response.ok) {

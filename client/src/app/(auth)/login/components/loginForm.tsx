@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect, useRef } from "react";
 import Link from "next/link";
-import loginAction from "./actions";
+import loginAction from "../actions";
 import { initialState } from "@/app/types/FormTypes";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";

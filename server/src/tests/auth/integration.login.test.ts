@@ -3,12 +3,14 @@ import app from "../../app";
 import { prisma } from "../../lib/prisma";
 import createUser from "../helpers/createUser";
 import { supabaseAdmin } from "../../lib/supabase";
+import redis from "../../lib/redis";
 
 describe('Login routes', () => {
     let user_id: string;
     let email: string;
 
     beforeAll(async () => {
+        await redis.flushdb();
         email = `integration.login.test${Date.now()}@admin.com`;
         const user = await createUser(email);
         user_id = user.id;

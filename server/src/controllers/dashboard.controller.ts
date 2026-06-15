@@ -4,6 +4,7 @@ import { prisma } from "../lib/prisma";
 export const getDashboardData = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
     try {
+        // Get total revenue, expenses and net profit for the current year
         const revenue = await prisma.receipt.aggregate({
             where: {
                 user_id: user.id,
@@ -18,6 +19,7 @@ export const getDashboardData = async (req: Request, res: Response, next: NextFu
             }
         });
 
+        // Get total expenses for the current year
         const expenses = await prisma.receipt.aggregate({
             where: {
                 user_id: user.id,
@@ -32,6 +34,7 @@ export const getDashboardData = async (req: Request, res: Response, next: NextFu
             }
         });
 
+        // Get 5 most recent receipts for the user
         const recent_receipts = await prisma.receipt.findMany({
             where: {
                 user_id: user.id
@@ -56,6 +59,7 @@ export const getDashboardData = async (req: Request, res: Response, next: NextFu
 export const getCashFlowData = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
     try {
+        // Get cash flow data for the last 6 months, grouped by month
         const months = Array.from({ length: 6 }, (_, i) => {
             const date = new Date();
             date.setMonth(date.getMonth() - i);
@@ -65,6 +69,7 @@ export const getCashFlowData = async (req: Request, res: Response, next: NextFun
             };
         }).reverse();
 
+        // For each month, calculate total income and expenses
         const cashflow = await Promise.all(
             months.map(async ({ year, month }) => {
                 const start = new Date(year, month, 1);

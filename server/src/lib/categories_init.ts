@@ -1,6 +1,8 @@
 import { CategoryType } from "@prisma/client";
 import { prisma } from "./prisma";
 
+// This script initializes the categories in the database. It uses Prisma's upsert method to ensure that each category is created if it doesn't exist, 
+// or left unchanged if it already exists. This allows us to safely run this script multiple times without creating duplicate entries or modifying existing ones.
 const categories = [
   { type: "TOIMISTOKULUT",              label: "Toimistokulut" },
   { type: "MATKAKULUT",                 label: "Matkakulut" },

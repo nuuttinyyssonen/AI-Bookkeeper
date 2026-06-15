@@ -1,11 +1,11 @@
 import { Router } from "express";
 import { logoutController } from "../controllers/logout.controller";
-import { standardRateLimiterMiddleware } from "../middleware/rateLimiterMiddleware";
+import { rateLimiters } from "../utils/rateLimiter";
 
 // Router
 const logoutRouter = Router();
 
 // Uses logoutController that clears cookie and logs user out from Supabase.
-logoutRouter.post('/', standardRateLimiterMiddleware("logout"), logoutController);
+logoutRouter.post('/', rateLimiters.write("logout"), logoutController);
 
 export default logoutRouter;

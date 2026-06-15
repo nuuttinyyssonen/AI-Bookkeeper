@@ -1,11 +1,11 @@
 import { signupController } from "../controllers/signup.controller";
 import { Router } from "express";
-import { standardRateLimiterMiddleware } from "../middleware/rateLimiterMiddleware";
+import { rateLimiters } from "../utils/rateLimiter";
 
 // Router
 const signupRouter = Router();
 
 // Router uses signupController function and creates new user to database.
-signupRouter.post("/", standardRateLimiterMiddleware("signup"), signupController);
+signupRouter.post("/", rateLimiters.sensitive("signup"), signupController);
 
 export default signupRouter

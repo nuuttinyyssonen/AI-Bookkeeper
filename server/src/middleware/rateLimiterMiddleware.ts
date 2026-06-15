@@ -1,39 +1,23 @@
 import { Request, Response, NextFunction } from "express";
-import { standardRateLimiter, uploadRateLimiter } from "../utils/rateLimiter";
+import { RateLimiterRedis } from "rate-limiter-flexible";
 
-// Middleware for standard rate limiting
-export const standardRateLimiterMiddleware = (keyPrefix: string) => {
-    const limiter = standardRateLimiter(keyPrefix);
-    return async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const key = `${keyPrefix}:${(req as any).user?.id || req.ip}`;
-            await limiter.consume(key);
-            return next();
-        } catch (rejRes: any) {
-            // Set Retry-After header to inform client when they can retry
-            const retryAfterSeconds = Math.ceil(rejRes.msBeforeNext / 1000);
-            res.set("Retry-After", String(retryAfterSeconds));
-            return res.status(429).json({
-                error: "RATE_LIMITED",
-                retryAfterSeconds,
-            });
-        }
-    };
-};
-
-// Middleware for upload rate limiting
-export const uploadRateLimiterMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+// Middleware factory function to create a rate limiter middleware for Express routes
+export const rateLimiterMiddleware = (limiter: RateLimiterRedis, keyPrefix: string) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const key = (req as any).user?.id || req.ip; // Use user ID if authenticated, otherwise use IP
-        await uploadRateLimiter.consume(key);
-        return next();
+      // Use user ID as key if available, otherwise fallback to IP address
+      const key = `${keyPrefix}:${(req as any).user?.id || req.ip}`;
+      await limiter.consume(key);
+      return next();
     } catch (rejRes: any) {
-        // Set Retry-After header to inform client when they can retry
-        const retryAfterSeconds = Math.ceil(rejRes.msBeforeNext / 1000);
-        res.set("Retry-After", String(retryAfterSeconds));
-        return res.status(429).json({
-        error: "UPLOAD_RATE_LIMITED",
+      // If the rate limit is exceeded, set the Retry-After header and return a 429 response
+      const retryAfterSeconds = Math.ceil(rejRes.msBeforeNext / 1000);
+      res.set("Retry-After", String(retryAfterSeconds));
+      return res.status(429).json({
+        error: "TOO_MANY_REQUESTS",
+        message: "You have exceeded the rate limit. Please try again later.",
         retryAfterSeconds,
-        });
+      });
     }
+  };
 };

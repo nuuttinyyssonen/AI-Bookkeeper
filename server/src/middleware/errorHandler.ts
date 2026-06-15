@@ -13,13 +13,14 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
         ip: req.ip
     });
 
+    // Handle specific error types with appropriate status codes and messages
     if(err instanceof AppError) {
         return res.status(err.statusCode).json({
             status: 'error',
             message: err.message
         });
     }
-
+    
     return res.status(500).json({
         status: 'error',
         message: "Internal server error"

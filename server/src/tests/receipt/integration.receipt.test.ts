@@ -5,6 +5,7 @@ import createUser from "../helpers/createUser";
 import createReceipt from "../helpers/createReceipt";
 import path from 'path';
 import { supabaseAdmin } from "../../lib/supabase";
+import redis from "../../lib/redis";
 
 describe('Receipt routes', () => {
     let user_id: string;
@@ -16,6 +17,7 @@ describe('Receipt routes', () => {
     let token: string;
 
     beforeAll(async () => {
+        await redis.flushdb();
         email = `integration.receipt.test${Date.now()}@admin.com`;
         const user = await createUser(email);
         user_id = user.id;

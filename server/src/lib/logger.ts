@@ -1,5 +1,6 @@
 import winston, { transports } from 'winston';
 
+// Configure Winston logger with different transports for console and file output
 const logger = winston.createLogger({
     level: process.env.NODE_ENV === "production" ? "info" : "debug",
     format: winston.format.combine(

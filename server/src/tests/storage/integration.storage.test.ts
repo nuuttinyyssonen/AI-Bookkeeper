@@ -5,6 +5,7 @@ import app from "../../app";
 import { supabaseAdmin } from "../../lib/supabase";
 import path from 'path';
 import createReceipt from "../helpers/createReceipt";
+import redis from "../../lib/redis";
 
 jest.mock("../../queues/queue", () => ({
     receiptQueue: {
@@ -21,6 +22,7 @@ describe("Storage routes", () => {
     let receipt_id: string;
 
     beforeAll(async () => {
+        await redis.flushdb();
         email = `integration.storage.test${Date.now()}@admin.com`;
         const user = await createUser(email);
         user_id = user.id;
