@@ -7,108 +7,64 @@ import Deductible from './components/Deducitble';
 import Buttons from './components/Buttons';
 import Vats from './components/Vats';
 import ReceiptDetails from './components/ReceiptDetails';
+import StatusCard from './components/StatusCard';
 
-import * as React from "react";
-import Link from "next/link";
+import { useState, useEffect } from 'react';
 import { useParams } from "next/navigation";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { type Receipt } from "@/lib/receipts";
-import { getReceiptById, deleteReceiptById, getReceiptFile } from "../action";
+import { Card, CardContent } from "@/components/ui/card";
+import { deleteReceiptById } from "../action";
 import { toast } from "sonner";
 import { changeReceiptCategory, changeReceiptDeductible } from "./action";
+import { useReceiptFile } from '@/hooks/useReceiptFile';
+import { useReceipt } from '@/hooks/useReceipt';
 
 export default function ReceiptDetailPage() {
   const params = useParams();
-  const receiptId = params?.id as string | undefined;
-  const [deleted, setDeleted] = React.useState(false);
-  const [receipt, setReceipt] = React.useState<Receipt | null>(null);
-  const [loading, setLoading] = React.useState(true);
-  const [fileUrl, setFileUrl] = React.useState<string | null>(null);
-  const [fileType, setFileType] = React.useState<string | null>(null);
-  const [fileName, setFileName] = React.useState<string | null>(null);
-  const [loadingFile, setLoadingFile] = React.useState(true);
-  const [fileError, setFileError] = React.useState<string | null>(null);
+  const receiptId = params?.id as string;
 
-  const [selectedCategory, setSelectedCategory] = React.useState<string>("");
-  const [isDeductible, setIsDeductible] = React.useState<boolean>(true);
+  const [deleted, setDeleted] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [isDeductible, setIsDeductible] = useState<boolean>(true);
 
-  React.useEffect(() => {
+  // Custom hooks that retrieve receipt and file data.
+  const { fileUrl, fileType, fileName, loadingFile, fileError } = useReceiptFile(receiptId);
+  const { receipt, loading } = useReceipt(receiptId);
+
+  useEffect(() => {
     if (receipt) {
       setSelectedCategory(receipt.category?.type ?? "");
       setIsDeductible(receipt.is_deductible ?? true);
     }
   }, [receipt]);
 
-  React.useEffect(() => {
-    if(deleted) toast.success("File deleted successfully");
-  }, [deleted]);
-
-  React.useEffect(() => {
-    if (!receiptId) { setLoading(false); return; }
-    const fetchReceipt = async () => {
-      const data = await getReceiptById(receiptId);
-      setReceipt(data?.receipt || null);
-      setLoading(false);
-    };
-    fetchReceipt();
-  }, [receiptId]);
-
-  React.useEffect(() => {
-    if (!receiptId) { setLoadingFile(false); return; }
-    let objectUrl: string | null = null;
-    const fetchFile = async () => {
-      setLoadingFile(true);
-      setFileError(null);
-      const fileData = await getReceiptFile(receiptId);
-      if (!fileData) { setFileError("Unable to load receipt preview."); setLoadingFile(false); return; }
-      const binary = Uint8Array.from(atob(fileData.base64), (char) => char.charCodeAt(0));
-      const blob = new Blob([binary], { type: fileData.contentType });
-      objectUrl = URL.createObjectURL(blob);
-      setFileUrl(objectUrl);
-      setFileType(fileData.contentType);
-      setFileName(fileData.filename);
-      setLoadingFile(false);
-    };
-    fetchFile();
-    return () => { if (objectUrl) URL.revokeObjectURL(objectUrl); };
-  }, [receiptId]);
-
-  if (loading) return (
-    <div className="px-6 py-8">
-      <div className="mx-auto max-w-4xl rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-        <p className="text-lg font-semibold text-slate-900">Loading...</p>
-      </div>
-    </div>
-  );
+  if (loading) return <StatusCard title="Loading..." />;
 
   if (!receipt) return (
-    <div className="px-6 py-8">
-      <div className="mx-auto max-w-4xl rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-        <p className="text-lg font-semibold text-slate-900">Receipt not found</p>
-        <p className="mt-2 text-sm text-slate-500">The receipt you are looking for does not exist.</p>
-        <Link href="/receipts" className="mt-6 inline-flex rounded-lg bg-slate-950 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">Back to receipts</Link>
-      </div>
-    </div>
+    <StatusCard
+      title="Receipt not found"
+      description="The receipt you are looking for does not exist."
+      link={{ href: "/receipts", label: "Back to receipts" }}
+    />
   );
 
   if (deleted) return (
-    <div className="px-6 py-8">
-      <div className="mx-auto max-w-4xl rounded-2xl border border-slate-200 bg-white p-8 shadow-sm text-center">
-        <p className="text-lg font-semibold text-slate-900">Receipt deleted</p>
-        <p className="mt-2 text-sm text-slate-500">This receipt has been removed from your list.</p>
-        <Link href="/receipts" className="mt-6 inline-flex rounded-lg bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700">Back to receipts</Link>
-      </div>
-    </div>
+    <StatusCard
+      title="Receipt deleted"
+      description="This receipt has been removed from your list."
+      link={{ href: "/receipts", label: "Back to receipts", className: "bg-teal-600 hover:bg-teal-700" }}
+      centered
+    />
   );
 
   const handleDelete = async () => {
     await deleteReceiptById(receiptId);
+    toast.success("File deleted successfully");
     setDeleted(true);
   };
 
   const handleCategoryChange = async (type: string) => {
     setSelectedCategory(type);
-    await changeReceiptCategory(receiptId!, type);
+    await changeReceiptCategory(receiptId, type);
   };
 
   const handleDeductibleToggle = async () => {
