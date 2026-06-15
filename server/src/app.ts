@@ -14,6 +14,7 @@ import dashboardRouter from "./routes/dashboard.routes";
 import reportRouter from "./routes/report.routes";
 
 import { errorHandler } from "./middleware/errorHandler";
+import { requestLogger } from "./middleware/requestLogger";
 
 dotenv.config();
 
@@ -21,6 +22,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
+
+// Winston request logger
+app.use(requestLogger);
 
 // Routes
 app.use('/api/auth/login', loginRouter);
@@ -32,6 +36,7 @@ app.use('/api/receipt', receiptRouter);
 app.use('/api/dashboard', dashboardRouter);
 app.use('/api/report', reportRouter);
 
+// Error handler middleware
 app.use(errorHandler);
 
 export default app;

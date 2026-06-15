@@ -4,6 +4,7 @@ import { parseReceiptData } from "../services/openai.service";
 import { downloadFileFromSupabase } from "../services/supabase.service";
 import { prisma } from "../lib/prisma";
 import { ReceiptType, CategoryType } from "@prisma/client";
+import logger from "../lib/logger";
 
 // Retry logic with exponential backoff for handling race conditions
 const retryWithBackoff = async (
@@ -43,6 +44,9 @@ const worker = new Worker(
   async job => {
     const { filePath } = job.data as { filePath?: string };
     const { receipt_type } = job.data as { receipt_type?: string };
+
+    // Winston logging
+    logger.info({ message: "Processing receipt", filePath, jobId: job.id });
 
     if (!filePath) {
       throw new Error("Receipt worker job missing filePath");
@@ -144,9 +148,19 @@ const worker = new Worker(
 );
 
 worker.on("completed", job => {
-  console.log("JOB DONE", job.id);
+  logger.info({
+        message: "Receipt job completed",
+        jobId: job.id,
+        filePath: job.data.filePath
+    });
 });
 
 worker.on("failed", (job, err) => {
-  console.log("JOB FAILED", job?.id, err);
+  logger.error({
+        message: "Receipt job failed",
+        jobId: job?.id,
+        filePath: job?.data.filePath,
+        error: err.message,
+        stack: err.stack
+    });
 });
