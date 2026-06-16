@@ -25,6 +25,8 @@ export const chatWorker = new Worker(
                 role: "ASSISTANT"
             }
         });
+
+        console.log(aiResponse);
     },
     {
         connection: { host: "localhost", port: 6379 },

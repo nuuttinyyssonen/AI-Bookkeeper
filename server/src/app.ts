@@ -12,6 +12,7 @@ import storageRouter from "./routes/storage.routes";
 import receiptRouter from "./routes/receipt.routes";
 import dashboardRouter from "./routes/dashboard.routes";
 import reportRouter from "./routes/report.routes";
+import assistantRouter from "./routes/assistant.routes";
 
 import { errorHandler } from "./middleware/errorHandler";
 import { requestLogger } from "./middleware/requestLogger";
@@ -46,6 +47,7 @@ app.use('/api/storage', storageRouter);
 app.use('/api/receipt', receiptRouter);
 app.use('/api/dashboard', dashboardRouter);
 app.use('/api/report', reportRouter);
+app.use('/api/assistant', assistantRouter);
 
 // Error handler middleware
 app.use(errorHandler);

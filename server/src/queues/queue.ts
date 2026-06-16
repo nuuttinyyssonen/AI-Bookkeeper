@@ -16,6 +16,8 @@ export const chatQueue = new Queue("chatQueue", {
 export const clearQueue = async () => {
     await receiptQueue.drain();
     await receiptQueue.clean(0, 100, "failed");
+    await chatQueue.drain();
+    await chatQueue.clean(0, 100, "failed");
 };
 
 clearQueue().catch(console.error);
