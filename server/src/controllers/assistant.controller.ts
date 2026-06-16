@@ -40,7 +40,6 @@ export const createChatMessage = async (req: Request, res: Response, next: NextF
         // Add queue for AI response
         await chatQueue.add("process-message", {
             chatRoomId: chatRoom.id,
-            messageId: chatMessage.id,
             message
         });
 
