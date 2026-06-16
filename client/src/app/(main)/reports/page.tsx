@@ -1,8 +1,6 @@
+import ReportsProvider from "./components/ReportsProvider";
 import { authenticateUser } from "@/lib/auth";
 import { getReports } from "./action";
-
-import Reports from "./components/Reports";
-import Header from "./components/Header";
 
 export default async function ReportsPage() {
     await authenticateUser();
@@ -10,8 +8,7 @@ export default async function ReportsPage() {
 
     return (
         <div className="min-h-screen bg-slate-50">
-            <Header />
-            <Reports reports={reports}/>
+            <ReportsProvider initalReports={reports} />
         </div>
     );
 }
