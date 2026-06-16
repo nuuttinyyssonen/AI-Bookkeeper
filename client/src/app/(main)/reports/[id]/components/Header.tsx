@@ -1,12 +1,14 @@
 import DownloadPDF from "./DownloadPDF";
 import Link from "next/link";
+import DeleteReport from "./DeleteReport";
 
 interface Props {
     report: any,
-    id: string
+    id: string,
+    setDeleted: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function Header({report, id}: Props) {
+export default function Header({report, id, setDeleted}: Props) {
     return (
         <header className="border-b border-slate-200 bg-white px-4 py-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between">
@@ -30,6 +32,7 @@ export default function Header({report, id}: Props) {
                     }`}>
                         {report.vat_declaration_sent ? "Submitted" : "Pending"}
                     </span>
+                    <DeleteReport id={id} setDeleted={setDeleted}/>
                     <DownloadPDF id={id} />
                 </div>
             </div>

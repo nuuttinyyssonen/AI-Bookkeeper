@@ -1,4 +1,4 @@
-import { createReport, getReports, getReportById, getReportPdf } from "../controllers/report.controller";
+import { createReport, getReports, getReportById, getReportPdf, deleteReportById } from "../controllers/report.controller";
 import { Router } from "express";
 import { authMiddleware } from "../middleware/authentication";
 import { rateLimiters } from "../utils/rateLimiter";
@@ -11,5 +11,6 @@ reportRouter.post('/', authMiddleware, rateLimiters.write("report"), createRepor
 reportRouter.get('/', authMiddleware, rateLimiters.read("reports"), getReports);
 reportRouter.get('/:id', authMiddleware, rateLimiters.read("report_by_id"), getReportById);
 reportRouter.get('/:id/pdf', authMiddleware, rateLimiters.read("report_pdf"), getReportPdf);
+reportRouter.delete("/:id", authMiddleware, rateLimiters.read("report_delete"), deleteReportById);
 
 export default reportRouter;

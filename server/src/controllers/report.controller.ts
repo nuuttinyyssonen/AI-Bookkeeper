@@ -135,6 +135,24 @@ export const getReportById = async (req: Request<{id: string}>, res: Response, n
     }
 };
 
+export const deleteReportById = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
+    // Getting ID from params and validating with zod.
+    const idResult = idSchema.safeParse(req.params);
+    if (!idResult.success) {
+        return next(new ValidationError(idResult.error.issues[0].message));
+    }
+
+    const { id } = idResult.data;
+    
+    try {
+        await prisma.vatReport.delete({ where: { id } });
+        
+        return res.status(200).json({ message: "report deleted successfully" });
+    } catch(error) {
+        next(error);
+    }
+};
+
 export const getReportPdf = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
     const user = req.user;
     // Getting ID from params and validating with zod.

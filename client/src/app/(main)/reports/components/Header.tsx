@@ -62,7 +62,7 @@ export default function Header({reports, setReports}: Props) {
                                 <option value="Q2">Q2 (Apr - Jun)</option>
                                 <option value="Q3">Q3 (Jul - Sep)</option>
                                 <option value="Q4">Q4 (Oct - Dec)</option>
-                                <option value="MONTHLY">Current month</option>
+                                <option value="Monthly">Current month</option>
                                 <option value="YEARLY">Current year</option>
                             </select>
 
