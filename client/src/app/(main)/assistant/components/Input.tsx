@@ -1,25 +1,45 @@
+'use client';
+
 interface Message {
     id: number,
-    role: string,
+    role: "USER" | "ASSISTANT";
     content: string
 };
 
 interface Props {
-    messages: Message[]
-};
+    messages: Message[];
+    setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+}
+
+import { useState } from "react";
 
 
-export default function Input({messages}: Props) {
+export default function Input({messages, setMessages}: Props) {
+    const [input, setInput] = useState("");
+
+    const handleSendMessage = async (message: string) => {
+        const data: Message = {
+            id: 5,
+            role: "USER",
+            content: message
+        }
+
+        setMessages(prev => [...prev, data]);
+        setInput("");
+    };
+
     return (
         <div className="border-t border-slate-200 bg-white px-4 py-4 sm:px-6">
             <div className="mx-auto max-w-3xl">
                 <div className="flex items-end gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 focus-within:border-teal-400 focus-within:ring-1 focus-within:ring-teal-400">
                     <textarea
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
                         rows={1}
                         placeholder="Ask about VAT, expenses, reports..."
                         className="flex-1 resize-none bg-transparent text-sm text-slate-900 placeholder-slate-400 outline-none"
                     />
-                    <button className="flex h-8 w-8 flex-none items-center justify-center rounded-xl bg-teal-600 text-white transition-colors hover:bg-teal-700">
+                    <button onClick={() => handleSendMessage(input)} className="flex h-8 w-8 flex-none items-center justify-center rounded-xl bg-teal-600 text-white transition-colors hover:bg-teal-700">
                         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                         </svg>
