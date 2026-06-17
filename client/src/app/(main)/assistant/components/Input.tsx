@@ -9,22 +9,18 @@ interface Message {
 interface Props {
     messages: Message[];
     setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+    id: string
 }
 
 import { useState } from "react";
+import { createChatMessage } from "../action";
 
 
-export default function Input({messages, setMessages}: Props) {
+export default function Input({messages, setMessages, id}: Props) {
     const [input, setInput] = useState("");
 
     const handleSendMessage = async (message: string) => {
-        const data: Message = {
-            id: 5,
-            role: "USER",
-            content: message
-        }
-
-        setMessages(prev => [...prev, data]);
+        await createChatMessage(id, message);
         setInput("");
     };
 
