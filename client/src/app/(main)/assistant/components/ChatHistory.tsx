@@ -3,9 +3,9 @@ import Link from "next/link";
 
 interface ChatRoom {
     id: string;
-    title: string;
-    lastMessage: string;
-    date: string;
+    title: string | null;
+    user_id: string;
+    created_at: string;
 }
 
 interface Props {
@@ -43,9 +43,8 @@ export default function ChatHistory({ chatRooms, activeChatId }: Props) {
                     >
                         <div className="flex items-center justify-between gap-2">
                             <span className="text-sm font-medium truncate">{room.title}</span>
-                            <span className="text-xs text-slate-400 flex-none">{room.date}</span>
+                            <span className="text-xs text-slate-400 flex-none">{room.created_at}</span>
                         </div>
-                        <span className="text-xs text-slate-400 truncate">{room.lastMessage}</span>
                     </Link>
                 ))}
             </nav>

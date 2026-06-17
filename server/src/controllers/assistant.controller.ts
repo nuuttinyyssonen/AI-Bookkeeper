@@ -55,3 +55,28 @@ export const createChatMessage = async (req: Request<{id: string}>, res: Respons
         next(error);
     }
 };
+
+export const getMessagesFromChatRoom = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
+    const result = idSchema.safeParse(req.params);
+    if (!result.success) {
+        return next(new ValidationError(result.error.issues[0].message));
+    }
+    const { id } = result.data;
+
+    try {
+        const messages = await prisma.chatMessage.findMany({ where: { chatroom_id: id } });
+        return res.status(200).json({ messages });
+    } catch(error) {
+        next(error);
+    }
+};
+
+export const getChatRooms = async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    try {
+        const chatRooms = await prisma.chatRoom.findMany({ where: { user_id: user.id } });
+        return res.status(200).json({ chatRooms });
+    } catch(error) {
+        next(error);
+    }
+};
