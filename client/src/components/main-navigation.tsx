@@ -7,7 +7,7 @@ const navigationItems = [
     { label: "Dashboard", href: "/dashboard" },
     { label: "Receipts", href: "/receipts" },
     { label: "Reports", href: "/reports" },
-    { label: "AI assistant", href: "/ai-assistant" },
+    { label: "AI assistant", href: "/assistant" },
     { label: "Settings", href: "/settings" },
 ];
 
