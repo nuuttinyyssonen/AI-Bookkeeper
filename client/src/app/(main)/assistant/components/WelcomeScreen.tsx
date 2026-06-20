@@ -3,10 +3,11 @@ import { useState } from "react";
 
 interface Props {
     onSend: (message: string) => void;
-}
+    setInput: React.Dispatch<React.SetStateAction<string>>;
+    input: string;
+};
 
-export default function WelcomeScreen({ onSend }: Props) {
-    const [input, setInput] = useState("");
+export default function WelcomeScreen({ onSend, input, setInput }: Props) {
 
     const handleSubmit = () => {
         if (!input.trim()) return;

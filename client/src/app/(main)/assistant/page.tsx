@@ -15,8 +15,10 @@ interface ChatRoom {
 export default function AssistantPage() {
     const router = useRouter();
     const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
+    const [input, setInput] = useState("");
 
     const handleNewChat = async (message: string) => {
+        setInput("");
         const stream = await createNewChatRoom(message);
         if (!stream) return;
 
@@ -55,11 +57,16 @@ export default function AssistantPage() {
         fetchChatRooms();
     }, []);
 
+    const onDelete = ((id: string) => {
+        console.log("here");
+        console.log(id);
+    });
+
     return (
         <div className="flex h-dvh bg-slate-50">
-            <ChatHistory chatRooms={chatRooms} activeChatId={null} />
+            <ChatHistory onDelete={onDelete} chatRooms={chatRooms} activeChatId={null} />
             <div className="flex flex-1 flex-col">
-                <WelcomeScreen onSend={handleNewChat} />
+                <WelcomeScreen input={input} setInput={setInput} onSend={handleNewChat} />
             </div>
         </div>
     );

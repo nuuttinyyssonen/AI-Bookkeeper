@@ -20,7 +20,6 @@ export const getChatRooms = async () => {
         }
 
         const data = await response.json();
-        console.log(data);
         return data;
     } catch (error) {
         console.log(error);
@@ -46,7 +45,6 @@ export const getChatMessages = async (id: string) => {
         }
 
         const data = await response.json();
-        console.log(data);
         return data;
     } catch (error) {
         console.log(error);
@@ -74,7 +72,6 @@ export const createChatMessage = async (id: string, message: string) => {
         }
 
         const data = await response.json();
-        console.log(data);
         return data;
     } catch (error) {
         console.log(error);
@@ -112,4 +109,29 @@ export const createNewChatRoom = async (message: string) => {
     });
 
     return response.body; // return the raw stream
+};
+
+export const deleteChatRoom = async (id: string) => {
+    try {
+        const cookieStore = await cookies();
+        const token = cookieStore.get("token")?.value;
+
+        const response = await fetch(`http://localhost:5001/api/assistant/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Cookie': `token=${token}`
+            }
+        });
+
+        if (!response.ok) {
+            console.log("Error in deleting chat", response.status);
+            return;
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+        return
+    }
 };

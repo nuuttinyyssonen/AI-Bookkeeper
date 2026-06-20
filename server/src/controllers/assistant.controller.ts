@@ -4,7 +4,7 @@ import { chatMessageSchema } from "../schemas/chat.schema";
 import { idSchema } from "../schemas/id.schema";
 import { ValidationError, NotFoundError } from "../utils/error";
 import { chatQueue } from "../queues/queue";
-import { generateChatResponse } from "../services/openai.service";
+import { generateChatResponse, generateChatTitle } from "../services/openai.service";
 
 
 // New chatroom
@@ -28,10 +28,16 @@ export const createChatRoom = async (req: Request, res: Response, next: NextFunc
         res.setHeader("Cache-Control", "no-cache");
         res.setHeader("Connection", "keep-alive");
 
-        // send chatRoomId first so frontend can navigate
-        res.write(`data: ${JSON.stringify({ chatRoomId: chatRoom.id })}\n\n`);
+        // generate title and stream in parallel
+        const [title, stream] = await Promise.all([
+            generateChatTitle(message),
+            generateChatResponse(message, [], true)
+        ]);
+        
+        await prisma.chatRoom.update({ where: { id: chatRoom.id }, data: { title } });
 
-        const stream = await generateChatResponse(message, [], true);
+        // send chatRoomId first so frontend can navigate
+        res.write(`data: ${JSON.stringify({ chatRoomId: chatRoom.id, title })}\n\n`);
 
         let fullResponse = "";
 
@@ -129,6 +135,22 @@ export const getChatRooms = async (req: Request, res: Response, next: NextFuncti
     try {
         const chatRooms = await prisma.chatRoom.findMany({ where: { user_id: user.id } });
         return res.status(200).json({ chatRooms });
+    } catch(error) {
+        next(error);
+    }
+};
+
+export const deleteChatByID = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
+    const result = idSchema.safeParse(req.params);
+    if (!result.success) {
+        return next(new ValidationError(result.error.issues[0].message));
+    }
+    const { id } = result.data;
+
+    try {
+        await prisma.chatMessage.deleteMany({ where: { chatroom_id: id } });
+        await prisma.chatRoom.delete({ where: { id: id } });
+        return res.status(200).json({ message: "Chat deleted successfully" });
     } catch(error) {
         next(error);
     }

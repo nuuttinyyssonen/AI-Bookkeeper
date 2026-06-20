@@ -35,6 +35,26 @@ export const generateChatResponse = async (
     });
 };
 
+// For generating the title
+export const generateChatTitle = async (message: string): Promise<string> => {
+    const response = await client.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+            {
+                role: "system",
+                content: "Generate a short 3-5 word title for a chat that starts with this message. Return only the title, nothing else."
+            },
+            {
+                role: "user",
+                content: message
+            }
+        ],
+        max_tokens: 20,
+    });
+
+    return response.choices[0].message.content ?? "Uusi chat";
+};
+
 // Service function to parse receipt data using OpenAI's GPT-4.0 model
 export const parseReceiptData = async (rawText: string, categoryTypes: string[], receiptType: string) => {
     // Define income categories for filtering based on receipt type

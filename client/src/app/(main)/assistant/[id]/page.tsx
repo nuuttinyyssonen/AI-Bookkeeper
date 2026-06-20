@@ -6,7 +6,7 @@ import Input from "../components/Input";
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { getChatRooms, getChatMessages, streamChatMessage } from "../action";
+import { getChatRooms, getChatMessages, streamChatMessage, deleteChatRoom } from "../action";
 
 interface Message {
     id: number;
@@ -26,6 +26,7 @@ export default function ChatPage() {
     const id = params.id as string;
     const [messages, setMessages] = useState<Message[]>([]);
     const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
+    const [input, setInput] = useState("");
 
     useEffect(() => {
         const fetchChatRooms = async () => {
@@ -46,6 +47,7 @@ export default function ChatPage() {
 
     const handleSend = async (message: string) => {
         // optimistically add user message
+        setInput("");
         setMessages(prev => [...prev, { id: Date.now(), role: "USER", content: message }]);
 
         const stream = await streamChatMessage(id, message);
@@ -78,13 +80,19 @@ export default function ChatPage() {
         }
     };
 
+    const onDelete = async (id: string) => {
+        const data = await deleteChatRoom(id);
+        if (!data) return;
+        setChatRooms(prev => prev.filter(room => room.id !== id));
+    };
+
     return (
         <div className="flex h-dvh bg-slate-50">
-            <ChatHistory chatRooms={chatRooms} activeChatId={id as string} />
+            <ChatHistory onDelete={onDelete} chatRooms={chatRooms} activeChatId={id as string} />
             <div className="flex flex-1 flex-col">
                 <Header />
                 <Messages messages={messages} />
-                <Input handleSend={handleSend} id={id} messages={messages} setMessages={setMessages} />
+                <Input input={input} setInput={setInput} handleSend={handleSend} id={id} messages={messages} setMessages={setMessages} />
             </div>
         </div>
     );

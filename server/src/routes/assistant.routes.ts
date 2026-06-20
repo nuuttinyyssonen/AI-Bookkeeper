@@ -1,4 +1,4 @@
-import { createChatMessage, createChatRoom, getChatRooms, getMessagesFromChatRoom } from "../controllers/assistant.controller";
+import { createChatMessage, createChatRoom, getChatRooms, getMessagesFromChatRoom, deleteChatByID } from "../controllers/assistant.controller";
 import { Router } from "express";
 import { authMiddleware } from "../middleware/authentication";
 import { rateLimiters } from "../utils/rateLimiter";
@@ -10,5 +10,6 @@ assistantRouter.post("/create", authMiddleware, rateLimiters.write("create_chat_
 assistantRouter.post("/:id", authMiddleware, rateLimiters.read("crate_chat_message"), createChatMessage);
 assistantRouter.get("/:id", authMiddleware, rateLimiters.read("get_chat_messages"), getMessagesFromChatRoom);
 assistantRouter.get("/", authMiddleware, rateLimiters.read("get_chats"), getChatRooms);
+assistantRouter.delete("/:id", authMiddleware, rateLimiters.read("delete_chats"), deleteChatByID);
 
 export default assistantRouter;
