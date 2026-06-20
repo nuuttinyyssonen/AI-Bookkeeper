@@ -6,7 +6,8 @@ const client = new OpenAI({
 
 export const generateChatResponse = async (
     message: string,
-    history: { role: string; content: string }[]
+    history: { role: string; content: string }[],
+    stream: true
 ) => {
     const messages = [
         {
@@ -26,13 +27,12 @@ export const generateChatResponse = async (
         }
     ];
 
-    const response = await client.chat.completions.create({
+    return await client.chat.completions.create({
         model: "gpt-4o-mini",
         messages: messages as any,
-        max_tokens: 1000
+        max_tokens: 1000,
+        stream: true
     });
-
-    return response.choices[0].message.content ?? "";
 };
 
 // Service function to parse receipt data using OpenAI's GPT-4.0 model

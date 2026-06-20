@@ -4,6 +4,7 @@ import { chatMessageSchema } from "../schemas/chat.schema";
 import { idSchema } from "../schemas/id.schema";
 import { ValidationError, NotFoundError } from "../utils/error";
 import { chatQueue } from "../queues/queue";
+import { generateChatResponse } from "../services/openai.service";
 
 
 // New chatroom
@@ -14,14 +15,40 @@ export const createChatRoom = async (req: Request, res: Response, next: NextFunc
         return next(new ValidationError(result.error.issues[0].message));
     }
     const { message } = result.data;
-
     try {
         const chatRoom = await prisma.chatRoom.create({ data: { user_id: user.id } });
-        const chatMessage = await prisma.chatMessage.create({
+
+        // save user message
+        await prisma.chatMessage.create({
             data: { content: message, chatroom_id: chatRoom.id, role: "USER" }
         });
-        await chatQueue.add("process-message", { chatRoomId: chatRoom.id, messageId: chatMessage.id, message });
-        return res.status(201).json({ chatRoomId: chatRoom.id, messageId: chatMessage.id });
+
+        // set streaming headers
+        res.setHeader("Content-Type", "text/event-stream");
+        res.setHeader("Cache-Control", "no-cache");
+        res.setHeader("Connection", "keep-alive");
+
+        // send chatRoomId first so frontend can navigate
+        res.write(`data: ${JSON.stringify({ chatRoomId: chatRoom.id })}\n\n`);
+
+        const stream = await generateChatResponse(message, [], true);
+
+        let fullResponse = "";
+
+        for await (const chunk of stream) {
+            const text = chunk.choices[0]?.delta?.content || "";
+            fullResponse += text;
+            res.write(`data: ${JSON.stringify({ text })}\n\n`);
+        }
+
+        // save complete AI response
+        await prisma.chatMessage.create({
+            data: { content: fullResponse, chatroom_id: chatRoom.id, role: "ASSISTANT" }
+        });
+
+        res.write("data: [DONE]\n\n");
+        res.end();
+
     } catch(error) {
         next(error);
     }
@@ -33,12 +60,8 @@ export const createChatMessage = async (req: Request<{id: string}>, res: Respons
     const resultMessage = chatMessageSchema.safeParse(req.body);
     const resultID = idSchema.safeParse(req.params);
 
-    if (!resultMessage.success) {
-        return next(new ValidationError(resultMessage.error.issues[0].message));
-    }
-    if (!resultID.success) {
-        return next(new ValidationError(resultID.error.issues[0].message));
-    };
+    if (!resultMessage.success) return next(new ValidationError(resultMessage.error.issues[0].message));
+    if (!resultID.success) return next(new ValidationError(resultID.error.issues[0].message));
 
     const { message } = resultMessage.data;
     const { id } = resultID.data;
@@ -46,11 +69,41 @@ export const createChatMessage = async (req: Request<{id: string}>, res: Respons
     try {
         const chatRoom = await prisma.chatRoom.findUnique({ where: { id, user_id: user.id } });
         if (!chatRoom) return next(new NotFoundError("ChatRoom not found"));
-        const chatMessage = await prisma.chatMessage.create({
+
+        // fetch history for context
+        const history = await prisma.chatMessage.findMany({
+            where: { chatroom_id: chatRoom.id },
+            orderBy: { created_at: "asc" }
+        });
+
+        // save user message
+        await prisma.chatMessage.create({
             data: { content: message, chatroom_id: chatRoom.id, role: "USER" }
         });
-        await chatQueue.add("process-message", { chatRoomId: chatRoom.id, messageId: chatMessage.id, message });
-        return res.status(201).json({ chatRoomId: chatRoom.id, messageId: chatMessage.id });
+
+        // set streaming headers
+        res.setHeader("Content-Type", "text/event-stream");
+        res.setHeader("Cache-Control", "no-cache");
+        res.setHeader("Connection", "keep-alive");
+
+        const stream = await generateChatResponse(message, history, true);
+
+        let fullResponse = "";
+
+        for await (const chunk of stream) {
+            const text = chunk.choices[0]?.delta?.content || "";
+            fullResponse += text;
+            res.write(`data: ${JSON.stringify({ text })}\n\n`);
+        }
+
+        // save complete AI response
+        await prisma.chatMessage.create({
+            data: { content: fullResponse, chatroom_id: chatRoom.id, role: "ASSISTANT" }
+        });
+
+        res.write("data: [DONE]\n\n");
+        res.end();
+
     } catch(error) {
         next(error);
     }

@@ -6,7 +6,7 @@ import Input from "../components/Input";
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { getChatRooms, getChatMessages } from "../action";
+import { getChatRooms, getChatMessages, streamChatMessage } from "../action";
 
 interface Message {
     id: number;
@@ -41,13 +41,42 @@ export default function ChatPage() {
             const data = await getChatMessages(id);
             setMessages(data.messages);
         };
-
-        fetchMessages(); // initial fetch
-
-        const interval = setInterval(fetchMessages, 3000); // poll every 3s
-
-        return () => clearInterval(interval); // cleanup on unmount
+        fetchMessages();
     }, [id]);
+
+    const handleSend = async (message: string) => {
+        // optimistically add user message
+        setMessages(prev => [...prev, { id: Date.now(), role: "USER", content: message }]);
+
+        const stream = await streamChatMessage(id, message);
+        if (!stream) return;
+        const reader = stream.getReader();
+        const decoder = new TextDecoder();
+
+        // add empty assistant message to fill in
+        const assistantId = Date.now() + 1;
+        setMessages(prev => [...prev, { id: assistantId, role: "ASSISTANT", content: "" }]);
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            const chunk = decoder.decode(value);
+            const lines = chunk.split("\n\n").filter(Boolean);
+
+            for (const line of lines) {
+                const data = line.replace("data: ", "");
+                if (data === "[DONE]") break;
+
+                const { text } = JSON.parse(data);
+                setMessages(prev => prev.map(msg =>
+                    msg.id === assistantId
+                        ? { ...msg, content: msg.content + text }
+                        : msg
+                ));
+            }
+        }
+    };
 
     return (
         <div className="flex h-dvh bg-slate-50">
@@ -55,7 +84,7 @@ export default function ChatPage() {
             <div className="flex flex-1 flex-col">
                 <Header />
                 <Messages messages={messages} />
-                <Input id={id} messages={messages} setMessages={setMessages} />
+                <Input handleSend={handleSend} id={id} messages={messages} setMessages={setMessages} />
             </div>
         </div>
     );

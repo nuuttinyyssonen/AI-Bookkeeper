@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import ChatHistory from "./components/ChatHistory";
 import WelcomeScreen from "./components/WelcomeScreen";
 import { useRouter } from "next/navigation";
-import { getChatRooms } from "./action";
+import { getChatRooms, createNewChatRoom } from "./action";
 
 interface ChatRoom {
     id: string;
@@ -16,9 +16,35 @@ export default function AssistantPage() {
     const router = useRouter();
     const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
 
-    const handleNewChat = (message: string) => {
-        const newId = Date.now().toString();
-        router.push(`/assistant/${newId}`);
+    const handleNewChat = async (message: string) => {
+        const stream = await createNewChatRoom(message);
+        if (!stream) return;
+
+        const reader = stream.getReader();
+        const decoder = new TextDecoder();
+        let navigated = false;
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            const chunk = decoder.decode(value);
+            const lines = chunk.split("\n\n").filter(Boolean);
+
+            for (const line of lines) {
+                const data = line.replace("data: ", "");
+                if (data === "[DONE]") break;
+
+                const parsed = JSON.parse(data);
+
+                // first chunk has chatRoomId — navigate immediately
+                if (parsed.chatRoomId && !navigated) {
+                    navigated = true;
+                    router.push(`/assistant/${parsed.chatRoomId}`);
+                    return; // let the chat page handle the rest via polling/fetch
+                }
+            }
+        }
     };
 
     useEffect(() => {

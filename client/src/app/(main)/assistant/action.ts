@@ -81,3 +81,35 @@ export const createChatMessage = async (id: string, message: string) => {
         return
     }
 };
+
+export const streamChatMessage = async (id: string, message: string) => {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+
+    const response = await fetch(`http://localhost:5001/api/assistant/${id}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Cookie": `token=${token}`,
+        },
+        body: JSON.stringify({ message }),
+    });
+
+    return response.body; // return the raw stream
+};
+
+export const createNewChatRoom = async (message: string) => {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+
+    const response = await fetch(`http://localhost:5001/api/assistant/create`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Cookie": `token=${token}`,
+        },
+        body: JSON.stringify({ message }),
+    });
+
+    return response.body; // return the raw stream
+};
