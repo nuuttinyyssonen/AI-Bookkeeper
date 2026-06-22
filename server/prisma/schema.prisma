@@ -17,6 +17,7 @@ model User {
   documents   Document[]
   receipts    Receipt[]
   vatReports  VatReport[]
+  chatrooms   ChatRoom[]
 }
 
 model Document {
@@ -95,6 +96,29 @@ model VatReport {
   created_at              DateTime          @default(now())
 
   user                    User              @relation(fields: [user_id], references: [id])
+}
+
+model ChatRoom {
+  id                      String            @id @default(uuid())
+  title                   String? 
+  user_id                 String
+  created_at              DateTime          @default(now())
+  user                    User              @relation(fields: [user_id], references: [id])  
+  messages                ChatMessage[]
+}
+
+model ChatMessage {
+  id                      String            @id @default(uuid())
+  content                 String
+  chatroom_id             String
+  role                    ChatRole
+  created_at              DateTime          @default(now())
+  chatroom                ChatRoom          @relation(fields: [chatroom_id], references: [id])  
+}
+
+enum ChatRole {
+  USER
+  ASSISTANT
 }
 
 enum VatReportPeriod {

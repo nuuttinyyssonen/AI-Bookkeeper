@@ -1,1 +1,11 @@
 @import "tailwindcss";
+
+/* in your globals.css */
+@keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-6px); }
+}
+
+.typing-dot {
+    animation: typing 1.2s ease-in-out infinite;
+}
