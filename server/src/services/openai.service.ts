@@ -15,7 +15,9 @@ export const generateChatResponse = async (
             content: `You are an expert AI accounting assistant for Finnish small businesses. 
             You help users understand their bookkeeping, VAT calculations and financial reports.
             Always respond in the same language the user writes in (Finnish or English).
-            Be concise and practical.`
+            Be concise and practical.
+            Do not use markdown formatting such as bold (**), headers (#), or bullet symbols. 
+            Write in plain text only. Use numbered lists sparingly and only when steps are truly sequential.`
         },
         ...history.map(msg => ({
             role: msg.role === "USER" ? "user" : "assistant",

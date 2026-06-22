@@ -1,24 +1,11 @@
-'use client';
-
-import { useState } from "react";
-
-interface Message {
-    id: number,
-    role: "USER" | "ASSISTANT";
-    content: string
-};
-
 interface Props {
-    messages: Message[];
-    setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
     setInput: React.Dispatch<React.SetStateAction<string>>;
     input: string;
-    id: string
     handleSend: (message: string) => void;
 };
 
 
-export default function Input({messages, setMessages, id, handleSend, setInput, input}: Props) {
+export default function Input({handleSend, setInput, input}: Props) {
     return (
         <div className="border-t border-slate-200 bg-white px-4 py-4 sm:px-6">
             <div className="mx-auto max-w-3xl">

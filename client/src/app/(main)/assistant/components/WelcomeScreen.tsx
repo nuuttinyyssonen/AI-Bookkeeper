@@ -1,5 +1,4 @@
-'use client';
-import { useState } from "react";
+import Input from "./Input";
 
 interface Props {
     onSend: (message: string) => void;
@@ -8,12 +7,6 @@ interface Props {
 };
 
 export default function WelcomeScreen({ onSend, input, setInput }: Props) {
-
-    const handleSubmit = () => {
-        if (!input.trim()) return;
-        onSend(input);
-    };
-
     return (
         <div className="flex flex-1 flex-col items-center justify-center px-4">
             <div className="mb-8 text-center">
@@ -40,33 +33,8 @@ export default function WelcomeScreen({ onSend, input, setInput }: Props) {
             </div>
 
             {/* Input */}
-            <div className="w-full max-w-2xl">
-                <div className="flex items-end gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm focus-within:border-teal-400 focus-within:ring-1 focus-within:ring-teal-400">
-                    <textarea
-                        rows={1}
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        onKeyDown={(e) => {
-                            if (e.key === "Enter" && !e.shiftKey) {
-                                e.preventDefault();
-                                handleSubmit();
-                            }
-                        }}
-                        placeholder="Kysy kirjanpidosta..."
-                        className="flex-1 resize-none bg-transparent text-sm text-slate-900 placeholder-slate-400 outline-none"
-                    />
-                    <button
-                        onClick={handleSubmit}
-                        className="flex h-8 w-8 flex-none items-center justify-center rounded-xl bg-teal-600 text-white transition hover:bg-teal-700"
-                    >
-                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                        </svg>
-                    </button>
-                </div>
-                <p className="mt-2 text-center text-xs text-slate-400">
-                    AI can make mistakes. Always verify important financial decisions.
-                </p>
+            <div className="w-full">
+                <Input handleSend={onSend} input={input} setInput={setInput}/>
             </div>
         </div>
     );

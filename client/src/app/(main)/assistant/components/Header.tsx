@@ -1,7 +1,4 @@
-
-
 export default function Header() {
-
     return (
         <header className="border-b border-slate-200 bg-white px-4 py-4 sm:px-6">
             <div className="flex items-center justify-between">
