@@ -98,7 +98,6 @@ export const streamChatMessage = async (id: string, message: string) => {
 export const createNewChatRoom = async (message: string) => {
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
-
     const response = await fetch(`http://localhost:5001/api/assistant/create`, {
         method: "POST",
         headers: {
@@ -107,8 +106,9 @@ export const createNewChatRoom = async (message: string) => {
         },
         body: JSON.stringify({ message }),
     });
-
-    return response.body; // return the raw stream
+    if (!response.ok) return null;
+    const data = await response.json();
+    return data;
 };
 
 export const deleteChatRoom = async (id: string) => {

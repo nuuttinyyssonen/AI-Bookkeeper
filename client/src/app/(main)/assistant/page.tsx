@@ -4,6 +4,7 @@ import ChatHistory from "./components/ChatHistory";
 import WelcomeScreen from "./components/WelcomeScreen";
 import { useRouter } from "next/navigation";
 import { getChatRooms, createNewChatRoom } from "./action";
+import { deleteChatRoom } from "./action";
 
 interface ChatRoom {
     id: string;
@@ -19,34 +20,9 @@ export default function AssistantPage() {
 
     const handleNewChat = async (message: string) => {
         setInput("");
-        const stream = await createNewChatRoom(message);
-        if (!stream) return;
-
-        const reader = stream.getReader();
-        const decoder = new TextDecoder();
-        let navigated = false;
-
-        while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
-
-            const chunk = decoder.decode(value);
-            const lines = chunk.split("\n\n").filter(Boolean);
-
-            for (const line of lines) {
-                const data = line.replace("data: ", "");
-                if (data === "[DONE]") break;
-
-                const parsed = JSON.parse(data);
-
-                // first chunk has chatRoomId — navigate immediately
-                if (parsed.chatRoomId && !navigated) {
-                    navigated = true;
-                    router.push(`/assistant/${parsed.chatRoomId}`);
-                    return; // let the chat page handle the rest via polling/fetch
-                }
-            }
-        }
+        const data = await createNewChatRoom(message);
+        if (!data) return;
+        router.push(`/assistant/${data.chatRoomId}?firstMessage=${encodeURIComponent(message)}`);
     };
 
     useEffect(() => {
@@ -57,10 +33,11 @@ export default function AssistantPage() {
         fetchChatRooms();
     }, []);
 
-    const onDelete = ((id: string) => {
-        console.log("here");
-        console.log(id);
-    });
+    const onDelete = async (id: string) => {
+        const data = await deleteChatRoom(id);
+        if (!data) return;
+        setChatRooms(prev => prev.filter(room => room.id !== id));
+    };
 
     return (
         <div className="flex h-dvh bg-slate-50">

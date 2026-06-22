@@ -4,9 +4,10 @@ import Header from "../components/Header";
 import Messages from "../components/Messages";
 import Input from "../components/Input";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
 import { getChatRooms, getChatMessages, streamChatMessage, deleteChatRoom } from "../action";
+import { useSearchParams } from "next/navigation";
 
 interface Message {
     id: number;
@@ -28,22 +29,8 @@ export default function ChatPage() {
     const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
     const [input, setInput] = useState("");
 
-    useEffect(() => {
-        const fetchChatRooms = async () => {
-            const data = await getChatRooms();
-            setChatRooms(data.chatRooms);
-        };
-        fetchChatRooms();
-    }, []);
-
-    useEffect(() => {
-        const fetchMessages = async () => {
-            if (!id) return;
-            const data = await getChatMessages(id);
-            setMessages(data.messages);
-        };
-        fetchMessages();
-    }, [id]);
+    const initialized = useRef(false);
+    const searchParams = useSearchParams();
 
     const handleSend = async (message: string) => {
         // optimistically add user message
@@ -79,6 +66,29 @@ export default function ChatPage() {
             }
         }
     };
+
+    useEffect(() => {
+        if (initialized.current) return;
+        initialized.current = true;
+
+        const init = async () => {
+            if (!id) return;
+
+            const [chatRoomsData, messagesData] = await Promise.all([
+                getChatRooms(),
+                getChatMessages(id)
+            ]);
+
+            setChatRooms(chatRoomsData.chatRooms);
+            setMessages(messagesData.messages);
+
+            const firstMessage = searchParams.get("firstMessage");
+            if (firstMessage && messagesData.messages.length === 0) {
+                handleSend(firstMessage);
+            }
+        };
+        init();
+    }, [id]);
 
     const onDelete = async (id: string) => {
         const data = await deleteChatRoom(id);

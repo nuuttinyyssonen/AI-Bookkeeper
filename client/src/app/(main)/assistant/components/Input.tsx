@@ -29,6 +29,12 @@ export default function Input({messages, setMessages, id, handleSend, setInput, 
                         rows={1}
                         placeholder="Ask about VAT, expenses, reports..."
                         className="flex-1 resize-none bg-transparent text-sm text-slate-900 placeholder-slate-400 outline-none"
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter" && !e.shiftKey) {
+                                e.preventDefault();
+                                handleSend(input);
+                            }
+                        }}
                     />
                     <button onClick={() => handleSend(input)} className="flex h-8 w-8 flex-none items-center justify-center rounded-xl bg-teal-600 text-white transition-colors hover:bg-teal-700">
                         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -3,7 +3,6 @@ import { prisma } from "../lib/prisma";
 import { chatMessageSchema } from "../schemas/chat.schema";
 import { idSchema } from "../schemas/id.schema";
 import { ValidationError, NotFoundError } from "../utils/error";
-import { chatQueue } from "../queues/queue";
 import { generateChatResponse, generateChatTitle } from "../services/openai.service";
 
 
@@ -16,45 +15,14 @@ export const createChatRoom = async (req: Request, res: Response, next: NextFunc
     }
     const { message } = result.data;
     try {
-        const chatRoom = await prisma.chatRoom.create({ data: { user_id: user.id } });
-
-        // save user message
-        await prisma.chatMessage.create({
-            data: { content: message, chatroom_id: chatRoom.id, role: "USER" }
-        });
-
-        // set streaming headers
-        res.setHeader("Content-Type", "text/event-stream");
-        res.setHeader("Cache-Control", "no-cache");
-        res.setHeader("Connection", "keep-alive");
-
-        // generate title and stream in parallel
-        const [title, stream] = await Promise.all([
-            generateChatTitle(message),
-            generateChatResponse(message, [], true)
+        const [chatRoom, title] = await Promise.all([
+            prisma.chatRoom.create({ data: { user_id: user.id } }),
+            generateChatTitle(message)
         ]);
-        
+
         await prisma.chatRoom.update({ where: { id: chatRoom.id }, data: { title } });
 
-        // send chatRoomId first so frontend can navigate
-        res.write(`data: ${JSON.stringify({ chatRoomId: chatRoom.id, title })}\n\n`);
-
-        let fullResponse = "";
-
-        for await (const chunk of stream) {
-            const text = chunk.choices[0]?.delta?.content || "";
-            fullResponse += text;
-            res.write(`data: ${JSON.stringify({ text })}\n\n`);
-        }
-
-        // save complete AI response
-        await prisma.chatMessage.create({
-            data: { content: fullResponse, chatroom_id: chatRoom.id, role: "ASSISTANT" }
-        });
-
-        res.write("data: [DONE]\n\n");
-        res.end();
-
+        return res.status(201).json({ chatRoomId: chatRoom.id, title });
     } catch(error) {
         next(error);
     }
