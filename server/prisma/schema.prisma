@@ -7,17 +7,18 @@ datasource db {
 }
 
 model User {
-  id          String         @id @default(uuid())
-  email       String         @unique
-  password    String
-  first_name  String
-  last_name   String
-  phonenumber String
-  supabase_id String? @unique
-  documents   Document[]
-  receipts    Receipt[]
-  vatReports  VatReport[]
-  chatrooms   ChatRoom[]
+  id            String         @id @default(uuid())
+  email         String         @unique
+  password      String
+  first_name    String
+  last_name     String
+  phonenumber   String
+  supabase_id   String? @unique
+  documents     Document[]
+  receipts      Receipt[]
+  vatReports    VatReport[]
+  chatrooms     ChatRoom[]
+  subscription  Subscription[]
 }
 
 model Document {
@@ -114,6 +115,34 @@ model ChatMessage {
   role                    ChatRole
   created_at              DateTime          @default(now())
   chatroom                ChatRoom          @relation(fields: [chatroom_id], references: [id])  
+}
+
+model Subscription {
+  id                      String            @id @default(uuid())
+  subscription_type       SubscriptionType
+  subscription_status     SubscriptionStatus
+  started_at              DateTime          @default(now())
+  ended_at                DateTime?
+  current_period_start    DateTime?
+  current_period_end      DateTime?   
+  stripe_subscription_id  String
+  stripe_customer_id      String 
+  stripe_price_id         String 
+  user_id                 String
+  user                    User              @relation(fields: [user_id], references: [id]) 
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELLED
+  PAST_DUE
+  TRIALING
+  INCOMPLETE
+}
+
+enum SubscriptionType {
+  BASIC
+  PREMIUM
 }
 
 enum ChatRole {
