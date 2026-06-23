@@ -13,6 +13,8 @@ import receiptRouter from "./routes/receipt.routes";
 import dashboardRouter from "./routes/dashboard.routes";
 import reportRouter from "./routes/report.routes";
 import assistantRouter from "./routes/assistant.routes";
+import subscriptionRouter from "./routes/subscription.routes";
+import webhookRouter from "./routes/webhook.routes";
 
 import { errorHandler } from "./middleware/errorHandler";
 import { requestLogger } from "./middleware/requestLogger";
@@ -20,6 +22,9 @@ import { requestLogger } from "./middleware/requestLogger";
 dotenv.config();
 
 const app = express();
+
+// Webhook
+app.use('/api/subscriptions', webhookRouter);
 
 // CORS configuration to allow requests from frontend
 app.use(cors({
@@ -48,6 +53,7 @@ app.use('/api/receipt', receiptRouter);
 app.use('/api/dashboard', dashboardRouter);
 app.use('/api/report', reportRouter);
 app.use('/api/assistant', assistantRouter);
+app.use('/api/subscription', subscriptionRouter);
 
 // Error handler middleware
 app.use(errorHandler);

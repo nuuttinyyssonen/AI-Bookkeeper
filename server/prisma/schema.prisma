@@ -125,7 +125,7 @@ model Subscription {
   ended_at                DateTime?
   current_period_start    DateTime?
   current_period_end      DateTime?   
-  stripe_subscription_id  String
+  stripe_subscription_id  String            @unique
   stripe_customer_id      String 
   stripe_price_id         String 
   user_id                 String
