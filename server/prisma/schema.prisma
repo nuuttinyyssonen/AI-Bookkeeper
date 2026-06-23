@@ -128,7 +128,7 @@ model Subscription {
   stripe_subscription_id  String            @unique
   stripe_customer_id      String 
   stripe_price_id         String 
-  user_id                 String
+  user_id                 String            @unique
   user                    User              @relation(fields: [user_id], references: [id]) 
 }
 

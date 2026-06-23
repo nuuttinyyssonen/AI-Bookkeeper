@@ -2,12 +2,12 @@ import { Request, Response, NextFunction } from "express";
 import { prisma } from "../lib/prisma";
 import { stripe } from "../services/stripe.service";
 import { subscriptionTypeSchema } from "../schemas/subscription.schema";
-import { ValidationError } from "../utils/error";
+import { NotFoundError, ValidationError } from "../utils/error";
 import { SubscriptionType } from "@prisma/client";
 
 const PRICE_IDS = {
     BASIC: process.env.STRIPE_BASIC_PRICE_ID,
-    PREMIUM: process.env.STRIPE_PREMIUM_ID
+    PREMIUM: process.env.STRIPE_PREMIUM_PRICE_ID
 };
 
 export const createCheckoutSession = async (req: Request, res: Response, next: NextFunction) => {
@@ -40,6 +40,86 @@ export const createCheckoutSession = async (req: Request, res: Response, next: N
 
         res.json({ url: session.url });
     } catch(error) {
-        return next();
+        return next(error);
+    }
+};
+
+export const deleteSubscription = async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    const subscription = await prisma.subscription.findUnique({ where: { user_id: user.id } });
+    if(!subscription) {
+        return next(new NotFoundError("Subscription not found"));
+    }
+    try {
+        await stripe.subscriptions.update(subscription.stripe_subscription_id, {
+            cancel_at_period_end: true
+        });
+
+        res.json({ message: 'Subscription will be cancelled at end of billing period' });
+    } catch(error) {
+        return next(error);
+    }
+};
+
+export const changeSubscription = async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    // Validating subscription type with zod
+    const result = subscriptionTypeSchema.safeParse(req.body);
+    if(!result.success) {
+        return next(new ValidationError(result.error.issues[0].message));
+    }
+
+    const { subscriptionType } = result.data;
+
+    const subscription = await prisma.subscription.findUnique({ where: { user_id: user.id } });
+    if(!subscription) {
+        return next(new NotFoundError("Susbcription not found"));
+    }
+
+    const newPriceId = subscriptionType === 'PREMIUM'
+        ? process.env.STRIPE_PREMIUM_PRICE_ID!
+        : process.env.STRIPE_BASIC_PRICE_ID!;
+
+    try {
+        // Update the subscription in Stripe
+        const stripeSubscription = await stripe.subscriptions.retrieve(
+            subscription.stripe_subscription_id
+        );
+        await stripe.subscriptions.update(subscription.stripe_subscription_id, {
+            items: [{
+            id: stripeSubscription.items.data[0].id,
+            price: newPriceId,
+            }],
+            proration_behavior: 'always_invoice', // charges/credits difference immediately
+        });
+
+        // Update in database
+        await prisma.subscription.update({
+            where: { user_id: user.id },
+            data: {
+            subscription_type: subscriptionType as SubscriptionType,
+            stripe_price_id: newPriceId,
+            },
+        });
+        res.json({ message: 'Subscription is updated successfully' });
+    } catch(error) {
+        return next(error);
+    }
+};
+
+export const revokeSubscription = async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    const subscription = await prisma.subscription.findUnique({ where: { user_id: user.id } });
+    if(!subscription) {
+        return next(new NotFoundError("Subscription not found"));
+    }
+    try {
+        await stripe.subscriptions.update(subscription.stripe_subscription_id, {
+            cancel_at_period_end: false
+        });
+
+        res.json({ message: 'Subscription reactivated' });
+    } catch(error) {
+        return next(error);
     }
 };
