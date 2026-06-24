@@ -10,7 +10,11 @@ import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
-export default function SignupForm() {
+interface SignupFormProps {
+  selectedPlan: 'FREE_TRIAL' | 'BASIC' | 'PREMIUM';
+}
+
+export default function SignupForm({ selectedPlan }: SignupFormProps) {
     const [state, formAction, isPending] = useActionState(signupAction, initialStateSignup);
 
     useEffect(() => {
@@ -32,6 +36,7 @@ export default function SignupForm() {
                     <form action={formAction} className="space-y-4" noValidate>
                         <FieldGroup>
                             <Field>
+                                <input type="hidden" name="selectedPlan" value={selectedPlan} />
                                 <FieldLabel htmlFor="email">Email</FieldLabel>
                                 <Input
                                     id="email"

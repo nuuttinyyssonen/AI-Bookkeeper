@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import { supabaseAdmin } from '../lib/supabase';
 import { ValidationError, ConflictError, ServerError } from '../utils/error';
 import { signupSchema } from '../schemas/auth.schema';
+import { idSchema } from '../schemas/id.schema';
 
 export const signupController = async (req: Request, res: Response, next: NextFunction) => {
     // Getting user's data from request body
@@ -64,5 +65,21 @@ export const signupController = async (req: Request, res: Response, next: NextFu
         await supabaseAdmin.auth.admin.deleteUser(supabaseData.user.id);
         const err = new ServerError("Internal Server Error");
         return next(err);
+    }
+};
+
+export const deleteUser = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
+    // Validation with zod schema
+    const result = idSchema.safeParse(req.body);
+    if(!result.success) {
+        return next(new ValidationError(result.error.issues[0].message));
+    }
+    const { id } = result.data;
+    
+    try {
+        await prisma.user.delete({ where: { id: id } });
+        res.json({ message: 'User deleted' });
+    } catch (error) {
+        return next(error);
     }
 };

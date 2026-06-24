@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { prisma } from "../lib/prisma";
 import { stripe } from "../services/stripe.service";
-import { subscriptionTypeSchema } from "../schemas/subscription.schema";
+import { subscriptionTypeSchema, checkoutSchema } from "../schemas/subscription.schema";
 import { NotFoundError, ValidationError } from "../utils/error";
 import { SubscriptionType } from "@prisma/client";
 
@@ -11,18 +11,14 @@ const PRICE_IDS = {
 };
 
 export const createCheckoutSession = async (req: Request, res: Response, next: NextFunction) => {
-    const user = req.user;
-    const user_id = user.id;
     // Validating subscription type with zod
-    const result = subscriptionTypeSchema.safeParse(req.body);
-
-    console.log(req.body);
+    const result = checkoutSchema.safeParse(req.body);
 
     if(!result.success) {
         return next(new ValidationError(result.error.issues[0].message));
     }
 
-    const { subscriptionType } = result.data;
+    const { subscriptionType, user_id } = result.data;
     const priceId = PRICE_IDS[subscriptionType as SubscriptionType];
     if(!priceId) {
         return next(new ValidationError("Price id is not valid"));
@@ -33,8 +29,8 @@ export const createCheckoutSession = async (req: Request, res: Response, next: N
             mode: 'subscription',
             payment_method_types: ['card'],
             line_items: [{ price: priceId, quantity: 1 }],
-            success_url: `${process.env.CLIENT_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${process.env.CLIENT_URL}/pricing`,
+            success_url: `${process.env.CLIENT_URL}/login?message=subscription-activated`,
+            cancel_url: `${process.env.CLIENT_URL}/signup`,
             metadata: { user_id, subscriptionType },
         });
 

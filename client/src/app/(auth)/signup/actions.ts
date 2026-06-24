@@ -1,5 +1,4 @@
 'use server';
-
 import { initialStateSignup, SignupInput } from "@/app/types/FormTypes";
 import { FormState } from "@/app/types/FormTypes";
 import { redirect } from "next/navigation";
@@ -8,9 +7,8 @@ import { signupSchema } from "@/schemas/auth.schema";
 export default async function signupAction(
     _prevState: FormState<SignupInput>,
     formData: FormData
-    ): Promise<FormState<SignupInput>> {
-    
-    // Zod validation
+): Promise<FormState<SignupInput>> {
+
     const result = signupSchema.safeParse({
         email: formData.get("email"),
         password: formData.get("password"),
@@ -20,29 +18,29 @@ export default async function signupAction(
         phonenumber: formData.get("phonenumber")
     });
 
+    const selectedPlan = formData.get('selectedPlan') as string;
+
     if (!result.success) {
         return { error: result.error.issues[0].message };
     }
 
     const { email, password, passwordRepeat, firstName, lastName, phonenumber } = result.data;
 
-    // validating form fields
-    if(!email || !password || !passwordRepeat || !lastName || !firstName || !phonenumber) {
+    if (!email || !password || !passwordRepeat || !lastName || !firstName || !phonenumber) {
         return { error: "All fields are required" };
     }
 
-    // validating password match
-    if(password !== passwordRepeat) {
+    if (password !== passwordRepeat) {
         return { error: "Passwords do not match" };
     }
 
-    // sending signup request to our backend API route.
+    let user_id: string;
+    let checkoutUrl: string | null = null;
+
     try {
         const response = await fetch("http://localhost:5001/api/auth/signup", {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 email,
                 password,
@@ -54,21 +52,43 @@ export default async function signupAction(
 
         if (response.status === 429) {
             const data = await response.json();
-            return {
-                ...initialStateSignup,
-                error: data.message, // "You have exceeded the rate limit. Please try again later."
-            };
+            return { ...initialStateSignup, error: data.message };
         }
 
-        // If response is not ok, return error message from server or a default one.
-        if(!response.ok) {
+        if (!response.ok) {
             const data = await response.json();
             return { error: data.error || data.message || "Invalid Credentials" };
         }
-    } catch(error) {
-        return { error: "Something went wrong. Please try again." }
+
+        const data = await response.json();
+        user_id = data.id;
+
+        if (selectedPlan !== 'FREE_TRIAL') {
+            const checkoutRes = await fetch('http://localhost:5001/api/subscription/create-checkout-session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ subscriptionType: selectedPlan, user_id }),
+            });
+
+            if (!checkoutRes.ok) {
+                // Delete the user we just created since checkout failed
+                await fetch(`http://localhost:5001/api/auth/delete/${user_id}`, {
+                    method: 'DELETE',
+                });
+                return { error: 'Failed to create checkout session' };
+            }
+
+            const { url } = await checkoutRes.json();
+            checkoutUrl = url;
+        }
+
+    } catch (error) {
+        return { error: "Something went wrong. Please try again." };
     }
 
-    // Redirecting to login page after successful signup
-    redirect("/login?message=account-created");
-};
+    if (checkoutUrl) {
+        redirect(checkoutUrl);
+    }
+
+    redirect('/login?message=account-created');
+}
