@@ -1,11 +1,12 @@
 import { authenticateUser } from "@/lib/auth";
-import { getCashFlowData, getDashboardData } from "./action";
+import { getCashFlowData, getDashboardData, getSubscriptionData } from "./action";
 import Link from "next/link";
 
 import Cashflow from "./components/cashFlow";
 import FinancialSummary from "./components/FinancialSummary";
 import Transactions from "./components/Transactions";
 import LogoutButton from "./components/logoutButton";
+import SubscriptionBanner from "./components/SubscriptionBanner";
 
 import { redirect } from "next/navigation";
 
@@ -13,11 +14,11 @@ export default async function Page() {
     await authenticateUser();
     const { cashflow } = await getCashFlowData();
     const data = await getDashboardData();
+    const { subscription } = await getSubscriptionData();
 
     if (!data || 'error' in data) {
         redirect("/login");
     }
-
     
     return (
         <>
@@ -42,6 +43,7 @@ export default async function Page() {
             </header>
 
             <div className="space-y-6 px-4 py-6 sm:px-6 lg:px-8">
+                <SubscriptionBanner subscription={subscription} />
                 <FinancialSummary data={data} />
                 <Cashflow cashflow={cashflow} />
                 <Transactions transactions={data.recent_receipts} />

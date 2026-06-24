@@ -34,7 +34,7 @@ export const createCheckoutSession = async (req: Request, res: Response, next: N
             metadata: { user_id, subscriptionType },
         });
 
-        res.json({ url: session.url });
+        return res.json({ url: session.url });
     } catch(error) {
         return next(error);
     }
@@ -51,7 +51,7 @@ export const deleteSubscription = async (req: Request, res: Response, next: Next
             cancel_at_period_end: true
         });
 
-        res.json({ message: 'Subscription will be cancelled at end of billing period' });
+        return res.json({ message: 'Subscription will be cancelled at end of billing period' });
     } catch(error) {
         return next(error);
     }
@@ -97,7 +97,7 @@ export const changeSubscription = async (req: Request, res: Response, next: Next
             stripe_price_id: newPriceId,
             },
         });
-        res.json({ message: 'Subscription is updated successfully' });
+        return res.json({ message: 'Subscription is updated successfully' });
     } catch(error) {
         return next(error);
     }
@@ -114,7 +114,20 @@ export const revokeSubscription = async (req: Request, res: Response, next: Next
             cancel_at_period_end: false
         });
 
-        res.json({ message: 'Subscription reactivated' });
+        return res.json({ message: 'Subscription reactivated' });
+    } catch(error) {
+        return next(error);
+    }
+};
+
+export const getSubscriptionStatus = async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    try {
+        const subscription = await prisma.subscription.findUnique({ where: { user_id: user.id } });
+        if(!subscription) {
+            return res.json({ message: "You don't have an active subscription" });
+        }
+        return res.status(200).json({ subscription });
     } catch(error) {
         return next(error);
     }
