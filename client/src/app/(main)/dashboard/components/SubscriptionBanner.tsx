@@ -86,7 +86,39 @@ export default function SubscriptionBanner({ subscription }: SubscriptionBannerP
                     href="/pricing"
                     className="text-sm font-medium text-teal-800 underline hover:text-teal-900"
                 >
+                    View Plans
+                </Link>
+            </div>
+        );
+    }
+
+    if (subscription.subscription_type === 'BASIC_YEARLY') {
+        return (
+            <div className="flex items-center justify-between rounded-lg border border-teal-200 bg-teal-50 px-4 py-3">
+                <p className="text-sm text-teal-800">
+                    You're on the <span className="font-medium">Basic yearly</span> plan.
+                </p>
+                <Link
+                    href="/pricing"
+                    className="text-sm font-medium text-teal-800 underline hover:text-teal-900"
+                >
                     Upgrade to Premium
+                </Link>
+            </div>
+        );
+    }
+
+    if (subscription.subscription_type === 'PREMIUM_YEARLY') {
+        return (
+            <div className="flex items-center justify-between rounded-lg border border-teal-200 bg-teal-50 px-4 py-3">
+                <p className="text-sm text-teal-800">
+                    You're on the <span className="font-medium">Premium yearly</span> plan.
+                </p>
+                <Link
+                    href="/pricing"
+                    className="text-sm font-medium text-teal-800 underline hover:text-teal-900"
+                >
+                    View Plans
                 </Link>
             </div>
         );

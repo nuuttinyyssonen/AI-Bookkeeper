@@ -7,7 +7,9 @@ import { SubscriptionType } from "@prisma/client";
 
 const PRICE_IDS = {
     BASIC: process.env.STRIPE_BASIC_PRICE_ID,
-    PREMIUM: process.env.STRIPE_PREMIUM_PRICE_ID
+    PREMIUM: process.env.STRIPE_PREMIUM_PRICE_ID,
+    BASIC_YEARLY: process.env.STRIPE_BASIC_YEARLY_PRICE_ID,
+    PREMIUM_YEARLY: process.env.STRIPE_PREMIUM_YEARLY_PRICE_ID,
 };
 
 export const createCheckoutSession = async (req: Request, res: Response, next: NextFunction) => {
@@ -72,9 +74,19 @@ export const changeSubscription = async (req: Request, res: Response, next: Next
         return next(new NotFoundError("Susbcription not found"));
     }
 
-    const newPriceId = subscriptionType === 'PREMIUM'
-        ? process.env.STRIPE_PREMIUM_PRICE_ID!
-        : process.env.STRIPE_BASIC_PRICE_ID!;
+    const PRICE_IDS: Record<string, string> = {
+        BASIC: process.env.STRIPE_BASIC_PRICE_ID!,
+        PREMIUM: process.env.STRIPE_PREMIUM_PRICE_ID!,
+        BASIC_YEARLY: process.env.STRIPE_BASIC_YEARLY_PRICE_ID!,
+        PREMIUM_YEARLY: process.env.STRIPE_PREMIUM_YEARLY_PRICE_ID!,
+    };
+
+    const newPriceId = PRICE_IDS[subscriptionType];
+
+    if (!newPriceId) {
+        return next(new ValidationError("Invalid subscription type"));
+    }
+
 
     try {
         // Update the subscription in Stripe

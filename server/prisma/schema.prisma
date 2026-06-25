@@ -143,6 +143,8 @@ enum SubscriptionStatus {
 enum SubscriptionType {
   BASIC
   PREMIUM
+  BASIC_YEARLY
+  PREMIUM_YEARLY
 }
 
 enum ChatRole {
