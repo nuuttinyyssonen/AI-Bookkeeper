@@ -26,4 +26,6 @@
 | 17.6.2026 | Built base layout for AI assistant chat page with proc data. Extended layout to include /assistant/id route. Created controllers for fetching chat rooms and messages. Implemented real time chat with polling, to be later refactored to streaming. | 5h |
 | 20.6.2026 | Removed chat worker and replaced with Server-Sent Events for AI streaming (this took a lot of debugging in order to work). Added delete chat room functionality. | 5h |
 | 22.6.2026 | Configured AI chat assistant to work more seamlessly. Refactored chat room creation to navigate immediately after room is created and stream AI response on the chat page. Refactored assistant components to use custom hooks. Updated AI prompt. | 2h |
-|In Total||132h|
+| 23.6.2026 | Started designing stripe payment management system. Read a lot of docs and configured basic checkout, cancel, upgrade routes. Also configured webhook route to handle Stripe events such as checkout.session.completed, invoice.payment_succeeded and customer.subscription.deleted. Most of the day was spent on reading, designing and setting up stripe. | 6h |
+| 24.6.2026 | Configured stripe payment on client side as well. Included it on account creation. When user is creating account he decides plan, puts user details and redirects to stripe for payment details. Added also subscription status route and configured it to show subsription status and type in dashboard. Also added basic pricing page that will be developed more tomorrow. | 4h |
+|In Total||142h|
