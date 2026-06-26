@@ -1,6 +1,6 @@
 interface Props {
-    history: any
-};
+    history: any;
+}
 
 export default function Transactions({ history }: Props) {
     return (
@@ -18,10 +18,23 @@ export default function Transactions({ history }: Props) {
                                 {payment.status}
                             </span>
                             <p className="text-sm font-medium text-slate-950">{payment.amount}</p>
+                            {payment.pdf && (<a
+  
+                                href={payment.pdf}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="h-7 px-2.5 rounded-md border border-slate-300 bg-white text-xs font-medium text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-1"
+                            >
+                                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                PDF
+                            </a>
+                            )}
                         </div>
                     </div>
                 ))}
             </div>
         </div>
     );
-};
+}

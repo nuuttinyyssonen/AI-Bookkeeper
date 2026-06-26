@@ -23,7 +23,7 @@ export const getUserData = async () => {
         const data = await response.json();
         return data;
     } catch(error) {
-        console.error(error);
+        return { error: "Something went wrong. Please try again." };
     }
 };
 
@@ -50,6 +50,58 @@ export const updateUserData = async (first_name: string, last_name: string, emai
         revalidatePath("/settings")
         return data;
     } catch(error) {
-        console.error(error);
+        return { error: "Something went wrong. Please try again." };
+    }
+};
+
+export const cancelSubscription = async () => {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+
+    try {
+        const response = await fetch("http://localhost:5001/api/subscription/delete", {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Cookie': `token=${token}`
+            },
+        });
+
+        if(!response.ok) {
+            const data = await response.json();
+            return { error: data.error || data.message || "Something went wrong" };
+        };
+
+        const data = await response.json();
+        revalidatePath("/settings")
+        return data;
+    } catch(error) {
+        return { error: "Something went wrong. Please try again." };
+    }
+};
+
+export const reactivateSubscription = async () => {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+
+    try {
+        const response = await fetch("http://localhost:5001/api/subscription/revoke-plan", {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Cookie': `token=${token}`
+            },
+        });
+
+        if(!response.ok) {
+            const data = await response.json();
+            return { error: data.error || data.message || "Something went wrong" };
+        };
+
+        const data = await response.json();
+        revalidatePath("/settings")
+        return data;
+    } catch(error) {
+        return { error: "Something went wrong. Please try again." };
     }
 };

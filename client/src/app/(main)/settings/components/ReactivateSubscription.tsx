@@ -1,16 +1,16 @@
 'use client';
 
 import { useState } from "react";
-import { cancelSubscription } from "../action";
 import { toast } from "sonner";
+import { reactivateSubscription } from "../action";
 
-export default function CancelSubscription() {
+export default function ReactivateSubscription() {
     const [isConfirming, setIsConfirming] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleCancel = async () => {
+    const handleReactivate = async () => {
         setIsLoading(true);
-        const response = await cancelSubscription();
+        const response = await reactivateSubscription();
         setIsLoading(false);
 
         if (response?.error) {
@@ -18,30 +18,30 @@ export default function CancelSubscription() {
             return;
         }
 
-        toast.success('Subscription cancelled successfully');
+        toast.success('Subscription reactivated successfully');
         setIsConfirming(false);
     };
 
     if (isConfirming) {
         return (
-            <div className="rounded-lg border border-red-200 bg-red-50 p-3 space-y-2">
-                <p className="text-xs text-red-800">
-                    Your subscription will be cancelled at the end of the current billing period. You will keep access until then.
+            <div className="rounded-lg border border-teal-200 bg-teal-50 p-3 space-y-2">
+                <p className="text-xs text-teal-800">
+                    Your subscription will be reactivated and you will continue to be billed at the end of the current period.
                 </p>
                 <div className="flex gap-2">
                     <button
-                        onClick={handleCancel}
+                        onClick={handleReactivate}
                         disabled={isLoading}
-                        className="flex-1 h-8 rounded-md bg-red-600 text-xs font-medium text-white hover:bg-red-700 disabled:opacity-50 transition-colors"
+                        className="flex-1 h-8 rounded-md bg-teal-700 text-xs font-medium text-white hover:bg-teal-800 disabled:opacity-50 transition-colors"
                     >
-                        {isLoading ? 'Cancelling...' : 'Confirm cancellation'}
+                        {isLoading ? 'Reactivating...' : 'Confirm reactivation'}
                     </button>
                     <button
                         onClick={() => setIsConfirming(false)}
                         disabled={isLoading}
                         className="flex-1 h-8 rounded-md border border-slate-300 bg-white text-xs font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50 transition-colors"
                     >
-                        Keep subscription
+                        Cancel
                     </button>
                 </div>
             </div>
@@ -51,9 +51,9 @@ export default function CancelSubscription() {
     return (
         <button
             onClick={() => setIsConfirming(true)}
-            className="h-9 px-4 rounded-md border border-red-300 bg-white text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
+            className="h-9 px-4 rounded-md border border-teal-300 bg-white text-sm font-medium text-teal-700 hover:bg-teal-50 transition-colors"
         >
-            Cancel subscription
+            Reactivate subscription
         </button>
     );
 }

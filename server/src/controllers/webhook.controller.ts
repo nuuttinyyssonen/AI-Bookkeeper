@@ -76,6 +76,17 @@ export const webhookEndpoint = async (req: Request, res: Response, next: NextFun
             });
             break;
         }
+
+        case 'customer.subscription.updated': {
+            const subscription = event.data.object as Stripe.Subscription;
+            await prisma.subscription.update({
+                where: { stripe_subscription_id: subscription.id },
+                data: {
+                    cancel_at_period_end: (subscription as any).cancel_at_period_end,
+                },
+            });
+            break;
+        }
     }
     res.json({ received: true });
 };
