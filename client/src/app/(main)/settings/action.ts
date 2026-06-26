@@ -73,6 +73,7 @@ export const cancelSubscription = async () => {
         };
 
         const data = await response.json();
+        await new Promise(resolve => setTimeout(resolve, 1500));
         revalidatePath("/settings")
         return data;
     } catch(error) {
