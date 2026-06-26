@@ -127,7 +127,8 @@ model Subscription {
   current_period_end      DateTime?   
   stripe_subscription_id  String            @unique
   stripe_customer_id      String 
-  stripe_price_id         String 
+  stripe_price_id         String
+  cancel_at_period_end    Boolean           @default(false)
   user_id                 String            @unique
   user                    User              @relation(fields: [user_id], references: [id]) 
 }
