@@ -3,6 +3,9 @@ import Stripe from 'stripe';
 import { prisma } from "../lib/prisma";
 import { Request, Response, NextFunction } from "express";
 import { SubscriptionStatus, SubscriptionType } from "@prisma/client";
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const webhookEndpoint = async (req: Request, res: Response, next: NextFunction) => {
     const sig = req.headers['stripe-signature']!;
@@ -79,12 +82,34 @@ export const webhookEndpoint = async (req: Request, res: Response, next: NextFun
 
         case 'customer.subscription.updated': {
             const subscription = event.data.object as Stripe.Subscription;
-            await prisma.subscription.update({
+
+            const dbSubscription = await prisma.subscription.update({
                 where: { stripe_subscription_id: subscription.id },
                 data: {
                     cancel_at_period_end: (subscription as any).cancel_at_period_end,
                 },
+                include: {
+                    user: true 
+                }
             });
+
+            if ((subscription as any).cancel_at_period_end) {
+                const periodEnd = new Date(dbSubscription.current_period_end!).toLocaleDateString('fi-FI');
+
+                await resend.emails.send({
+                    from: 'onboarding@resend.dev',
+                    to: dbSubscription.user.email,
+                    subject: 'Your subscription has been cancelled',
+                    html: `<p>Your subscription will remain active until ${periodEnd}.</p>`
+                });
+            } else {
+                await resend.emails.send({
+                    from: 'onboarding@resend.dev',
+                    to: dbSubscription.user.email,
+                    subject: 'Your subscription has been reactivated',
+                    html: `<p>Your subscription has been successfully reactivated and will continue to renew automatically.</p>`
+                });
+            }
             break;
         }
     }
