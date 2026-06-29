@@ -16,6 +16,7 @@ import assistantRouter from "./routes/assistant.routes";
 import subscriptionRouter from "./routes/subscription.routes";
 import webhookRouter from "./routes/webhook.routes";
 import userRouter from "./routes/user.routes";
+import passwordResetRouter from "./routes/password-reset.routes";
 
 import { errorHandler } from "./middleware/errorHandler";
 import { requestLogger } from "./middleware/requestLogger";
@@ -56,6 +57,7 @@ app.use('/api/report', reportRouter);
 app.use('/api/assistant', assistantRouter);
 app.use('/api/subscription', subscriptionRouter);
 app.use('/api/user', userRouter);
+app.use('/api/reset-password', passwordResetRouter)
 
 // Error handler middleware
 app.use(errorHandler);

@@ -12,3 +12,11 @@ export const signupSchema = z.object({
     last_name: z.string().min(2, "Last name is required"),
     phonenumber: z.string().min(7, "Phone number is too short").max(15, "Phone number is too long")
 });
+
+export const emailSchema = z.object({
+    email: z.email("Invalid email")
+});
+
+export const passwordSchema = z.object({
+    password: z.string().min(5).max(40, "Password must be at least 40 characters")
+});

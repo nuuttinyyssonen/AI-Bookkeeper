@@ -16,7 +16,7 @@ export default async function signupAction( _prevState: FormState<EmailInput>, f
     const { email } = result.data;
 
     try {
-        const response = await fetch("http://localhost:5001/api/auth/password-reset/email-verification", {
+        const response = await fetch("http://localhost:5001/api/auth/password-reset/send-email", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
