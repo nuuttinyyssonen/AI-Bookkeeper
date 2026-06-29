@@ -21,20 +21,26 @@ export const sendPasswordResetLink = async (req: Request, res: Response, next: N
     const { email } = result.data;
 
     try {
-        // Querying user and validating that it exists with given email
         const user = await prisma.user.findUnique({ where: { email: email } });
         if(!user) {
             return next(new NotFoundError("Email not found"));
         }
 
-        console.log(user.email)
+        // Delete any existing tokens for this user before creating a new one
+        await prisma.passwordResetToken.deleteMany({ where: { user_id: user.id } });
 
-        // Sending email with link embedded with resend
+        const token = await prisma.passwordResetToken.create({
+            data: {
+                user_id: user.id,
+                expires_at: new Date(Date.now() + 15 * 60 * 1000)
+            }
+        });
+
         await resend.emails.send({
             from: 'onboarding@resend.dev',
             to: user.email,
             subject: 'Password reset link',
-            html: `<p>Here is your password reset link http://localhost:3000/reset-password/${user.id}.</p>`
+            html: `<p>Here is your password reset link http://localhost:3000/reset-password/${token.id}.</p>`
         });
 
         return res.status(200).json({ message: "Password reset link has been sent to your email" });
@@ -62,19 +68,28 @@ export const resetPassword = async (req: Request<{id: string}>, res: Response, n
     const { password } = password_result.data;
 
     try {
-        // Hashing new password with bcrypt
-        const saltRounds = 10;
-        const passwordHash = await bcrypt.hash(password, saltRounds);
+        const token = await prisma.passwordResetToken.findUnique({ where: { id: id } });
 
-        // Validating that user with id exists
-        const user = await prisma.user.findUnique({ where: { id: id } });
-        if(!user) {
+        if (!token) {
+            return next(new NotFoundError("Invalid or expired reset link"));
+        }
+
+        if (token.expires_at < new Date()) {
+            await prisma.passwordResetToken.delete({ where: { id: id } });
+            return next(new ValidationError("Reset link has expired"));
+        }
+
+        const user = await prisma.user.findUnique({ where: { id: token.user_id } });
+        if (!user) {
             return next(new NotFoundError("User not found"));
         }
 
         if (!user.supabase_id) {
             return next(new Error("User has no linked authentication account"));
         }
+
+        const saltRounds = 10;
+        const passwordHash = await bcrypt.hash(password, saltRounds);
 
         const { error: supabaseError } = await supabaseAdmin.auth.admin.updateUserById(user.supabase_id, {
             password: password
@@ -84,12 +99,10 @@ export const resetPassword = async (req: Request<{id: string}>, res: Response, n
             return next(new Error(supabaseError.message));
         }
 
+        await prisma.user.update({ where: { id: user.id }, data: { password: passwordHash } });
 
-        // Finding user with id from params and updating its password
-        await prisma.user.update({ 
-            where: { id: id }, 
-            data: { password: passwordHash } 
-        });
+        // Delete token so the link cannot be reused
+        await prisma.passwordResetToken.delete({ where: { id: id } });
 
         return res.status(200).json({ message: "Password has been updated" });
     } catch(error) {
