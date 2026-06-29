@@ -12,6 +12,15 @@ export type SignupInput = {
   phonenumber: string;
 };
 
+export type EmailInput = {
+  email: string
+};
+
+export type PasswordInput = {
+  password: string;
+  passwordRepeat: string
+};
+
 export type FormState<T> = {
   data?: T;
   error: string | null;
@@ -28,4 +37,16 @@ export const initialStateSignup: FormState<SignupInput> = {
   data: undefined,
   error: null,
   success: false
-}
+};
+
+export const initialStateEmail: FormState<EmailInput> = {
+  data: undefined,
+  error: null,
+  success: false
+};
+
+export const intialStatePassword: FormState<PasswordInput> = {
+  data: undefined,
+  error: null,
+  success: false
+};
