@@ -76,6 +76,9 @@ export default function LoginForm() {
                                 <FieldDescription className="px-6 text-center">
                                     New here? <Link className="font-semibold text-teal-700 hover:underline" href="/signup">Create an account</Link>
                                 </FieldDescription>
+                                <FieldDescription className="px-6 text-center">
+                                    Forgot your password? <Link className="font-semibold text-teal-700 hover:underline" href="/reset-password">Reset your password</Link>
+                                </FieldDescription>
                             </Field>
                         </FieldGroup>
                     </form>
