@@ -14,5 +14,14 @@ export const signupSchema = z.object({
     phonenumber: z.string().min(7, "Phone number is too short").max(15, "Phone number is too long")
 });
 
+export const emailSchema = z.object({
+    email: z.email("Invalid email")
+});
+
+export const passwordSchema = z.object({
+    password: z.string().min(5).max(40, "Password must be at least 5 characters"),
+    passwordRepeat: z.string().min(5).max(40, "Password must be at least 5 characters"),
+});
+
 export type LoginInput = z.infer<typeof loginSchema>;
 export type SignupInput = z.infer<typeof signupSchema>;
