@@ -27,6 +27,11 @@ export default function LoginForm() {
             hasShownToast.current = true;
             toast.success("Account created successfully!");
         }
+
+        if (message === "password-reset" && !hasShownToast.current) {
+            hasShownToast.current = true;
+            toast.success("Password updated successfully!");
+        }
     }, [searchParams]);
 
     useEffect(() => {

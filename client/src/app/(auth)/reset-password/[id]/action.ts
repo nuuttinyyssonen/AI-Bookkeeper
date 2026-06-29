@@ -4,8 +4,9 @@ import { FormState } from "@/app/types/FormTypes";
 import { redirect } from "next/navigation";
 import { passwordSchema } from "@/schemas/auth.schema";
 
-export default async function signupAction( _prevState: FormState<PasswordInput>, formData: FormData, id: string) {
+export default async function resetPassword( _prevState: FormState<PasswordInput>, formData: FormData) {
 
+    const id = formData.get("id");
     const result = passwordSchema.safeParse({
         password: formData.get("password"),
         passwordRepeat: formData.get("passwordRepeat"),
@@ -22,7 +23,7 @@ export default async function signupAction( _prevState: FormState<PasswordInput>
     }
 
     try {
-        const response = await fetch(`http://localhost:5001/api/auth/password-reset/${id}`, {
+        const response = await fetch(`http://localhost:5001/api/auth/reset-password/${id}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -40,8 +41,8 @@ export default async function signupAction( _prevState: FormState<PasswordInput>
             return { error: data.error || data.message || "Invalid Credentials" };
         }
 
-        return redirect("/login?message=password-reset");
     } catch (error) {
         return { error: "Something went wrong. Please try again." };
     }
+    return redirect("/login?message=password-reset");
 };

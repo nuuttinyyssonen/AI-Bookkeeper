@@ -3,7 +3,7 @@ import { initialStateEmail, EmailInput } from "@/app/types/FormTypes";
 import { FormState } from "@/app/types/FormTypes";
 import { emailSchema } from "@/schemas/auth.schema";
 
-export default async function signupAction( _prevState: FormState<EmailInput>, formData: FormData) {
+export default async function resetPassword( _prevState: FormState<EmailInput>, formData: FormData) {
 
     const result = emailSchema.safeParse({
         email: formData.get("email"),
@@ -16,7 +16,7 @@ export default async function signupAction( _prevState: FormState<EmailInput>, f
     const { email } = result.data;
 
     try {
-        const response = await fetch("http://localhost:5001/api/auth/password-reset/send-email", {
+        const response = await fetch("http://localhost:5001/api/auth/reset-password/send-email", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -34,8 +34,7 @@ export default async function signupAction( _prevState: FormState<EmailInput>, f
             return { error: data.error || data.message || "Invalid Credentials" };
         }
 
-        const data = await response.json();
-        return data;
+        return { success: true, error: null };
     } catch (error) {
         return { error: "Something went wrong. Please try again." };
     }

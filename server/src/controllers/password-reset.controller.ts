@@ -5,10 +5,12 @@ import { Resend } from 'resend';
 import { emailSchema, passwordSchema } from "../schemas/auth.schema";
 import { NotFoundError, ValidationError } from "../utils/error";
 import { idSchema } from "../schemas/id.schema";
+import { supabaseAdmin } from "../lib/supabase";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const sendPasswordResetLink = async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.body);
     // Validating email with zod
     const result = emailSchema.safeParse(req.body);
 
@@ -25,6 +27,8 @@ export const sendPasswordResetLink = async (req: Request, res: Response, next: N
             return next(new NotFoundError("Email not found"));
         }
 
+        console.log(user.email)
+
         // Sending email with link embedded with resend
         await resend.emails.send({
             from: 'onboarding@resend.dev',
@@ -40,6 +44,8 @@ export const sendPasswordResetLink = async (req: Request, res: Response, next: N
 };
 
 export const resetPassword = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
+    console.log(req.body)
+
     // Validating id and password with zod
     const id_result = idSchema.safeParse(req.params);
     const password_result = passwordSchema.safeParse(req.body);
@@ -65,6 +71,19 @@ export const resetPassword = async (req: Request<{id: string}>, res: Response, n
         if(!user) {
             return next(new NotFoundError("User not found"));
         }
+
+        if (!user.supabase_id) {
+            return next(new Error("User has no linked authentication account"));
+        }
+
+        const { error: supabaseError } = await supabaseAdmin.auth.admin.updateUserById(user.supabase_id, {
+            password: password
+        });
+
+        if (supabaseError) {
+            return next(new Error(supabaseError.message));
+        }
+
 
         // Finding user with id from params and updating its password
         await prisma.user.update({ 

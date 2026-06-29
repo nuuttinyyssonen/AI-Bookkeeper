@@ -57,7 +57,7 @@ app.use('/api/report', reportRouter);
 app.use('/api/assistant', assistantRouter);
 app.use('/api/subscription', subscriptionRouter);
 app.use('/api/user', userRouter);
-app.use('/api/reset-password', passwordResetRouter)
+app.use('/api/auth/reset-password', passwordResetRouter)
 
 // Error handler middleware
 app.use(errorHandler);
