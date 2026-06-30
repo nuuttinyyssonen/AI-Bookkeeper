@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { prisma } from '../lib/prisma';
 import { NotFoundError, ServerError, ValidationError } from '../utils/error';
 import { idSchema, batchIdSchema } from '../schemas/id.schema';
-import { categorySchema, isDeductibleSchema, receiptQuerySchema } from '../schemas/receipt.schema';
+import { categorySchema, isDeductibleSchema, receiptQuerySchema, updateReceiptSchema, deductibilityPercentageSchema} from '../schemas/receipt.schema';
 import { CategoryType, ReceiptType } from "@prisma/client";
 
 export const getAllReceiptsByUserId = async (req: Request, res: Response, next: NextFunction) => {
@@ -139,6 +139,43 @@ export const getReceiptStatus = async(req: Request<{batchId: string}>, res: Resp
 };
 
 
+export const updateReceipt = async(req: Request<{id: string}>, res: Response, next: NextFunction) => {
+    const idResult = idSchema.safeParse(req.params);
+    const bodyResult = updateReceiptSchema.safeParse(req.body);
+
+    if (!idResult.success) {
+        return next(new ValidationError(idResult.error.issues[0].message));
+    }
+    if (!bodyResult.success) {
+        return next(new ValidationError(bodyResult.error.issues[0].message));
+    }
+
+    const { id } = idResult.data;
+    const { vendor_name, total_amount, receipt_date, vats } = bodyResult.data;
+
+    try {
+        await prisma.$transaction(async (tx) => {
+            await tx.receipt.update({
+                where: { id, user_id: req.user.id },
+                data: { vendor_name, total_amount, receipt_date: new Date(receipt_date) },
+            });
+
+            if (vats && vats.length > 0) {
+                await Promise.all(vats.map(vat =>
+                    tx.receiptVat.update({
+                        where: { id: vat.id },
+                        data: { rate: vat.rate, net_amount: vat.net_amount, vat_amount: vat.vat_amount, total: vat.total },
+                    })
+                ));
+            }
+        });
+
+        return res.status(200).json({ message: "Receipt updated" });
+    } catch (err) {
+        return next(new ServerError("Internal server error"));
+    }
+};
+
 export const changeReceiptCategory = async(req: Request<{id: string}>, res: Response, next: NextFunction) => {
     // Getting category from req.body and id from params and validating with zod
     const cateogryResult = categorySchema.safeParse(req.body);
@@ -190,6 +227,34 @@ export const changeReceiptDeductible = async(req: Request<{id: string}>, res: Re
             where: { id },
             data: {
                 is_deductible: isDeductible
+            }
+        });
+        return res.status(200).json({ message: "is_deductible updated" });
+    } catch (err) {
+        return next(new ServerError("Internal server error"));
+    }
+};
+
+export const changeReceiptDeductibilityPercentage = async(req: Request<{id: string}>, res: Response, next: NextFunction) => {
+    // Getting category from req.body and id from params and validating with zod
+    const deductibleResult = deductibilityPercentageSchema.safeParse(req.body);
+    const idResult = idSchema.safeParse(req.params);
+
+    if (!deductibleResult.success) {
+        return next(new ValidationError(deductibleResult.error.issues[0].message));
+    }
+    if (!idResult.success) {
+        return next(new ValidationError(idResult.error.issues[0].message));
+    }
+
+    const { deductibilityPercentage } = deductibleResult.data;
+    const { id } = idResult.data;
+
+    try {
+        await prisma.receipt.update({
+            where: { id },
+            data: {
+                vat_deductibility_percentage: deductibilityPercentage
             }
         });
         return res.status(200).json({ message: "is_deductible updated" });

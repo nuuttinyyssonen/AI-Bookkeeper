@@ -1,5 +1,12 @@
 import { Router } from "express";
-import { getAllReceiptsByUserId, getReceiptById, getReceiptStatus, changeReceiptCategory, changeReceiptDeductible } from "../controllers/receipt.controller";
+import { getAllReceiptsByUserId, 
+    getReceiptById, 
+    getReceiptStatus, 
+    changeReceiptCategory, 
+    changeReceiptDeductible, 
+    updateReceipt,
+    changeReceiptDeductibilityPercentage
+} from "../controllers/receipt.controller";
 import { authMiddleware } from "../middleware/authentication";
 import { rateLimiters } from "../utils/rateLimiter";
 
@@ -10,6 +17,8 @@ const receiptRouter = Router();
 receiptRouter.get("/:id", authMiddleware, rateLimiters.read("receipt_by_id"), getReceiptById);
 receiptRouter.get("/", authMiddleware, rateLimiters.read("receipts"), getAllReceiptsByUserId);
 receiptRouter.get("/status/:batchId", authMiddleware, rateLimiters.read("receipt_status"), getReceiptStatus);
+receiptRouter.put("/:id", authMiddleware, rateLimiters.write("receipt_update"), updateReceipt);
+receiptRouter.put("/percentage/:id", authMiddleware, rateLimiters.write("receipt_update_deductibility"), changeReceiptDeductibilityPercentage);
 receiptRouter.put("/category/:id", authMiddleware, rateLimiters.write("receipt_category"), changeReceiptCategory);
 receiptRouter.put("/is_deductible/:id", authMiddleware, rateLimiters.write("receipt_deductible"), changeReceiptDeductible);
 
