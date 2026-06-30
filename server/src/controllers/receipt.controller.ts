@@ -2,44 +2,66 @@ import { Request, Response, NextFunction } from 'express';
 import { prisma } from '../lib/prisma';
 import { NotFoundError, ServerError, ValidationError } from '../utils/error';
 import { idSchema, batchIdSchema } from '../schemas/id.schema';
-import { categorySchema, isDeductibleSchema } from '../schemas/receipt.schema';
-import { CategoryType } from "@prisma/client";
+import { categorySchema, isDeductibleSchema, receiptQuerySchema } from '../schemas/receipt.schema';
+import { CategoryType, ReceiptType } from "@prisma/client";
 
 export const getAllReceiptsByUserId = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
+
+    // Validate and parse query params
+    const queryResult = receiptQuerySchema.safeParse(req.query);
+    if (!queryResult.success) {
+        return next(new ValidationError(queryResult.error.issues[0].message));
+    }
+
+    const { page, limit, from, to, search, category, type } = queryResult.data;
+    const skip = (page - 1) * limit;
+
+    // Build dynamic where clause based on provided filters
+    const where = {
+        user_id: user.id,
+        ...(type && { receipt_type: type as ReceiptType }),
+        ...(search && { vendor_name: { contains: search, mode: 'insensitive' as const } }),
+        ...(category && { category: { type: category as CategoryType } }),
+        ...((from || to) && {
+            receipt_date: {
+                ...(from && { gte: new Date(from) }),
+                ...(to && { lte: new Date(to) }),
+            },
+        }),
+    };
+
     try {
-        // Count pending and processing documents for the user to determine if there are any documents in those states
-        const pending_document_count = await prisma.document.count({
-            where: {
-                user_id: user.id,
-                status: "PENDING"
-            },
+        // Run all queries in parallel for performance
+        const [receipts, total, expenseTotal, incomeTotal, pending_document_count, processing_document_count] = await Promise.all([
+            prisma.receipt.findMany({
+                where,
+                include: {
+                    receiptVats: true,
+                    category: { select: { label: true } },
+                },
+                skip,
+                take: limit,
+                orderBy: { receipt_date: 'desc' },
+            }),
+            prisma.receipt.count({ where }),
+            prisma.receipt.count({ where: { user_id: user.id, receipt_type: 'EXPENSE' } }),
+            prisma.receipt.count({ where: { user_id: user.id, receipt_type: 'INCOME' } }),
+            prisma.document.count({ where: { user_id: user.id, status: 'PENDING' } }),
+            prisma.document.count({ where: { user_id: user.id, status: 'PROCESSING' } }),
+        ]);
+
+        return res.status(200).json({
+            receipts,
+            total,
+            page,
+            limit,
+            totalPages: Math.ceil(total / limit),
+            expenseTotal,
+            incomeTotal,
+            is_documents_pending: pending_document_count > 0,
+            is_documents_processing: processing_document_count > 0,
         });
-
-        const processing_document_count = await prisma.document.count({
-            where: {
-                user_id: user.id,
-                status: "PROCESSING"
-            }
-        });
-
-        const is_documents_processing = processing_document_count > 0;
-        const is_documents_pending = pending_document_count > 0;
-
-        // Fetch all receipts for the user, including related VAT and category information
-        const receipts = await prisma.receipt.findMany({
-            where: {
-                user_id: user.id
-            },
-            include: {
-                receiptVats: true,
-                category: {
-                select: { label: true }
-            }
-            }
-        });
-
-        return res.status(200).json({ receipts, is_documents_pending, is_documents_processing });
     } catch (err) {
         next(new ServerError("Internal server error"));
     }

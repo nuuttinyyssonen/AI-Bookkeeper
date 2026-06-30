@@ -62,6 +62,7 @@ export const getCashFlowData = async (req: Request, res: Response, next: NextFun
         // Get cash flow data for the last 6 months, grouped by month
         const months = Array.from({ length: 6 }, (_, i) => {
             const date = new Date();
+            date.setDate(1);
             date.setMonth(date.getMonth() - i);
             return {
                 year: date.getFullYear(),

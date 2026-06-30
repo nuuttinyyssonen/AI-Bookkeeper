@@ -3,18 +3,55 @@
 import { cookies } from "next/headers";
 import { Receipt } from "@/lib/receipts";
 
+export type ReceiptParams = {
+    page?: number;
+    limit?: number;
+    from?: string;
+    to?: string;
+    search?: string;
+    category?: string;
+    type?: "EXPENSE" | "INCOME";
+};
+
 export type ReceiptsResponse = {
     receipts: any[];
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+    expenseTotal: number;
+    incomeTotal: number;
     is_documents_processing: boolean;
     is_documents_pending: boolean;
 };
 
-export const getReceipts = async (): Promise<ReceiptsResponse> => {
+const emptyResponse: ReceiptsResponse = {
+    receipts: [],
+    total: 0,
+    page: 1,
+    limit: 20,
+    totalPages: 0,
+    expenseTotal: 0,
+    incomeTotal: 0,
+    is_documents_processing: false,
+    is_documents_pending: false,
+};
+
+export const getReceipts = async (params: ReceiptParams = {}): Promise<ReceiptsResponse> => {
     try {
         const cookieStore = await cookies();
         const token = cookieStore.get("token")?.value;
 
-        const response = await fetch("http://localhost:5001/api/receipt", {
+        const searchParams = new URLSearchParams();
+        if (params.page) searchParams.set("page", String(params.page));
+        if (params.limit) searchParams.set("limit", String(params.limit));
+        if (params.from) searchParams.set("from", params.from);
+        if (params.to) searchParams.set("to", params.to);
+        if (params.search) searchParams.set("search", params.search);
+        if (params.category) searchParams.set("category", params.category);
+        if (params.type) searchParams.set("type", params.type);
+
+        const response = await fetch(`http://localhost:5001/api/receipt?${searchParams.toString()}`, {
             method: 'GET',
             headers: {
                 'Cookie': `token=${token}`
@@ -23,18 +60,24 @@ export const getReceipts = async (): Promise<ReceiptsResponse> => {
 
         if (!response.ok) {
             console.log("Error in getting receipts", response.status);
-            return { receipts: [], is_documents_processing: false, is_documents_pending: false };
+            return emptyResponse;
         }
 
         const data = await response.json();
         return {
-            receipts: Array.isArray(data) ? data : data?.receipts ?? [],
+            receipts: data?.receipts ?? [],
+            total: data?.total ?? 0,
+            page: data?.page ?? 1,
+            limit: data?.limit ?? 20,
+            totalPages: data?.totalPages ?? 0,
+            expenseTotal: data?.expenseTotal ?? 0,
+            incomeTotal: data?.incomeTotal ?? 0,
             is_documents_processing: data?.is_documents_processing ?? false,
-            is_documents_pending: data?.is_documents_pending ?? false
+            is_documents_pending: data?.is_documents_pending ?? false,
         };
     } catch (error) {
         console.log(error);
-        return { receipts: [], is_documents_processing: false, is_documents_pending: false };
+        return emptyResponse;
     }
 };
 
