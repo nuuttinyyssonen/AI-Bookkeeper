@@ -16,6 +16,7 @@ export type Receipt = {
   receipt_type: string;
   category?: { type: string; label: string } | null
   is_deductible: boolean;
+  vat_deductibility_percentage?: number | null;
 };
 
 export const receipts: Receipt[] = [];

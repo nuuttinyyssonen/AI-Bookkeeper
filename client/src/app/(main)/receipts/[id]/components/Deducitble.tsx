@@ -6,7 +6,7 @@ interface Props {
     handleDeductibleToggle: () => void,
     isDeductible: boolean,
     deductiblePercentage: number,
-    handleDeductiblePercentageChange: (value: number) => void,
+    handleDeductiblePercentageChange: (value: number) => void | Promise<void>,
 };
 
 export default function Deductible({handleDeductibleToggle, isDeductible, deductiblePercentage, handleDeductiblePercentageChange}: Props) {

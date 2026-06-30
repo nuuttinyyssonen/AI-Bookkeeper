@@ -14,9 +14,38 @@ import { useParams } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { deleteReceiptById } from '../../action';
 import { toast } from "sonner";
-import { changeReceiptCategory, changeReceiptDeductible } from "../action";
+import { changeReceiptCategory, changeReceiptDeductible, changeReceiptDeductiblePercentage, updateReceiptDetails } from "../action";
 import { useReceiptFile } from '@/hooks/useReceiptFile';
 import { useReceipt } from '@/hooks/useReceipt';
+import { type Receipt as ReceiptType } from '@/lib/receipts';
+
+interface VatForm {
+  id: string;
+  rate: string;
+  net_amount: string;
+  vat_amount: string;
+  total: string;
+}
+
+interface EditForm {
+  vendor_name: string;
+  total_amount: string;
+  receipt_date: string;
+}
+
+function toDateInputValue(dateStr: string) {
+  return new Date(dateStr).toISOString().split('T')[0];
+}
+
+function buildVatForms(receipt: ReceiptType): VatForm[] {
+  return (receipt.receiptVats ?? []).map(v => ({
+    id: v.id,
+    rate: String(v.rate),
+    net_amount: String(v.net_amount),
+    vat_amount: String(v.vat_amount),
+    total: String(v.total),
+  }));
+}
 
 export default function Receipt() {
   const params = useParams();
@@ -26,8 +55,12 @@ export default function Receipt() {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [isDeductible, setIsDeductible] = useState<boolean>(true);
   const [deductiblePercentage, setDeductiblePercentage] = useState<number>(100);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [form, setForm] = useState<EditForm>({ vendor_name: '', total_amount: '', receipt_date: '' });
+  const [vatForms, setVatForms] = useState<VatForm[]>([]);
+  const [receiptData, setReceiptData] = useState<ReceiptType | null>(null);
 
-  // Custom hooks that retrieve receipt and file data.
   const { fileUrl, fileType, fileName, loadingFile, fileError } = useReceiptFile(receiptId);
   const { receipt, loading } = useReceipt(receiptId);
 
@@ -35,6 +68,8 @@ export default function Receipt() {
     if (receipt) {
       setSelectedCategory(receipt.category?.type ?? "");
       setIsDeductible(receipt.is_deductible ?? true);
+      setDeductiblePercentage(receipt.vat_deductibility_percentage ?? 100);
+      setReceiptData(receipt);
     }
   }, [receipt]);
 
@@ -57,6 +92,8 @@ export default function Receipt() {
     />
   );
 
+  const displayReceipt = receiptData ?? receipt;
+
   const handleDelete = async () => {
     await deleteReceiptById(receiptId);
     toast.success("File deleted successfully");
@@ -74,8 +111,72 @@ export default function Receipt() {
     await changeReceiptDeductible(receiptId!, newValue);
   };
 
-  const handleDeductiblePercentageChange = (value: number) => {
+  const handleDeductiblePercentageChange = async (value: number) => {
     setDeductiblePercentage(value);
+    await changeReceiptDeductiblePercentage(receiptId, value);
+  };
+
+  const handleEdit = () => {
+    setForm({
+      vendor_name: displayReceipt.vendor_name,
+      total_amount: String(displayReceipt.total_amount),
+      receipt_date: toDateInputValue(displayReceipt.receipt_date),
+    });
+    setVatForms(buildVatForms(displayReceipt));
+    setIsEditing(true);
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+  };
+
+  const handleSave = async () => {
+    setIsLoading(true);
+    const result = await updateReceiptDetails(
+      receiptId,
+      form.vendor_name,
+      parseFloat(form.total_amount),
+      form.receipt_date,
+      vatForms.map(v => ({
+        id: v.id,
+        rate: parseFloat(v.rate),
+        net_amount: parseFloat(v.net_amount),
+        vat_amount: parseFloat(v.vat_amount),
+        total: parseFloat(v.total),
+      }))
+    );
+    setIsLoading(false);
+
+    if (result.error) {
+      toast.error(result.error);
+      return;
+    }
+
+    setReceiptData({
+      ...displayReceipt,
+      vendor_name: form.vendor_name,
+      total_amount: parseFloat(form.total_amount),
+      receipt_date: form.receipt_date,
+      receiptVats: vatForms.map(v => ({
+        id: v.id,
+        receipt_id: receiptId,
+        rate: parseFloat(v.rate),
+        net_amount: parseFloat(v.net_amount),
+        vat_amount: parseFloat(v.vat_amount),
+        total: parseFloat(v.total),
+      })),
+    });
+
+    toast.success("Receipt updated successfully");
+    setIsEditing(false);
+  };
+
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleVatChange = (index: number, field: keyof Omit<VatForm, 'id'>, value: string) => {
+    setVatForms(prev => prev.map((v, i) => i === index ? { ...v, [field]: value } : v));
   };
 
   return (
@@ -84,13 +185,24 @@ export default function Receipt() {
         <Header />
         <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
           <Card>
-            <ReceiptDetails receipt={receipt} />
+            <ReceiptDetails
+              receipt={displayReceipt}
+              isEditing={isEditing}
+              form={form}
+              handleChange={handleFormChange}
+              handleEdit={handleEdit}
+            />
             <CardContent>
               <div className="grid gap-6">
-                <Vats receipt={receipt} />
-                <Categories 
-                  selectedCategory={selectedCategory} 
-                  handleCategoryChange={handleCategoryChange} 
+                <Vats
+                  receipt={displayReceipt}
+                  isEditing={isEditing}
+                  vatForms={vatForms}
+                  handleVatChange={handleVatChange}
+                />
+                <Categories
+                  selectedCategory={selectedCategory}
+                  handleCategoryChange={handleCategoryChange}
                 />
                 <Deductible
                   handleDeductibleToggle={handleDeductibleToggle}
@@ -99,10 +211,16 @@ export default function Receipt() {
                   handleDeductiblePercentageChange={handleDeductiblePercentageChange}
                 />
               </div>
-              <Buttons handleDelete={handleDelete}/>
+              <Buttons
+                handleDelete={handleDelete}
+                isEditing={isEditing}
+                isLoading={isLoading}
+                handleSave={handleSave}
+                handleCancel={handleCancel}
+              />
             </CardContent>
           </Card>
-          <ReceiptImage 
+          <ReceiptImage
             loadingFile={loadingFile}
             fileError={fileError}
             fileUrl={fileUrl}
