@@ -6,7 +6,6 @@ import ReceiptTabs from "./ReceiptTabs";
 import ReceiptsEmpty from "./ReceiptsEmpty";
 
 import { useState, useEffect, useRef } from "react";
-import { Button } from "@/components/ui/button";
 import { getReceipts, ReceiptsResponse } from "../action";
 
 interface ReceiptDataProps {
@@ -121,25 +120,23 @@ export const ReceiptData = ({ initialData }: ReceiptDataProps) => {
 
                 {totalPages > 1 && (
                     <div className="mt-6 flex items-center justify-center gap-3">
-                        <Button
-                            variant="outline"
-                            size="sm"
+                        <button
+                            className="h-8 px-3 text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-100 disabled:opacity-60 disabled:pointer-events-none"
                             onClick={() => setPage((p) => p - 1)}
                             disabled={page <= 1}
                         >
                             Previous
-                        </Button>
+                        </button>
                         <span className="text-sm text-slate-600">
                             Page {page} of {totalPages}
                         </span>
-                        <Button
-                            variant="outline"
-                            size="sm"
+                        <button
+                            className="h-8 px-3 text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-100 disabled:opacity-60 disabled:pointer-events-none"
                             onClick={() => setPage((p) => p + 1)}
                             disabled={page >= totalPages}
                         >
                             Next
-                        </Button>
+                        </button>
                     </div>
                 )}
             </div>
