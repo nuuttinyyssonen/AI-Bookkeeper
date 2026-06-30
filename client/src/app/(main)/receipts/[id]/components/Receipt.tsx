@@ -25,6 +25,7 @@ export default function Receipt() {
   const [deleted, setDeleted] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [isDeductible, setIsDeductible] = useState<boolean>(true);
+  const [deductiblePercentage, setDeductiblePercentage] = useState<number>(100);
 
   // Custom hooks that retrieve receipt and file data.
   const { fileUrl, fileType, fileName, loadingFile, fileError } = useReceiptFile(receiptId);
@@ -73,6 +74,10 @@ export default function Receipt() {
     await changeReceiptDeductible(receiptId!, newValue);
   };
 
+  const handleDeductiblePercentageChange = (value: number) => {
+    setDeductiblePercentage(value);
+  };
+
   return (
     <div className="px-6 py-8">
       <div className="mx-auto max-w-7xl">
@@ -87,9 +92,11 @@ export default function Receipt() {
                   selectedCategory={selectedCategory} 
                   handleCategoryChange={handleCategoryChange} 
                 />
-                <Deductible 
+                <Deductible
                   handleDeductibleToggle={handleDeductibleToggle}
                   isDeductible={isDeductible}
+                  deductiblePercentage={deductiblePercentage}
+                  handleDeductiblePercentageChange={handleDeductiblePercentageChange}
                 />
               </div>
               <Buttons handleDelete={handleDelete}/>

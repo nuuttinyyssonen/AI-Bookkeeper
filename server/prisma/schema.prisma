@@ -44,20 +44,21 @@ model Document {
 }
 
 model Receipt {
-  id                 String      @id @default(uuid())
-  document_id        String
-  user_id            String
-  category_id        String?
-  vendor_name        String
-  total_amount       Float
-  receipt_date       DateTime
-  receipt_type       ReceiptType @default(EXPENSE)
-  is_deductible      Boolean     @default(true)
-  created_at         DateTime    @default(now())
-  user               User        @relation(fields: [user_id], references: [id])
-  document           Document    @relation(fields: [document_id], references: [id])
-  category           Category?   @relation(fields: [category_id], references: [id])
-  receiptVats        ReceiptVat[]
+  id                            String      @id @default(uuid())
+  document_id                   String
+  user_id                       String
+  category_id                   String?
+  vendor_name                   String
+  total_amount                  Float
+  receipt_date                  DateTime
+  receipt_type                  ReceiptType @default(EXPENSE)
+  is_deductible                 Boolean     @default(true)
+  vat_deductibility_percentage  Decimal     @default(100.0)   @db.Decimal(5, 2)
+  created_at                    DateTime    @default(now())
+  user                          User        @relation(fields: [user_id], references: [id])
+  document                      Document    @relation(fields: [document_id], references: [id])
+  category                      Category?   @relation(fields: [category_id], references: [id])
+  receiptVats                   ReceiptVat[]
 }
 
 model Category {
