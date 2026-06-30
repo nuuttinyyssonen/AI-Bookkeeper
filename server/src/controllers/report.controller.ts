@@ -46,13 +46,13 @@ export const createReport = async (req: Request, res: Response, next: NextFuncti
             include: { receiptVats: true }
         });
 
-        // Group VAT entries by rate and type (income/expense) to prepare for report generation
-        const groupVats = (type: "INCOME" | "EXPENSE") => {
+        // Group VAT entries for sales (income receipts)
+        const groupSaleVats = () => {
             return receipts
-                .filter(r => r.receipt_type === type)
+                .filter(r => r.receipt_type === "INCOME")
                 .flatMap(r => r.receiptVats)
-                .reduce((acc: any[], vat) => {
-                    const existing = acc.find(v => v.rate === vat.rate);
+                .reduce((acc: { rate: number; net: number; vat_amount: number; gross: number }[], vat) => {
+                    const existing = acc.find(v => v.rate === Number(vat.rate));
                     if (existing) {
                         existing.net += Number(vat.net_amount);
                         existing.vat_amount += Number(vat.vat_amount);
@@ -69,8 +69,35 @@ export const createReport = async (req: Request, res: Response, next: NextFuncti
                 }, []);
         };
 
-        const sales = groupVats("INCOME");
-        const purchases = groupVats("EXPENSE");
+        // Group VAT entries for purchases, respecting deductibility and vat_deductibility_percentage
+        const groupPurchaseVats = () => {
+            const acc: { rate: number; net: number; vat_amount: number; gross: number }[] = [];
+
+            for (const receipt of receipts.filter(r => r.receipt_type === "EXPENSE")) {
+                if (!receipt.is_deductible) continue;
+                const deductPct = Number(receipt.vat_deductibility_percentage) / 100;
+
+                for (const vat of receipt.receiptVats) {
+                    const net = Number(vat.net_amount);
+                    const deductibleVat = Number(vat.vat_amount) * deductPct;
+                    const gross = net + deductibleVat;
+
+                    const existing = acc.find(v => v.rate === Number(vat.rate));
+                    if (existing) {
+                        existing.net += net;
+                        existing.vat_amount += deductibleVat;
+                        existing.gross += gross;
+                    } else {
+                        acc.push({ rate: Number(vat.rate), net, vat_amount: deductibleVat, gross });
+                    }
+                }
+            }
+
+            return acc;
+        };
+
+        const sales = groupSaleVats();
+        const purchases = groupPurchaseVats();
 
         // Calculate total VAT for sales and purchases to determine VAT payable or refundable
         const sales_vat_total = sales.reduce((sum, v) => sum + v.vat_amount, 0);
