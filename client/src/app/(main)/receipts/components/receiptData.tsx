@@ -108,6 +108,7 @@ export const ReceiptData = ({ initialData }: ReceiptDataProps) => {
                     to={to}
                     setTo={(val) => { setTo(val); setPage(1); }}
                     onClear={handleClear}
+                    activeTab={activeTab}
                 />
                 <ReceiptTabs
                     activeTab={activeTab}

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { downloadReceiptsExcel } from "@/lib/exportReceipt";
 
 interface Props {
     isProcessing: boolean;
@@ -10,9 +11,19 @@ interface Props {
     to: string;
     setTo: (to: string) => void;
     onClear: () => void;
+    activeTab: "EXPENSE" | "INCOME";
 }
 
-export default function ReceiptsHeader({ isProcessing, query, setQuery, from, setFrom, to, setTo, onClear }: Props) {
+export default function ReceiptsHeader({ isProcessing, query, setQuery, from, setFrom, to, setTo, onClear, activeTab }: Props) {
+    const handleExport = () => {
+        downloadReceiptsExcel({
+            type: activeTab,
+            from: from || undefined,
+            to: to || undefined,
+            search: query || undefined,
+        });
+    };
+
     return (
         <div className="mb-6 flex flex-col gap-4">
             <div>
@@ -43,8 +54,19 @@ export default function ReceiptsHeader({ isProcessing, query, setQuery, from, se
                     onChange={(e) => setTo(e.target.value)}
                     className="h-9 rounded-md border border-slate-200 px-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
                 />
-                <Button variant="outline" onClick={onClear}>Clear</Button>
+                <button
+                    className="h-9 px-3 text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-100"
+                    onClick={onClear}
+                >
+                    Clear
+                </button>
+                <button
+                    className="h-9 px-3 text-sm font-semibold text-white bg-teal-600 rounded-lg hover:bg-teal-700"
+                    onClick={handleExport}
+                >
+                    Export Excel
+                </button>
             </div>
         </div>
     );
-};
+}
