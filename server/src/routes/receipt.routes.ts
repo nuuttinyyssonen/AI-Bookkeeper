@@ -5,7 +5,8 @@ import { getAllReceiptsByUserId,
     changeReceiptCategory, 
     changeReceiptDeductible, 
     updateReceipt,
-    changeReceiptDeductibilityPercentage
+    changeReceiptDeductibilityPercentage,
+    exportReceiptsToExcel
 } from "../controllers/receipt.controller";
 import { authMiddleware } from "../middleware/authentication";
 import { rateLimiters } from "../utils/rateLimiter";
@@ -21,5 +22,6 @@ receiptRouter.put("/:id", authMiddleware, rateLimiters.write("receipt_update"), 
 receiptRouter.put("/percentage/:id", authMiddleware, rateLimiters.write("receipt_update_deductibility"), changeReceiptDeductibilityPercentage);
 receiptRouter.put("/category/:id", authMiddleware, rateLimiters.write("receipt_category"), changeReceiptCategory);
 receiptRouter.put("/is_deductible/:id", authMiddleware, rateLimiters.write("receipt_deductible"), changeReceiptDeductible);
+receiptRouter.post("/excel", authMiddleware, rateLimiters.write("export_to_excel"), exportReceiptsToExcel);
 
 export default receiptRouter;

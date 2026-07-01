@@ -4,6 +4,7 @@ import { NotFoundError, ServerError, ValidationError } from '../utils/error';
 import { idSchema, batchIdSchema } from '../schemas/id.schema';
 import { categorySchema, isDeductibleSchema, receiptQuerySchema, updateReceiptSchema, deductibilityPercentageSchema} from '../schemas/receipt.schema';
 import { CategoryType, ReceiptType } from "@prisma/client";
+import ExcelJS from 'exceljs';
 
 export const getAllReceiptsByUserId = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
@@ -258,6 +259,95 @@ export const changeReceiptDeductibilityPercentage = async(req: Request<{id: stri
             }
         });
         return res.status(200).json({ message: "is_deductible updated" });
+    } catch (err) {
+        return next(new ServerError("Internal server error"));
+    }
+};
+
+export const exportReceiptsToExcel = async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+
+    const queryResult = receiptQuerySchema.safeParse(req.query);
+    if (!queryResult.success) {
+        return next(new ValidationError(queryResult.error.issues[0].message));
+    }
+
+    const { from, to, search, category, type } = queryResult.data;
+
+    const where = {
+        user_id: user.id,
+        ...(type && { receipt_type: type as ReceiptType }),
+        ...(search && { vendor_name: { contains: search, mode: 'insensitive' as const } }),
+        ...(category && { category: { type: category as CategoryType } }),
+        ...((from || to) && {
+            receipt_date: {
+                ...(from && { gte: new Date(from) }),
+                ...(to && { lte: new Date(to) }),
+            },
+        }),
+    };
+
+    try {
+        const receipts = await prisma.receipt.findMany({
+            where,
+            include: {
+                receiptVats: true,
+                category: { select: { label: true } },
+            },
+            orderBy: [{ receipt_date: 'desc' }, { created_at: 'desc' }],
+        });
+
+        const workbook = new ExcelJS.Workbook();
+        const sheet = workbook.addWorksheet('Receipts');
+
+        // Header row
+        sheet.columns = [
+            { header: 'Date', key: 'date', width: 14 },
+            { header: 'Vendor', key: 'vendor', width: 28 },
+            { header: 'Category', key: 'category', width: 22 },
+            { header: 'Type', key: 'type', width: 10 },
+            { header: 'Net (€)', key: 'net', width: 12 },
+            { header: 'VAT %', key: 'vat_rate', width: 10 },
+            { header: 'VAT Amount (€)', key: 'vat_amount', width: 16 },
+            { header: 'Total (€)', key: 'total', width: 12 },
+            { header: 'Deductible', key: 'deductible', width: 12 },
+        ];
+
+        // Style header row
+        sheet.getRow(1).font = { bold: true };
+        sheet.getRow(1).fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: 'FFE2E8F0' },
+        };
+
+        // Add rows
+        for (const receipt of receipts) {
+            const vat = receipt.receiptVats[0];
+            sheet.addRow({
+                date: new Date(receipt.receipt_date).toISOString().split('T')[0],
+                vendor: receipt.vendor_name,
+                category: receipt.category?.label ?? '',
+                type: receipt.receipt_type,
+                net: vat ? Number(vat.net_amount.toFixed(2)) : '',
+                vat_rate: vat ? `${vat.rate}%` : '',
+                vat_amount: vat ? Number(vat.vat_amount.toFixed(2)) : '',
+                total: Number(receipt.total_amount.toFixed(2)),
+                deductible: receipt.is_deductible ? 'Yes' : 'No',
+            });
+        }
+
+        // Number formatting for currency columns
+        ['net', 'vat_amount', 'total'].forEach((key) => {
+            sheet.getColumn(key).numFmt = '#,##0.00';
+        });
+
+        const filename = `receipts-${type?.toLowerCase() ?? 'all'}-${Date.now()}.xlsx`;
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+
+        await workbook.xlsx.write(res);
+        res.end();
     } catch (err) {
         return next(new ServerError("Internal server error"));
     }
