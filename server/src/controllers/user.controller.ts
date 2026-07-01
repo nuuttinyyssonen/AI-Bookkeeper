@@ -6,6 +6,8 @@ import { supabaseAdmin } from "../lib/supabase";
 import { Resend } from 'resend';
 import { deleteFileFromSupabase } from "../services/supabase.service";
 
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 export const getUserData = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
 
@@ -136,6 +138,14 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
     } catch (error) {
         return next(new ServerError("Failed to delete user. Try again"));
     }
+
+    // Sending confirmation message to user
+    await resend.emails.send({
+        from: 'onboarding@resend.dev',
+        to: user.email,
+        subject: 'Account deletion',
+        html: `<p>Your account has been successfully deleted.</p>`
+    });
 
     return res.status(200).json({ message: "Your account was deleted successfully" });
 };
