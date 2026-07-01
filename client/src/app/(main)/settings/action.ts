@@ -2,6 +2,7 @@
 
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export const getUserData = async () => {
     const cookieStore = await cookies();
@@ -106,4 +107,31 @@ export const reactivateSubscription = async () => {
     } catch(error) {
         return { error: "Something went wrong. Please try again." };
     }
+};
+
+export const deleteAccount = async () => {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+
+    try {
+        const response = await fetch("http://localhost:5001/api/user", {
+            method: 'DELETE',
+            headers: {
+                'Cookie': `token=${token}`
+            },
+        });
+
+        if(!response.ok) {
+            const data = await response.json();
+            return { error: data.error || data.message || "Something went wrong" };
+        };
+
+        await response.json();
+        cookieStore.delete("token");
+        cookieStore.set("account_deleted", "1", { maxAge: 30, path: "/" });
+    } catch(error) {
+        return { error: "Something went wrong. Please try again." };
+    }
+
+    redirect("/account-deleted");
 };
