@@ -10,6 +10,7 @@ export type SignupInput = {
   firstName: string;
   lastName: string;
   phonenumber: string;
+  businessId: string;
 };
 
 export type EmailInput = {

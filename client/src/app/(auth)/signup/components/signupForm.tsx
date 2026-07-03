@@ -82,6 +82,17 @@ export default function SignupForm({ selectedPlan }: SignupFormProps) {
                                 />
                             </Field>
 
+                            <Field>
+                                <FieldLabel htmlFor="phonenumber">Business ID</FieldLabel>
+                                <Input
+                                    id="businessId"
+                                    name="businessId"
+                                    type="text"
+                                    placeholder="1234567-8"
+                                    autoComplete="off"
+                                />
+                            </Field>
+
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <Field>
                                     <FieldLabel htmlFor="password">Password</FieldLabel>

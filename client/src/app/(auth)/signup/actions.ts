@@ -15,7 +15,8 @@ export default async function signupAction(
         passwordRepeat: formData.get("passwordRepeat"),
         firstName: formData.get("firstName"),
         lastName: formData.get("lastName"),
-        phonenumber: formData.get("phonenumber")
+        phonenumber: formData.get("phonenumber"),
+        businessId: formData.get("businessId")
     });
 
     const selectedPlan = formData.get('selectedPlan') as string;
@@ -24,9 +25,9 @@ export default async function signupAction(
         return { error: result.error.issues[0].message };
     }
 
-    const { email, password, passwordRepeat, firstName, lastName, phonenumber } = result.data;
+    const { email, password, passwordRepeat, firstName, lastName, phonenumber, businessId } = result.data;
 
-    if (!email || !password || !passwordRepeat || !lastName || !firstName || !phonenumber) {
+    if (!email || !password || !passwordRepeat || !lastName || !firstName || !phonenumber || !businessId) {
         return { error: "All fields are required" };
     }
 
@@ -46,7 +47,8 @@ export default async function signupAction(
                 password,
                 first_name: firstName,
                 last_name: lastName,
-                phonenumber
+                phonenumber,
+                business_id: businessId
             })
         });
 
