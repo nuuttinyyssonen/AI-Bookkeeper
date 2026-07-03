@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
     const authToken = req.cookies.get("vero_auth_token")?.value;
-    const body = await req.json();
+    const token = req.cookies.get("token")?.value;
+    const { reportId, ...veroBody } = await req.json();
 
     const response = await fetch("https://api-sandbox.vero.fi/Return/SAT/FileVATReturn/v2", {
         method: "POST",
@@ -14,9 +15,17 @@ export async function POST(req: NextRequest) {
             "Accept": "*/*",
             ...(authToken && { "Vero-AuthorizationToken": authToken }),
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify(veroBody),
     });
 
     const data = await response.json();
+
+    if (response.ok && data.UniqueIdentifier && reportId) {
+        await fetch(`http://localhost:5001/api/report/${reportId}/declaration-sent`, {
+            method: "PUT",
+            headers: { Cookie: `token=${token}` },
+        });
+    }
+
     return NextResponse.json(data, { status: response.status });
 }

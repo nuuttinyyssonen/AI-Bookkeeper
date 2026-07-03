@@ -51,6 +51,7 @@ export default function VatReturnForm({ user, reports }: Props) {
         setLoading(true);
 
         const body = {
+            reportId: selectedReportId,
             ReplacementReturn: false,
             BusinessId: user.business_id,
             FilingPeriod: fields.filingPeriod,

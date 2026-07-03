@@ -14,7 +14,7 @@ export default function VatReturned({report}: Props) {
                     ? "bg-teal-600 text-white hover:bg-teal-700"
                     : "border border-slate-200 text-slate-700 hover:bg-slate-50"
             }`}>
-                {report.vat_declaration_sent ? "Submitted ✓" : "Mark as submitted"}
+                {report.vat_declaration_sent ? "Submitted ✓" : "Not submitted"}
             </button>
         </div>
     );
