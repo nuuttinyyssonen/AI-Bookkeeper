@@ -8,7 +8,17 @@ export default async function VatReturnPage() {
     await authenticateUser();
     const veroToken = await getVeroAuthToken();
 
-    const { user } = await getUserData();
+    const data = await getUserData();
+
+    if ("error" in data) {
+        return (
+            <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+                <p className="text-sm text-muted-foreground">{data.error}</p>
+            </div>
+        );
+    }
+
+    const { user } = data;
     const reports = await getReports();
     const businessId = user.business_id
 

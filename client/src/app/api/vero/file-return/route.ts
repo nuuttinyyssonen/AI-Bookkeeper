@@ -18,8 +18,5 @@ export async function POST(req: NextRequest) {
     });
 
     const data = await response.json();
-    console.log("file-return request body:", JSON.stringify(body, null, 2));
-    console.log("vero response status:", response.status);
-    console.log("vero response:", data);
     return NextResponse.json(data, { status: response.status });
 }
