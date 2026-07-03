@@ -57,7 +57,7 @@ export const getUserData = async (req: Request, res: Response, next: NextFunctio
 
 export const updateUserData = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
-    const { first_name, last_name, email, phonenumber } = req.body;
+    const { first_name, last_name, email, phonenumber, business_id } = req.body;
     const foundUser = await prisma.user.findUnique({ where: { email: email } });
     if(foundUser && foundUser.id != user.id) {
         return next(new ConflictError("This email is already taken"));
@@ -69,7 +69,8 @@ export const updateUserData = async (req: Request, res: Response, next: NextFunc
                 first_name: first_name,
                 last_name: last_name,
                 email: email,
-                phonenumber: phonenumber
+                phonenumber: phonenumber,
+                business_id: business_id
             }   
         });
         res.status(200).json({ message: "User data updated successfully" });
