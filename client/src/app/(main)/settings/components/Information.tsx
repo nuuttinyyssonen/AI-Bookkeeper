@@ -16,6 +16,7 @@ export default function Information({ user }: Props) {
         last_name: user.last_name,
         email: user.email,
         phonenumber: user.phonenumber,
+        businessId: user.business_id
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,7 +25,7 @@ export default function Information({ user }: Props) {
 
     const handleSave = async () => {
         setIsLoading(true);
-        const response = await updateUserData(form.first_name, form.last_name, form.email, form.phonenumber);
+        const response = await updateUserData(form.first_name, form.last_name, form.email, form.phonenumber, form.businessId);
         setIsLoading(false);
 
         if (response?.error) {
@@ -42,6 +43,7 @@ export default function Information({ user }: Props) {
             last_name: user.last_name,
             email: user.email,
             phonenumber: user.phonenumber,
+            businessId: user.business_id
         });
         setIsEditing(false);
     };
@@ -100,6 +102,19 @@ export default function Information({ user }: Props) {
                         />
                     ) : (
                         <p className="text-sm font-medium text-slate-950">{user.phonenumber}</p>
+                    )}
+                </div>
+                <div className="space-y-1">
+                    <p className="text-xs text-muted-foreground">Business ID</p>
+                    {isEditing ? (
+                        <input
+                            name="businessId"
+                            value={form.businessId}
+                            onChange={handleChange}
+                            className="w-full h-9 px-3 rounded-md border border-slate-300 text-sm text-slate-950 focus:outline-none focus:ring-1 focus:ring-teal-700"
+                        />
+                    ) : (
+                        <p className="text-sm font-medium text-slate-950">{user.business_id}</p>
                     )}
                 </div>
             </div>

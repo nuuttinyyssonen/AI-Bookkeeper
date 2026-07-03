@@ -14,7 +14,7 @@ export const signupController = async (req: Request, res: Response, next: NextFu
         return next(new ValidationError(result.error.issues[0].message));
     }
 
-    const { email, password, first_name, last_name, phonenumber } = result.data;
+    const { email, password, first_name, last_name, phonenumber, business_id } = result.data;
 
     // Querying user to see if it already exists
     const existingUser = await prisma.user.findUnique({
@@ -50,7 +50,8 @@ export const signupController = async (req: Request, res: Response, next: NextFu
                 first_name,
                 last_name,
                 phonenumber,
-                supabase_id: supabaseData.user.id
+                supabase_id: supabaseData.user.id,
+                business_id
             }
         });
 

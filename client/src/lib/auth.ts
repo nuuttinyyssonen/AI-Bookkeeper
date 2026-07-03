@@ -12,3 +12,16 @@ export const authenticateUser = async () => {
 
     return token;
 };
+
+// Check if a valid Vero authorization token exists in cookies
+export const getVeroAuthToken = async (): Promise<string | null> => {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("vero_auth_token")?.value;
+    const expiresAt = cookieStore.get("vero_auth_expires")?.value;
+
+    if (!token || !expiresAt) return null;
+
+    if (new Date(expiresAt) <= new Date()) return null;
+
+    return token;
+};

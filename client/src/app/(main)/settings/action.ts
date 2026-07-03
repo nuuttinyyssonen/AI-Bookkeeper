@@ -28,7 +28,7 @@ export const getUserData = async () => {
     }
 };
 
-export const updateUserData = async (first_name: string, last_name: string, email: string, phonenumber: string) => {
+export const updateUserData = async (first_name: string, last_name: string, email: string, phonenumber: string, business_id: string) => {
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
 
@@ -39,7 +39,7 @@ export const updateUserData = async (first_name: string, last_name: string, emai
                 'Content-Type': 'application/json',
                 'Cookie': `token=${token}`
             },
-            body: JSON.stringify({ first_name, last_name, email, phonenumber })
+            body: JSON.stringify({ first_name, last_name, email, phonenumber, business_id })
         });
 
         if(!response.ok) {

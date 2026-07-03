@@ -104,25 +104,39 @@ export const createReport = async (req: Request, res: Response, next: NextFuncti
         const purchase_vat_total = purchases.reduce((sum, v) => sum + v.vat_amount, 0);
         const vat_payable = sales_vat_total - purchase_vat_total;
 
-        // Create a new VAT report record in the database with the calculated values and breakdown
-        const report = await prisma.vatReport.create({
-            data: {
+        const reportData = {
+            user_id: user.id,
+            period_start: start,
+            period_end: end,
+            period_type: timePeriod.toUpperCase() as VatReportPeriod,
+            sales_net: sales.reduce((sum, v) => sum + v.net, 0),
+            sales_vat_amount: sales_vat_total,
+            sales_gross: sales.reduce((sum, v) => sum + v.gross, 0),
+            purchase_net: purchases.reduce((sum, v) => sum + v.net, 0),
+            purchase_vat_amount: purchase_vat_total,
+            purchase_gross: purchases.reduce((sum, v) => sum + v.gross, 0),
+            vat_payable,
+            vat_breakdown: { sales, purchases }
+        };
+
+        // If a report for this period already exists and hasn't been sent to Vero yet,
+        // overwrite it in place instead of accumulating duplicate drafts. Reports that
+        // were already declared are left untouched and a new one is created alongside them.
+        const existingReport = await prisma.vatReport.findFirst({
+            where: {
                 user_id: user.id,
+                period_type: reportData.period_type,
                 period_start: start,
                 period_end: end,
-                period_type: timePeriod.toUpperCase() as VatReportPeriod,
-                sales_net: sales.reduce((sum, v) => sum + v.net, 0),
-                sales_vat_amount: sales_vat_total,
-                sales_gross: sales.reduce((sum, v) => sum + v.gross, 0),
-                purchase_net: purchases.reduce((sum, v) => sum + v.net, 0),
-                purchase_vat_amount: purchase_vat_total,
-                purchase_gross: purchases.reduce((sum, v) => sum + v.gross, 0),
-                vat_payable,
-                vat_breakdown: { sales, purchases }
+                vat_declaration_sent: false
             }
         });
 
-        return res.status(201).json(report);
+        const report = existingReport
+            ? await prisma.vatReport.update({ where: { id: existingReport.id }, data: reportData })
+            : await prisma.vatReport.create({ data: reportData });
+
+        return res.status(existingReport ? 200 : 201).json(report);
 
     } catch(error) {
         next(error);
@@ -175,6 +189,26 @@ export const deleteReportById = async (req: Request<{id: string}>, res: Response
         await prisma.vatReport.delete({ where: { id } });
         
         return res.status(200).json({ message: "report deleted successfully" });
+    } catch(error) {
+        next(error);
+    }
+};
+
+export const updateReportVatDeclarationSent = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
+    // Getting ID from params and validating with zod.
+    const idResult = idSchema.safeParse(req.params);
+    if (!idResult.success) {
+        return next(new ValidationError(idResult.error.issues[0].message));
+    }
+
+    const { id } = idResult.data;
+    
+    try {
+        await prisma.vatReport.update({
+            where: { id },
+            data: { vat_declaration_sent: true },
+        });
+        return res.status(200).json({ message: "report updated successfully" });
     } catch(error) {
         next(error);
     }

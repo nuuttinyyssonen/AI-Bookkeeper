@@ -7,6 +7,7 @@ const navigationItems = [
     { label: "Dashboard", href: "/dashboard" },
     { label: "Receipts", href: "/receipts" },
     { label: "Reports", href: "/reports" },
+    { label: "VAT return", href: "/vat-return" },
     { label: "AI assistant", href: "/assistant" },
     { label: "Settings", href: "/settings" },
 ];

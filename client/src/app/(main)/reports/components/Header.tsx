@@ -5,16 +5,14 @@ import { toast } from "sonner";
 import { createReport } from "../action";
 
 interface Props {
-    reports: Report[];
-    setReports: React.Dispatch<React.SetStateAction<Report[]>>;
+    reports: any[];
+    setReports: React.Dispatch<React.SetStateAction<any[]>>;
 };
 
 export default function Header({reports, setReports}: Props) {
     const [isOpen, setIsOpen] = useState(false);
     const [timePeriod, setTimePeriod] = useState("Q1");
     const [isPending, setIsPending] = useState(false);
-
-    console.log(reports)
 
     const handleSubmit = async () => {
         setIsPending(true);
@@ -23,7 +21,12 @@ export default function Header({reports, setReports}: Props) {
             toast.error(result.error);
         } else {
             toast.success("Report generated successfully");
-            setReports(prev => [result.data, ...prev]);
+            setReports(prev => {
+                const exists = prev.some(r => r.id === result.data.id);
+                return exists
+                    ? prev.map(r => (r.id === result.data.id ? result.data : r))
+                    : [result.data, ...prev];
+            });
             setIsOpen(false);
         }
         setIsPending(false);
