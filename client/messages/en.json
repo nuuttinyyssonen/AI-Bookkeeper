@@ -14,7 +14,7 @@
     "accountCreated": "Account created successfully!",
     "passwordReset": "Password updated successfully!"
   },
-  
+
   "resetPassword": {
     "title": "Reset password",
     "description": "Reset your password here",
@@ -79,5 +79,32 @@
     "submitting": "Creating account...",
     "alreadyHaveAccount": "Already have an account?",
     "signIn": "Sign in"
+  },
+
+  "chatHistory": {
+    "newChat": "New chat",
+    "recent": "Recent",
+    "unnamedChat": "Unnamed chat"
+  },
+
+  "assistantHeader": {
+    "title": "VAT Questions",
+    "subtitle": "AI Accounting Assistant",
+    "chats": "Chats"
+  },
+
+  "chatInput": {
+    "placeholder": "Ask about VAT, expenses, reports...",
+    "disclaimer": "AI can make mistakes. Always verify important financial decisions."
+  },
+
+  "welcomeScreen": {
+    "greeting": "Hi, {name} 👋",
+    "subtitle": "Ask anything about bookkeeping, VAT, or finances.",
+    "suggestions": [
+        "What is the VAT rate?",
+        "How do I do a financial statement?",
+        "Can I deduct travel expenses?"
+    ]
   }
 }

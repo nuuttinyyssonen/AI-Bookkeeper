@@ -79,5 +79,32 @@
     "submitting": "Luodaan tiliä...",
     "alreadyHaveAccount": "Onko sinulla jo tili?",
     "signIn": "Kirjaudu sisään"
+  },
+
+  "chatHistory": {
+    "newChat": "Uusi chat",
+    "recent": "Viimeisimmät",
+    "unnamedChat": "Nimetön chat"
+  },
+
+  "assistantHeader": {
+    "title": "ALV-kysymykset",
+    "subtitle": "AI-kirjanpitoassistentti",
+    "chats": "Chatit"
+  },
+
+  "chatInput": {
+    "placeholder": "Kysy ALV:stä, kuluista, raporteista...",
+    "disclaimer": "Tekoäly voi tehdä virheitä. Tarkista aina tärkeät taloudelliset päätökset."
+  },
+
+  "welcomeScreen": {
+    "greeting": "Hei, {name} 👋",
+    "subtitle": "Kysy mitä tahansa kirjanpidosta, ALV:stä tai taloudesta.",
+    "suggestions": [
+        "Mikä on ALV-kanta?",
+        "Miten teen tilinpäätöksen?",
+        "Voinko vähentää matkakulut?"
+    ]
   }
 }
