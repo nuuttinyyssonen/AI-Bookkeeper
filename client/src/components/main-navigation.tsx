@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 
+import LanguageSwitcher from "./LanguageSwitcher";
+
 const navigationItems = [
     { key: "dashboard", href: "/dashboard" },
     { key: "receipts", href: "/receipts" },
@@ -85,6 +87,7 @@ export default function MainNavigation({ variant }: MainNavigationProps) {
                     </Link>
                 );
             })}
+            <LanguageSwitcher />
         </>
     );
 }

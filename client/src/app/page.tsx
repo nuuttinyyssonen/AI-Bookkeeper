@@ -4,6 +4,8 @@ import {
   Receipt, Wallet, AlertTriangle, Check, ArrowRight, Sparkles,
 } from "lucide-react";
 
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+
 async function Nav() {
   const t = await getTranslations('home.nav');
   return (
@@ -19,6 +21,7 @@ async function Nav() {
           <a href="#features" className="hover:text-slate-900 transition-colors">{t('features')}</a>
           <a href="#pricing" className="hover:text-slate-900 transition-colors">{t('pricing')}</a>
           <a href="#problem" className="hover:text-slate-900 transition-colors">{t('whyUs')}</a>
+          <LanguageSwitcher />
         </nav>
         <div className="flex items-center gap-3">
           <a href="/login" className="hidden text-sm font-medium text-slate-600 hover:text-slate-900 sm:inline">{t('signIn')}</a>
