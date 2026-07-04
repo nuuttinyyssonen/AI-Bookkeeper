@@ -150,5 +150,165 @@
 
   "transactions": {
     "title": "Recent transactions"
+  },
+
+  "pricingCards": {
+    "currentPlan": "Current plan",
+    "mostPopular": "Most popular",
+    "perMonth": "/ mo",
+    "billedAs": "Billed as {price} / year",
+    "confirmCharge": "You will be charged <bold>{price}</bold> immediately. Confirm?",
+    "confirm": "Confirm",
+    "processing": "Processing...",
+    "cancel": "Cancel",
+    "selectPlan": "Select {name}",
+    "plans": {
+        "basic": {
+            "description": "For individuals and freelancers",
+            "features": ["Unlimited receipts", "AI bookkeeper", "Monthly reports", "Email support"]
+        },
+        "premium": {
+            "description": "For small businesses",
+            "features": ["Everything in Basic", "Priority support", "Advanced analytics", "Multi-user access"]
+        }
+    }
+  },
+
+  "pricingProvider": {
+    "title": "Choose your plan",
+    "subtitle": "Upgrade or downgrade at any time",
+    "backToDashboard": "Back to dashboard"
+  },
+
+  "toggleButton": {
+    "save": "Save ~17%",
+    "monthly": "Monthly",
+    "yearly": "Yearly"
+  },
+
+  "receiptButtons": {
+    "saving": "Saving...",
+    "saveChanges": "Save changes",
+    "cancel": "Cancel",
+    "deleteReceipt": "Delete receipt",
+    "downloadPdf": "Download PDF"
+  },
+
+  "categories": {
+    "label": "Category",
+    "placeholder": "Select category",
+    "TOIMISTOKULUT": "Office expenses",
+    "MATKAKULUT": "Travel expenses",
+    "EDUSTUSKULUT": "Representation expenses",
+    "ATERIA": "Meals",
+    "MARKKINOINTI_JA_MAINONTA": "Marketing and advertising",
+    "KALUSTO_JA_LAITTEET": "Equipment and devices",
+    "PALKKAKULUT_JA_PALKKIOT": "Payroll and fees",
+    "VUOKRA": "Rent",
+    "VAKUUTUKSET": "Insurance",
+    "PUHELIN_JA_TIETOLIIKENNE": "Phone and telecommunications",
+    "OHJELMISTOT_JA_LISENSSIT": "Software and licenses",
+    "KOULUTUS_JA_KURSSIT": "Education and courses",
+    "KIRJANPITO_JA_LAKIPALVELUT": "Accounting and legal services",
+    "PANKKIKULUT": "Bank fees",
+    "AJONEUVOKULUT": "Vehicle expenses",
+    "KOTITOIMISTON_KULUT": "Home office expenses",
+    "YKSITYISOTOT": "Private withdrawals",
+    "MUUT_KULUT": "Other expenses",
+    "MYYNTI_TUOTTEET": "Sales — products",
+    "MYYNTI_PALVELUT": "Sales — services",
+    "MUUT_TULOT": "Other income"
+  },
+
+  "deductible": {
+    "label": "Deductible",
+    "yes": "Yes",
+    "no": "No",
+    "percentage": "Deduction percentage:",
+    "other": "Other"
+  },
+
+  "receiptHeader": {
+    "title": "Receipt details",
+    "description": "Review the full receipt, image, and action options.",
+    "back": "Back to receipts"
+  },
+
+  "receiptImage": {
+    "title": "Receipt image",
+    "description": "Preview the uploaded receipt for this entry.",
+    "loading": "Loading receipt preview...",
+    "noPreview": "No preview available."
+  },
+
+  "receipt": {
+    "loading": "Loading...",
+    "notFound": "Receipt not found",
+    "notFoundDescription": "The receipt you are looking for does not exist.",
+    "backToReceipts": "Back to receipts",
+    "deleted": "Receipt deleted",
+    "deletedDescription": "This receipt has been removed from your list.",
+    "deleteSuccess": "File deleted successfully",
+    "updateSuccess": "Receipt updated successfully"
+  },
+
+  "receiptDetails": {
+    "vendor": "Vendor",
+    "date": "Date",
+    "total": "Total",
+    "editReceipt": "Edit receipt"
+  },
+
+  "vats": {
+    "breakdown": "VAT breakdown",
+    "rate": "Rate %",
+    "net": "Net €",
+    "vat": "VAT €",
+    "total": "Total €",
+    "rateValue": "Rate: {rate}%",
+    "netValue": "Net: €{amount}",
+    "vatValue": "VAT: €{amount}",
+    "totalValue": "Total: €{amount}",
+    "notAvailable": "VAT details not available."
+  },
+
+  "receiptData": {
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {page} of {totalPages}"
+  },
+
+  "receipts": {
+    "vatBreakdown": "VAT breakdown",
+    "rateValue": "Rate: {rate}%",
+    "netValue": "Net: €{amount}",
+    "vatValue": "VAT: €{amount}",
+    "totalValue": "Total: €{amount}",
+    "vatNotAvailable": "VAT details not available.",
+    "noCategory": "No category",
+    "deductible": "Deductible",
+    "notDeductible": "Not deductible",
+    "view": "View",
+    "export": "Export"
+  },
+
+  "receiptsEmpty": {
+    "title": "No receipts found",
+    "description": "Try uploading a receipt or adjust your search."
+  },
+
+  "receiptsHeader": {
+    "title": "Receipts",
+    "description": "Your uploaded receipts and parsed totals.",
+    "processing": "Processing documents...",
+    "search": "Search vendor...",
+    "to": "to",
+    "clear": "Clear",
+    "exportExcel": "Export Excel"
+  },
+
+  "receiptTabs": {
+    "expenses": "Expenses ({count})",
+    "income": "Income ({count})"
   }
 }

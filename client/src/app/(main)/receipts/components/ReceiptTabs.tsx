@@ -1,14 +1,17 @@
-import { Button } from "@/components/ui/button";
+"use client";
 
-interface ReceiptTabsProps { 
+import { useTranslations } from "next-intl";
+
+interface ReceiptTabsProps {
     activeTab: "EXPENSE" | "INCOME";
     setActiveTab: (tab: "EXPENSE" | "INCOME") => void;
     expenseCount: number;
     incomeCount: number;
 }
 
-
 export default function ReceiptTabs({ activeTab, setActiveTab, expenseCount, incomeCount }: ReceiptTabsProps) {
+    const t = useTranslations('receiptTabs');
+
     return (
         <div className="mb-6 flex gap-2 border-b border-slate-200">
             <button
@@ -19,7 +22,7 @@ export default function ReceiptTabs({ activeTab, setActiveTab, expenseCount, inc
                         : "text-slate-500 hover:text-slate-700"
                 }`}
             >
-                Expenses ({expenseCount})
+                {t('expenses', { count: expenseCount })}
             </button>
             <button
                 onClick={() => setActiveTab("INCOME")}
@@ -29,7 +32,7 @@ export default function ReceiptTabs({ activeTab, setActiveTab, expenseCount, inc
                         : "text-slate-500 hover:text-slate-700"
                 }`}
             >
-                Income ({incomeCount})
+                {t('income', { count: incomeCount })}
             </button>
         </div>
     );

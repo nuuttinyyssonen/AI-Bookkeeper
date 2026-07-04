@@ -1,4 +1,7 @@
-import { Button } from "@/components/ui/button"
+'use client';
+
+import { useTranslations } from 'next-intl';
+import { Button } from "@/components/ui/button";
 
 interface Props {
     handleDelete: () => void;
@@ -6,9 +9,11 @@ interface Props {
     isLoading: boolean;
     handleSave: () => void;
     handleCancel: () => void;
-};
+}
 
 export default function Buttons({ handleDelete, isEditing, isLoading, handleSave, handleCancel }: Props) {
+    const t = useTranslations('receiptButtons');
+
     return (
         <div className="mt-6 flex flex-wrap gap-3">
             {isEditing ? (
@@ -18,22 +23,22 @@ export default function Buttons({ handleDelete, isEditing, isLoading, handleSave
                         disabled={isLoading}
                         className="h-9 px-4 rounded-md bg-teal-700 text-sm font-medium text-white hover:bg-teal-800 disabled:opacity-50 transition-colors"
                     >
-                        {isLoading ? 'Saving...' : 'Save changes'}
+                        {isLoading ? t('saving') : t('saveChanges')}
                     </button>
                     <button
                         onClick={handleCancel}
                         disabled={isLoading}
                         className="h-9 px-4 rounded-md border border-slate-300 bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50 transition-colors"
                     >
-                        Cancel
+                        {t('cancel')}
                     </button>
                 </>
             ) : (
                 <>
-                    <Button className="bg-red-600 text-white hover:bg-red-700" onClick={handleDelete}>Delete receipt</Button>
-                    <Button className="bg-teal-600 text-white hover:bg-teal-700">Download PDF</Button>
+                    <Button className="bg-red-600 text-white hover:bg-red-700" onClick={handleDelete}>{t('deleteReceipt')}</Button>
+                    <Button className="bg-teal-600 text-white hover:bg-teal-700">{t('downloadPdf')}</Button>
                 </>
             )}
         </div>
-    )
-};
+    );
+}

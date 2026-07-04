@@ -150,5 +150,165 @@
 
   "transactions": {
     "title": "Viimeisimmät tapahtumat"
+  },
+
+  "pricingCards": {
+    "currentPlan": "Nykyinen paketti",
+    "mostPopular": "Suosituin",
+    "perMonth": "/ kk",
+    "billedAs": "Laskutetaan {price} / vuosi",
+    "confirmCharge": "Sinulta veloitetaan <bold>{price}</bold> välittömästi. Vahvista?",
+    "confirm": "Vahvista",
+    "processing": "Käsitellään...",
+    "cancel": "Peruuta",
+    "selectPlan": "Valitse {name}",
+    "plans": {
+        "basic": {
+            "description": "Yksityishenkilöille ja freelancereille",
+            "features": ["Rajattomat kuitit", "AI-kirjanpitäjä", "Kuukausiraportit", "Sähköpostituki"]
+        },
+        "premium": {
+            "description": "Pienyrityksille",
+            "features": ["Kaikki Basic-paketista", "Prioriteettituki", "Edistynyt analytiikka", "Monikäyttäjätuki"]
+        }
+    }
+  },
+
+  "pricingProvider": {
+    "title": "Valitse tilauksesi",
+    "subtitle": "Päivitä tai alenna milloin tahansa",
+    "backToDashboard": "Takaisin kojelautaan"
+  },
+
+  "toggleButton": {
+    "save": "Säästä ~17%",
+    "monthly": "Kuukausittain",
+    "yearly": "Vuosittain"
+  },
+
+  "receiptButtons": {
+    "saving": "Tallennetaan...",
+    "saveChanges": "Tallenna muutokset",
+    "cancel": "Peruuta",
+    "deleteReceipt": "Poista kuitti",
+    "downloadPdf": "Lataa PDF"
+  },
+
+  "categories": {
+    "label": "Kategoria",
+    "placeholder": "Valitse kategoria",
+    "TOIMISTOKULUT": "Toimistokulut",
+    "MATKAKULUT": "Matkakulut",
+    "EDUSTUSKULUT": "Edustuskulut",
+    "ATERIA": "Ateria",
+    "MARKKINOINTI_JA_MAINONTA": "Markkinointi ja mainonta",
+    "KALUSTO_JA_LAITTEET": "Kalusto ja laitteet",
+    "PALKKAKULUT_JA_PALKKIOT": "Palkkakulut ja palkkiot",
+    "VUOKRA": "Vuokra",
+    "VAKUUTUKSET": "Vakuutukset",
+    "PUHELIN_JA_TIETOLIIKENNE": "Puhelin ja tietoliikenne",
+    "OHJELMISTOT_JA_LISENSSIT": "Ohjelmistot ja lisenssit",
+    "KOULUTUS_JA_KURSSIT": "Koulutus ja kurssit",
+    "KIRJANPITO_JA_LAKIPALVELUT": "Kirjanpito ja lakipalvelut",
+    "PANKKIKULUT": "Pankkikulut",
+    "AJONEUVOKULUT": "Ajoneuvokulut",
+    "KOTITOIMISTON_KULUT": "Kotitoimiston kulut",
+    "YKSITYISOTOT": "Yksityisotot",
+    "MUUT_KULUT": "Muut kulut",
+    "MYYNTI_TUOTTEET": "Myynti — tuotteet",
+    "MYYNTI_PALVELUT": "Myynti — palvelut",
+    "MUUT_TULOT": "Muut tulot"
+  },
+
+  "deductible": {
+    "label": "Vähennyskelpoinen",
+    "yes": "Kyllä",
+    "no": "Ei",
+    "percentage": "Vähennysosuus:",
+    "other": "Muu"
+  },
+
+  "receiptHeader": {
+    "title": "Kuitin tiedot",
+    "description": "Tarkastele kuitin tietoja, kuvaa ja toimintovaihtoehtoja.",
+    "back": "Takaisin kuitteihin"
+  },
+
+  "receiptImage": {
+    "title": "Kuitin kuva",
+    "description": "Esikatsele tähän kirjaukseen ladattu kuitti.",
+    "loading": "Ladataan kuitin esikatselua...",
+    "noPreview": "Esikatselu ei ole saatavilla."
+  },
+
+  "receipt": {
+    "loading": "Ladataan...",
+    "notFound": "Kuittia ei löydy",
+    "notFoundDescription": "Etsimääsi kuittia ei ole olemassa.",
+    "backToReceipts": "Takaisin kuitteihin",
+    "deleted": "Kuitti poistettu",
+    "deletedDescription": "Tämä kuitti on poistettu listaltasi.",
+    "deleteSuccess": "Tiedosto poistettu onnistuneesti",
+    "updateSuccess": "Kuitti päivitetty onnistuneesti"
+  },
+
+  "receiptDetails": {
+    "vendor": "Toimittaja",
+    "date": "Päivämäärä",
+    "total": "Yhteensä",
+    "editReceipt": "Muokkaa kuittia"
+  },
+
+  "vats": {
+    "breakdown": "ALV-erittely",
+    "rate": "Verokanta %",
+    "net": "Veroton €",
+    "vat": "ALV €",
+    "total": "Yhteensä €",
+    "rateValue": "Verokanta: {rate}%",
+    "netValue": "Veroton: €{amount}",
+    "vatValue": "ALV: €{amount}",
+    "totalValue": "Yhteensä: €{amount}",
+    "notAvailable": "ALV-tietoja ei saatavilla."
+  },
+
+  "receiptData": {
+    "previous": "Edellinen",
+    "next": "Seuraava",
+    "page": "Sivu {page} / {totalPages}"
+  },
+
+  "receipts": {
+    "vatBreakdown": "ALV-erittely",
+    "rateValue": "Vero %: {rate}%",
+    "netValue": "Veroton: €{amount}",
+    "vatValue": "ALV: €{amount}",
+    "totalValue": "Yhteensä: €{amount}",
+    "vatNotAvailable": "ALV-tietoja ei saatavilla.",
+    "noCategory": "Ei kategoriaa",
+    "deductible": "Vähennyskelpoinen",
+    "notDeductible": "Ei vähennyskelpoinen",
+    "view": "Näytä",
+    "export": "Vie"
+  },
+
+  "receiptsEmpty": {
+    "title": "Kuitteja ei löydy",
+    "description": "Kokeile ladata kuitti tai muuta hakuasi."
+  },
+
+  "receiptsHeader": {
+    "title": "Kuitit",
+    "description": "Ladatut kuittisi ja analysoidut summat.",
+    "processing": "Käsitellään dokumentteja...",
+    "search": "Hae kuittia...",
+    "to": "asti",
+    "clear": "Tyhjennä",
+    "exportExcel": "Vie Exceliin"
+  },
+
+  "receiptTabs": {
+    "expenses": "Kulut ({count})",
+    "income": "Tulot ({count})"
   }
 }

@@ -1,4 +1,6 @@
-import { Button } from "@/components/ui/button";
+"use client";
+
+import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import { downloadReceiptsExcel } from "@/lib/exportReceipt";
 
@@ -15,6 +17,8 @@ interface Props {
 }
 
 export default function ReceiptsHeader({ isProcessing, query, setQuery, from, setFrom, to, setTo, onClear, activeTab }: Props) {
+    const t = useTranslations('receiptsHeader');
+
     const handleExport = () => {
         downloadReceiptsExcel({
             type: activeTab,
@@ -27,17 +31,17 @@ export default function ReceiptsHeader({ isProcessing, query, setQuery, from, se
     return (
         <div className="mb-6 flex flex-col gap-4">
             <div>
-                <h1 className="text-3xl font-semibold">Receipts</h1>
-                <p className="mt-1 text-sm text-slate-600">Your uploaded receipts and parsed totals.</p>
+                <h1 className="text-3xl font-semibold">{t('title')}</h1>
+                <p className="mt-1 text-sm text-slate-600">{t('description')}</p>
                 {isProcessing && (
-                    <p className="mt-1 text-sm text-teal-600 animate-pulse">Processing documents...</p>
+                    <p className="mt-1 text-sm text-teal-600 animate-pulse">{t('processing')}</p>
                 )}
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
                 <Input
                     className="w-56"
-                    placeholder="Search vendor..."
+                    placeholder={t('search')}
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                 />
@@ -47,7 +51,7 @@ export default function ReceiptsHeader({ isProcessing, query, setQuery, from, se
                     onChange={(e) => setFrom(e.target.value)}
                     className="h-9 rounded-md border border-slate-200 px-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
                 />
-                <span className="text-sm text-slate-400">to</span>
+                <span className="text-sm text-slate-400">{t('to')}</span>
                 <input
                     type="date"
                     value={to}
@@ -58,13 +62,13 @@ export default function ReceiptsHeader({ isProcessing, query, setQuery, from, se
                     className="h-9 px-3 text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-100"
                     onClick={onClear}
                 >
-                    Clear
+                    {t('clear')}
                 </button>
                 <button
                     className="h-9 px-3 text-sm font-semibold text-white bg-teal-600 rounded-lg hover:bg-teal-700"
                     onClick={handleExport}
                 >
-                    Export Excel
+                    {t('exportExcel')}
                 </button>
             </div>
         </div>
