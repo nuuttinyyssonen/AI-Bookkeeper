@@ -482,5 +482,151 @@
     "cancel": "Peruuta",
     "deleteAccount": "Poista tili",
     "backToDashboard": "Takaisin etusivulle"
+  },
+
+  "expenseUpload": {
+    "title": "Meno kuitit",
+    "subtitle": "Ostot ja kulut",
+    "selectFiles": "Valitse tiedostot"
+  },
+
+  "uploadHeader": {
+    "label": "Lataa",
+    "title": "Lisää dokumentteja"
+  },
+
+  "incomeUpload": {
+    "title": "Tulokuitit",
+    "subtitle": "Myynti ja tuotot",
+    "selectFiles": "Valitse tiedostot"
+  },
+
+  "uploadButtons": {
+    "uploading": "Ladataan...",
+    "upload": "Lataa",
+    "clear": "Tyhjennä"
+  },
+
+  "uploadOverview": {
+    "analyzing": "Analysoidaan kuitteja...",
+    "uploadSuccess": "Tiedostot ladattu onnistuneesti",
+    "analyzeSuccess": "{completed}/{total} kuitti(a) analysoitu",
+    "analyzedProgress": "{completed}/{total} analysoitu",
+    "analyzeFailed": "Kuittien analysointi epäonnistui"
+  },
+
+  "vatReturnPage": {
+    "authRequired": "Vero-tunnistautuminen vaaditaan",
+    "authDescription": "Sinun täytyy valtuuttaa Vero-yhteys ennen ALV-ilmoituksen lähettämistä.",
+    "authorizeButton": "Valtuuta Vero",
+    "title": "ALV-ilmoitus",
+    "selectPeriod": "Valitse ilmoituskausi",
+    "noPeriodsAvailable": "Ilmoituskausia ei ole saatavilla."
+  },
+
+  "vatReturnForm": {
+    "title": "Lähetä ALV-ilmoitus",
+    "selectReport": "Valitse raportti",
+    "filingPeriod": "Ilmoituskausi",
+    "vatHigh": "ALV myynneistä 25,5%",
+    "vatMedium": "ALV myynneistä 13,5%",
+    "vatLow": "ALV myynneistä 10%",
+    "deductibleVat": "Vähennyskelpoinen ALV",
+    "contactName": "Yhteyshenkilön nimi",
+    "phoneNumber": "Puhelinnumero",
+    "cancel": "Peruuta",
+    "edit": "Muokkaa",
+    "sending": "Lähetetään...",
+    "submit": "Lähetä Verolle",
+    "filedSuccess": "ALV-ilmoitus lähetetty onnistuneesti",
+    "id": "Tunnus: {id}",
+    "timestamp": "Aikaleima: {timestamp}",
+    "viewFiled": "Näytä lähetetty ilmoitus",
+    "filedDetails": "Lähetetyn ilmoituksen tiedot",
+    "status": "Tila",
+    "submitted": "Lähetetty",
+    "taxPayable": "Maksettava vero"
+  },
+
+  "home": {
+    "nav": {
+        "features": "Ominaisuudet",
+        "pricing": "Hinnoittelu",
+        "whyUs": "Miksi me",
+        "signIn": "Kirjaudu",
+        "tryFree": "Kokeile ilmaiseksi"
+    },
+    "hero": {
+        "badge": "Tehty suomalaisille pienyrityksille",
+        "title": "Automatisoi kirjanpitosi tekoälyllä",
+        "description": "Säästä tunteja joka viikko ja satoja euroja joka kuukausi. Ota kuva kuitista — tekoäly hoitaa loput, mukaan lukien suomalaisen ALV:n.",
+        "tryFree": "Kokeile ilmaiseksi",
+        "seeFeatures": "Katso ominaisuudet",
+        "footnote": "Ei luottokorttia · 14 päivän ilmainen kokeilu"
+    },
+    "problem": {
+        "label": "Ongelma",
+        "title": "Kirjanpidon ei pitäisi olla näin tuskallista",
+        "items": [
+            { "title": "Kuitit kasautuvat", "text": "Jokaisen kuitin, laskun ja pankkirivin manuaalinen syöttäminen vie tunteja viikossa." },
+            { "title": "Kirjanpitäjät ovat kalliita", "text": "Perinteiset kirjanpitäjät veloittavat 200–600€ kuukaudessa — paljon pienyritykselle." },
+            { "title": "Virheet maksavat oikeaa rahaa", "text": "Väärä ALV-kanta tai unohtunut vähennys voi tarkoittaa sakkoja tai tuhansia euroja menetyksiä vuodessa." }
+        ]
+    },
+    "features": {
+        "label": "Ominaisuudet",
+        "title": "Kaikki mitä tarvitset kirjanpitoon",
+        "description": "Korvaa taulukkolaskennat, kuittikansiot ja sähköpostit yhdellä selkeällä hallintapaneelilla.",
+        "items": [
+            { "title": "OCR-kuittiskannaus", "text": "Ota kuva tai lataa PDF — tekoäly poimii toimittajan, päivämäärän, summan, ALV:n ja kategorian sekunneissa." },
+            { "title": "Automaattinen ALV-laskenta", "text": "Suomalaiset ALV-kannat (0%, 10%, 14%, 24%) sovellettuna oikein jokaiseen tapahtumaan, aina." },
+            { "title": "Välittömät tuloslaskelmat", "text": "Kuukausi- ja vuosiraportit luodaan automaattisesti. Vie PDF:ksi tai jaa kirjanpitäjälle." },
+            { "title": "Tekoälyavustaja kirjanpitoon", "text": "Kysy mitä tahansa suomeksi tai englanniksi: 'Paljonko käytin matkustamiseen viime neljänneksellä?'" }
+        ]
+    },
+    "pricing": {
+        "label": "Hinnoittelu",
+        "title": "Yksinkertainen hinnoittelu. Isot säästöt.",
+        "description": "10× halvempi kuin perinteinen kirjanpitäjä. Peruuta milloin tahansa.",
+        "mostPopular": "Suosituin",
+        "tiers": [
+            {
+                "name": "Ilmainen kokeilu", "price": "0€", "period": "14 päivää", "desc": "Testaa kaikkia ominaisuuksia, ei korttia tarvita.",
+                "features": ["Enintään 25 kuittia", "ALV-laskenta", "Kuukausiraportti", "Sähköpostituki"],
+                "cta": "Aloita ilmaiseksi"
+            },
+            {
+                "name": "Perus", "price": "19€", "period": "/ kk", "desc": "Freelancereille ja toiminimille.",
+                "features": ["Rajoittamaton kuittiskannaus", "Automaattinen suomalainen ALV", "Kuukausi- ja vuosiraportit", "Tekoälyavustaja (100 kyselyä / kk)", "Sähköpostituki"],
+                "cta": "Valitse Perus"
+            },
+            {
+                "name": "Premium", "price": "39€", "period": "/ kk", "desc": "Kasvaville pienyrityksille.",
+                "features": ["Kaikki Perus-paketista", "Rajoittamaton tekoälyavustaja", "Pankkiintegraatio", "Useampi käyttäjä", "Prioriteettituki"],
+                "cta": "Valitse Premium"
+            }
+        ]
+    },
+    "cta": {
+        "title": "Aloita ilmainen kokeilusi tänään",
+        "description": "Liity satoihin suomalaisiin yrittäjiin, jotka eivät enää halua avata kuittikansiota.",
+        "button": "Aloita ilmaiseksi",
+        "footnote": "14 päivää ilmaiseksi · Ei luottokorttia · Peruuta milloin tahansa"
+    },
+    "footer": {
+        "privacy": "Tietosuoja",
+        "terms": "Käyttöehdot",
+        "contact": "Yhteystiedot"
+    }
+  },
+
+  "mainNavigation": {
+    "dashboard": "Hallintapaneeli",
+    "receipts": "Kuitit",
+    "reports": "Raportit",
+    "vatReturn": "ALV-ilmoitus",
+    "assistant": "Tekoälyavustaja",
+    "settings": "Asetukset",
+    "menu": "Valikko"
   }
 }

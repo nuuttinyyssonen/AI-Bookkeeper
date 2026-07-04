@@ -482,5 +482,152 @@
     "cancel": "Cancel",
     "deleteAccount": "Delete account",
     "backToDashboard": "Back to dashboard"
+  },
+
+  "expenseUpload": {
+    "title": "Expense receipts",
+    "subtitle": "Purchases and costs",
+    "selectFiles": "Select files"
+  },
+
+  "uploadHeader": {
+    "label": "Upload",
+    "title": "Add documents"
+  },
+
+  "incomeUpload": {
+    "title": "Income receipts",
+    "subtitle": "Sales and revenue",
+    "selectFiles": "Select files"
+  },
+
+  "uploadButtons": {
+    "uploading": "Uploading...",
+    "upload": "Upload",
+    "clear": "Clear"
+  },
+
+
+  "uploadOverview": {
+    "analyzing": "Analyzing receipts...",
+    "uploadSuccess": "Files uploaded successfully",
+    "analyzeSuccess": "{completed}/{total} receipt(s) analyzed",
+    "analyzedProgress": "{completed}/{total} analyzed",
+    "analyzeFailed": "Receipt analysis failed"
+  },
+
+  "vatReturnPage": {
+    "authRequired": "Vero authentication required",
+    "authDescription": "You need to authorize with Vero before filing a VAT return.",
+    "authorizeButton": "Authorize with Vero",
+    "title": "VAT Return",
+    "selectPeriod": "Select filing period",
+    "noPeriodsAvailable": "No filing periods available."
+  },
+
+  "vatReturnForm": {
+    "title": "File VAT Return",
+    "selectReport": "Select a report",
+    "filingPeriod": "Filing period",
+    "vatHigh": "VAT on sales 25.5%",
+    "vatMedium": "VAT on sales 13.5%",
+    "vatLow": "VAT on sales 10%",
+    "deductibleVat": "Deductible VAT",
+    "contactName": "Contact name",
+    "phoneNumber": "Phone number",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "sending": "Sending...",
+    "submit": "Submit to Vero",
+    "filedSuccess": "Return filed successfully",
+    "id": "ID: {id}",
+    "timestamp": "Timestamp: {timestamp}",
+    "viewFiled": "View filed return",
+    "filedDetails": "Filed return details",
+    "status": "Status",
+    "submitted": "Submitted",
+    "taxPayable": "Tax payable"
+  },
+
+  "home": {
+    "nav": {
+        "features": "Features",
+        "pricing": "Pricing",
+        "whyUs": "Why us",
+        "signIn": "Sign in",
+        "tryFree": "Try for free"
+    },
+    "hero": {
+        "badge": "Built for Finnish small businesses",
+        "title": "Automate your bookkeeping with AI",
+        "description": "Save hours every week and hundreds of euros every month. Snap a photo of a receipt — AI handles the rest, including Finnish VAT.",
+        "tryFree": "Try for free",
+        "seeFeatures": "See features",
+        "footnote": "No credit card required · 14-day free trial"
+    },
+    "problem": {
+        "label": "The problem",
+        "title": "Bookkeeping shouldn't be this painful",
+        "items": [
+            { "title": "Drowning in receipts", "text": "Manually entering every receipt, invoice and bank line eats hours every week." },
+            { "title": "Accountants are expensive", "text": "Traditional bookkeepers charge 200–600€ per month — a lot for a small business." },
+            { "title": "Mistakes cost real money", "text": "A wrong VAT rate or missed deduction can mean fines or thousands lost each year." }
+        ]
+    },
+    "features": {
+        "label": "Features",
+        "title": "Everything you need to run the books",
+        "description": "Replace spreadsheets, receipt boxes and back-and-forth emails with one calm dashboard.",
+        "items": [
+            { "title": "OCR receipt scanning", "text": "Snap a photo or upload a PDF — AI extracts vendor, date, amount, VAT and category in seconds." },
+            { "title": "Automatic VAT calculation", "text": "Finnish VAT rates (0%, 10%, 14%, 24%) applied correctly on every transaction, every time." },
+            { "title": "Instant income statements", "text": "Monthly and yearly reports generated automatically. Export to PDF or share with your accountant." },
+            { "title": "AI accounting assistant", "text": "Ask anything in plain Finnish or English: 'How much did I spend on travel last quarter?'" }
+        ]
+    },
+    "pricing": {
+        "label": "Pricing",
+        "title": "Simple pricing. Big savings.",
+        "description": "10× cheaper than a traditional accountant. Cancel anytime.",
+        "mostPopular": "Most popular",
+        "tiers": [
+            {
+                "name": "Free trial", "price": "0€", "period": "for 14 days", "desc": "Test every feature, no card needed.",
+                "features": ["Up to 25 receipts", "VAT calculation", "Monthly report", "Email support"],
+                "cta": "Start free"
+            },
+            {
+                "name": "Basic", "price": "19€", "period": "/ month", "desc": "For freelancers and toiminimi.",
+                "features": ["Unlimited receipt scanning", "Automatic Finnish VAT", "Monthly & yearly reports", "AI assistant (100 queries / mo)", "Email support"],
+                "cta": "Choose Basic"
+            },
+            {
+                "name": "Premium", "price": "39€", "period": "/ month", "desc": "For growing small businesses.",
+                "features": ["Everything in Basic", "Unlimited AI assistant", "Bank integration", "Multi-user access", "Priority support"],
+                "cta": "Choose Premium"
+            }
+        ]
+    },
+    "cta": {
+        "title": "Start your free trial today",
+        "description": "Join hundreds of Finnish entrepreneurs who never want to open a receipt folder again.",
+        "button": "Get started free",
+        "footnote": "14 days free · No credit card · Cancel anytime"
+    },
+    "footer": {
+        "privacy": "Privacy",
+        "terms": "Terms",
+        "contact": "Contact"
+    }
+  },
+
+  "mainNavigation": {
+    "dashboard": "Dashboard",
+    "receipts": "Receipts",
+    "reports": "Reports",
+    "vatReturn": "VAT return",
+    "assistant": "AI assistant",
+    "settings": "Settings",
+    "menu": "Menu"
   }
 }

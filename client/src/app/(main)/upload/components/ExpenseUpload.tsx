@@ -1,14 +1,19 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import UploadButtons from "./UploadButtons";
 
 interface Props {
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    selectedFiles: File[],
-    setSelectedFiles: React.Dispatch<React.SetStateAction<File[]>>,
-    isPending: boolean,
+    selectedFiles: File[];
+    setSelectedFiles: React.Dispatch<React.SetStateAction<File[]>>;
+    isPending: boolean;
     runUpload: (files: File[], isIncome: boolean, clearFiles: () => void) => Promise<void>;
-};
+}
 
-export default function ExpenseUpload({handleChange, setSelectedFiles, selectedFiles, isPending, runUpload}: Props) {
+export default function ExpenseUpload({ handleChange, setSelectedFiles, selectedFiles, isPending, runUpload }: Props) {
+    const t = useTranslations('expenseUpload');
+
     return (
         <div className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="flex items-center gap-2">
@@ -18,8 +23,8 @@ export default function ExpenseUpload({handleChange, setSelectedFiles, selectedF
                     </svg>
                 </div>
                 <div>
-                    <p className="text-sm font-semibold text-slate-900">Expense receipts</p>
-                    <p className="text-xs text-slate-500">Purchases and costs</p>
+                    <p className="text-sm font-semibold text-slate-900">{t('title')}</p>
+                    <p className="text-xs text-slate-500">{t('subtitle')}</p>
                 </div>
             </div>
 
@@ -27,7 +32,7 @@ export default function ExpenseUpload({handleChange, setSelectedFiles, selectedF
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                 </svg>
-                Select files
+                {t('selectFiles')}
                 <input
                     type="file"
                     multiple
@@ -48,7 +53,7 @@ export default function ExpenseUpload({handleChange, setSelectedFiles, selectedF
                 </ul>
             )}
 
-            <UploadButtons 
+            <UploadButtons
                 selectedFiles={selectedFiles}
                 setSelectedFiles={setSelectedFiles}
                 isPending={isPending}
@@ -57,4 +62,4 @@ export default function ExpenseUpload({handleChange, setSelectedFiles, selectedF
             />
         </div>
     );
-};
+}
