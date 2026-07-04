@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useActionState, useEffect } from "react";
 import Link from "next/link";
 import { initialStateSignup } from "@/app/types/FormTypes";
@@ -15,6 +16,7 @@ interface SignupFormProps {
 }
 
 export default function SignupForm({ selectedPlan }: SignupFormProps) {
+    const t = useTranslations('signup');
     const [state, formAction, isPending] = useActionState(signupAction, initialStateSignup);
 
     useEffect(() => {
@@ -27,17 +29,15 @@ export default function SignupForm({ selectedPlan }: SignupFormProps) {
         <main className="grid min-h-screen place-items-center bg-[radial-gradient(circle_at_top_left,rgba(20,184,166,0.18),transparent_34%),linear-gradient(135deg,#f8fafc_0%,#eef2f7_48%,#fff7ed_100%)] px-4 py-8 text-slate-950">
             <Card className="w-full max-w-md">
                 <CardHeader>
-                    <CardTitle>Create an account</CardTitle>
-                    <CardDescription>
-                        Enter your information below to create your account
-                    </CardDescription>
+                    <CardTitle>{t('title')}</CardTitle>
+                    <CardDescription>{t('description')}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form action={formAction} className="space-y-4" noValidate>
                         <FieldGroup>
                             <Field>
                                 <input type="hidden" name="selectedPlan" value={selectedPlan} />
-                                <FieldLabel htmlFor="email">Email</FieldLabel>
+                                <FieldLabel htmlFor="email">{t('email')}</FieldLabel>
                                 <Input
                                     id="email"
                                     name="email"
@@ -49,7 +49,7 @@ export default function SignupForm({ selectedPlan }: SignupFormProps) {
 
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <Field>
-                                    <FieldLabel htmlFor="firstName">First name</FieldLabel>
+                                    <FieldLabel htmlFor="firstName">{t('firstName')}</FieldLabel>
                                     <Input
                                         id="firstName"
                                         name="firstName"
@@ -60,7 +60,7 @@ export default function SignupForm({ selectedPlan }: SignupFormProps) {
                                 </Field>
 
                                 <Field>
-                                    <FieldLabel htmlFor="lastName">Last name</FieldLabel>
+                                    <FieldLabel htmlFor="lastName">{t('lastName')}</FieldLabel>
                                     <Input
                                         id="lastName"
                                         name="lastName"
@@ -72,7 +72,7 @@ export default function SignupForm({ selectedPlan }: SignupFormProps) {
                             </div>
 
                             <Field>
-                                <FieldLabel htmlFor="phonenumber">Phone number</FieldLabel>
+                                <FieldLabel htmlFor="phonenumber">{t('phonenumber')}</FieldLabel>
                                 <Input
                                     id="phonenumber"
                                     name="phonenumber"
@@ -83,7 +83,7 @@ export default function SignupForm({ selectedPlan }: SignupFormProps) {
                             </Field>
 
                             <Field>
-                                <FieldLabel htmlFor="phonenumber">Business ID</FieldLabel>
+                                <FieldLabel htmlFor="businessId">{t('businessId')}</FieldLabel>
                                 <Input
                                     id="businessId"
                                     name="businessId"
@@ -95,23 +95,23 @@ export default function SignupForm({ selectedPlan }: SignupFormProps) {
 
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <Field>
-                                    <FieldLabel htmlFor="password">Password</FieldLabel>
+                                    <FieldLabel htmlFor="password">{t('password')}</FieldLabel>
                                     <Input
                                         id="password"
                                         name="password"
                                         type="password"
-                                        placeholder="Password"
+                                        placeholder={t('password')}
                                         autoComplete="new-password"
                                     />
                                 </Field>
 
                                 <Field>
-                                    <FieldLabel htmlFor="passwordRepeat">Confirm password</FieldLabel>
+                                    <FieldLabel htmlFor="passwordRepeat">{t('confirmPassword')}</FieldLabel>
                                     <Input
                                         id="passwordRepeat"
                                         name="passwordRepeat"
                                         type="password"
-                                        placeholder="Repeat password"
+                                        placeholder={t('repeatPassword')}
                                         autoComplete="new-password"
                                     />
                                 </Field>
@@ -119,10 +119,10 @@ export default function SignupForm({ selectedPlan }: SignupFormProps) {
 
                             <Field>
                                 <Button type="submit" disabled={isPending}>
-                                    {isPending ? "Creating account..." : "Create account"}
+                                    {isPending ? t('submitting') : t('submit')}
                                 </Button>
                                 <FieldDescription className="px-6 text-center">
-                                    Already have an account? <Link className="font-semibold text-teal-700 hover:underline" href="/login">Sign in</Link>
+                                    {t('alreadyHaveAccount')} <Link className="font-semibold text-teal-700 hover:underline" href="/login">{t('signIn')}</Link>
                                 </FieldDescription>
                             </Field>
                         </FieldGroup>
@@ -131,4 +131,4 @@ export default function SignupForm({ selectedPlan }: SignupFormProps) {
             </Card>
         </main>
     );
-};
+}

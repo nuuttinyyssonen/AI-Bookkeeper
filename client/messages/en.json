@@ -1,0 +1,83 @@
+{
+  "login": {
+    "title": "Log in",
+    "description": "Enter your details below to continue to your workspace",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Log in",
+    "submitting": "Logging in...",
+    "newHere": "New here?",
+    "createAccount": "Create an account",
+    "forgotPassword": "Forgot your password?",
+    "resetPassword": "Reset your password",
+    "loggedOut": "Logged out successfully",
+    "accountCreated": "Account created successfully!",
+    "passwordReset": "Password updated successfully!"
+  },
+  
+  "resetPassword": {
+    "title": "Reset password",
+    "description": "Reset your password here",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "repeatPassword": "Repeat password",
+    "submit": "Reset password",
+    "submitting": "Resetting...",
+    "backToLogin": "Back to login"
+  },
+
+  "passwordResetEmail": {
+    "title": "Email verification link",
+    "description": "Enter your email below",
+    "email": "Email",
+    "submit": "Send password reset link",
+    "submitting": "Sending...",
+    "successMessage": "Password reset link sent! Check your email.",
+    "backToLogin": "Back to login"
+  },
+
+  "planSelector": {
+    "choosePlan": "Choose a plan",
+    "mostPopular": "Most popular",
+    "plans": {
+        "FREE_TRIAL": {
+            "name": "Free trial",
+            "price": "€0",
+            "period": "/ 14 days",
+            "description": "Get started, no card needed",
+            "features": ["25 receipts included", "All basic features", "No credit card required"]
+        },
+        "BASIC": {
+            "name": "Basic",
+            "price": "€19.99",
+            "period": "/ mo",
+            "description": "For individuals and freelancers",
+            "features": ["Unlimited receipts", "AI bookkeeper", "Monthly reports"]
+        },
+        "PREMIUM": {
+            "name": "Premium",
+            "price": "€39.99",
+            "period": "/ mo",
+            "description": "For small businesses",
+            "features": ["Everything in Basic", "Priority support", "Advanced analytics"]
+        }
+    }
+  },
+
+  "signup": {
+    "title": "Create an account",
+    "description": "Enter your information below to create your account",
+    "email": "Email",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "phonenumber": "Phone number",
+    "businessId": "Business ID",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "repeatPassword": "Repeat password",
+    "submit": "Create account",
+    "submitting": "Creating account...",
+    "alreadyHaveAccount": "Already have an account?",
+    "signIn": "Sign in"
+  }
+}

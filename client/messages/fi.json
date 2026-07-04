@@ -1,0 +1,83 @@
+{
+  "login": {
+    "title": "Kirjaudu sisään",
+    "description": "Syötä tietosi jatkaaksesi työtilaan",
+    "email": "Sähköposti",
+    "password": "Salasana",
+    "submit": "Kirjaudu",
+    "submitting": "Kirjaudutaan...",
+    "newHere": "Uusi käyttäjä?",
+    "createAccount": "Luo tili",
+    "forgotPassword": "Unohditko salasanasi?",
+    "resetPassword": "Nollaa salasana",
+    "loggedOut": "Uloskirjautuminen onnistui",
+    "accountCreated": "Tili luotu onnistuneesti!",
+    "passwordReset": "Salasana päivitetty onnistuneesti!"
+  },
+
+  "resetPassword": {
+    "title": "Nollaa salasana",
+    "description": "Nollaa salasanasi tässä",
+    "password": "Salasana",
+    "confirmPassword": "Vahvista salasana",
+    "repeatPassword": "Toista salasana",
+    "submit": "Nollaa salasana",
+    "submitting": "Nollataan...",
+    "backToLogin": "Takaisin kirjautumiseen"
+  },
+
+  "passwordResetEmail": {
+    "title": "Sähköpostivahvistuslinkki",
+    "description": "Syötä sähköpostiosoitteesi alle",
+    "email": "Sähköposti",
+    "submit": "Lähetä salasanan nollauslinkki",
+    "submitting": "Lähetetään...",
+    "successMessage": "Salasanan nollauslinkki lähetetty! Tarkista sähköpostisi.",
+    "backToLogin": "Takaisin kirjautumiseen"
+  },
+
+  "planSelector": {
+    "choosePlan": "Valitse tilaus",
+    "mostPopular": "Suosituin",
+    "plans": {
+        "FREE_TRIAL": {
+            "name": "Ilmainen kokeilu",
+            "price": "€0",
+            "period": "/ 14 päivää",
+            "description": "Aloita ilman korttia",
+            "features": ["25 kuittia sisältyy", "Kaikki perusominaisuudet", "Ei luottokorttia tarvita"]
+        },
+        "BASIC": {
+            "name": "Basic",
+            "price": "€19.99",
+            "period": "/ kk",
+            "description": "Yksityishenkilöille ja freelancereille",
+            "features": ["Rajattomat kuitit", "AI-kirjanpitäjä", "Kuukausiraportit"]
+        },
+        "PREMIUM": {
+            "name": "Premium",
+            "price": "€39.99",
+            "period": "/ kk",
+            "description": "Pienyrityksille",
+            "features": ["Kaikki Basic-paketista", "Prioriteettituki", "Edistynyt analytiikka"]
+        }
+    }
+  },
+
+  "signup": {
+    "title": "Luo tili",
+    "description": "Syötä tietosi luodaksesi tilin",
+    "email": "Sähköposti",
+    "firstName": "Etunimi",
+    "lastName": "Sukunimi",
+    "phonenumber": "Puhelinnumero",
+    "businessId": "Y-tunnus",
+    "password": "Salasana",
+    "confirmPassword": "Vahvista salasana",
+    "repeatPassword": "Toista salasana",
+    "submit": "Luo tili",
+    "submitting": "Luodaan tiliä...",
+    "alreadyHaveAccount": "Onko sinulla jo tili?",
+    "signIn": "Kirjaudu sisään"
+  }
+}

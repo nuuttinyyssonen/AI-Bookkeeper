@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from 'next-intl/plugin';
 
-const nextConfig = {
+const withNextIntl = createNextIntlPlugin();
+
+const nextConfig: NextConfig = {
     allowedDevOrigins: ['192.168.101.114'],
     experimental: {
         serverActions: {
@@ -9,4 +12,4 @@ const nextConfig = {
     }
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);
