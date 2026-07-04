@@ -310,5 +310,111 @@
   "receiptTabs": {
     "expenses": "Expenses ({count})",
     "income": "Income ({count})"
+  },
+
+  "reportsHeader": {
+    "eyebrow": "Reports",
+    "title": "VAT reports",
+    "description": "Generate and download VAT summaries for your tax returns.",
+    "newReport": "+ New report",
+    "modalTitle": "Generate VAT Report",
+    "modalDescription": "Select a time period for the report.",
+    "periodQ1": "Q1 (Jan - Mar)",
+    "periodQ2": "Q2 (Apr - Jun)",
+    "periodQ3": "Q3 (Jul - Sep)",
+    "periodQ4": "Q4 (Oct - Dec)",
+    "periodMonthly": "Current month",
+    "periodYearly": "Current year",
+    "cancel": "Cancel",
+    "generate": "Generate",
+    "generating": "Generating...",
+    "generateSuccess": "Report generated successfully"
+  },
+
+  "reportEmpty": {
+    "title": "No reports yet",
+    "description": "Generate your first VAT report to prepare for your tax return.",
+    "newReport": "+ New report"
+  },
+
+  "reportRow": {
+    "payable": "Pay {amount} €",
+    "refund": "Refund {amount} €",
+    "submitted": "Submitted",
+    "pending": "Pending",
+    "view": "View"
+  },
+
+  "reportTableHead": {
+    "period": "Period",
+    "type": "Type",
+    "salesVat": "Sales VAT",
+    "purchaseVat": "Purchase VAT",
+    "payableRefund": "Payable / Refund",
+    "status": "Status",
+    "created": "Created"
+  },
+
+  "reportDownloadButton": {
+    "download": "Download PDF"
+  },
+
+  "reportHeader": {
+    "back": "Back to reports",
+    "title": "VAT Report – {period}",
+    "submitted": "Submitted",
+    "pending": "Pending"
+  },
+
+  "deleteReport": {
+    "delete": "Delete",
+    "deleteSuccess": "Report deleted successfully"
+  },
+
+  "downloadPdf": {
+    "download": "Download PDF"
+  },
+
+  "salesVatBreakdown": {
+    "title": "Sales VAT breakdown",
+    "description": "VAT collected from your customers",
+    "vatRate": "VAT rate",
+    "net": "Net",
+    "vatAmount": "VAT amount",
+    "gross": "Gross",
+    "total": "Total"
+  },
+
+  "purchasesVatBreakdown": {
+    "title": "Purchase VAT breakdown",
+    "description": "VAT deductible from your purchases",
+    "vatRate": "VAT rate",
+    "net": "Net",
+    "vatAmount": "VAT amount",
+    "gross": "Gross",
+    "total": "Total"
+  },
+
+  "reportOverview": {
+    "deletedTitle": "Report deleted",
+    "deletedDescription": "This report has been removed from your list.",
+    "backToReports": "Back to reports"
+  },
+
+  "summaryCards": {
+    "salesVat": "Sales VAT",
+    "net": "Net {amount} €",
+    "purchaseVat": "Purchase VAT",
+    "vatRefund": "VAT Refund",
+    "vatPayable": "VAT Payable",
+    "refundNote": "Verohallinto refunds you",
+    "payableNote": "Pay to Verohallinto"
+  },
+
+  "vatReturned": {
+    "title": "VAT return submitted",
+    "description": "Mark this report as submitted to Verohallinto",
+    "submitted": "Submitted ✓",
+    "notSubmitted": "Not submitted"
   }
 }

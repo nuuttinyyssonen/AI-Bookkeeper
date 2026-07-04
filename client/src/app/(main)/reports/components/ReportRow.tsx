@@ -1,11 +1,16 @@
+'use client';
+
 import DownloadButton from "./DownloadButton"
 import Link from "next/link"
+import { useTranslations } from "next-intl";
 
 interface Props {
     report: any
 }
 
 export default function ReportRow({report}: Props) {
+    const t = useTranslations('reportRow');
+
     return (
         <tr key={report.id} className="hover:bg-slate-50 transition-colors">
             <td className="px-5 py-4 font-medium text-slate-900">
@@ -25,8 +30,9 @@ export default function ReportRow({report}: Props) {
             </td>
             <td className="px-5 py-4 font-semibold">
                 <span className={Number(report.vat_payable) >= 0 ? "text-rose-600" : "text-teal-600"}>
-                    {Number(report.vat_payable) >= 0 ? "Pay " : "Refund "}
-                    {Math.abs(Number(report.vat_payable)).toFixed(2)} €
+                    {Number(report.vat_payable) >= 0
+                        ? t('payable', { amount: Math.abs(Number(report.vat_payable)).toFixed(2) })
+                        : t('refund', { amount: Math.abs(Number(report.vat_payable)).toFixed(2) })}
                 </span>
             </td>
             <td className="px-5 py-4">
@@ -35,7 +41,7 @@ export default function ReportRow({report}: Props) {
                         ? "bg-teal-50 text-teal-700"
                         : "bg-amber-50 text-amber-700"
                 }`}>
-                    {report.vat_declaration_sent ? "Submitted" : "Pending"}
+                    {report.vat_declaration_sent ? t('submitted') : t('pending')}
                 </span>
             </td>
             <td className="px-5 py-4 text-slate-500">
@@ -47,7 +53,7 @@ export default function ReportRow({report}: Props) {
                         href={`/reports/${report.id}`}
                         className="rounded-md border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
                     >
-                        View
+                        {t('view')}
                     </Link>
                     <DownloadButton id={report.id}/>
                 </div>

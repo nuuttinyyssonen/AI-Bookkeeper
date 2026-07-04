@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from "next-intl";
 import { deleteReportById } from "../action";
 import { toast } from "sonner";
 
@@ -9,17 +10,18 @@ interface Props {
 };
 
 export default function DeleteReport({id, setDeleted}: Props) {
+    const t = useTranslations('deleteReport');
 
     const handleDelete = () => {
         deleteReportById(id);
-        toast.success("Report deleted successfully");
+        toast.success(t('deleteSuccess'));
         setDeleted(true);
     };
 
     return (
         <div>
             <button onClick={handleDelete} className="flex items-center gap-1.5 rounded-md bg-red-100 px-4 py-2 text-sm font-semibold text-red-700 hover:bg-red-200 transition-colors">
-                Delete
+                {t('delete')}
             </button>
         </div>
     );

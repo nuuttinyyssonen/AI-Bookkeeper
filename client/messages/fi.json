@@ -310,5 +310,111 @@
   "receiptTabs": {
     "expenses": "Kulut ({count})",
     "income": "Tulot ({count})"
+  },
+
+  "reportsHeader": {
+    "eyebrow": "Raportit",
+    "title": "ALV-raportit",
+    "description": "Luo ja lataa ALV-yhteenvedot veroilmoitusta varten.",
+    "newReport": "+ Uusi raportti",
+    "modalTitle": "Luo ALV-raportti",
+    "modalDescription": "Valitse raportin ajanjakso.",
+    "periodQ1": "Q1 (tammi - maalis)",
+    "periodQ2": "Q2 (huhti - kesä)",
+    "periodQ3": "Q3 (heinä - syys)",
+    "periodQ4": "Q4 (loka - joulu)",
+    "periodMonthly": "Kuluva kuukausi",
+    "periodYearly": "Kuluva vuosi",
+    "cancel": "Peruuta",
+    "generate": "Luo",
+    "generating": "Luodaan...",
+    "generateSuccess": "Raportti luotu onnistuneesti"
+  },
+
+  "reportEmpty": {
+    "title": "Ei vielä raportteja",
+    "description": "Luo ensimmäinen ALV-raporttisi valmistautuaksesi veroilmoitukseen.",
+    "newReport": "+ Uusi raportti"
+  },
+
+  "reportRow": {
+    "payable": "Maksettava {amount} €",
+    "refund": "Palautus {amount} €",
+    "submitted": "Lähetetty",
+    "pending": "Odottaa",
+    "view": "Näytä"
+  },
+
+  "reportTableHead": {
+    "period": "Ajanjakso",
+    "type": "Tyyppi",
+    "salesVat": "Myynnin ALV",
+    "purchaseVat": "Ostojen ALV",
+    "payableRefund": "Maksettava / Palautus",
+    "status": "Tila",
+    "created": "Luotu"
+  },
+
+  "reportDownloadButton": {
+    "download": "Lataa PDF"
+  },
+
+  "reportHeader": {
+    "back": "Takaisin raportteihin",
+    "title": "ALV-raportti – {period}",
+    "submitted": "Lähetetty",
+    "pending": "Odottaa"
+  },
+
+  "deleteReport": {
+    "delete": "Poista",
+    "deleteSuccess": "Raportti poistettu onnistuneesti"
+  },
+
+  "downloadPdf": {
+    "download": "Lataa PDF"
+  },
+
+  "salesVatBreakdown": {
+    "title": "Myynnin ALV-erittely",
+    "description": "Asiakkailtasi kerätty ALV",
+    "vatRate": "ALV-kanta",
+    "net": "Veroton",
+    "vatAmount": "ALV-määrä",
+    "gross": "Verollinen",
+    "total": "Yhteensä"
+  },
+
+  "purchasesVatBreakdown": {
+    "title": "Ostojen ALV-erittely",
+    "description": "Ostoistasi vähennyskelpoinen ALV",
+    "vatRate": "ALV-kanta",
+    "net": "Veroton",
+    "vatAmount": "ALV-määrä",
+    "gross": "Verollinen",
+    "total": "Yhteensä"
+  },
+
+  "reportOverview": {
+    "deletedTitle": "Raportti poistettu",
+    "deletedDescription": "Tämä raportti on poistettu listaltasi.",
+    "backToReports": "Takaisin raportteihin"
+  },
+
+  "summaryCards": {
+    "salesVat": "Myynnin ALV",
+    "net": "Veroton {amount} €",
+    "purchaseVat": "Ostojen ALV",
+    "vatRefund": "ALV-palautus",
+    "vatPayable": "Maksettava ALV",
+    "refundNote": "Verohallinto palauttaa sinulle",
+    "payableNote": "Maksa Verohallinnolle"
+  },
+
+  "vatReturned": {
+    "title": "ALV-ilmoitus lähetetty",
+    "description": "Merkitse tämä raportti lähetetyksi Verohallinnolle",
+    "submitted": "Lähetetty ✓",
+    "notSubmitted": "Ei lähetetty"
   }
 }
