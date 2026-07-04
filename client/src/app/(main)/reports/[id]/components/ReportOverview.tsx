@@ -8,6 +8,7 @@ import PurchasesVatBreakdown from "./PurchasesVatBreakdown";
 import StatusCard from "./StatusCard";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 interface Props {
     report: any,
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export default function ReportOverview({report, id}: Props) {
+    const t = useTranslations('reportOverview');
     const [deleted, setDeleted] = useState(false);
 
     const vatBreakdown = report.vat_breakdown as {
@@ -26,9 +28,9 @@ export default function ReportOverview({report, id}: Props) {
 
     if (deleted) return (
         <StatusCard
-            title="Report deleted"
-            description="This report has been removed from your list."
-            link={{ href: "/reports", label: "Back to reports", className: "bg-teal-600 hover:bg-teal-700" }}
+            title={t('deletedTitle')}
+            description={t('deletedDescription')}
+            link={{ href: "/reports", label: t('backToReports'), className: "bg-teal-600 hover:bg-teal-700" }}
             centered
         />
     );

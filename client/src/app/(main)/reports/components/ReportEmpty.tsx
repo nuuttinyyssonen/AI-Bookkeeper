@@ -1,17 +1,22 @@
+'use client';
+
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 export default function ReportEmpty() {
+    const t = useTranslations('reportEmpty');
+
     return(
         <div className="rounded-xl border border-dashed border-slate-200 bg-white p-16 text-center">
-            <p className="text-lg font-semibold text-slate-900">No reports yet</p>
+            <p className="text-lg font-semibold text-slate-900">{t('title')}</p>
             <p className="mt-2 text-sm text-slate-500">
-                Generate your first VAT report to prepare for your tax return.
+                {t('description')}
             </p>
             <Link
                 href="/reports/new"
                 className="mt-6 inline-flex items-center gap-2 rounded-md bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
             >
-                + New report
+                {t('newReport')}
             </Link>
         </div>
     );

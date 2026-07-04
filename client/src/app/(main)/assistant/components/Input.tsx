@@ -1,11 +1,16 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
+
 interface Props {
     setInput: React.Dispatch<React.SetStateAction<string>>;
     input: string;
     handleSend: (message: string) => void;
-};
+}
 
+export default function Input({ handleSend, setInput, input }: Props) {
+    const t = useTranslations('chatInput');
 
-export default function Input({handleSend, setInput, input}: Props) {
     return (
         <div className="border-t border-slate-200 bg-white px-4 py-4 sm:px-6">
             <div className="mx-auto max-w-3xl">
@@ -14,7 +19,7 @@ export default function Input({handleSend, setInput, input}: Props) {
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         rows={1}
-                        placeholder="Ask about VAT, expenses, reports..."
+                        placeholder={t('placeholder')}
                         className="flex-1 resize-none bg-transparent text-sm text-slate-900 placeholder-slate-400 outline-none"
                         onKeyDown={(e) => {
                             if (e.key === "Enter" && !e.shiftKey) {
@@ -30,9 +35,9 @@ export default function Input({handleSend, setInput, input}: Props) {
                     </button>
                 </div>
                 <p className="mt-2 text-center text-xs text-slate-400">
-                    AI can make mistakes. Always verify important financial decisions.
+                    {t('disclaimer')}
                 </p>
             </div>
         </div>
     );
-};
+}

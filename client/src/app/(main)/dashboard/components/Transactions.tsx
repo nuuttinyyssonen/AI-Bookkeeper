@@ -1,3 +1,5 @@
+import { getTranslations } from 'next-intl/server';
+
 interface Receipt {
     id: string;
     vendor_name: string;
@@ -10,12 +12,14 @@ interface Props {
     transactions: Receipt[];
 }
 
-export default function Transactions({ transactions }: Props) {
+export default async function Transactions({ transactions }: Props) {
+    const t = await getTranslations('transactions');
+
     return (
         <div>
             <section className="rounded-md border border-slate-200 bg-white">
                 <div className="border-b border-slate-200 p-5">
-                    <h2 className="text-lg font-semibold">Recent transactions</h2>
+                    <h2 className="text-lg font-semibold">{t('title')}</h2>
                 </div>
                 <div className="divide-y divide-slate-100">
                     {transactions.map((transaction) => (

@@ -1,15 +1,17 @@
 "use client";
 
+import { useTranslations } from 'next-intl';
 import { useState } from "react";
 
 interface Props {
-    handleDeductibleToggle: () => void,
-    isDeductible: boolean,
-    deductiblePercentage: number,
-    handleDeductiblePercentageChange: (value: number) => void | Promise<void>,
-};
+    handleDeductibleToggle: () => void;
+    isDeductible: boolean;
+    deductiblePercentage: number;
+    handleDeductiblePercentageChange: (value: number) => void | Promise<void>;
+}
 
-export default function Deductible({handleDeductibleToggle, isDeductible, deductiblePercentage, handleDeductiblePercentageChange}: Props) {
+export default function Deductible({ handleDeductibleToggle, isDeductible, deductiblePercentage, handleDeductiblePercentageChange }: Props) {
+    const t = useTranslations('deductible');
     const [customMode, setCustomMode] = useState(false);
     const [customValue, setCustomValue] = useState("");
 
@@ -38,7 +40,7 @@ export default function Deductible({handleDeductibleToggle, isDeductible, deduct
     return (
         <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 space-y-3">
             <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-slate-700">Vähennyskelpoinen</span>
+                <span className="text-sm font-medium text-slate-700">{t('label')}</span>
                 <button
                     onClick={handleDeductibleToggle}
                     className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
@@ -47,12 +49,12 @@ export default function Deductible({handleDeductibleToggle, isDeductible, deduct
                         : "bg-red-100 text-red-700 hover:bg-red-200"
                     }`}
                 >
-                    {isDeductible ? "Kyllä" : "Ei"}
+                    {isDeductible ? t('yes') : t('no')}
                 </button>
             </div>
             {isDeductible && (
                 <div className="flex items-center gap-3">
-                    <span className="text-xs text-slate-500 shrink-0">Vähennysosuus:</span>
+                    <span className="text-xs text-slate-500 shrink-0">{t('percentage')}</span>
                     <div className="flex gap-1.5 items-center">
                         {[50, 100].map(pct => (
                             <button
@@ -75,7 +77,7 @@ export default function Deductible({handleDeductibleToggle, isDeductible, deduct
                                 : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-100"
                             }`}
                         >
-                            Muu
+                            {t('other')}
                         </button>
                         {customMode && (
                             <div className="flex items-center gap-1">
@@ -99,4 +101,4 @@ export default function Deductible({handleDeductibleToggle, isDeductible, deduct
             )}
         </div>
     );
-};
+}

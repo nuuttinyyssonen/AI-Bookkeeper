@@ -2,7 +2,6 @@
 
 import Categories from './Categories';
 import ReceiptImage from './ReceiptImage';
-import Header from './Header';
 import Deductible from './Deducitble';
 import Buttons from './Buttons';
 import Vats from './Vats';
@@ -11,6 +10,7 @@ import StatusCard from './StatusCard';
 
 import { useState, useEffect } from 'react';
 import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
 import { deleteReceiptById } from '../../action';
 import { toast } from "sonner";
@@ -47,7 +47,8 @@ function buildVatForms(receipt: ReceiptType): VatForm[] {
   }));
 }
 
-export default function Receipt() {
+export default function Receipt({ header }: { header: React.ReactNode }) {
+  const t = useTranslations('receipt');
   const params = useParams();
   const receiptId = params?.id as string;
 
@@ -73,21 +74,21 @@ export default function Receipt() {
     }
   }, [receipt]);
 
-  if (loading) return <StatusCard title="Loading..." />;
+  if (loading) return <StatusCard title={t('loading')} />;
 
   if (!receipt) return (
     <StatusCard
-      title="Receipt not found"
-      description="The receipt you are looking for does not exist."
-      link={{ href: "/receipts", label: "Back to receipts" }}
+      title={t('notFound')}
+      description={t('notFoundDescription')}
+      link={{ href: "/receipts", label: t('backToReceipts') }}
     />
   );
 
   if (deleted) return (
     <StatusCard
-      title="Receipt deleted"
-      description="This receipt has been removed from your list."
-      link={{ href: "/receipts", label: "Back to receipts", className: "bg-teal-600 hover:bg-teal-700" }}
+      title={t('deleted')}
+      description={t('deletedDescription')}
+      link={{ href: "/receipts", label: t('backToReceipts'), className: "bg-teal-600 hover:bg-teal-700" }}
       centered
     />
   );
@@ -96,7 +97,7 @@ export default function Receipt() {
 
   const handleDelete = async () => {
     await deleteReceiptById(receiptId);
-    toast.success("File deleted successfully");
+    toast.success(t('deleteSuccess'));
     setDeleted(true);
   };
 
@@ -126,9 +127,7 @@ export default function Receipt() {
     setIsEditing(true);
   };
 
-  const handleCancel = () => {
-    setIsEditing(false);
-  };
+  const handleCancel = () => setIsEditing(false);
 
   const handleSave = async () => {
     setIsLoading(true);
@@ -167,7 +166,7 @@ export default function Receipt() {
       })),
     });
 
-    toast.success("Receipt updated successfully");
+    toast.success(t('updateSuccess'));
     setIsEditing(false);
   };
 
@@ -182,7 +181,7 @@ export default function Receipt() {
   return (
     <div className="px-6 py-8">
       <div className="mx-auto max-w-7xl">
-        <Header />
+        {header}
         <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
           <Card>
             <ReceiptDetails

@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { authenticateUser, getVeroAuthToken } from "@/lib/auth";
 import { getUserData } from "../settings/action";
 import { getReports } from "../reports/action";
@@ -6,6 +7,7 @@ import VatReturnForm from "./components/VatReturnForm";
 
 export default async function VatReturnPage() {
     await authenticateUser();
+    const t = await getTranslations('vatReturnPage');
     const veroToken = await getVeroAuthToken();
 
     const data = await getUserData();
@@ -20,17 +22,17 @@ export default async function VatReturnPage() {
 
     const { user } = data;
     const reports = await getReports();
-    const businessId = user.business_id
+    const businessId = user.business_id;
 
     if (!veroToken) {
         return (
             <div className="min-h-screen bg-slate-50 flex items-center justify-center">
                 <div className="text-center">
-                    <h2 className="text-xl font-semibold mb-2">Vero authentication required</h2>
-                    <p className="text-sm text-slate-600 mb-4">You need to authorize with Vero before filing a VAT return.</p>
+                    <h2 className="text-xl font-semibold mb-2">{t('authRequired')}</h2>
+                    <p className="text-sm text-slate-600 mb-4">{t('authDescription')}</p>
                     <a href="/api/vero/authorize">
                         <button className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-semibold">
-                            Authorize with Vero
+                            {t('authorizeButton')}
                         </button>
                     </a>
                 </div>
@@ -46,11 +48,11 @@ export default async function VatReturnPage() {
 
     return (
         <div className="min-h-screen bg-slate-50 p-8">
-            <h1 className="text-2xl font-semibold mb-6">VAT Return</h1>
+            <h1 className="text-2xl font-semibold mb-6">{t('title')}</h1>
             <div className="max-w-xl bg-white rounded-xl border border-slate-200 p-6">
-                <h2 className="text-lg font-medium mb-4">Select filing period</h2>
+                <h2 className="text-lg font-medium mb-4">{t('selectPeriod')}</h2>
                 {periods.length === 0 ? (
-                    <p className="text-sm text-slate-500">No filing periods available.</p>
+                    <p className="text-sm text-slate-500">{t('noPeriodsAvailable')}</p>
                 ) : (
                     <ul className="space-y-2">
                         {periods.map((p: any, index: number) => (
@@ -67,4 +69,4 @@ export default async function VatReturnPage() {
             <VatReturnForm user={user} reports={reports} />
         </div>
     );
-};
+}

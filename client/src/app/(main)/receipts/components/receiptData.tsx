@@ -6,6 +6,7 @@ import ReceiptTabs from "./ReceiptTabs";
 import ReceiptsEmpty from "./ReceiptsEmpty";
 
 import { useState, useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { getReceipts, ReceiptsResponse } from "../action";
 
 interface ReceiptDataProps {
@@ -13,6 +14,8 @@ interface ReceiptDataProps {
 }
 
 export const ReceiptData = ({ initialData }: ReceiptDataProps) => {
+    const t = useTranslations('receiptData');
+
     const [receipts, setReceipts] = useState(initialData.receipts);
     const [page, setPage] = useState(initialData.page);
     const [totalPages, setTotalPages] = useState(initialData.totalPages);
@@ -26,13 +29,11 @@ export const ReceiptData = ({ initialData }: ReceiptDataProps) => {
     const [from, setFrom] = useState("");
     const [to, setTo] = useState("");
 
-    // Keep a ref to current params so polling always uses the latest values without stale closures
     const paramsRef = useRef({ page, search, activeTab, from, to });
     useEffect(() => {
         paramsRef.current = { page, search, activeTab, from, to };
     }, [page, search, activeTab, from, to]);
 
-    // Debounce search input by 400ms before triggering a fetch
     useEffect(() => {
         const timer = setTimeout(() => {
             setSearch(searchInput);
@@ -50,7 +51,6 @@ export const ReceiptData = ({ initialData }: ReceiptDataProps) => {
         setIsPending(data.is_documents_pending);
     };
 
-    // Refetch from server whenever filters or page change
     useEffect(() => {
         getReceipts({
             page,
@@ -61,7 +61,6 @@ export const ReceiptData = ({ initialData }: ReceiptDataProps) => {
         }).then(updateState);
     }, [page, search, activeTab, from, to]);
 
-    // Poll every 2s while documents are still being processed
     useEffect(() => {
         if (!isProcessing && !isPending) return;
 
@@ -126,17 +125,17 @@ export const ReceiptData = ({ initialData }: ReceiptDataProps) => {
                             onClick={() => setPage((p) => p - 1)}
                             disabled={page <= 1}
                         >
-                            Previous
+                            {t('previous')}
                         </button>
                         <span className="text-sm text-slate-600">
-                            Page {page} of {totalPages}
+                            {t('page', { page, totalPages })}
                         </span>
                         <button
                             className="h-8 px-3 text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-100 disabled:opacity-60 disabled:pointer-events-none"
                             onClick={() => setPage((p) => p + 1)}
                             disabled={page >= totalPages}
                         >
-                            Next
+                            {t('next')}
                         </button>
                     </div>
                 )}

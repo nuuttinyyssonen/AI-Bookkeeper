@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -8,16 +9,18 @@ interface ChatRoom {
     title: string | null;
     user_id: string;
     created_at: string;
-};
+}
 
 interface Props {
     chatRooms: ChatRoom[];
     activeChatId?: string | null;
     onDelete: (id: string) => void;
-};
+}
 
 export default function ChatHistory({ chatRooms, activeChatId, onDelete }: Props) {
+    const t = useTranslations('chatHistory');
     const router = useRouter();
+
     return (
         <aside className="w-64 flex-none border-r border-slate-200 bg-white flex flex-col">
             <div className="p-4 border-b border-slate-200">
@@ -28,11 +31,11 @@ export default function ChatHistory({ chatRooms, activeChatId, onDelete }: Props
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                     </svg>
-                    Uusi chat
+                    {t('newChat')}
                 </Link>
             </div>
             <div className="px-3 py-3">
-                <p className="text-xs font-medium text-slate-400 uppercase tracking-wider px-2 mb-1">Viimeisimmät</p>
+                <p className="text-xs font-medium text-slate-400 uppercase tracking-wider px-2 mb-1">{t('recent')}</p>
             </div>
             <nav className="flex-1 overflow-y-auto px-2 pb-2">
                 {chatRooms.map((room) => (
@@ -46,7 +49,7 @@ export default function ChatHistory({ chatRooms, activeChatId, onDelete }: Props
                         }`}
                     >
                         <div className="flex items-center justify-between gap-2">
-                            <span className="text-sm font-medium truncate">{room.title ?? "Nimetön chat"}</span>
+                            <span className="text-sm font-medium truncate">{room.title ?? t('unnamedChat')}</span>
                             <div className="flex items-center gap-1 flex-none">
                                 <span className="text-xs text-slate-400">{new Date(room.created_at).toLocaleDateString("fi-FI")}</span>
                                 <button

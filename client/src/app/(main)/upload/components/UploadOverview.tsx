@@ -1,5 +1,7 @@
 'use client';
+
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { getBatchStatus, UploadFiles, type UploadState } from "../action";
 import { toast } from "sonner";
 
@@ -10,6 +12,8 @@ import IncomeUpload from "./IncomeUpload";
 const initialState: UploadState = {};
 
 export default function UploadOverview() {
+    const t = useTranslations('uploadOverview');
+
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [selectedIncomeFiles, setSelectedIncomeFiles] = useState<File[]>([]);
     const [isPending, setIsPending] = useState(false);
@@ -21,7 +25,7 @@ export default function UploadOverview() {
                 try {
                     if (!batchId) return;
                     const data = await getBatchStatus(batchId);
-                    setProgress(`${data.completed_documents}/${data.total} analyzed`);
+                    setProgress(t('analyzedProgress', { completed: data.completed_documents, total: data.total }));
                     if (data.pending_documents === 0 && data.processing_documents === 0) {
                         clearInterval(interval);
                         resolve(data);
@@ -63,16 +67,16 @@ export default function UploadOverview() {
         files.forEach(file => formData.append("files", file));
         const result = await UploadFiles(initialState, formData, isIncome);
         if (result.success) {
-            toast.success("Files uploaded successfully");
+            toast.success(t('uploadSuccess'));
             clearFiles();
-            setProgress("Analyzing receipts...");
+            setProgress(t('analyzing'));
             try {
                 const data = await pollBatchStatus(result.upload_batch_id);
                 setProgress(null);
-                toast.success(`${data.completed_documents}/${data.total} receipt(s) analyzed`);
+                toast.success(t('analyzeSuccess', { completed: data.completed_documents, total: data.total }));
             } catch {
                 setProgress(null);
-                toast.error("Receipt analysis failed");
+                toast.error(t('analyzeFailed'));
             }
         }
         if (result.error) toast.error(result.error);
@@ -81,18 +85,16 @@ export default function UploadOverview() {
 
     return (
         <div className="grid gap-6">
-            {progress && (
-                <Progressbar progress={progress}/>
-            )}
+            {progress && <Progressbar progress={progress} />}
             <div className="grid gap-4 sm:grid-cols-2">
-                <ExpenseUpload 
-                    handleChange={handleChange} 
-                    selectedFiles={selectedFiles} 
+                <ExpenseUpload
+                    handleChange={handleChange}
+                    selectedFiles={selectedFiles}
                     setSelectedFiles={setSelectedFiles}
                     isPending={isPending}
                     runUpload={runUpload}
                 />
-                <IncomeUpload 
+                <IncomeUpload
                     handleIncomeChange={handleIncomeChange}
                     selectedIncomeFiles={selectedIncomeFiles}
                     setSelectedIncomeFiles={setSelectedIncomeFiles}

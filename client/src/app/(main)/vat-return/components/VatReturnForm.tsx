@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { mapVatReportToVeroRequest } from "@/lib/veroVatMapper";
 
 interface VatFields {
@@ -19,6 +20,8 @@ interface Props {
 }
 
 export default function VatReturnForm({ user, reports }: Props) {
+    const t = useTranslations('vatReturnForm');
+
     const [selectedReportId, setSelectedReportId] = useState("");
     const [fields, setFields] = useState<VatFields | null>(null);
     const [editing, setEditing] = useState(false);
@@ -122,14 +125,14 @@ export default function VatReturnForm({ user, reports }: Props) {
 
     return (
         <div className="max-w-xl bg-white rounded-xl border border-slate-200 p-6 space-y-4">
-            <h2 className="text-lg font-medium">File VAT Return</h2>
+            <h2 className="text-lg font-medium">{t('title')}</h2>
 
             <select
                 className="w-full h-9 rounded-md border border-slate-200 px-3 text-sm text-slate-700"
                 value={selectedReportId}
                 onChange={(e) => handleReportSelect(e.target.value)}
             >
-                <option value="">Select a report</option>
+                <option value="">{t('selectReport')}</option>
                 {reports.map(r => (
                     <option key={r.id} value={r.id}>
                         {r.period_type} — {new Date(r.period_start).toLocaleDateString("fi-FI")} – {new Date(r.period_end).toLocaleDateString("fi-FI")}
@@ -140,13 +143,13 @@ export default function VatReturnForm({ user, reports }: Props) {
             {fields && (
                 <>
                     <div>
-                        <EditRow label="Filing period" fieldKey="filingPeriod" value={fields.filingPeriod} />
-                        <EditRow label="VAT on sales 25.5%" fieldKey="highVatRate" value={fields.highVatRate} />
-                        <EditRow label="VAT on sales 13.5%" fieldKey="mediumVatRate" value={fields.mediumVatRate} />
-                        <EditRow label="VAT on sales 10%" fieldKey="lowVatRate" value={fields.lowVatRate} />
-                        <EditRow label="Deductible VAT" fieldKey="deductibleVat" value={fields.deductibleVat} />
-                        <EditRow label="Contact name" fieldKey="fullName" value={fields.fullName} />
-                        <EditRow label="Phone number" fieldKey="phoneNumber" value={fields.phoneNumber} />
+                        <EditRow label={t('filingPeriod')} fieldKey="filingPeriod" value={fields.filingPeriod} />
+                        <EditRow label={t('vatHigh')} fieldKey="highVatRate" value={fields.highVatRate} />
+                        <EditRow label={t('vatMedium')} fieldKey="mediumVatRate" value={fields.mediumVatRate} />
+                        <EditRow label={t('vatLow')} fieldKey="lowVatRate" value={fields.lowVatRate} />
+                        <EditRow label={t('deductibleVat')} fieldKey="deductibleVat" value={fields.deductibleVat} />
+                        <EditRow label={t('contactName')} fieldKey="fullName" value={fields.fullName} />
+                        <EditRow label={t('phoneNumber')} fieldKey="phoneNumber" value={fields.phoneNumber} />
                     </div>
 
                     <div className="flex gap-2">
@@ -154,27 +157,27 @@ export default function VatReturnForm({ user, reports }: Props) {
                             onClick={() => setEditing(e => !e)}
                             className="h-9 px-4 text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-100"
                         >
-                            {editing ? "Cancel" : "Edit"}
+                            {editing ? t('cancel') : t('edit')}
                         </button>
                         <button
                             onClick={handleSubmit}
                             disabled={loading}
                             className="h-9 px-4 text-sm font-semibold text-white bg-teal-600 rounded-lg hover:bg-teal-700 disabled:opacity-50"
                         >
-                            {loading ? "Sending..." : "Submit to Vero"}
+                            {loading ? t('sending') : t('submit')}
                         </button>
                     </div>
 
                     {result?.UniqueIdentifier && (
                         <div className="text-sm p-4 rounded-lg bg-green-50 border border-green-200">
-                            <p className="text-green-700 font-medium">Return filed successfully</p>
-                            <p className="text-slate-600 mt-1">ID: {result.UniqueIdentifier}</p>
-                            <p className="text-slate-600">Timestamp: {result.AcceptedTimestamp}</p>
+                            <p className="text-green-700 font-medium">{t('filedSuccess')}</p>
+                            <p className="text-slate-600 mt-1">{t('id', { id: result.UniqueIdentifier })}</p>
+                            <p className="text-slate-600">{t('timestamp', { timestamp: result.AcceptedTimestamp })}</p>
                             <button
                                 onClick={handleGetReturn}
                                 className="mt-3 h-8 px-3 text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-100"
                             >
-                                View filed return
+                                {t('viewFiled')}
                             </button>
                         </div>
                     )}
@@ -187,14 +190,14 @@ export default function VatReturnForm({ user, reports }: Props) {
 
                     {filedReturn && (
                         <div className="border-t border-slate-100 pt-4">
-                            <p className="text-sm font-medium text-slate-700 mb-2">Filed return details</p>
-                            <DisplayRow label="Status" value={filedReturn.Status} />
-                            <DisplayRow label="Submitted" value={filedReturn.SubmittedDate} />
-                            <DisplayRow label="VAT on sales 25.5%" value={filedReturn.VATOnDomesticSales?.HighVATRate} />
-                            <DisplayRow label="VAT on sales 13.5%" value={filedReturn.VATOnDomesticSales?.MediumVATRate} />
-                            <DisplayRow label="VAT on sales 10%" value={filedReturn.VATOnDomesticSales?.LowVATRate} />
-                            <DisplayRow label="Deductible VAT" value={filedReturn.DeductibleTax?.DeductibleVAT} />
-                            <DisplayRow label="Tax payable" value={filedReturn.TaxPayableOrNegativeTaxThatQualifiesForRefund} />
+                            <p className="text-sm font-medium text-slate-700 mb-2">{t('filedDetails')}</p>
+                            <DisplayRow label={t('status')} value={filedReturn.Status} />
+                            <DisplayRow label={t('submitted')} value={filedReturn.SubmittedDate} />
+                            <DisplayRow label={t('vatHigh')} value={filedReturn.VATOnDomesticSales?.HighVATRate} />
+                            <DisplayRow label={t('vatMedium')} value={filedReturn.VATOnDomesticSales?.MediumVATRate} />
+                            <DisplayRow label={t('vatLow')} value={filedReturn.VATOnDomesticSales?.LowVATRate} />
+                            <DisplayRow label={t('deductibleVat')} value={filedReturn.DeductibleTax?.DeductibleVAT} />
+                            <DisplayRow label={t('taxPayable')} value={filedReturn.TaxPayableOrNegativeTaxThatQualifiesForRefund} />
                         </div>
                     )}
                 </>

@@ -1,10 +1,12 @@
 'use client';
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { cancelSubscription } from "../action";
 import { toast } from "sonner";
 
 export default function CancelSubscription() {
+    const t = useTranslations('cancelSubscription');
     const [isConfirming, setIsConfirming] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -18,7 +20,7 @@ export default function CancelSubscription() {
             return;
         }
 
-        toast.success('Subscription cancelled successfully');
+        toast.success(t('cancelSuccess'));
         setIsConfirming(false);
     };
 
@@ -26,7 +28,7 @@ export default function CancelSubscription() {
         return (
             <div className="rounded-lg border border-red-200 bg-red-50 p-3 space-y-2">
                 <p className="text-xs text-red-800">
-                    Your subscription will be cancelled at the end of the current billing period. You will keep access until then.
+                    {t('warning')}
                 </p>
                 <div className="flex gap-2">
                     <button
@@ -34,14 +36,14 @@ export default function CancelSubscription() {
                         disabled={isLoading}
                         className="flex-1 h-8 rounded-md bg-red-600 text-xs font-medium text-white hover:bg-red-700 disabled:opacity-50 transition-colors"
                     >
-                        {isLoading ? 'Cancelling...' : 'Confirm cancellation'}
+                        {isLoading ? t('cancelling') : t('confirmCancellation')}
                     </button>
                     <button
                         onClick={() => setIsConfirming(false)}
                         disabled={isLoading}
                         className="flex-1 h-8 rounded-md border border-slate-300 bg-white text-xs font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50 transition-colors"
                     >
-                        Keep subscription
+                        {t('keepSubscription')}
                     </button>
                 </div>
             </div>
@@ -53,7 +55,7 @@ export default function CancelSubscription() {
             onClick={() => setIsConfirming(true)}
             className="h-9 px-4 rounded-md border border-red-300 bg-white text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
         >
-            Cancel subscription
+            {t('cancelSubscription')}
         </button>
     );
 }

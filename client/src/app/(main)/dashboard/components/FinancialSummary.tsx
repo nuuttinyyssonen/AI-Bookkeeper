@@ -1,3 +1,5 @@
+import { getTranslations } from 'next-intl/server';
+
 interface Props {
     data: {
         revenue: number;
@@ -6,11 +8,13 @@ interface Props {
     }
 }
 
-export default function FinancialSummary({ data }: Props) {
+export default async function FinancialSummary({ data }: Props) {
+    const t = await getTranslations('financialSummary');
+
     const stats = [
-        { label: "Revenue", value: `${Number(data.revenue).toFixed(2)} €`, accent: "bg-teal-600" },
-        { label: "Expenses", value: `${Number(data.expenses).toFixed(2)} €`, accent: "bg-rose-500" },
-        { label: "Net profit", value: `${Number(data.net_profit).toFixed(2)} €`, accent: "bg-slate-900" },
+        { label: t('revenue'), value: `${Number(data.revenue).toFixed(2)} €`, accent: "bg-teal-600" },
+        { label: t('expenses'), value: `${Number(data.expenses).toFixed(2)} €`, accent: "bg-rose-500" },
+        { label: t('netProfit'), value: `${Number(data.net_profit).toFixed(2)} €`, accent: "bg-slate-900" },
     ];
 
     return (

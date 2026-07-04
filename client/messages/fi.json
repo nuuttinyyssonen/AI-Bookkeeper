@@ -1,0 +1,632 @@
+{
+  "login": {
+    "title": "Kirjaudu sisään",
+    "description": "Syötä tietosi jatkaaksesi työtilaan",
+    "email": "Sähköposti",
+    "password": "Salasana",
+    "submit": "Kirjaudu",
+    "submitting": "Kirjaudutaan...",
+    "newHere": "Uusi käyttäjä?",
+    "createAccount": "Luo tili",
+    "forgotPassword": "Unohditko salasanasi?",
+    "resetPassword": "Nollaa salasana",
+    "loggedOut": "Uloskirjautuminen onnistui",
+    "accountCreated": "Tili luotu onnistuneesti!",
+    "passwordReset": "Salasana päivitetty onnistuneesti!"
+  },
+
+  "resetPassword": {
+    "title": "Nollaa salasana",
+    "description": "Nollaa salasanasi tässä",
+    "password": "Salasana",
+    "confirmPassword": "Vahvista salasana",
+    "repeatPassword": "Toista salasana",
+    "submit": "Nollaa salasana",
+    "submitting": "Nollataan...",
+    "backToLogin": "Takaisin kirjautumiseen"
+  },
+
+  "passwordResetEmail": {
+    "title": "Sähköpostivahvistuslinkki",
+    "description": "Syötä sähköpostiosoitteesi alle",
+    "email": "Sähköposti",
+    "submit": "Lähetä salasanan nollauslinkki",
+    "submitting": "Lähetetään...",
+    "successMessage": "Salasanan nollauslinkki lähetetty! Tarkista sähköpostisi.",
+    "backToLogin": "Takaisin kirjautumiseen"
+  },
+
+  "planSelector": {
+    "choosePlan": "Valitse tilaus",
+    "mostPopular": "Suosituin",
+    "plans": {
+        "FREE_TRIAL": {
+            "name": "Ilmainen kokeilu",
+            "price": "€0",
+            "period": "/ 14 päivää",
+            "description": "Aloita ilman korttia",
+            "features": ["25 kuittia sisältyy", "Kaikki perusominaisuudet", "Ei luottokorttia tarvita"]
+        },
+        "BASIC": {
+            "name": "Basic",
+            "price": "€19.99",
+            "period": "/ kk",
+            "description": "Yksityishenkilöille ja freelancereille",
+            "features": ["Rajattomat kuitit", "AI-kirjanpitäjä", "Kuukausiraportit"]
+        },
+        "PREMIUM": {
+            "name": "Premium",
+            "price": "€39.99",
+            "period": "/ kk",
+            "description": "Pienyrityksille",
+            "features": ["Kaikki Basic-paketista", "Prioriteettituki", "Edistynyt analytiikka"]
+        }
+    }
+  },
+
+  "signup": {
+    "title": "Luo tili",
+    "description": "Syötä tietosi luodaksesi tilin",
+    "email": "Sähköposti",
+    "firstName": "Etunimi",
+    "lastName": "Sukunimi",
+    "phonenumber": "Puhelinnumero",
+    "businessId": "Y-tunnus",
+    "password": "Salasana",
+    "confirmPassword": "Vahvista salasana",
+    "repeatPassword": "Toista salasana",
+    "submit": "Luo tili",
+    "submitting": "Luodaan tiliä...",
+    "alreadyHaveAccount": "Onko sinulla jo tili?",
+    "signIn": "Kirjaudu sisään"
+  },
+
+  "chatHistory": {
+    "newChat": "Uusi chat",
+    "recent": "Viimeisimmät",
+    "unnamedChat": "Nimetön chat"
+  },
+
+  "assistantHeader": {
+    "title": "ALV-kysymykset",
+    "subtitle": "AI-kirjanpitoassistentti",
+    "chats": "Chatit"
+  },
+
+  "chatInput": {
+    "placeholder": "Kysy ALV:stä, kuluista, raporteista...",
+    "disclaimer": "Tekoäly voi tehdä virheitä. Tarkista aina tärkeät taloudelliset päätökset."
+  },
+
+  "welcomeScreen": {
+    "greeting": "Hei, {name} 👋",
+    "subtitle": "Kysy mitä tahansa kirjanpidosta, ALV:stä tai taloudesta.",
+    "suggestions": [
+        "Mikä on ALV-kanta?",
+        "Miten teen tilinpäätöksen?",
+        "Voinko vähentää matkakulut?"
+    ]
+  },
+
+  "dashboard": {
+    "label": "Hallintapaneeli",
+    "title": "Liiketoiminnan yleiskatsaus",
+    "export": "Vie",
+    "addReceipt": "Lisää kuitti"
+  },
+
+  "cashflow": {
+    "title": "Kassavirta",
+    "subtitle": "Tulojen ja menojen kehitys",
+    "income": "Tulot",
+    "expenses": "Menot"
+  },
+
+  "financialSummary": {
+    "revenue": "Liikevaihto",
+    "expenses": "Kulut",
+    "netProfit": "Nettotulos"
+  },
+
+  "logoutButton": {
+    "logout": "Kirjaudu ulos",
+    "loggedIn": "Kirjautuminen onnistui"
+  },
+
+  "subscriptionBanner": {
+    "noSubscription": "Sinulla ei ole aktiivista tilausta.",
+    "subscribeNow": "Tilaa nyt",
+    "pastDue": "Maksusi epäonnistui. Päivitä maksutapasi säilyttääksesi pääsyn.",
+    "updatePayment": "Päivitä maksu",
+    "cancelled": "Tilauksesi on peruutettu. Pääsy voimassa {date} asti.",
+    "reactivate": "Aktivoi uudelleen",
+    "basicPlan": "Olet <bold>Basic</bold>-paketissa.",
+    "premiumPlan": "Olet <bold>Premium</bold>-paketissa.",
+    "basicYearlyPlan": "Olet <bold>Basic vuosittainen</bold> -paketissa.",
+    "premiumYearlyPlan": "Olet <bold>Premium vuosittainen</bold> -paketissa.",
+    "upgradeToPremium": "Päivitä Premiumiin",
+    "viewPlans": "Katso paketit"
+  },
+
+  "transactions": {
+    "title": "Viimeisimmät tapahtumat"
+  },
+
+  "pricingCards": {
+    "currentPlan": "Nykyinen paketti",
+    "mostPopular": "Suosituin",
+    "perMonth": "/ kk",
+    "billedAs": "Laskutetaan {price} / vuosi",
+    "confirmCharge": "Sinulta veloitetaan <bold>{price}</bold> välittömästi. Vahvista?",
+    "confirm": "Vahvista",
+    "processing": "Käsitellään...",
+    "cancel": "Peruuta",
+    "selectPlan": "Valitse {name}",
+    "plans": {
+        "basic": {
+            "description": "Yksityishenkilöille ja freelancereille",
+            "features": ["Rajattomat kuitit", "AI-kirjanpitäjä", "Kuukausiraportit", "Sähköpostituki"]
+        },
+        "premium": {
+            "description": "Pienyrityksille",
+            "features": ["Kaikki Basic-paketista", "Prioriteettituki", "Edistynyt analytiikka", "Monikäyttäjätuki"]
+        }
+    }
+  },
+
+  "pricingProvider": {
+    "title": "Valitse tilauksesi",
+    "subtitle": "Päivitä tai alenna milloin tahansa",
+    "backToDashboard": "Takaisin kojelautaan"
+  },
+
+  "toggleButton": {
+    "save": "Säästä ~17%",
+    "monthly": "Kuukausittain",
+    "yearly": "Vuosittain"
+  },
+
+  "receiptButtons": {
+    "saving": "Tallennetaan...",
+    "saveChanges": "Tallenna muutokset",
+    "cancel": "Peruuta",
+    "deleteReceipt": "Poista kuitti",
+    "downloadPdf": "Lataa PDF"
+  },
+
+  "categories": {
+    "label": "Kategoria",
+    "placeholder": "Valitse kategoria",
+    "TOIMISTOKULUT": "Toimistokulut",
+    "MATKAKULUT": "Matkakulut",
+    "EDUSTUSKULUT": "Edustuskulut",
+    "ATERIA": "Ateria",
+    "MARKKINOINTI_JA_MAINONTA": "Markkinointi ja mainonta",
+    "KALUSTO_JA_LAITTEET": "Kalusto ja laitteet",
+    "PALKKAKULUT_JA_PALKKIOT": "Palkkakulut ja palkkiot",
+    "VUOKRA": "Vuokra",
+    "VAKUUTUKSET": "Vakuutukset",
+    "PUHELIN_JA_TIETOLIIKENNE": "Puhelin ja tietoliikenne",
+    "OHJELMISTOT_JA_LISENSSIT": "Ohjelmistot ja lisenssit",
+    "KOULUTUS_JA_KURSSIT": "Koulutus ja kurssit",
+    "KIRJANPITO_JA_LAKIPALVELUT": "Kirjanpito ja lakipalvelut",
+    "PANKKIKULUT": "Pankkikulut",
+    "AJONEUVOKULUT": "Ajoneuvokulut",
+    "KOTITOIMISTON_KULUT": "Kotitoimiston kulut",
+    "YKSITYISOTOT": "Yksityisotot",
+    "MUUT_KULUT": "Muut kulut",
+    "MYYNTI_TUOTTEET": "Myynti — tuotteet",
+    "MYYNTI_PALVELUT": "Myynti — palvelut",
+    "MUUT_TULOT": "Muut tulot"
+  },
+
+  "deductible": {
+    "label": "Vähennyskelpoinen",
+    "yes": "Kyllä",
+    "no": "Ei",
+    "percentage": "Vähennysosuus:",
+    "other": "Muu"
+  },
+
+  "receiptHeader": {
+    "title": "Kuitin tiedot",
+    "description": "Tarkastele kuitin tietoja, kuvaa ja toimintovaihtoehtoja.",
+    "back": "Takaisin kuitteihin"
+  },
+
+  "receiptImage": {
+    "title": "Kuitin kuva",
+    "description": "Esikatsele tähän kirjaukseen ladattu kuitti.",
+    "loading": "Ladataan kuitin esikatselua...",
+    "noPreview": "Esikatselu ei ole saatavilla."
+  },
+
+  "receipt": {
+    "loading": "Ladataan...",
+    "notFound": "Kuittia ei löydy",
+    "notFoundDescription": "Etsimääsi kuittia ei ole olemassa.",
+    "backToReceipts": "Takaisin kuitteihin",
+    "deleted": "Kuitti poistettu",
+    "deletedDescription": "Tämä kuitti on poistettu listaltasi.",
+    "deleteSuccess": "Tiedosto poistettu onnistuneesti",
+    "updateSuccess": "Kuitti päivitetty onnistuneesti"
+  },
+
+  "receiptDetails": {
+    "vendor": "Toimittaja",
+    "date": "Päivämäärä",
+    "total": "Yhteensä",
+    "editReceipt": "Muokkaa kuittia"
+  },
+
+  "vats": {
+    "breakdown": "ALV-erittely",
+    "rate": "Verokanta %",
+    "net": "Veroton €",
+    "vat": "ALV €",
+    "total": "Yhteensä €",
+    "rateValue": "Verokanta: {rate}%",
+    "netValue": "Veroton: €{amount}",
+    "vatValue": "ALV: €{amount}",
+    "totalValue": "Yhteensä: €{amount}",
+    "notAvailable": "ALV-tietoja ei saatavilla."
+  },
+
+  "receiptData": {
+    "previous": "Edellinen",
+    "next": "Seuraava",
+    "page": "Sivu {page} / {totalPages}"
+  },
+
+  "receipts": {
+    "vatBreakdown": "ALV-erittely",
+    "rateValue": "Vero %: {rate}%",
+    "netValue": "Veroton: €{amount}",
+    "vatValue": "ALV: €{amount}",
+    "totalValue": "Yhteensä: €{amount}",
+    "vatNotAvailable": "ALV-tietoja ei saatavilla.",
+    "noCategory": "Ei kategoriaa",
+    "deductible": "Vähennyskelpoinen",
+    "notDeductible": "Ei vähennyskelpoinen",
+    "view": "Näytä",
+    "export": "Vie"
+  },
+
+  "receiptsEmpty": {
+    "title": "Kuitteja ei löydy",
+    "description": "Kokeile ladata kuitti tai muuta hakuasi."
+  },
+
+  "receiptsHeader": {
+    "title": "Kuitit",
+    "description": "Ladatut kuittisi ja analysoidut summat.",
+    "processing": "Käsitellään dokumentteja...",
+    "search": "Hae kuittia...",
+    "to": "asti",
+    "clear": "Tyhjennä",
+    "exportExcel": "Vie Exceliin"
+  },
+
+  "receiptTabs": {
+    "expenses": "Kulut ({count})",
+    "income": "Tulot ({count})"
+  },
+
+  "reportsHeader": {
+    "eyebrow": "Raportit",
+    "title": "ALV-raportit",
+    "description": "Luo ja lataa ALV-yhteenvedot veroilmoitusta varten.",
+    "newReport": "+ Uusi raportti",
+    "modalTitle": "Luo ALV-raportti",
+    "modalDescription": "Valitse raportin ajanjakso.",
+    "periodQ1": "Q1 (tammi - maalis)",
+    "periodQ2": "Q2 (huhti - kesä)",
+    "periodQ3": "Q3 (heinä - syys)",
+    "periodQ4": "Q4 (loka - joulu)",
+    "periodMonthly": "Kuluva kuukausi",
+    "periodYearly": "Kuluva vuosi",
+    "cancel": "Peruuta",
+    "generate": "Luo",
+    "generating": "Luodaan...",
+    "generateSuccess": "Raportti luotu onnistuneesti"
+  },
+
+  "reportEmpty": {
+    "title": "Ei vielä raportteja",
+    "description": "Luo ensimmäinen ALV-raporttisi valmistautuaksesi veroilmoitukseen.",
+    "newReport": "+ Uusi raportti"
+  },
+
+  "reportRow": {
+    "payable": "Maksettava {amount} €",
+    "refund": "Palautus {amount} €",
+    "submitted": "Lähetetty",
+    "pending": "Odottaa",
+    "view": "Näytä"
+  },
+
+  "reportTableHead": {
+    "period": "Ajanjakso",
+    "type": "Tyyppi",
+    "salesVat": "Myynnin ALV",
+    "purchaseVat": "Ostojen ALV",
+    "payableRefund": "Maksettava / Palautus",
+    "status": "Tila",
+    "created": "Luotu"
+  },
+
+  "reportDownloadButton": {
+    "download": "Lataa PDF"
+  },
+
+  "reportHeader": {
+    "back": "Takaisin raportteihin",
+    "title": "ALV-raportti – {period}",
+    "submitted": "Lähetetty",
+    "pending": "Odottaa"
+  },
+
+  "deleteReport": {
+    "delete": "Poista",
+    "deleteSuccess": "Raportti poistettu onnistuneesti"
+  },
+
+  "downloadPdf": {
+    "download": "Lataa PDF"
+  },
+
+  "salesVatBreakdown": {
+    "title": "Myynnin ALV-erittely",
+    "description": "Asiakkailtasi kerätty ALV",
+    "vatRate": "ALV-kanta",
+    "net": "Veroton",
+    "vatAmount": "ALV-määrä",
+    "gross": "Verollinen",
+    "total": "Yhteensä"
+  },
+
+  "purchasesVatBreakdown": {
+    "title": "Ostojen ALV-erittely",
+    "description": "Ostoistasi vähennyskelpoinen ALV",
+    "vatRate": "ALV-kanta",
+    "net": "Veroton",
+    "vatAmount": "ALV-määrä",
+    "gross": "Verollinen",
+    "total": "Yhteensä"
+  },
+
+  "reportOverview": {
+    "deletedTitle": "Raportti poistettu",
+    "deletedDescription": "Tämä raportti on poistettu listaltasi.",
+    "backToReports": "Takaisin raportteihin"
+  },
+
+  "summaryCards": {
+    "salesVat": "Myynnin ALV",
+    "net": "Veroton {amount} €",
+    "purchaseVat": "Ostojen ALV",
+    "vatRefund": "ALV-palautus",
+    "vatPayable": "Maksettava ALV",
+    "refundNote": "Verohallinto palauttaa sinulle",
+    "payableNote": "Maksa Verohallinnolle"
+  },
+
+  "vatReturned": {
+    "title": "ALV-ilmoitus lähetetty",
+    "description": "Merkitse tämä raportti lähetetyksi Verohallinnolle",
+    "submitted": "Lähetetty ✓",
+    "notSubmitted": "Ei lähetetty"
+  },
+
+  "settingsHeader": {
+    "eyebrow": "Asetukset",
+    "title": "Tilin asetukset"
+  },
+
+  "information": {
+    "title": "Henkilötiedot",
+    "firstName": "Etunimi",
+    "lastName": "Sukunimi",
+    "email": "Sähköposti",
+    "phoneNumber": "Puhelinnumero",
+    "businessId": "Y-tunnus",
+    "saving": "Tallennetaan...",
+    "saveChanges": "Tallenna muutokset",
+    "cancel": "Peruuta",
+    "editInformation": "Muokkaa tietoja",
+    "updateSuccess": "Tiedot päivitetty onnistuneesti"
+  },
+
+  "subscription": {
+    "title": "Tilaus",
+    "currentPlan": "Nykyinen tilaus",
+    "cancels": "Päättyy {date}",
+    "active": "Aktiivinen",
+    "cancelled": "Peruutettu",
+    "pastDue": "Maksu myöhässä",
+    "currentPeriodStart": "Nykyisen kauden alku",
+    "accessUntil": "Käyttöoikeus voimassa",
+    "nextBillingDate": "Seuraava laskutuspäivä",
+    "noValue": "—",
+    "changePlan": "Vaihda tilausta"
+  },
+
+  "cancelSubscription": {
+    "warning": "Tilauksesi peruutetaan nykyisen laskutuskauden lopussa. Käyttöoikeutesi säilyy siihen asti.",
+    "cancelling": "Peruutetaan...",
+    "confirmCancellation": "Vahvista peruutus",
+    "keepSubscription": "Säilytä tilaus",
+    "cancelSubscription": "Peruuta tilaus",
+    "cancelSuccess": "Tilaus peruutettu onnistuneesti"
+  },
+
+  "reactivateSubscription": {
+    "warning": "Tilauksesi aktivoidaan uudelleen ja sinua laskutetaan edelleen nykyisen kauden lopussa.",
+    "reactivating": "Aktivoidaan...",
+    "confirmReactivation": "Vahvista uudelleenaktivointi",
+    "cancel": "Peruuta",
+    "reactivateSubscription": "Aktivoi tilaus uudelleen",
+    "reactivateSuccess": "Tilaus aktivoitu uudelleen onnistuneesti"
+  },
+
+  "paymentHistory": {
+    "title": "Maksuhistoria",
+    "pdf": "PDF"
+  },
+
+  "settingsFooter": {
+    "dangerZone": "Vaaravyöhyke",
+    "deleteWarning": "Poista tilisi ja kaikki siihen liittyvä data pysyvästi. Tilauksesi peruutetaan välittömästi. Tätä toimintoa ei voi peruuttaa.",
+    "typeToConfirm": "Kirjoita <phrase>{value}</phrase> vahvistaaksesi poiston.",
+    "confirmDeletion": "Vahvista poisto",
+    "cancel": "Peruuta",
+    "deleteAccount": "Poista tili",
+    "backToDashboard": "Takaisin etusivulle"
+  },
+
+  "expenseUpload": {
+    "title": "Meno kuitit",
+    "subtitle": "Ostot ja kulut",
+    "selectFiles": "Valitse tiedostot"
+  },
+
+  "uploadHeader": {
+    "label": "Lataa",
+    "title": "Lisää dokumentteja"
+  },
+
+  "incomeUpload": {
+    "title": "Tulokuitit",
+    "subtitle": "Myynti ja tuotot",
+    "selectFiles": "Valitse tiedostot"
+  },
+
+  "uploadButtons": {
+    "uploading": "Ladataan...",
+    "upload": "Lataa",
+    "clear": "Tyhjennä"
+  },
+
+  "uploadOverview": {
+    "analyzing": "Analysoidaan kuitteja...",
+    "uploadSuccess": "Tiedostot ladattu onnistuneesti",
+    "analyzeSuccess": "{completed}/{total} kuitti(a) analysoitu",
+    "analyzedProgress": "{completed}/{total} analysoitu",
+    "analyzeFailed": "Kuittien analysointi epäonnistui"
+  },
+
+  "vatReturnPage": {
+    "authRequired": "Vero-tunnistautuminen vaaditaan",
+    "authDescription": "Sinun täytyy valtuuttaa Vero-yhteys ennen ALV-ilmoituksen lähettämistä.",
+    "authorizeButton": "Valtuuta Vero",
+    "title": "ALV-ilmoitus",
+    "selectPeriod": "Valitse ilmoituskausi",
+    "noPeriodsAvailable": "Ilmoituskausia ei ole saatavilla."
+  },
+
+  "vatReturnForm": {
+    "title": "Lähetä ALV-ilmoitus",
+    "selectReport": "Valitse raportti",
+    "filingPeriod": "Ilmoituskausi",
+    "vatHigh": "ALV myynneistä 25,5%",
+    "vatMedium": "ALV myynneistä 13,5%",
+    "vatLow": "ALV myynneistä 10%",
+    "deductibleVat": "Vähennyskelpoinen ALV",
+    "contactName": "Yhteyshenkilön nimi",
+    "phoneNumber": "Puhelinnumero",
+    "cancel": "Peruuta",
+    "edit": "Muokkaa",
+    "sending": "Lähetetään...",
+    "submit": "Lähetä Verolle",
+    "filedSuccess": "ALV-ilmoitus lähetetty onnistuneesti",
+    "id": "Tunnus: {id}",
+    "timestamp": "Aikaleima: {timestamp}",
+    "viewFiled": "Näytä lähetetty ilmoitus",
+    "filedDetails": "Lähetetyn ilmoituksen tiedot",
+    "status": "Tila",
+    "submitted": "Lähetetty",
+    "taxPayable": "Maksettava vero"
+  },
+
+  "home": {
+    "nav": {
+        "features": "Ominaisuudet",
+        "pricing": "Hinnoittelu",
+        "whyUs": "Miksi me",
+        "signIn": "Kirjaudu",
+        "tryFree": "Kokeile ilmaiseksi"
+    },
+    "hero": {
+        "badge": "Tehty suomalaisille pienyrityksille",
+        "title": "Automatisoi kirjanpitosi tekoälyllä",
+        "description": "Säästä tunteja joka viikko ja satoja euroja joka kuukausi. Ota kuva kuitista — tekoäly hoitaa loput, mukaan lukien suomalaisen ALV:n.",
+        "tryFree": "Kokeile ilmaiseksi",
+        "seeFeatures": "Katso ominaisuudet",
+        "footnote": "Ei luottokorttia · 14 päivän ilmainen kokeilu"
+    },
+    "problem": {
+        "label": "Ongelma",
+        "title": "Kirjanpidon ei pitäisi olla näin tuskallista",
+        "items": [
+            { "title": "Kuitit kasautuvat", "text": "Jokaisen kuitin, laskun ja pankkirivin manuaalinen syöttäminen vie tunteja viikossa." },
+            { "title": "Kirjanpitäjät ovat kalliita", "text": "Perinteiset kirjanpitäjät veloittavat 200–600€ kuukaudessa — paljon pienyritykselle." },
+            { "title": "Virheet maksavat oikeaa rahaa", "text": "Väärä ALV-kanta tai unohtunut vähennys voi tarkoittaa sakkoja tai tuhansia euroja menetyksiä vuodessa." }
+        ]
+    },
+    "features": {
+        "label": "Ominaisuudet",
+        "title": "Kaikki mitä tarvitset kirjanpitoon",
+        "description": "Korvaa taulukkolaskennat, kuittikansiot ja sähköpostit yhdellä selkeällä hallintapaneelilla.",
+        "items": [
+            { "title": "OCR-kuittiskannaus", "text": "Ota kuva tai lataa PDF — tekoäly poimii toimittajan, päivämäärän, summan, ALV:n ja kategorian sekunneissa." },
+            { "title": "Automaattinen ALV-laskenta", "text": "Suomalaiset ALV-kannat (0%, 10%, 14%, 24%) sovellettuna oikein jokaiseen tapahtumaan, aina." },
+            { "title": "Välittömät tuloslaskelmat", "text": "Kuukausi- ja vuosiraportit luodaan automaattisesti. Vie PDF:ksi tai jaa kirjanpitäjälle." },
+            { "title": "Tekoälyavustaja kirjanpitoon", "text": "Kysy mitä tahansa suomeksi tai englanniksi: 'Paljonko käytin matkustamiseen viime neljänneksellä?'" }
+        ]
+    },
+    "pricing": {
+        "label": "Hinnoittelu",
+        "title": "Yksinkertainen hinnoittelu. Isot säästöt.",
+        "description": "10× halvempi kuin perinteinen kirjanpitäjä. Peruuta milloin tahansa.",
+        "mostPopular": "Suosituin",
+        "tiers": [
+            {
+                "name": "Ilmainen kokeilu", "price": "0€", "period": "14 päivää", "desc": "Testaa kaikkia ominaisuuksia, ei korttia tarvita.",
+                "features": ["Enintään 25 kuittia", "ALV-laskenta", "Kuukausiraportti", "Sähköpostituki"],
+                "cta": "Aloita ilmaiseksi"
+            },
+            {
+                "name": "Perus", "price": "19€", "period": "/ kk", "desc": "Freelancereille ja toiminimille.",
+                "features": ["Rajoittamaton kuittiskannaus", "Automaattinen suomalainen ALV", "Kuukausi- ja vuosiraportit", "Tekoälyavustaja (100 kyselyä / kk)", "Sähköpostituki"],
+                "cta": "Valitse Perus"
+            },
+            {
+                "name": "Premium", "price": "39€", "period": "/ kk", "desc": "Kasvaville pienyrityksille.",
+                "features": ["Kaikki Perus-paketista", "Rajoittamaton tekoälyavustaja", "Pankkiintegraatio", "Useampi käyttäjä", "Prioriteettituki"],
+                "cta": "Valitse Premium"
+            }
+        ]
+    },
+    "cta": {
+        "title": "Aloita ilmainen kokeilusi tänään",
+        "description": "Liity satoihin suomalaisiin yrittäjiin, jotka eivät enää halua avata kuittikansiota.",
+        "button": "Aloita ilmaiseksi",
+        "footnote": "14 päivää ilmaiseksi · Ei luottokorttia · Peruuta milloin tahansa"
+    },
+    "footer": {
+        "privacy": "Tietosuoja",
+        "terms": "Käyttöehdot",
+        "contact": "Yhteystiedot"
+    }
+  },
+
+  "mainNavigation": {
+    "dashboard": "Hallintapaneeli",
+    "receipts": "Kuitit",
+    "reports": "Raportit",
+    "vatReturn": "ALV-ilmoitus",
+    "assistant": "Tekoälyavustaja",
+    "settings": "Asetukset",
+    "menu": "Valikko"
+  }
+}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { updateUserData } from "../action";
 import { toast } from "sonner";
 
@@ -9,6 +10,7 @@ interface Props {
 }
 
 export default function Information({ user }: Props) {
+    const t = useTranslations('information');
     const [isEditing, setIsEditing] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [form, setForm] = useState({
@@ -33,7 +35,7 @@ export default function Information({ user }: Props) {
             return;
         }
 
-        toast.success('Information updated successfully');
+        toast.success(t('updateSuccess'));
         setIsEditing(false);
     };
 
@@ -50,10 +52,10 @@ export default function Information({ user }: Props) {
 
     return (
         <div className="rounded-lg border border-border bg-white p-6 space-y-4">
-            <h2 className="text-sm font-medium text-slate-950">Personal information</h2>
+            <h2 className="text-sm font-medium text-slate-950">{t('title')}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                    <p className="text-xs text-muted-foreground">First name</p>
+                    <p className="text-xs text-muted-foreground">{t('firstName')}</p>
                     {isEditing ? (
                         <input
                             name="first_name"
@@ -66,7 +68,7 @@ export default function Information({ user }: Props) {
                     )}
                 </div>
                 <div className="space-y-1">
-                    <p className="text-xs text-muted-foreground">Last name</p>
+                    <p className="text-xs text-muted-foreground">{t('lastName')}</p>
                     {isEditing ? (
                         <input
                             name="last_name"
@@ -79,7 +81,7 @@ export default function Information({ user }: Props) {
                     )}
                 </div>
                 <div className="space-y-1">
-                    <p className="text-xs text-muted-foreground">Email</p>
+                    <p className="text-xs text-muted-foreground">{t('email')}</p>
                     {isEditing ? (
                         <input
                             name="email"
@@ -92,7 +94,7 @@ export default function Information({ user }: Props) {
                     )}
                 </div>
                 <div className="space-y-1">
-                    <p className="text-xs text-muted-foreground">Phone number</p>
+                    <p className="text-xs text-muted-foreground">{t('phoneNumber')}</p>
                     {isEditing ? (
                         <input
                             name="phonenumber"
@@ -105,7 +107,7 @@ export default function Information({ user }: Props) {
                     )}
                 </div>
                 <div className="space-y-1">
-                    <p className="text-xs text-muted-foreground">Business ID</p>
+                    <p className="text-xs text-muted-foreground">{t('businessId')}</p>
                     {isEditing ? (
                         <input
                             name="businessId"
@@ -126,14 +128,14 @@ export default function Information({ user }: Props) {
                             disabled={isLoading}
                             className="h-9 px-4 rounded-md bg-teal-700 text-sm font-medium text-white hover:bg-teal-800 disabled:opacity-50 transition-colors"
                         >
-                            {isLoading ? 'Saving...' : 'Save changes'}
+                            {isLoading ? t('saving') : t('saveChanges')}
                         </button>
                         <button
                             onClick={handleCancel}
                             disabled={isLoading}
                             className="h-9 px-4 rounded-md border border-slate-300 bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50 transition-colors"
                         >
-                            Cancel
+                            {t('cancel')}
                         </button>
                     </>
                 ) : (
@@ -141,7 +143,7 @@ export default function Information({ user }: Props) {
                         onClick={() => setIsEditing(true)}
                         className="h-9 px-4 rounded-md border border-slate-300 bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
                     >
-                        Edit information
+                        {t('editInformation')}
                     </button>
                 )}
             </div>

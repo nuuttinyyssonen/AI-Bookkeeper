@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 type Plan = 'FREE_TRIAL' | 'BASIC' | 'PREMIUM';
 
 interface PlanSelectorProps {
@@ -7,38 +9,24 @@ interface PlanSelectorProps {
   onSelect: (plan: Plan) => void;
 }
 
-const plans = [
-  {
-    id: 'FREE_TRIAL' as Plan,
-    name: 'Free trial',
-    price: '€0',
-    period: '/ 14 days',
-    description: 'Get started, no card needed',
-    features: ['25 receipts included', 'All basic features', 'No credit card required'],
-  },
-  {
-    id: 'BASIC' as Plan,
-    name: 'Basic',
-    price: '€19.99',
-    period: '/ mo',
-    description: 'For individuals and freelancers',
-    features: ['Unlimited receipts', 'AI bookkeeper', 'Monthly reports'],
-  },
-  {
-    id: 'PREMIUM' as Plan,
-    name: 'Premium',
-    price: '€39.99',
-    period: '/ mo',
-    description: 'For small businesses',
-    badge: 'Most popular',
-    features: ['Everything in Basic', 'Priority support', 'Advanced analytics'],
-  },
-];
+const planIds: Plan[] = ['FREE_TRIAL', 'BASIC', 'PREMIUM'];
 
 export default function PlanSelector({ selectedPlan, onSelect }: PlanSelectorProps) {
+  const t = useTranslations('planSelector');
+
+  const plans = planIds.map((id) => ({
+    id,
+    name: t(`plans.${id}.name`),
+    price: t(`plans.${id}.price`),
+    period: t(`plans.${id}.period`),
+    description: t(`plans.${id}.description`),
+    features: t.raw(`plans.${id}.features`) as string[],
+    badge: id === 'PREMIUM' ? t('mostPopular') : undefined,
+  }));
+
   return (
     <div className="w-full">
-      <p className="text-sm text-muted-foreground mb-3">Choose a plan</p>
+      <p className="text-sm text-muted-foreground mb-3">{t('choosePlan')}</p>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {plans.map((plan) => {
           const isSelected = selectedPlan === plan.id;

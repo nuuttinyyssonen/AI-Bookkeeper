@@ -1,4 +1,7 @@
+'use client';
+
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import CancelSubscription from "./CancelSubscription";
 import ReactivateSubscription from "./ReactivateSubscription";
 
@@ -7,6 +10,7 @@ interface Props {
 }
 
 export default function Subscription({ subscription }: Props) {
+    const t = useTranslations('subscription');
     const periodEnd = subscription?.current_period_end
         ? new Date(subscription.current_period_end).toLocaleDateString('fi-FI')
         : null;
@@ -19,42 +23,42 @@ export default function Subscription({ subscription }: Props) {
 
     return (
         <div className="rounded-lg border border-border bg-white p-6 space-y-4">
-            <h2 className="text-sm font-medium text-slate-950">Subscription</h2>
+            <h2 className="text-sm font-medium text-slate-950">{t('title')}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-1">
-                    <p className="text-xs text-muted-foreground">Current plan</p>
+                    <p className="text-xs text-muted-foreground">{t('currentPlan')}</p>
                     <div className="flex items-center gap-2">
                         <p className="text-sm font-medium text-slate-950">
                             {subscription?.subscription_type}
                         </p>
                         {isCancelledAtPeriodEnd ? (
                             <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
-                                Cancels {periodEnd}
+                                {t('cancels', { date: periodEnd ?? '' })}
                             </span>
                         ) : subscription?.subscription_status === 'ACTIVE' ? (
                             <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-teal-50 text-teal-800 border border-teal-200">
-                                Active
+                                {t('active')}
                             </span>
                         ) : subscription?.subscription_status === 'CANCELLED' ? (
                             <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
-                                Cancelled
+                                {t('cancelled')}
                             </span>
                         ) : subscription?.subscription_status === 'PAST_DUE' ? (
                             <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-red-50 text-red-800 border border-red-200">
-                                Past due
+                                {t('pastDue')}
                             </span>
                         ) : null}
                     </div>
                 </div>
                 <div className="space-y-1">
-                    <p className="text-xs text-muted-foreground">Current period start</p>
-                    <p className="text-sm font-medium text-slate-950">{periodStart ?? '—'}</p>
+                    <p className="text-xs text-muted-foreground">{t('currentPeriodStart')}</p>
+                    <p className="text-sm font-medium text-slate-950">{periodStart ?? t('noValue')}</p>
                 </div>
                 <div className="space-y-1">
                     <p className="text-xs text-muted-foreground">
-                        {isCancelledAtPeriodEnd ? 'Access until' : 'Next billing date'}
+                        {isCancelledAtPeriodEnd ? t('accessUntil') : t('nextBillingDate')}
                     </p>
-                    <p className="text-sm font-medium text-slate-950">{periodEnd ?? '—'}</p>
+                    <p className="text-sm font-medium text-slate-950">{periodEnd ?? t('noValue')}</p>
                 </div>
             </div>
             <div className="pt-2 flex flex-wrap gap-2">
@@ -62,7 +66,7 @@ export default function Subscription({ subscription }: Props) {
                     href="/pricing"
                     className="h-9 px-4 rounded-md bg-teal-700 text-sm font-medium text-white hover:bg-teal-800 transition-colors flex items-center"
                 >
-                    Change plan
+                    {t('changePlan')}
                 </Link>
                 {isCancelledAtPeriodEnd ? (
                     <ReactivateSubscription />

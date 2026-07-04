@@ -1,10 +1,13 @@
 'use client';
 
+import { useTranslations } from "next-intl";
+
 interface downloadPDFProps {
     id: string
 }
 
 export default function DownloadPDF({ id }: downloadPDFProps) {
+    const t = useTranslations('downloadPdf');
 
     const handleDownload = async () => {
         const response = await fetch(`/api/report/${id}`);
@@ -20,7 +23,7 @@ export default function DownloadPDF({ id }: downloadPDFProps) {
     return (
         <div>
             <button onClick={handleDownload} className="rounded-md bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700">
-                Download PDF
+                {t('download')}
             </button>
         </div>
     )

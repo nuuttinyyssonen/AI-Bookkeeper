@@ -1,0 +1,633 @@
+{
+  "login": {
+    "title": "Log in",
+    "description": "Enter your details below to continue to your workspace",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Log in",
+    "submitting": "Logging in...",
+    "newHere": "New here?",
+    "createAccount": "Create an account",
+    "forgotPassword": "Forgot your password?",
+    "resetPassword": "Reset your password",
+    "loggedOut": "Logged out successfully",
+    "accountCreated": "Account created successfully!",
+    "passwordReset": "Password updated successfully!"
+  },
+
+  "resetPassword": {
+    "title": "Reset password",
+    "description": "Reset your password here",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "repeatPassword": "Repeat password",
+    "submit": "Reset password",
+    "submitting": "Resetting...",
+    "backToLogin": "Back to login"
+  },
+
+  "passwordResetEmail": {
+    "title": "Email verification link",
+    "description": "Enter your email below",
+    "email": "Email",
+    "submit": "Send password reset link",
+    "submitting": "Sending...",
+    "successMessage": "Password reset link sent! Check your email.",
+    "backToLogin": "Back to login"
+  },
+
+  "planSelector": {
+    "choosePlan": "Choose a plan",
+    "mostPopular": "Most popular",
+    "plans": {
+        "FREE_TRIAL": {
+            "name": "Free trial",
+            "price": "€0",
+            "period": "/ 14 days",
+            "description": "Get started, no card needed",
+            "features": ["25 receipts included", "All basic features", "No credit card required"]
+        },
+        "BASIC": {
+            "name": "Basic",
+            "price": "€19.99",
+            "period": "/ mo",
+            "description": "For individuals and freelancers",
+            "features": ["Unlimited receipts", "AI bookkeeper", "Monthly reports"]
+        },
+        "PREMIUM": {
+            "name": "Premium",
+            "price": "€39.99",
+            "period": "/ mo",
+            "description": "For small businesses",
+            "features": ["Everything in Basic", "Priority support", "Advanced analytics"]
+        }
+    }
+  },
+
+  "signup": {
+    "title": "Create an account",
+    "description": "Enter your information below to create your account",
+    "email": "Email",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "phonenumber": "Phone number",
+    "businessId": "Business ID",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "repeatPassword": "Repeat password",
+    "submit": "Create account",
+    "submitting": "Creating account...",
+    "alreadyHaveAccount": "Already have an account?",
+    "signIn": "Sign in"
+  },
+
+  "chatHistory": {
+    "newChat": "New chat",
+    "recent": "Recent",
+    "unnamedChat": "Unnamed chat"
+  },
+
+  "assistantHeader": {
+    "title": "VAT Questions",
+    "subtitle": "AI Accounting Assistant",
+    "chats": "Chats"
+  },
+
+  "chatInput": {
+    "placeholder": "Ask about VAT, expenses, reports...",
+    "disclaimer": "AI can make mistakes. Always verify important financial decisions."
+  },
+
+  "welcomeScreen": {
+    "greeting": "Hi, {name} 👋",
+    "subtitle": "Ask anything about bookkeeping, VAT, or finances.",
+    "suggestions": [
+        "What is the VAT rate?",
+        "How do I do a financial statement?",
+        "Can I deduct travel expenses?"
+    ]
+  },
+
+  "dashboard": {
+    "label": "Dashboard",
+    "title": "Business overview",
+    "export": "Export",
+    "addReceipt": "Add receipt"
+  },
+
+  "cashflow": {
+    "title": "Cashflow",
+    "subtitle": "Income and expense trend",
+    "income": "Income",
+    "expenses": "Expenses"
+  },
+
+  "financialSummary": {
+    "revenue": "Revenue",
+    "expenses": "Expenses",
+    "netProfit": "Net profit"
+  },
+
+  "logoutButton": {
+    "logout": "Logout",
+    "loggedIn": "Logged in successfully"
+  },
+
+  "subscriptionBanner": {
+    "noSubscription": "You don't have an active subscription.",
+    "subscribeNow": "Subscribe now",
+    "pastDue": "Your payment failed. Update your payment method to keep access.",
+    "updatePayment": "Update payment",
+    "cancelled": "Your subscription is cancelled. Access until {date}.",
+    "reactivate": "Reactivate",
+    "basicPlan": "You're on the <bold>Basic</bold> plan.",
+    "premiumPlan": "You're on the <bold>Premium</bold> plan.",
+    "basicYearlyPlan": "You're on the <bold>Basic yearly</bold> plan.",
+    "premiumYearlyPlan": "You're on the <bold>Premium yearly</bold> plan.",
+    "upgradeToPremium": "Upgrade to Premium",
+    "viewPlans": "View Plans"
+  },
+
+  "transactions": {
+    "title": "Recent transactions"
+  },
+
+  "pricingCards": {
+    "currentPlan": "Current plan",
+    "mostPopular": "Most popular",
+    "perMonth": "/ mo",
+    "billedAs": "Billed as {price} / year",
+    "confirmCharge": "You will be charged <bold>{price}</bold> immediately. Confirm?",
+    "confirm": "Confirm",
+    "processing": "Processing...",
+    "cancel": "Cancel",
+    "selectPlan": "Select {name}",
+    "plans": {
+        "basic": {
+            "description": "For individuals and freelancers",
+            "features": ["Unlimited receipts", "AI bookkeeper", "Monthly reports", "Email support"]
+        },
+        "premium": {
+            "description": "For small businesses",
+            "features": ["Everything in Basic", "Priority support", "Advanced analytics", "Multi-user access"]
+        }
+    }
+  },
+
+  "pricingProvider": {
+    "title": "Choose your plan",
+    "subtitle": "Upgrade or downgrade at any time",
+    "backToDashboard": "Back to dashboard"
+  },
+
+  "toggleButton": {
+    "save": "Save ~17%",
+    "monthly": "Monthly",
+    "yearly": "Yearly"
+  },
+
+  "receiptButtons": {
+    "saving": "Saving...",
+    "saveChanges": "Save changes",
+    "cancel": "Cancel",
+    "deleteReceipt": "Delete receipt",
+    "downloadPdf": "Download PDF"
+  },
+
+  "categories": {
+    "label": "Category",
+    "placeholder": "Select category",
+    "TOIMISTOKULUT": "Office expenses",
+    "MATKAKULUT": "Travel expenses",
+    "EDUSTUSKULUT": "Representation expenses",
+    "ATERIA": "Meals",
+    "MARKKINOINTI_JA_MAINONTA": "Marketing and advertising",
+    "KALUSTO_JA_LAITTEET": "Equipment and devices",
+    "PALKKAKULUT_JA_PALKKIOT": "Payroll and fees",
+    "VUOKRA": "Rent",
+    "VAKUUTUKSET": "Insurance",
+    "PUHELIN_JA_TIETOLIIKENNE": "Phone and telecommunications",
+    "OHJELMISTOT_JA_LISENSSIT": "Software and licenses",
+    "KOULUTUS_JA_KURSSIT": "Education and courses",
+    "KIRJANPITO_JA_LAKIPALVELUT": "Accounting and legal services",
+    "PANKKIKULUT": "Bank fees",
+    "AJONEUVOKULUT": "Vehicle expenses",
+    "KOTITOIMISTON_KULUT": "Home office expenses",
+    "YKSITYISOTOT": "Private withdrawals",
+    "MUUT_KULUT": "Other expenses",
+    "MYYNTI_TUOTTEET": "Sales — products",
+    "MYYNTI_PALVELUT": "Sales — services",
+    "MUUT_TULOT": "Other income"
+  },
+
+  "deductible": {
+    "label": "Deductible",
+    "yes": "Yes",
+    "no": "No",
+    "percentage": "Deduction percentage:",
+    "other": "Other"
+  },
+
+  "receiptHeader": {
+    "title": "Receipt details",
+    "description": "Review the full receipt, image, and action options.",
+    "back": "Back to receipts"
+  },
+
+  "receiptImage": {
+    "title": "Receipt image",
+    "description": "Preview the uploaded receipt for this entry.",
+    "loading": "Loading receipt preview...",
+    "noPreview": "No preview available."
+  },
+
+  "receipt": {
+    "loading": "Loading...",
+    "notFound": "Receipt not found",
+    "notFoundDescription": "The receipt you are looking for does not exist.",
+    "backToReceipts": "Back to receipts",
+    "deleted": "Receipt deleted",
+    "deletedDescription": "This receipt has been removed from your list.",
+    "deleteSuccess": "File deleted successfully",
+    "updateSuccess": "Receipt updated successfully"
+  },
+
+  "receiptDetails": {
+    "vendor": "Vendor",
+    "date": "Date",
+    "total": "Total",
+    "editReceipt": "Edit receipt"
+  },
+
+  "vats": {
+    "breakdown": "VAT breakdown",
+    "rate": "Rate %",
+    "net": "Net €",
+    "vat": "VAT €",
+    "total": "Total €",
+    "rateValue": "Rate: {rate}%",
+    "netValue": "Net: €{amount}",
+    "vatValue": "VAT: €{amount}",
+    "totalValue": "Total: €{amount}",
+    "notAvailable": "VAT details not available."
+  },
+
+  "receiptData": {
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {page} of {totalPages}"
+  },
+
+  "receipts": {
+    "vatBreakdown": "VAT breakdown",
+    "rateValue": "Rate: {rate}%",
+    "netValue": "Net: €{amount}",
+    "vatValue": "VAT: €{amount}",
+    "totalValue": "Total: €{amount}",
+    "vatNotAvailable": "VAT details not available.",
+    "noCategory": "No category",
+    "deductible": "Deductible",
+    "notDeductible": "Not deductible",
+    "view": "View",
+    "export": "Export"
+  },
+
+  "receiptsEmpty": {
+    "title": "No receipts found",
+    "description": "Try uploading a receipt or adjust your search."
+  },
+
+  "receiptsHeader": {
+    "title": "Receipts",
+    "description": "Your uploaded receipts and parsed totals.",
+    "processing": "Processing documents...",
+    "search": "Search vendor...",
+    "to": "to",
+    "clear": "Clear",
+    "exportExcel": "Export Excel"
+  },
+
+  "receiptTabs": {
+    "expenses": "Expenses ({count})",
+    "income": "Income ({count})"
+  },
+
+  "reportsHeader": {
+    "eyebrow": "Reports",
+    "title": "VAT reports",
+    "description": "Generate and download VAT summaries for your tax returns.",
+    "newReport": "+ New report",
+    "modalTitle": "Generate VAT Report",
+    "modalDescription": "Select a time period for the report.",
+    "periodQ1": "Q1 (Jan - Mar)",
+    "periodQ2": "Q2 (Apr - Jun)",
+    "periodQ3": "Q3 (Jul - Sep)",
+    "periodQ4": "Q4 (Oct - Dec)",
+    "periodMonthly": "Current month",
+    "periodYearly": "Current year",
+    "cancel": "Cancel",
+    "generate": "Generate",
+    "generating": "Generating...",
+    "generateSuccess": "Report generated successfully"
+  },
+
+  "reportEmpty": {
+    "title": "No reports yet",
+    "description": "Generate your first VAT report to prepare for your tax return.",
+    "newReport": "+ New report"
+  },
+
+  "reportRow": {
+    "payable": "Pay {amount} €",
+    "refund": "Refund {amount} €",
+    "submitted": "Submitted",
+    "pending": "Pending",
+    "view": "View"
+  },
+
+  "reportTableHead": {
+    "period": "Period",
+    "type": "Type",
+    "salesVat": "Sales VAT",
+    "purchaseVat": "Purchase VAT",
+    "payableRefund": "Payable / Refund",
+    "status": "Status",
+    "created": "Created"
+  },
+
+  "reportDownloadButton": {
+    "download": "Download PDF"
+  },
+
+  "reportHeader": {
+    "back": "Back to reports",
+    "title": "VAT Report – {period}",
+    "submitted": "Submitted",
+    "pending": "Pending"
+  },
+
+  "deleteReport": {
+    "delete": "Delete",
+    "deleteSuccess": "Report deleted successfully"
+  },
+
+  "downloadPdf": {
+    "download": "Download PDF"
+  },
+
+  "salesVatBreakdown": {
+    "title": "Sales VAT breakdown",
+    "description": "VAT collected from your customers",
+    "vatRate": "VAT rate",
+    "net": "Net",
+    "vatAmount": "VAT amount",
+    "gross": "Gross",
+    "total": "Total"
+  },
+
+  "purchasesVatBreakdown": {
+    "title": "Purchase VAT breakdown",
+    "description": "VAT deductible from your purchases",
+    "vatRate": "VAT rate",
+    "net": "Net",
+    "vatAmount": "VAT amount",
+    "gross": "Gross",
+    "total": "Total"
+  },
+
+  "reportOverview": {
+    "deletedTitle": "Report deleted",
+    "deletedDescription": "This report has been removed from your list.",
+    "backToReports": "Back to reports"
+  },
+
+  "summaryCards": {
+    "salesVat": "Sales VAT",
+    "net": "Net {amount} €",
+    "purchaseVat": "Purchase VAT",
+    "vatRefund": "VAT Refund",
+    "vatPayable": "VAT Payable",
+    "refundNote": "Verohallinto refunds you",
+    "payableNote": "Pay to Verohallinto"
+  },
+
+  "vatReturned": {
+    "title": "VAT return submitted",
+    "description": "Mark this report as submitted to Verohallinto",
+    "submitted": "Submitted ✓",
+    "notSubmitted": "Not submitted"
+  },
+
+  "settingsHeader": {
+    "eyebrow": "Settings",
+    "title": "Account settings"
+  },
+
+  "information": {
+    "title": "Personal information",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "phoneNumber": "Phone number",
+    "businessId": "Business ID",
+    "saving": "Saving...",
+    "saveChanges": "Save changes",
+    "cancel": "Cancel",
+    "editInformation": "Edit information",
+    "updateSuccess": "Information updated successfully"
+  },
+
+  "subscription": {
+    "title": "Subscription",
+    "currentPlan": "Current plan",
+    "cancels": "Cancels {date}",
+    "active": "Active",
+    "cancelled": "Cancelled",
+    "pastDue": "Past due",
+    "currentPeriodStart": "Current period start",
+    "accessUntil": "Access until",
+    "nextBillingDate": "Next billing date",
+    "noValue": "—",
+    "changePlan": "Change plan"
+  },
+
+  "cancelSubscription": {
+    "warning": "Your subscription will be cancelled at the end of the current billing period. You will keep access until then.",
+    "cancelling": "Cancelling...",
+    "confirmCancellation": "Confirm cancellation",
+    "keepSubscription": "Keep subscription",
+    "cancelSubscription": "Cancel subscription",
+    "cancelSuccess": "Subscription cancelled successfully"
+  },
+
+  "reactivateSubscription": {
+    "warning": "Your subscription will be reactivated and you will continue to be billed at the end of the current period.",
+    "reactivating": "Reactivating...",
+    "confirmReactivation": "Confirm reactivation",
+    "cancel": "Cancel",
+    "reactivateSubscription": "Reactivate subscription",
+    "reactivateSuccess": "Subscription reactivated successfully"
+  },
+
+  "paymentHistory": {
+    "title": "Payment history",
+    "pdf": "PDF"
+  },
+
+  "settingsFooter": {
+    "dangerZone": "Danger zone",
+    "deleteWarning": "Permanently delete your account and all associated data. Your subscription will be cancelled immediately. This action cannot be undone.",
+    "typeToConfirm": "Type <phrase>{value}</phrase> to confirm deletion.",
+    "confirmDeletion": "Confirm deletion",
+    "cancel": "Cancel",
+    "deleteAccount": "Delete account",
+    "backToDashboard": "Back to dashboard"
+  },
+
+  "expenseUpload": {
+    "title": "Expense receipts",
+    "subtitle": "Purchases and costs",
+    "selectFiles": "Select files"
+  },
+
+  "uploadHeader": {
+    "label": "Upload",
+    "title": "Add documents"
+  },
+
+  "incomeUpload": {
+    "title": "Income receipts",
+    "subtitle": "Sales and revenue",
+    "selectFiles": "Select files"
+  },
+
+  "uploadButtons": {
+    "uploading": "Uploading...",
+    "upload": "Upload",
+    "clear": "Clear"
+  },
+
+
+  "uploadOverview": {
+    "analyzing": "Analyzing receipts...",
+    "uploadSuccess": "Files uploaded successfully",
+    "analyzeSuccess": "{completed}/{total} receipt(s) analyzed",
+    "analyzedProgress": "{completed}/{total} analyzed",
+    "analyzeFailed": "Receipt analysis failed"
+  },
+
+  "vatReturnPage": {
+    "authRequired": "Vero authentication required",
+    "authDescription": "You need to authorize with Vero before filing a VAT return.",
+    "authorizeButton": "Authorize with Vero",
+    "title": "VAT Return",
+    "selectPeriod": "Select filing period",
+    "noPeriodsAvailable": "No filing periods available."
+  },
+
+  "vatReturnForm": {
+    "title": "File VAT Return",
+    "selectReport": "Select a report",
+    "filingPeriod": "Filing period",
+    "vatHigh": "VAT on sales 25.5%",
+    "vatMedium": "VAT on sales 13.5%",
+    "vatLow": "VAT on sales 10%",
+    "deductibleVat": "Deductible VAT",
+    "contactName": "Contact name",
+    "phoneNumber": "Phone number",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "sending": "Sending...",
+    "submit": "Submit to Vero",
+    "filedSuccess": "Return filed successfully",
+    "id": "ID: {id}",
+    "timestamp": "Timestamp: {timestamp}",
+    "viewFiled": "View filed return",
+    "filedDetails": "Filed return details",
+    "status": "Status",
+    "submitted": "Submitted",
+    "taxPayable": "Tax payable"
+  },
+
+  "home": {
+    "nav": {
+        "features": "Features",
+        "pricing": "Pricing",
+        "whyUs": "Why us",
+        "signIn": "Sign in",
+        "tryFree": "Try for free"
+    },
+    "hero": {
+        "badge": "Built for Finnish small businesses",
+        "title": "Automate your bookkeeping with AI",
+        "description": "Save hours every week and hundreds of euros every month. Snap a photo of a receipt — AI handles the rest, including Finnish VAT.",
+        "tryFree": "Try for free",
+        "seeFeatures": "See features",
+        "footnote": "No credit card required · 14-day free trial"
+    },
+    "problem": {
+        "label": "The problem",
+        "title": "Bookkeeping shouldn't be this painful",
+        "items": [
+            { "title": "Drowning in receipts", "text": "Manually entering every receipt, invoice and bank line eats hours every week." },
+            { "title": "Accountants are expensive", "text": "Traditional bookkeepers charge 200–600€ per month — a lot for a small business." },
+            { "title": "Mistakes cost real money", "text": "A wrong VAT rate or missed deduction can mean fines or thousands lost each year." }
+        ]
+    },
+    "features": {
+        "label": "Features",
+        "title": "Everything you need to run the books",
+        "description": "Replace spreadsheets, receipt boxes and back-and-forth emails with one calm dashboard.",
+        "items": [
+            { "title": "OCR receipt scanning", "text": "Snap a photo or upload a PDF — AI extracts vendor, date, amount, VAT and category in seconds." },
+            { "title": "Automatic VAT calculation", "text": "Finnish VAT rates (0%, 10%, 14%, 24%) applied correctly on every transaction, every time." },
+            { "title": "Instant income statements", "text": "Monthly and yearly reports generated automatically. Export to PDF or share with your accountant." },
+            { "title": "AI accounting assistant", "text": "Ask anything in plain Finnish or English: 'How much did I spend on travel last quarter?'" }
+        ]
+    },
+    "pricing": {
+        "label": "Pricing",
+        "title": "Simple pricing. Big savings.",
+        "description": "10× cheaper than a traditional accountant. Cancel anytime.",
+        "mostPopular": "Most popular",
+        "tiers": [
+            {
+                "name": "Free trial", "price": "0€", "period": "for 14 days", "desc": "Test every feature, no card needed.",
+                "features": ["Up to 25 receipts", "VAT calculation", "Monthly report", "Email support"],
+                "cta": "Start free"
+            },
+            {
+                "name": "Basic", "price": "19€", "period": "/ month", "desc": "For freelancers and toiminimi.",
+                "features": ["Unlimited receipt scanning", "Automatic Finnish VAT", "Monthly & yearly reports", "AI assistant (100 queries / mo)", "Email support"],
+                "cta": "Choose Basic"
+            },
+            {
+                "name": "Premium", "price": "39€", "period": "/ month", "desc": "For growing small businesses.",
+                "features": ["Everything in Basic", "Unlimited AI assistant", "Bank integration", "Multi-user access", "Priority support"],
+                "cta": "Choose Premium"
+            }
+        ]
+    },
+    "cta": {
+        "title": "Start your free trial today",
+        "description": "Join hundreds of Finnish entrepreneurs who never want to open a receipt folder again.",
+        "button": "Get started free",
+        "footnote": "14 days free · No credit card · Cancel anytime"
+    },
+    "footer": {
+        "privacy": "Privacy",
+        "terms": "Terms",
+        "contact": "Contact"
+    }
+  },
+
+  "mainNavigation": {
+    "dashboard": "Dashboard",
+    "receipts": "Receipts",
+    "reports": "Reports",
+    "vatReturn": "VAT return",
+    "assistant": "AI assistant",
+    "settings": "Settings",
+    "menu": "Menu"
+  }
+}
