@@ -2,11 +2,13 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { deleteAccount } from "../action";
 
 const CONFIRM_PHRASE = "DELETE";
 
 export default function Footer() {
+    const t = useTranslations('settingsFooter');
     const [confirming, setConfirming] = useState(false);
     const [input, setInput] = useState("");
 
@@ -30,13 +32,16 @@ export default function Footer() {
     return (
         <div>
             <div className="rounded-lg border border-red-200 bg-white p-6 space-y-3">
-                <h2 className="text-sm font-medium text-slate-950">Danger zone</h2>
-                <p className="text-sm text-muted-foreground">Permanently delete your account and all associated data. Your subscription will be cancelled immediatelly. This action cannot be undone.</p>
+                <h2 className="text-sm font-medium text-slate-950">{t('dangerZone')}</h2>
+                <p className="text-sm text-muted-foreground">{t('deleteWarning')}</p>
 
                 {confirming ? (
                     <div className="space-y-3">
                         <p className="text-sm text-slate-700">
-                            Type <span className="font-mono font-semibold">{CONFIRM_PHRASE}</span> to confirm deletion.
+                            {t.rich('typeToConfirm', {
+                                phrase: (chunks) => <span className="font-mono font-semibold">{chunks}</span>,
+                                value: CONFIRM_PHRASE,
+                            })}
                         </p>
                         <input
                             type="text"
@@ -51,13 +56,13 @@ export default function Footer() {
                                 disabled={input !== CONFIRM_PHRASE}
                                 className="h-9 px-4 rounded-md bg-red-600 text-sm font-medium text-white hover:bg-red-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                             >
-                                Confirm deletion
+                                {t('confirmDeletion')}
                             </button>
                             <button
                                 onClick={handleCancel}
                                 className="h-9 px-4 rounded-md border border-slate-200 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
                             >
-                                Cancel
+                                {t('cancel')}
                             </button>
                         </div>
                     </div>
@@ -66,14 +71,14 @@ export default function Footer() {
                         onClick={handleDeleteClick}
                         className="h-9 px-4 rounded-md bg-red-600 text-sm font-medium text-white hover:bg-red-700 transition-colors"
                     >
-                        Delete account
+                        {t('deleteAccount')}
                     </button>
                 )}
             </div>
 
             <div className="text-center">
                 <Link href="/dashboard" className="text-sm text-muted-foreground hover:text-slate-700 underline">
-                    Back to dashboard
+                    {t('backToDashboard')}
                 </Link>
             </div>
         </div>

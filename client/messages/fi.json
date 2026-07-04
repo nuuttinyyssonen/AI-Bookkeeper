@@ -416,5 +416,71 @@
     "description": "Merkitse tämä raportti lähetetyksi Verohallinnolle",
     "submitted": "Lähetetty ✓",
     "notSubmitted": "Ei lähetetty"
+  },
+
+  "settingsHeader": {
+    "eyebrow": "Asetukset",
+    "title": "Tilin asetukset"
+  },
+
+  "information": {
+    "title": "Henkilötiedot",
+    "firstName": "Etunimi",
+    "lastName": "Sukunimi",
+    "email": "Sähköposti",
+    "phoneNumber": "Puhelinnumero",
+    "businessId": "Y-tunnus",
+    "saving": "Tallennetaan...",
+    "saveChanges": "Tallenna muutokset",
+    "cancel": "Peruuta",
+    "editInformation": "Muokkaa tietoja",
+    "updateSuccess": "Tiedot päivitetty onnistuneesti"
+  },
+
+  "subscription": {
+    "title": "Tilaus",
+    "currentPlan": "Nykyinen tilaus",
+    "cancels": "Päättyy {date}",
+    "active": "Aktiivinen",
+    "cancelled": "Peruutettu",
+    "pastDue": "Maksu myöhässä",
+    "currentPeriodStart": "Nykyisen kauden alku",
+    "accessUntil": "Käyttöoikeus voimassa",
+    "nextBillingDate": "Seuraava laskutuspäivä",
+    "noValue": "—",
+    "changePlan": "Vaihda tilausta"
+  },
+
+  "cancelSubscription": {
+    "warning": "Tilauksesi peruutetaan nykyisen laskutuskauden lopussa. Käyttöoikeutesi säilyy siihen asti.",
+    "cancelling": "Peruutetaan...",
+    "confirmCancellation": "Vahvista peruutus",
+    "keepSubscription": "Säilytä tilaus",
+    "cancelSubscription": "Peruuta tilaus",
+    "cancelSuccess": "Tilaus peruutettu onnistuneesti"
+  },
+
+  "reactivateSubscription": {
+    "warning": "Tilauksesi aktivoidaan uudelleen ja sinua laskutetaan edelleen nykyisen kauden lopussa.",
+    "reactivating": "Aktivoidaan...",
+    "confirmReactivation": "Vahvista uudelleenaktivointi",
+    "cancel": "Peruuta",
+    "reactivateSubscription": "Aktivoi tilaus uudelleen",
+    "reactivateSuccess": "Tilaus aktivoitu uudelleen onnistuneesti"
+  },
+
+  "paymentHistory": {
+    "title": "Maksuhistoria",
+    "pdf": "PDF"
+  },
+
+  "settingsFooter": {
+    "dangerZone": "Vaaravyöhyke",
+    "deleteWarning": "Poista tilisi ja kaikki siihen liittyvä data pysyvästi. Tilauksesi peruutetaan välittömästi. Tätä toimintoa ei voi peruuttaa.",
+    "typeToConfirm": "Kirjoita <phrase>{value}</phrase> vahvistaaksesi poiston.",
+    "confirmDeletion": "Vahvista poisto",
+    "cancel": "Peruuta",
+    "deleteAccount": "Poista tili",
+    "backToDashboard": "Takaisin etusivulle"
   }
 }

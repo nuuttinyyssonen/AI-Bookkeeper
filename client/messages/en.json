@@ -416,5 +416,71 @@
     "description": "Mark this report as submitted to Verohallinto",
     "submitted": "Submitted ✓",
     "notSubmitted": "Not submitted"
+  },
+
+  "settingsHeader": {
+    "eyebrow": "Settings",
+    "title": "Account settings"
+  },
+
+  "information": {
+    "title": "Personal information",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "phoneNumber": "Phone number",
+    "businessId": "Business ID",
+    "saving": "Saving...",
+    "saveChanges": "Save changes",
+    "cancel": "Cancel",
+    "editInformation": "Edit information",
+    "updateSuccess": "Information updated successfully"
+  },
+
+  "subscription": {
+    "title": "Subscription",
+    "currentPlan": "Current plan",
+    "cancels": "Cancels {date}",
+    "active": "Active",
+    "cancelled": "Cancelled",
+    "pastDue": "Past due",
+    "currentPeriodStart": "Current period start",
+    "accessUntil": "Access until",
+    "nextBillingDate": "Next billing date",
+    "noValue": "—",
+    "changePlan": "Change plan"
+  },
+
+  "cancelSubscription": {
+    "warning": "Your subscription will be cancelled at the end of the current billing period. You will keep access until then.",
+    "cancelling": "Cancelling...",
+    "confirmCancellation": "Confirm cancellation",
+    "keepSubscription": "Keep subscription",
+    "cancelSubscription": "Cancel subscription",
+    "cancelSuccess": "Subscription cancelled successfully"
+  },
+
+  "reactivateSubscription": {
+    "warning": "Your subscription will be reactivated and you will continue to be billed at the end of the current period.",
+    "reactivating": "Reactivating...",
+    "confirmReactivation": "Confirm reactivation",
+    "cancel": "Cancel",
+    "reactivateSubscription": "Reactivate subscription",
+    "reactivateSuccess": "Subscription reactivated successfully"
+  },
+
+  "paymentHistory": {
+    "title": "Payment history",
+    "pdf": "PDF"
+  },
+
+  "settingsFooter": {
+    "dangerZone": "Danger zone",
+    "deleteWarning": "Permanently delete your account and all associated data. Your subscription will be cancelled immediately. This action cannot be undone.",
+    "typeToConfirm": "Type <phrase>{value}</phrase> to confirm deletion.",
+    "confirmDeletion": "Confirm deletion",
+    "cancel": "Cancel",
+    "deleteAccount": "Delete account",
+    "backToDashboard": "Back to dashboard"
   }
 }
