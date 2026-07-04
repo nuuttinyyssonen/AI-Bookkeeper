@@ -1,7 +1,8 @@
+import { getTranslations } from 'next-intl/server';
 import Link from "next/link";
 
 interface Subscription {
-    subscription_type: 'BASIC' | 'PREMIUM';
+    subscription_type: 'BASIC' | 'PREMIUM' | 'BASIC_YEARLY' | 'PREMIUM_YEARLY';
     subscription_status: 'ACTIVE' | 'CANCELLED' | 'PAST_DUE';
     current_period_end: string;
 }
@@ -10,18 +11,15 @@ interface SubscriptionBannerProps {
     subscription: Subscription;
 }
 
-export default function SubscriptionBanner({ subscription }: SubscriptionBannerProps) {
+export default async function SubscriptionBanner({ subscription }: SubscriptionBannerProps) {
+    const t = await getTranslations('subscriptionBanner');
+
     if (!subscription) {
         return (
             <div className="flex items-center justify-between rounded-lg border border-amber-200 bg-amber-50 px-4 py-3">
-                <p className="text-sm text-amber-800">
-                    You don't have an active subscription.
-                </p>
-                <Link
-                    href="/pricing"
-                    className="text-sm font-medium text-amber-800 underline hover:text-amber-900"
-                >
-                    Subscribe now
+                <p className="text-sm text-amber-800">{t('noSubscription')}</p>
+                <Link href="/pricing" className="text-sm font-medium text-amber-800 underline hover:text-amber-900">
+                    {t('subscribeNow')}
                 </Link>
             </div>
         );
@@ -30,14 +28,9 @@ export default function SubscriptionBanner({ subscription }: SubscriptionBannerP
     if (subscription.subscription_status === 'PAST_DUE') {
         return (
             <div className="flex items-center justify-between rounded-lg border border-red-200 bg-red-50 px-4 py-3">
-                <p className="text-sm text-red-800">
-                    Your payment failed. Update your payment method to keep access.
-                </p>
-                <Link
-                    href="/billing"
-                    className="text-sm font-medium text-red-800 underline hover:text-red-900"
-                >
-                    Update payment
+                <p className="text-sm text-red-800">{t('pastDue')}</p>
+                <Link href="/billing" className="text-sm font-medium text-red-800 underline hover:text-red-900">
+                    {t('updatePayment')}
                 </Link>
             </div>
         );
@@ -47,82 +40,34 @@ export default function SubscriptionBanner({ subscription }: SubscriptionBannerP
         const periodEnd = new Date(subscription.current_period_end).toLocaleDateString('fi-FI');
         return (
             <div className="flex items-center justify-between rounded-lg border border-amber-200 bg-amber-50 px-4 py-3">
-                <p className="text-sm text-amber-800">
-                    Your subscription is cancelled. Access until {periodEnd}.
-                </p>
-                <Link
-                    href="/pricing"
-                    className="text-sm font-medium text-amber-800 underline hover:text-amber-900"
-                >
-                    Reactivate
+                <p className="text-sm text-amber-800">{t('cancelled', { date: periodEnd })}</p>
+                <Link href="/pricing" className="text-sm font-medium text-amber-800 underline hover:text-amber-900">
+                    {t('reactivate')}
                 </Link>
             </div>
         );
     }
 
-    if (subscription.subscription_type === 'BASIC') {
-        return (
-            <div className="flex items-center justify-between rounded-lg border border-teal-200 bg-teal-50 px-4 py-3">
-                <p className="text-sm text-teal-800">
-                    You're on the <span className="font-medium">Basic</span> plan.
-                </p>
-                <Link
-                    href="/pricing"
-                    className="text-sm font-medium text-teal-800 underline hover:text-teal-900"
-                >
-                    Upgrade to Premium
-                </Link>
-            </div>
-        );
-    }
+    const planConfig: Record<string, { messageKey: string; linkKey: string; href: string }> = {
+        BASIC: { messageKey: 'basicPlan', linkKey: 'upgradeToPremium', href: '/pricing' },
+        PREMIUM: { messageKey: 'premiumPlan', linkKey: 'viewPlans', href: '/pricing' },
+        BASIC_YEARLY: { messageKey: 'basicYearlyPlan', linkKey: 'upgradeToPremium', href: '/pricing' },
+        PREMIUM_YEARLY: { messageKey: 'premiumYearlyPlan', linkKey: 'viewPlans', href: '/pricing' },
+    };
 
-    if (subscription.subscription_type === 'PREMIUM') {
-        return (
-            <div className="flex items-center justify-between rounded-lg border border-teal-200 bg-teal-50 px-4 py-3">
-                <p className="text-sm text-teal-800">
-                    You're on the <span className="font-medium">Premium</span> plan.
-                </p>
-                <Link
-                    href="/pricing"
-                    className="text-sm font-medium text-teal-800 underline hover:text-teal-900"
-                >
-                    View Plans
-                </Link>
-            </div>
-        );
-    }
+    const config = planConfig[subscription.subscription_type];
+    if (!config) return null;
 
-    if (subscription.subscription_type === 'BASIC_YEARLY') {
-        return (
-            <div className="flex items-center justify-between rounded-lg border border-teal-200 bg-teal-50 px-4 py-3">
-                <p className="text-sm text-teal-800">
-                    You're on the <span className="font-medium">Basic yearly</span> plan.
-                </p>
-                <Link
-                    href="/pricing"
-                    className="text-sm font-medium text-teal-800 underline hover:text-teal-900"
-                >
-                    Upgrade to Premium
-                </Link>
-            </div>
-        );
-    }
-
-    if (subscription.subscription_type === 'PREMIUM_YEARLY') {
-        return (
-            <div className="flex items-center justify-between rounded-lg border border-teal-200 bg-teal-50 px-4 py-3">
-                <p className="text-sm text-teal-800">
-                    You're on the <span className="font-medium">Premium yearly</span> plan.
-                </p>
-                <Link
-                    href="/pricing"
-                    className="text-sm font-medium text-teal-800 underline hover:text-teal-900"
-                >
-                    View Plans
-                </Link>
-            </div>
-        );
-    }
-
-    return null;
+    return (
+        <div className="flex items-center justify-between rounded-lg border border-teal-200 bg-teal-50 px-4 py-3">
+            <p className="text-sm text-teal-800">
+                {t.rich(config.messageKey, {
+                    bold: (chunks) => <span className="font-medium">{chunks}</span>,
+                })}
+            </p>
+            <Link href={config.href} className="text-sm font-medium text-teal-800 underline hover:text-teal-900">
+                {t(config.linkKey)}
+            </Link>
+        </div>
+    );
 }

@@ -106,5 +106,49 @@
         "Miten teen tilinpäätöksen?",
         "Voinko vähentää matkakulut?"
     ]
+  },
+
+  "dashboard": {
+    "label": "Hallintapaneeli",
+    "title": "Liiketoiminnan yleiskatsaus",
+    "export": "Vie",
+    "addReceipt": "Lisää kuitti"
+  },
+
+  "cashflow": {
+    "title": "Kassavirta",
+    "subtitle": "Tulojen ja menojen kehitys",
+    "income": "Tulot",
+    "expenses": "Menot"
+  },
+
+  "financialSummary": {
+    "revenue": "Liikevaihto",
+    "expenses": "Kulut",
+    "netProfit": "Nettotulos"
+  },
+
+  "logoutButton": {
+    "logout": "Kirjaudu ulos",
+    "loggedIn": "Kirjautuminen onnistui"
+  },
+
+  "subscriptionBanner": {
+    "noSubscription": "Sinulla ei ole aktiivista tilausta.",
+    "subscribeNow": "Tilaa nyt",
+    "pastDue": "Maksusi epäonnistui. Päivitä maksutapasi säilyttääksesi pääsyn.",
+    "updatePayment": "Päivitä maksu",
+    "cancelled": "Tilauksesi on peruutettu. Pääsy voimassa {date} asti.",
+    "reactivate": "Aktivoi uudelleen",
+    "basicPlan": "Olet <bold>Basic</bold>-paketissa.",
+    "premiumPlan": "Olet <bold>Premium</bold>-paketissa.",
+    "basicYearlyPlan": "Olet <bold>Basic vuosittainen</bold> -paketissa.",
+    "premiumYearlyPlan": "Olet <bold>Premium vuosittainen</bold> -paketissa.",
+    "upgradeToPremium": "Päivitä Premiumiin",
+    "viewPlans": "Katso paketit"
+  },
+
+  "transactions": {
+    "title": "Viimeisimmät tapahtumat"
   }
 }

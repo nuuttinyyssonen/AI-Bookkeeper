@@ -106,5 +106,49 @@
         "How do I do a financial statement?",
         "Can I deduct travel expenses?"
     ]
+  },
+
+  "dashboard": {
+    "label": "Dashboard",
+    "title": "Business overview",
+    "export": "Export",
+    "addReceipt": "Add receipt"
+  },
+
+  "cashflow": {
+    "title": "Cashflow",
+    "subtitle": "Income and expense trend",
+    "income": "Income",
+    "expenses": "Expenses"
+  },
+
+  "financialSummary": {
+    "revenue": "Revenue",
+    "expenses": "Expenses",
+    "netProfit": "Net profit"
+  },
+
+  "logoutButton": {
+    "logout": "Logout",
+    "loggedIn": "Logged in successfully"
+  },
+
+  "subscriptionBanner": {
+    "noSubscription": "You don't have an active subscription.",
+    "subscribeNow": "Subscribe now",
+    "pastDue": "Your payment failed. Update your payment method to keep access.",
+    "updatePayment": "Update payment",
+    "cancelled": "Your subscription is cancelled. Access until {date}.",
+    "reactivate": "Reactivate",
+    "basicPlan": "You're on the <bold>Basic</bold> plan.",
+    "premiumPlan": "You're on the <bold>Premium</bold> plan.",
+    "basicYearlyPlan": "You're on the <bold>Basic yearly</bold> plan.",
+    "premiumYearlyPlan": "You're on the <bold>Premium yearly</bold> plan.",
+    "upgradeToPremium": "Upgrade to Premium",
+    "viewPlans": "View Plans"
+  },
+
+  "transactions": {
+    "title": "Recent transactions"
   }
 }
