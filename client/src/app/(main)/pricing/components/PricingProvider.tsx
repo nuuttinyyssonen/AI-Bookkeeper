@@ -6,6 +6,10 @@ import { useState } from "react";
 import ToggleButton from "./ToggleButton";
 import PricingCards from "./PricingCards";
 
+import { useSearchParams } from "next/navigation";
+import { toast } from "sonner";
+import { useEffect } from 'react';
+
 interface Props {
     subscription: any;
 }
@@ -13,6 +17,15 @@ interface Props {
 export default function PricingProvider({ subscription }: Props) {
     const t = useTranslations('pricingProvider');
     const [isYearly, setIsYearly] = useState(false);
+
+    const searchParams = useSearchParams();
+
+    const message = searchParams.get('message');
+    useEffect(() => {
+        if (message === 'subscription_required') {
+            toast.error(t('subscriptionRequired'));
+        }
+    }, [message]);
 
     return (
         <main className="grid min-h-screen place-items-center bg-[radial-gradient(circle_at_top_left,rgba(20,184,166,0.18),transparent_34%),linear-gradient(135deg,#f8fafc_0%,#eef2f7_48%,#fff7ed_100%)] px-4 py-8">

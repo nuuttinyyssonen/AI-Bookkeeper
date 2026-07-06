@@ -40,13 +40,6 @@
     "choosePlan": "Valitse tilaus",
     "mostPopular": "Suosituin",
     "plans": {
-        "FREE_TRIAL": {
-            "name": "Ilmainen kokeilu",
-            "price": "€0",
-            "period": "/ 14 päivää",
-            "description": "Aloita ilman korttia",
-            "features": ["25 kuittia sisältyy", "Kaikki perusominaisuudet", "Ei luottokorttia tarvita"]
-        },
         "BASIC": {
             "name": "Basic",
             "price": "€19.99",
@@ -177,7 +170,8 @@
   "pricingProvider": {
     "title": "Valitse tilauksesi",
     "subtitle": "Päivitä tai alenna milloin tahansa",
-    "backToDashboard": "Takaisin kojelautaan"
+    "backToDashboard": "Takaisin kojelautaan",
+    "subscriptionRequired": "Aktiivinen tilaus vaaditaan"
   },
 
   "toggleButton": {

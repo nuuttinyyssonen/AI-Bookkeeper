@@ -5,12 +5,13 @@ import { authMiddleware } from "../middleware/authentication";
 import multer from "multer";
 import { ValidationError } from "../utils/error";
 import { rateLimiters } from "../utils/rateLimiter";
+import { requireSubscription } from "../middleware/subscription";
 
 // Router
 const storageRouter = Router();
 
 // Upload route with multer middleware and error handling for file size limit
-storageRouter.post('/', authMiddleware, rateLimiters.upload("storage_upload"), (req, res, next) => {
+storageRouter.post('/', authMiddleware, requireSubscription, rateLimiters.upload("storage_upload"), (req, res, next) => {
     upload.array("files")(req, res, (err) => {
         if (err instanceof multer.MulterError && err.code === "LIMIT_FILE_SIZE") {
             return next(new ValidationError("File too large. Maximum size is 10MB"));

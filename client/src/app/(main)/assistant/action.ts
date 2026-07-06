@@ -1,6 +1,7 @@
 'use server';
 
 import { cookies } from "next/headers";
+import { redirect, unstable_rethrow } from "next/navigation";
 
 export const getChatRooms = async () => {
     try {
@@ -14,6 +15,10 @@ export const getChatRooms = async () => {
             }
         });
 
+        if (response.status === 403) {
+            redirect('/pricing?message=subscription_required');
+        }
+
         const data = await response.json();
 
         if (!response.ok) {
@@ -22,6 +27,7 @@ export const getChatRooms = async () => {
 
         return data;
     } catch (error) {
+        unstable_rethrow(error);
         return { error: "Something went wrong" };
     }
 };
@@ -38,6 +44,10 @@ export const getChatMessages = async (id: string) => {
             }
         });
 
+        if (response.status === 403) {
+            redirect('/pricing?message=subscription_required');
+        }
+
         const data = await response.json();
 
         if (!response.ok) {
@@ -46,6 +56,7 @@ export const getChatMessages = async (id: string) => {
 
         return data;
     } catch (error) {
+        unstable_rethrow(error);
         return { error: "Something went wrong" };
     }
 };
@@ -64,6 +75,10 @@ export const createChatMessage = async (id: string, message: string) => {
             body: JSON.stringify({message}),
         });
 
+        if (response.status === 403) {
+            redirect('/pricing?message=subscription_required');
+        }
+
         const data = await response.json();
 
         if (!response.ok) {
@@ -72,6 +87,7 @@ export const createChatMessage = async (id: string, message: string) => {
 
         return data;
     } catch (error) {
+        unstable_rethrow(error);
         return { error: "Something went wrong" };
     }
 };
@@ -90,12 +106,17 @@ export const streamChatMessage = async (id: string, message: string) => {
             body: JSON.stringify({ message }),
         });
 
+        if (response.status === 403) {
+            redirect('/pricing?message=subscription_required');
+        }
+
         if (!response.ok) {
             return { error: "Something went wrong" };
         }
 
         return response.body;
     } catch(error) {
+        unstable_rethrow(error);
         return { error: "Something went wrong" }
     }
 };
@@ -113,6 +134,10 @@ export const createNewChatRoom = async (message: string) => {
             body: JSON.stringify({ message }),
         });
 
+        if (response.status === 403) {
+            redirect('/pricing?message=subscription_required');
+        }
+
         const data = await response.json();
 
         if (!response.ok) {
@@ -121,6 +146,7 @@ export const createNewChatRoom = async (message: string) => {
 
         return data;
     } catch(error) {
+        unstable_rethrow(error);
         return { error: "Something went wrong" };
     }
 };
@@ -137,6 +163,10 @@ export const deleteChatRoom = async (id: string) => {
             }
         });
 
+        if (response.status === 403) {
+            redirect('/pricing?message=subscription_required');
+        }
+
         const data = await response.json();
 
         if (!response.ok) {
@@ -145,6 +175,7 @@ export const deleteChatRoom = async (id: string) => {
 
         return data;
     } catch (error) {
+        unstable_rethrow(error);
         return { error: "Something went wrong" };
     }
 };

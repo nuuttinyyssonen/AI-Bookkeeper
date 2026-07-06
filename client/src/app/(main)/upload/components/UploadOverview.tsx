@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { getBatchStatus, UploadFiles, type UploadState } from "../action";
 import { toast } from "sonner";
+import Router from "next/router";
 
 import Progressbar from "./Progressbar";
 import ExpenseUpload from "./ExpenseUpload";
@@ -65,22 +66,29 @@ export default function UploadOverview() {
         setIsPending(true);
         const formData = new FormData();
         files.forEach(file => formData.append("files", file));
-        const result = await UploadFiles(initialState, formData, isIncome);
-        if (result.success) {
-            toast.success(t('uploadSuccess'));
-            clearFiles();
-            setProgress(t('analyzing'));
-            try {
-                const data = await pollBatchStatus(result.upload_batch_id);
-                setProgress(null);
-                toast.success(t('analyzeSuccess', { completed: data.completed_documents, total: data.total }));
-            } catch {
-                setProgress(null);
-                toast.error(t('analyzeFailed'));
+
+        try {
+            const result = await UploadFiles(initialState, formData, isIncome);
+            if (result.error) {
+                toast.error(result.error);
+                return;
             }
+            if (result.success) {
+                toast.success(t('uploadSuccess'));
+                clearFiles();
+                setProgress(t('analyzing'));
+                try {
+                    const data = await pollBatchStatus(result.upload_batch_id);
+                    setProgress(null);
+                    toast.success(t('analyzeSuccess', { completed: data.completed_documents, total: data.total }));
+                } catch {
+                    setProgress(null);
+                    toast.error(t('analyzeFailed'));
+                }
+            }
+        } finally {
+            setIsPending(false);
         }
-        if (result.error) toast.error(result.error);
-        setIsPending(false);
     };
 
     return (

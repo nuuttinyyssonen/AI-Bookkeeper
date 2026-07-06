@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { checkSubscription } from "@/lib/checkSubscription";
 
 export async function POST(req: NextRequest) {
+    await checkSubscription();
     const authToken = req.cookies.get("vero_auth_token")?.value;
     const token = req.cookies.get("token")?.value;
     const { reportId, ...veroBody } = await req.json();

@@ -1,6 +1,7 @@
 'use server';
 
 import { cookies } from "next/headers";
+import { redirect, unstable_rethrow } from "next/navigation";
 
 export const getReports = async () => {
     try {
@@ -41,13 +42,17 @@ export const createReport = async (timePeriod: string) => {
         });
 
         if (!response.ok) {
+            if (response.status === 403 || response.status === 404) {
+                redirect('/pricing?message=subscription_required');
+            }
             const data = await response.json();
-            return { error: data.message || "Failed to generate report" };
+            return { error: data.error || data.message || "Upload failed" };
         }
 
         const data = await response.json();
         return { data };
     } catch (error) {
+        unstable_rethrow(error);
         return { error: "Something went wrong" };
     }
 };

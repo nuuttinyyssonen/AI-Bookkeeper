@@ -1,8 +1,10 @@
 // app/vat-return/authorize/route.ts
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { checkSubscription } from "@/lib/checkSubscription";
 
 export async function GET() {
+    await checkSubscription();
     const response = await fetch("https://api-sandbox.vero.fi/General/Authorization/GetToken/v1", {
         method: "POST",
         headers: {

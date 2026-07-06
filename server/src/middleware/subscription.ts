@@ -9,7 +9,7 @@ export const requireSubscription = async (req: Request, res: Response, next: Nex
         const subscription = await prisma.subscription.findUnique({ where: { user_id: user.id } });
 
         if (!subscription) {
-            return next(new NotFoundError("Subscription not found"));
+            return next(new AuthorizationError("Subscription not found"));
         }
 
         const isActive = subscription.subscription_status === 'ACTIVE' || subscription.subscription_status === 'TRIALING';
