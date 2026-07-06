@@ -14,16 +14,15 @@ export const getChatRooms = async () => {
             }
         });
 
+        const data = await response.json();
+
         if (!response.ok) {
-            console.log("Error in getting chat history", response.status);
-            return;
+            return { error: data.message ?? "Something went wrong" };
         }
 
-        const data = await response.json();
         return data;
     } catch (error) {
-        console.log(error);
-        return
+        return { error: "Something went wrong" };
     }
 };
 
@@ -39,16 +38,15 @@ export const getChatMessages = async (id: string) => {
             }
         });
 
+        const data = await response.json();
+
         if (!response.ok) {
-            console.log("Error in getting chat messages", response.status);
-            return;
+            return { error: data.message ?? "Something went wrong" };
         }
 
-        const data = await response.json();
         return data;
     } catch (error) {
-        console.log(error);
-        return
+        return { error: "Something went wrong" };
     }
 };
 
@@ -66,49 +64,65 @@ export const createChatMessage = async (id: string, message: string) => {
             body: JSON.stringify({message}),
         });
 
+        const data = await response.json();
+
         if (!response.ok) {
-            console.log("Error in sending message", response.status);
-            return;
+            return { error: data.message ?? "Something went wrong" };
         }
 
-        const data = await response.json();
         return data;
     } catch (error) {
-        console.log(error);
-        return
+        return { error: "Something went wrong" };
     }
 };
 
 export const streamChatMessage = async (id: string, message: string) => {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
+    try {
+        const cookieStore = await cookies();
+        const token = cookieStore.get("token")?.value;
 
-    const response = await fetch(`http://localhost:5001/api/assistant/${id}`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Cookie": `token=${token}`,
-        },
-        body: JSON.stringify({ message }),
-    });
+        const response = await fetch(`http://localhost:5001/api/assistant/${id}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Cookie": `token=${token}`,
+            },
+            body: JSON.stringify({ message }),
+        });
 
-    return response.body; // return the raw stream
+        if (!response.ok) {
+            return { error: "Something went wrong" };
+        }
+
+        return response.body;
+    } catch(error) {
+        return { error: "Something went wrong" }
+    }
 };
 
 export const createNewChatRoom = async (message: string) => {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
-    const response = await fetch(`http://localhost:5001/api/assistant/create`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Cookie": `token=${token}`,
-        },
-        body: JSON.stringify({ message }),
-    });
-    if (!response.ok) return null;
-    const data = await response.json();
-    return data;
+    try {
+        const cookieStore = await cookies();
+        const token = cookieStore.get("token")?.value;
+        const response = await fetch(`http://localhost:5001/api/assistant/create`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Cookie": `token=${token}`,
+            },
+            body: JSON.stringify({ message }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            return { error: data.message ?? "Something went wrong" };
+        }
+
+        return data;
+    } catch(error) {
+        return { error: "Something went wrong" };
+    }
 };
 
 export const deleteChatRoom = async (id: string) => {
@@ -123,15 +137,14 @@ export const deleteChatRoom = async (id: string) => {
             }
         });
 
+        const data = await response.json();
+
         if (!response.ok) {
-            console.log("Error in deleting chat", response.status);
-            return;
+            return { error: data.message ?? "Something went wrong" };
         }
 
-        const data = await response.json();
         return data;
     } catch (error) {
-        console.log(error);
-        return
+        return { error: "Something went wrong" };
     }
 };
