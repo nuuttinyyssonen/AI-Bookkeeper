@@ -3,7 +3,11 @@ import { cookies } from "next/headers";
 import { checkSubscription } from "@/lib/checkSubscription";
 
 export async function GET(req: NextRequest) {
-    await checkSubscription();
+    const hasSubscription = await checkSubscription();
+    if (!hasSubscription) {
+        return NextResponse.json({ message: "Subscription required" }, { status: 403 });
+    }
+
     const cookieStore = await cookies();
     const authToken = cookieStore.get("vero_auth_token")?.value;
     const businessId = req.nextUrl.searchParams.get("businessId");

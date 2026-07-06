@@ -4,7 +4,9 @@ import { redirect } from "next/navigation";
 import { checkSubscription } from "@/lib/checkSubscription";
 
 export async function GET() {
-    await checkSubscription();
+    const hasSubscription = await checkSubscription();
+    if (!hasSubscription) redirect("/pricing?message=subscription_required");
+
     const response = await fetch("https://api-sandbox.vero.fi/General/Authorization/GetToken/v1", {
         method: "POST",
         headers: {
