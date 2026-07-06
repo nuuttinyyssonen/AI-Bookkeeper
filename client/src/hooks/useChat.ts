@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { getChatRooms, getChatMessages, streamChatMessage, deleteChatRoom } from "../app/(main)/assistant/action";
+import { toast } from "sonner";
 
 interface Message {
     id: number;
@@ -27,9 +28,9 @@ export const useChat = (id: string) => {
         setMessages(prev => [...prev, { id: Date.now(), role: "USER", content: message }]);
 
         const stream = await streamChatMessage(id, message);
-        if (!stream) return;
+        if (!stream || 'error' in stream) return;
 
-        const reader = stream.getReader();
+        const reader = (stream as ReadableStream).getReader();
         const decoder = new TextDecoder();
         const assistantId = Date.now() + 1;
 
@@ -57,7 +58,10 @@ export const useChat = (id: string) => {
 
     const onDelete = async (id: string) => {
         const data = await deleteChatRoom(id);
-        if (!data) return;
+        if (data.error) {
+            toast.error(data.error);
+            return
+        }
         setChatRooms(prev => prev.filter(room => room.id !== id));
     };
 

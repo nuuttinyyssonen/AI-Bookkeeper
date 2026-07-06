@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
 interface SignupFormProps {
-  selectedPlan: 'FREE_TRIAL' | 'BASIC' | 'PREMIUM';
+  selectedPlan: 'BASIC' | 'PREMIUM';
 }
 
 export default function SignupForm({ selectedPlan }: SignupFormProps) {
@@ -26,7 +26,6 @@ export default function SignupForm({ selectedPlan }: SignupFormProps) {
     }, [state]);
 
     return (
-        <main className="grid min-h-screen place-items-center bg-[radial-gradient(circle_at_top_left,rgba(20,184,166,0.18),transparent_34%),linear-gradient(135deg,#f8fafc_0%,#eef2f7_48%,#fff7ed_100%)] px-4 py-8 text-slate-950">
             <Card className="w-full max-w-md">
                 <CardHeader>
                     <CardTitle>{t('title')}</CardTitle>
@@ -129,6 +128,5 @@ export default function SignupForm({ selectedPlan }: SignupFormProps) {
                     </form>
                 </CardContent>
             </Card>
-        </main>
     );
 }

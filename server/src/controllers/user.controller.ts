@@ -150,3 +150,19 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
 
     return res.status(200).json({ message: "Your account was deleted successfully" });
 };
+
+export const getUserSubscription = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const subscription = await prisma.subscription.findFirst({
+            where: { user_id: req.user.id },
+        });
+
+        if (!subscription) {
+            return res.status(404).json({ message: "Subscription not found" });
+        }
+
+        return res.status(200).json({ subscription });
+    } catch (error) {
+        next(error);
+    }
+};

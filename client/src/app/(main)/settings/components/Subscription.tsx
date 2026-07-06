@@ -11,6 +11,7 @@ interface Props {
 
 export default function Subscription({ subscription }: Props) {
     const t = useTranslations('subscription');
+
     const periodEnd = subscription?.current_period_end
         ? new Date(subscription.current_period_end).toLocaleDateString('fi-FI')
         : null;
@@ -20,6 +21,8 @@ export default function Subscription({ subscription }: Props) {
         : null;
 
     const isCancelledAtPeriodEnd = subscription?.cancel_at_period_end;
+    const isCancelled = subscription?.subscription_status === 'CANCELLED';
+    const showAccessUntil = isCancelledAtPeriodEnd || isCancelled;
 
     return (
         <div className="rounded-lg border border-border bg-white p-6 space-y-4">
@@ -39,7 +42,7 @@ export default function Subscription({ subscription }: Props) {
                             <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-teal-50 text-teal-800 border border-teal-200">
                                 {t('active')}
                             </span>
-                        ) : subscription?.subscription_status === 'CANCELLED' ? (
+                        ) : isCancelled ? (
                             <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
                                 {t('cancelled')}
                             </span>
@@ -56,7 +59,7 @@ export default function Subscription({ subscription }: Props) {
                 </div>
                 <div className="space-y-1">
                     <p className="text-xs text-muted-foreground">
-                        {isCancelledAtPeriodEnd ? t('accessUntil') : t('nextBillingDate')}
+                        {showAccessUntil ? t('accessUntil') : t('nextBillingDate')}
                     </p>
                     <p className="text-sm font-medium text-slate-950">{periodEnd ?? t('noValue')}</p>
                 </div>
@@ -68,7 +71,7 @@ export default function Subscription({ subscription }: Props) {
                 >
                     {t('changePlan')}
                 </Link>
-                {isCancelledAtPeriodEnd ? (
+                {isCancelledAtPeriodEnd || isCancelled ? (
                     <ReactivateSubscription />
                 ) : (
                     <CancelSubscription />

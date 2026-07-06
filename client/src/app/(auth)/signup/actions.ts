@@ -65,24 +65,22 @@ export default async function signupAction(
         const data = await response.json();
         user_id = data.id;
 
-        if (selectedPlan !== 'FREE_TRIAL') {
-            const checkoutRes = await fetch('http://localhost:5001/api/subscription/create-checkout-session', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ subscriptionType: selectedPlan, user_id }),
+        const checkoutRes = await fetch('http://localhost:5001/api/subscription/create-checkout-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ subscriptionType: selectedPlan, user_id }),
+        });
+
+        if (!checkoutRes.ok) {
+            // Delete the user we just created since checkout failed
+            await fetch(`http://localhost:5001/api/auth/delete/${user_id}`, {
+                method: 'DELETE',
             });
-
-            if (!checkoutRes.ok) {
-                // Delete the user we just created since checkout failed
-                await fetch(`http://localhost:5001/api/auth/delete/${user_id}`, {
-                    method: 'DELETE',
-                });
-                return { error: 'Failed to create checkout session' };
-            }
-
-            const { url } = await checkoutRes.json();
-            checkoutUrl = url;
+            return { error: 'Failed to create checkout session' };
         }
+
+        const { url } = await checkoutRes.json();
+        checkoutUrl = url;
 
     } catch (error) {
         return { error: "Something went wrong. Please try again." };

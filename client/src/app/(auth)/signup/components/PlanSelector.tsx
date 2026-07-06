@@ -2,14 +2,14 @@
 
 import { useTranslations } from 'next-intl';
 
-type Plan = 'FREE_TRIAL' | 'BASIC' | 'PREMIUM';
+type Plan = 'BASIC' | 'PREMIUM';
 
 interface PlanSelectorProps {
   selectedPlan: Plan;
   onSelect: (plan: Plan) => void;
 }
 
-const planIds: Plan[] = ['FREE_TRIAL', 'BASIC', 'PREMIUM'];
+const planIds: Plan[] = ['BASIC', 'PREMIUM'];
 
 export default function PlanSelector({ selectedPlan, onSelect }: PlanSelectorProps) {
   const t = useTranslations('planSelector');
@@ -27,7 +27,7 @@ export default function PlanSelector({ selectedPlan, onSelect }: PlanSelectorPro
   return (
     <div className="w-full">
       <p className="text-sm text-muted-foreground mb-3">{t('choosePlan')}</p>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 gap-3">
         {plans.map((plan) => {
           const isSelected = selectedPlan === plan.id;
           return (

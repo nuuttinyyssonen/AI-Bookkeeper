@@ -1,6 +1,7 @@
 'use server';
 
 import { cookies } from "next/headers";
+import { redirect, unstable_rethrow } from "next/navigation";
 
 export const getChatRooms = async () => {
     try {
@@ -14,16 +15,20 @@ export const getChatRooms = async () => {
             }
         });
 
-        if (!response.ok) {
-            console.log("Error in getting chat history", response.status);
-            return;
+        if (response.status === 403) {
+            redirect('/pricing?message=subscription_required');
         }
 
         const data = await response.json();
+
+        if (!response.ok) {
+            return { error: data.message ?? "Something went wrong" };
+        }
+
         return data;
     } catch (error) {
-        console.log(error);
-        return
+        unstable_rethrow(error);
+        return { error: "Something went wrong" };
     }
 };
 
@@ -39,16 +44,20 @@ export const getChatMessages = async (id: string) => {
             }
         });
 
-        if (!response.ok) {
-            console.log("Error in getting chat messages", response.status);
-            return;
+        if (response.status === 403) {
+            redirect('/pricing?message=subscription_required');
         }
 
         const data = await response.json();
+
+        if (!response.ok) {
+            return { error: data.message ?? "Something went wrong" };
+        }
+
         return data;
     } catch (error) {
-        console.log(error);
-        return
+        unstable_rethrow(error);
+        return { error: "Something went wrong" };
     }
 };
 
@@ -66,49 +75,80 @@ export const createChatMessage = async (id: string, message: string) => {
             body: JSON.stringify({message}),
         });
 
-        if (!response.ok) {
-            console.log("Error in sending message", response.status);
-            return;
+        if (response.status === 403) {
+            redirect('/pricing?message=subscription_required');
         }
 
         const data = await response.json();
+
+        if (!response.ok) {
+            return { error: data.message ?? "Something went wrong" };
+        }
+
         return data;
     } catch (error) {
-        console.log(error);
-        return
+        unstable_rethrow(error);
+        return { error: "Something went wrong" };
     }
 };
 
 export const streamChatMessage = async (id: string, message: string) => {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
+    try {
+        const cookieStore = await cookies();
+        const token = cookieStore.get("token")?.value;
 
-    const response = await fetch(`http://localhost:5001/api/assistant/${id}`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Cookie": `token=${token}`,
-        },
-        body: JSON.stringify({ message }),
-    });
+        const response = await fetch(`http://localhost:5001/api/assistant/${id}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Cookie": `token=${token}`,
+            },
+            body: JSON.stringify({ message }),
+        });
 
-    return response.body; // return the raw stream
+        if (response.status === 403) {
+            redirect('/pricing?message=subscription_required');
+        }
+
+        if (!response.ok) {
+            return { error: "Something went wrong" };
+        }
+
+        return response.body;
+    } catch(error) {
+        unstable_rethrow(error);
+        return { error: "Something went wrong" }
+    }
 };
 
 export const createNewChatRoom = async (message: string) => {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
-    const response = await fetch(`http://localhost:5001/api/assistant/create`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Cookie": `token=${token}`,
-        },
-        body: JSON.stringify({ message }),
-    });
-    if (!response.ok) return null;
-    const data = await response.json();
-    return data;
+    try {
+        const cookieStore = await cookies();
+        const token = cookieStore.get("token")?.value;
+        const response = await fetch(`http://localhost:5001/api/assistant/create`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Cookie": `token=${token}`,
+            },
+            body: JSON.stringify({ message }),
+        });
+
+        if (response.status === 403) {
+            redirect('/pricing?message=subscription_required');
+        }
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            return { error: data.message ?? "Something went wrong" };
+        }
+
+        return data;
+    } catch(error) {
+        unstable_rethrow(error);
+        return { error: "Something went wrong" };
+    }
 };
 
 export const deleteChatRoom = async (id: string) => {
@@ -123,15 +163,19 @@ export const deleteChatRoom = async (id: string) => {
             }
         });
 
-        if (!response.ok) {
-            console.log("Error in deleting chat", response.status);
-            return;
+        if (response.status === 403) {
+            redirect('/pricing?message=subscription_required');
         }
 
         const data = await response.json();
+
+        if (!response.ok) {
+            return { error: data.message ?? "Something went wrong" };
+        }
+
         return data;
     } catch (error) {
-        console.log(error);
-        return
+        unstable_rethrow(error);
+        return { error: "Something went wrong" };
     }
 };

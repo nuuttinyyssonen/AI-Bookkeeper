@@ -1,4 +1,6 @@
 import { getTranslations } from "next-intl/server";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { authenticateUser, getVeroAuthToken } from "@/lib/auth";
 import { getUserData } from "../settings/action";
 import { getReports } from "../reports/action";
@@ -40,9 +42,16 @@ export default async function VatReturnPage() {
         );
     }
 
+    const cookieStore = await cookies();
     const periodsRes = await fetch(`http://localhost:3000/api/vero/periods?businessId=${businessId}`, {
         cache: "no-store",
+        headers: { Cookie: cookieStore.toString() },
     });
+
+    if (periodsRes.status === 403) {
+        redirect("/pricing?message=subscription_required");
+    }
+
     const periodsData = periodsRes.ok ? await periodsRes.json() : null;
     const periods = periodsData?.FilingPeriod ?? [];
 

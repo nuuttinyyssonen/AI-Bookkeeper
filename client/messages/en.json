@@ -40,13 +40,6 @@
     "choosePlan": "Choose a plan",
     "mostPopular": "Most popular",
     "plans": {
-        "FREE_TRIAL": {
-            "name": "Free trial",
-            "price": "€0",
-            "period": "/ 14 days",
-            "description": "Get started, no card needed",
-            "features": ["25 receipts included", "All basic features", "No credit card required"]
-        },
         "BASIC": {
             "name": "Basic",
             "price": "€19.99",
@@ -177,7 +170,8 @@
   "pricingProvider": {
     "title": "Choose your plan",
     "subtitle": "Upgrade or downgrade at any time",
-    "backToDashboard": "Back to dashboard"
+    "backToDashboard": "Back to dashboard",
+    "subscriptionRequired": "Active subscription required"
   },
 
   "toggleButton": {

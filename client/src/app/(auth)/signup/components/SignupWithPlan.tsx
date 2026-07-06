@@ -4,14 +4,14 @@ import { useState } from 'react';
 import SignupForm from './signupForm';
 import PlanSelector from './PlanSelector';
 
-type Plan = 'FREE_TRIAL' | 'BASIC' | 'PREMIUM';
+type Plan = 'BASIC' | 'PREMIUM';
 
 export default function SignupWithPlan() {
-  const [selectedPlan, setSelectedPlan] = useState<Plan>('FREE_TRIAL');
+  const [selectedPlan, setSelectedPlan] = useState<Plan>('BASIC');
 
   return (
     <main className="grid min-h-screen place-items-center bg-[radial-gradient(circle_at_top_left,rgba(20,184,166,0.18),transparent_34%),linear-gradient(135deg,#f8fafc_0%,#eef2f7_48%,#fff7ed_100%)] px-4 py-8 text-slate-950">
-      <div className="w-full max-w-2xl space-y-4">
+      <div className="grid w-full max-w-4xl grid-cols-1 items-start gap-8 lg:grid-cols-2">
         <PlanSelector selectedPlan={selectedPlan} onSelect={setSelectedPlan} />
         <SignupForm selectedPlan={selectedPlan} />
       </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { mapVatReportToVeroRequest } from "@/lib/veroVatMapper";
 
@@ -21,6 +22,7 @@ interface Props {
 
 export default function VatReturnForm({ user, reports }: Props) {
     const t = useTranslations('vatReturnForm');
+    const router = useRouter();
 
     const [selectedReportId, setSelectedReportId] = useState("");
     const [fields, setFields] = useState<VatFields | null>(null);
@@ -78,6 +80,12 @@ export default function VatReturnForm({ user, reports }: Props) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body),
         });
+
+        if (res.status === 403) {
+            router.push("/pricing?message=subscription_required");
+            return;
+        }
+
         const data = await res.json();
         setResult(data);
         setLoading(false);
@@ -93,6 +101,12 @@ export default function VatReturnForm({ user, reports }: Props) {
                 FilingPeriod: fields?.filingPeriod,
             }),
         });
+
+        if (res.status === 403) {
+            router.push("/pricing?message=subscription_required");
+            return;
+        }
+
         const data = await res.json();
         setFiledReturn(data);
     };
