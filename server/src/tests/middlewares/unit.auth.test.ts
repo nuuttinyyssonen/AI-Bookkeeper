@@ -103,7 +103,8 @@ describe("Auth Middleware", () => {
             first_name: "Test",
             last_name: "User",
             phonenumber: "040123456",
-            supabase_id: "supabase-uuid"
+            supabase_id: "supabase-uuid",
+            business_id: "1111111-6"
         };
 
         req.cookies = { token: "valid-token" };

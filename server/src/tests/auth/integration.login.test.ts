@@ -8,11 +8,13 @@ import redis from "../../lib/redis";
 describe('Login routes', () => {
     let user_id: string;
     let email: string;
+    let business_id: string;
 
     beforeAll(async () => {
         await redis.flushdb();
         email = `integration.login.test${Date.now()}@admin.com`;
-        const user = await createUser(email);
+        business_id = "1111111-1";
+        const user = await createUser(email, business_id);
         user_id = user.id;
     });
 

@@ -2,7 +2,7 @@ import { prisma } from "../../lib/prisma";
 import bcrypt from "bcrypt";
 import { supabaseAdmin } from "../../lib/supabase";
 
-export default async function createUser(email: string) {
+export default async function createUser(email: string, business_id: string) {
     const password = "123456";
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -25,7 +25,8 @@ export default async function createUser(email: string) {
             first_name: "test",
             last_name: "user",
             phonenumber: "040123456",
-            supabase_id: supabaseData.user.id
+            supabase_id: supabaseData.user.id,
+            business_id
         }
     });
 

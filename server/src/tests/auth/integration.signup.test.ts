@@ -10,6 +10,7 @@ describe('Signup route', () => {
     let firstName = "test";
     let lastName = "integration";
     let phonenumber = "040123456";
+    let business_id = "1111111-3";
     
     beforeAll(async () => {
         await redis.flushdb();
@@ -23,7 +24,8 @@ describe('Signup route', () => {
                 password: password,
                 first_name: firstName,
                 last_name: lastName,
-                phonenumber: phonenumber
+                phonenumber: phonenumber,
+                business_id: business_id
             });
         expect(response.status).toBe(201);
         expect(response.body.email).toBe(email);
@@ -37,7 +39,8 @@ describe('Signup route', () => {
                 password: password,
                 first_name: firstName,
                 last_name: lastName,
-                phonenumber: phonenumber
+                phonenumber: phonenumber,
+                business_id: business_id
             });
         expect(response.status).toBe(409);
         expect(response.body.message).toBe("Email is already in use");
@@ -51,7 +54,8 @@ describe('Signup route', () => {
                 password: "123",
                 first_name: firstName,
                 last_name: lastName,
-                phonenumber: phonenumber
+                phonenumber: phonenumber,
+                business_id: business_id
             });
         expect(response.status).toBe(400);
         expect(response.body.message).toBe("Password must be at least 5 characters");
