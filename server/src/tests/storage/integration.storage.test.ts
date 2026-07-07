@@ -25,6 +25,9 @@ describe("Storage routes", () => {
     let token: string;
     let receipt_id: string;
     let business_id: string;
+    let second_document_id: string;
+    let other_user_id: string;
+    let other_receipt_id: string;
 
     beforeAll(async () => {
         await redis.flushdb();
@@ -71,6 +74,7 @@ describe("Storage routes", () => {
         });
 
         fileName = response.body[0].document_name;
+        second_document_id = response.body[0].id;
         expect(fileName).toContain("test.jpg");
     });
 
@@ -95,6 +99,91 @@ describe("Storage routes", () => {
         
         expect(response.status).toBe(200);
         expect(response.body.message).toBe("File was deleted successfully");
+    });
+
+    it("Sets up another user's file for authorization checks", async () => {
+        const otherUser = await createUser(`integration.storage.other.test${Date.now()}@admin.com`, "1111111-90");
+        other_user_id = otherUser.id;
+
+        const otherDocument = await prisma.document.create({
+            data: {
+                document_name: `other-user-doc-${Date.now()}`,
+                document_type: "image/jpeg",
+                document_size: 100,
+                file_path: "dummy/path",
+                user_id: other_user_id
+            }
+        });
+
+        const otherReceipt = await createReceipt(otherDocument.id, other_user_id);
+        other_receipt_id = otherReceipt.id;
+    });
+
+    it("Fails to delete a file with an invalid id", async () => {
+        const response = await request(app)
+            .delete(`/api/storage/not-a-uuid`)
+            .set('Cookie', `token=${token}`);
+
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe("Invalid ID format");
+    });
+
+    it("Fails to delete another user's file", async () => {
+        const response = await request(app)
+            .delete(`/api/storage/${other_receipt_id}`)
+            .set('Cookie', `token=${token}`);
+
+        expect(response.status).toBe(401);
+        expect(response.body.message).toBe("Unauthorized");
+    });
+
+    it("Fails to download a file with an invalid id", async () => {
+        const response = await request(app)
+            .get(`/api/storage/not-a-uuid`)
+            .set('Cookie', `token=${token}`);
+
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe("Invalid ID format");
+    });
+
+    it("Returns 404 when downloading a receipt that does not exist", async () => {
+        const response = await request(app)
+            .get(`/api/storage/00000000-0000-0000-0000-000000000000`)
+            .set('Cookie', `token=${token}`);
+
+        expect(response.status).toBe(404);
+        expect(response.body.message).toBe("Receipt not found");
+    });
+
+    it("Fails to download another user's file", async () => {
+        const response = await request(app)
+            .get(`/api/storage/${other_receipt_id}`)
+            .set('Cookie', `token=${token}`);
+
+        expect(response.status).toBe(401);
+        expect(response.body.message).toBe("Unauthorized");
+    });
+
+    it("Downloads a file successfully", async () => {
+        const receipt = await createReceipt(second_document_id, user_id);
+
+        const response = await request(app)
+            .get(`/api/storage/${receipt.id}`)
+            .set('Cookie', `token=${token}`)
+            .buffer(true)
+            .parse((res, callback) => {
+                const chunks: Buffer[] = [];
+                res.on('data', (chunk) => chunks.push(chunk));
+                res.on('end', () => callback(null, Buffer.concat(chunks)));
+            });
+
+        expect(response.status).toBe(200);
+        expect(response.headers['content-type']).toBe("image/jpeg");
+        expect(response.headers['content-disposition']).toContain("test.jpg");
+        expect(response.body.length).toBeGreaterThan(0);
+
+        await prisma.receiptVat.deleteMany({ where: { receipt_id: receipt.id } });
+        await prisma.receipt.delete({ where: { id: receipt.id } });
     });
 
     it("Fails to upload file if file is not provided", async () => {
@@ -153,6 +242,18 @@ describe("Storage routes", () => {
 
         if (user_id) {
             await prisma.user.delete({ where: { id: user_id } });
+        }
+
+        if (other_user_id) {
+            await prisma.receiptVat.deleteMany({ where: { receipt: { user_id: other_user_id } } });
+            await prisma.receipt.deleteMany({ where: { user_id: other_user_id } });
+            await prisma.document.deleteMany({ where: { user_id: other_user_id } });
+
+            const otherUser = await prisma.user.findUnique({ where: { id: other_user_id } });
+            if (otherUser?.supabase_id) {
+                await supabaseAdmin.auth.admin.deleteUser(otherUser.supabase_id);
+            }
+            await prisma.user.delete({ where: { id: other_user_id } }).catch(() => {});
         }
     }, 10000);
 });
