@@ -9,11 +9,13 @@ describe('dashboard data route', () => {
     let token: string;
     let email: string;
     let user_id: string;
+    let business_id: string;
 
     beforeAll(async () => {
         await redis.flushdb();
         email = `integration.dashboard.test${Date.now()}@admin.com`;
-        const user = await createUser(email);
+        business_id = "1111111-5";
+        const user = await createUser(email, business_id);
         user_id = user.id;
         const response = await request(app)
             .post('/api/auth/login')

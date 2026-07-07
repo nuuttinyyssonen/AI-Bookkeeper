@@ -5,16 +5,22 @@ import { prisma } from "../../lib/prisma";
 import { supabaseAdmin } from "../../lib/supabase";
 import redis from "../../lib/redis";
 
+jest.mock("../../middleware/subscription", () => ({
+    requireSubscription: jest.fn((req, res, next) => next())
+}));
+
 describe('dashboard data route', () => {
     let token: string;
     let email: string;
     let user_id: string;
     let report_id: string;
+    let business_id: string
 
     beforeAll(async () => {
         await redis.flushdb();
         email = `integration.report.test${Date.now()}@admin.com`;
-        const user = await createUser(email);
+        business_id = "1111111-8";
+        const user = await createUser(email, business_id);
         user_id = user.id;
         const response = await request(app)
             .post('/api/auth/login')

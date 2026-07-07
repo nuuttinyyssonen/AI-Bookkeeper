@@ -9,11 +9,13 @@ describe('dashboard data route', () => {
     let token: string;
     let email: string;
     let user_id: string;
+    let business_id: string;
 
     beforeAll(async () => {
         await redis.flushdb();
         email = `integration.cashflow.test${Date.now()}@admin.com`;
-        const user = await createUser(email);
+        business_id = "1111111-4";
+        const user = await createUser(email, business_id);
         user_id = user.id;
         const response = await request(app)
             .post('/api/auth/login')
@@ -26,16 +28,20 @@ describe('dashboard data route', () => {
             .get('/api/dashboard/cashflow')
             .set('Cookie', `token=${token}`)
         
+        const expectedMonths = Array.from({ length: 6 }, (_, i) => {
+            const date = new Date();
+            date.setDate(1);
+            date.setMonth(date.getMonth() - i);
+            return {
+                month: date.toLocaleString("fi-FI", { month: "short" }),
+                income: 0,
+                expense: 0
+            };
+        }).reverse();
+
         expect(response.status).toBe(200);
         expect(response.body).toEqual({
-            cashflow: [
-            { month: 'tammi', income: 0, expense: 0 },
-            { month: 'helmi', income: 0, expense: 0 },
-            { month: 'maalis', income: 0, expense: 0 },
-            { month: 'huhti', income: 0, expense: 0 },
-            { month: 'touko', income: 0, expense: 0 },
-            { month: 'kesä', income: 0, expense: 0 }
-            ]
+            cashflow: expectedMonths
         });
     });
 

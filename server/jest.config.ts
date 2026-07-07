@@ -7,7 +7,7 @@ const config: Config = {
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
     "^pdf-to-img$": "<rootDir>/__mocks__/pdf-to-img.ts",
-  },
+  }
 };
 
 export default config;

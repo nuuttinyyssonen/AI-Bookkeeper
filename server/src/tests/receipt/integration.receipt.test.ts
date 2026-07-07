@@ -7,10 +7,21 @@ import path from 'path';
 import { supabaseAdmin } from "../../lib/supabase";
 import redis from "../../lib/redis";
 
+jest.mock("../../queues/queue", () => ({
+    receiptQueue: {
+        add: jest.fn().mockResolvedValue({ id: "mock-job-1" })
+    }
+}));
+
+jest.mock("../../middleware/subscription", () => ({
+    requireSubscription: jest.fn((req, res, next) => next())
+}));
+
 describe('Receipt routes', () => {
     let user_id: string;
     let document_id: string;
     let receipt_id: string;
+    let business_id: string;
 
     let email: string;
     let fileName: string;
@@ -19,7 +30,8 @@ describe('Receipt routes', () => {
     beforeAll(async () => {
         await redis.flushdb();
         email = `integration.receipt.test${Date.now()}@admin.com`;
-        const user = await createUser(email);
+        business_id = "1111111-7";
+        const user = await createUser(email, business_id);
         user_id = user.id;
 
         const response = await request(app)

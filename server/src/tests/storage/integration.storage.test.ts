@@ -13,6 +13,10 @@ jest.mock("../../queues/queue", () => ({
     }
 }));
 
+jest.mock("../../middleware/subscription", () => ({
+    requireSubscription: jest.fn((req, res, next) => next())
+}));
+
 describe("Storage routes", () => {
     let email: string;
     let user_id: string;
@@ -20,11 +24,13 @@ describe("Storage routes", () => {
     let fileName: string;
     let token: string;
     let receipt_id: string;
+    let business_id: string;
 
     beforeAll(async () => {
         await redis.flushdb();
         email = `integration.storage.test${Date.now()}@admin.com`;
-        const user = await createUser(email);
+        business_id = "1111111-9";
+        const user = await createUser(email, business_id);
         user_id = user.id;
 
         const response = await request(app)
