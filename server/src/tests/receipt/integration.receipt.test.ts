@@ -27,6 +27,15 @@ describe('Receipt routes', () => {
     let fileName: string;
     let token: string;
 
+    let receipt_vats: Array<{
+        id: string;
+        receipt_id: string;
+        rate: number;
+        net_amount: number;
+        vat_amount: number;
+        total: number;
+    }>;
+
     beforeAll(async () => {
         await redis.flushdb();
         email = `integration.receipt.test${Date.now()}@admin.com`;
@@ -49,6 +58,12 @@ describe('Receipt routes', () => {
         const receipt = await createReceipt(document_id, user_id);
         receipt_id = receipt.id;
 
+        await prisma.category.upsert({
+            where: { type: "PANKKIKULUT" },
+            update: {},
+            create: { type: "PANKKIKULUT", label: "Pankkikulut" },
+        });
+
     }, 10000);
 
     it('Gets all receipts by user id', async () => {
@@ -63,6 +78,71 @@ describe('Receipt routes', () => {
             .get(`/api/receipt/${receipt_id}`)
             .set('Cookie', `token=${token}`)
         expect(response.status).toBe(200);
+        receipt_vats = response.body.receipt.receiptVats
+    });
+
+    it('Updates receipt successfully', async () => {
+        const vendor_name = "test_vendor";
+        const total_amount = 1000;
+        const receipt_date = new Date();
+
+        const respone = await request(app)
+            .put(`/api/receipt/${receipt_id}`)
+            .set('Cookie', `token=${token}`)
+            .send({
+                vendor_name, total_amount, receipt_date, receipt_vats
+            });
+        
+        expect(respone.status).toBe(200);
+
+        const receipt = await prisma.receipt.findUnique({ where: { id: receipt_id } });
+        expect(receipt?.vendor_name).toBe(vendor_name);
+        expect(receipt?.receipt_date).toStrictEqual(receipt_date);
+        expect(receipt?.total_amount).toBe(total_amount);
+    });
+
+    it('Updates receipt category successfully', async () => {
+        const respone = await request(app)
+            .put(`/api/receipt/category/${receipt_id}`)
+            .set('Cookie', `token=${token}`)
+            .send({
+                category: "PANKKIKULUT"
+            });
+        
+        expect(respone.status).toBe(200);
+
+        const category = await prisma.category.findUnique({ where: { type: "PANKKIKULUT" } });
+        const receipt = await prisma.receipt.findUnique({ where: { id: receipt_id } });
+        expect(receipt?.category_id).toBe(category?.id);
+    });
+
+    it('Updates receipt deductibility percentage successfully', async () => {
+        const deductibilityPercentage = 50.0
+        const respone = await request(app)
+            .put(`/api/receipt/percentage/${receipt_id}`)
+            .set('Cookie', `token=${token}`)
+            .send({
+                deductibilityPercentage: deductibilityPercentage
+            });
+        
+        expect(respone.status).toBe(200);
+
+        const receipt = await prisma.receipt.findUnique({ where: { id: receipt_id } });
+        expect(Number(receipt?.vat_deductibility_percentage)).toBe(deductibilityPercentage);
+    });
+
+    it('Updates receipt deductibility (boolean) successfully', async () => {
+        const respone = await request(app)
+            .put(`/api/receipt/is_deductible/${receipt_id}`)
+            .set('Cookie', `token=${token}`)
+            .send({
+                isDeductible: false
+            });
+        
+        expect(respone.status).toBe(200);
+
+        const receipt = await prisma.receipt.findUnique({ where: { id: receipt_id } });
+        expect(receipt?.is_deductible).toBe(false);
     });
 
     it('Returns 401 if user is not authenticated', async () => {
