@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --exec ts-node src/index.ts",
+    "dev:e2e": "DISABLE_RATE_LIMIT=true nodemon --exec ts-node src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
     "test": "npm run setup:testdb && NODE_ENV=test jest --runInBand --forceExit",

@@ -4,6 +4,8 @@ import { RateLimiterRedis } from "rate-limiter-flexible";
 // Middleware factory function to create a rate limiter middleware for Express routes
 export const rateLimiterMiddleware = (limiter: RateLimiterRedis, keyPrefix: string) => {
   return async (req: Request, res: Response, next: NextFunction) => {
+    if (process.env.DISABLE_RATE_LIMIT === "true") return next();
+
     try {
       // Use user ID as key if available, otherwise fallback to IP address
       const key = `${keyPrefix}:${(req as any).user?.id || req.ip}`;

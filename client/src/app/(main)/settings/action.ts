@@ -109,7 +109,7 @@ export const reactivateSubscription = async () => {
     }
 };
 
-export const deleteAccount = async () => {
+export const deleteAccount = async (_prevState: { error?: string } | undefined) => {
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
 

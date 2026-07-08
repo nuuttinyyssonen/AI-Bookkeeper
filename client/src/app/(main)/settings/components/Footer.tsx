@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState, useActionState } from "react";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 import { deleteAccount } from "../action";
 
 const CONFIRM_PHRASE = "DELETE";
@@ -11,6 +12,15 @@ export default function Footer() {
     const t = useTranslations('settingsFooter');
     const [confirming, setConfirming] = useState(false);
     const [input, setInput] = useState("");
+    const [state, formAction, isPending] = useActionState(deleteAccount, undefined);
+
+    useEffect(() => {
+        if (state?.error) {
+            toast.error(state.error);
+            setConfirming(false);
+            setInput("");
+        }
+    }, [state]);
 
     function handleDeleteClick() {
         setConfirming(true);
@@ -21,14 +31,6 @@ export default function Footer() {
         setInput("");
     }
 
-    async function handleConfirm() {
-        const result = await deleteAccount();
-        if (result?.error) {
-            setConfirming(false);
-            setInput("");
-        }
-    }
-
     return (
         <div>
             <div className="rounded-lg border border-red-200 bg-white p-6 space-y-3">
@@ -36,7 +38,7 @@ export default function Footer() {
                 <p className="text-sm text-muted-foreground">{t('deleteWarning')}</p>
 
                 {confirming ? (
-                    <div className="space-y-3">
+                    <form action={formAction} className="space-y-3">
                         <p className="text-sm text-slate-700">
                             {t.rich('typeToConfirm', {
                                 phrase: (chunks) => <span className="font-mono font-semibold">{chunks}</span>,
@@ -52,20 +54,22 @@ export default function Footer() {
                         />
                         <div className="flex gap-2">
                             <button
-                                onClick={handleConfirm}
-                                disabled={input !== CONFIRM_PHRASE}
+                                type="submit"
+                                disabled={input !== CONFIRM_PHRASE || isPending}
                                 className="h-9 px-4 rounded-md bg-red-600 text-sm font-medium text-white hover:bg-red-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                             >
                                 {t('confirmDeletion')}
                             </button>
                             <button
+                                type="button"
                                 onClick={handleCancel}
+                                disabled={isPending}
                                 className="h-9 px-4 rounded-md border border-slate-200 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
                             >
                                 {t('cancel')}
                             </button>
                         </div>
-                    </div>
+                    </form>
                 ) : (
                     <button
                         onClick={handleDeleteClick}
