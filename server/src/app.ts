@@ -17,6 +17,7 @@ import subscriptionRouter from "./routes/subscription.routes";
 import webhookRouter from "./routes/webhook.routes";
 import userRouter from "./routes/user.routes";
 import passwordResetRouter from "./routes/password-reset.routes";
+import cypressRouter from "./routes/cypress.routes";
 
 import { errorHandler } from "./middleware/errorHandler";
 import { requestLogger } from "./middleware/requestLogger";
@@ -57,7 +58,8 @@ app.use('/api/report', reportRouter);
 app.use('/api/assistant', assistantRouter);
 app.use('/api/subscription', subscriptionRouter);
 app.use('/api/user', userRouter);
-app.use('/api/auth/reset-password', passwordResetRouter)
+app.use('/api/auth/reset-password', passwordResetRouter);
+app.use('api/test-cleanup', cypressRouter);
 
 // Error handler middleware
 app.use(errorHandler);

@@ -30,9 +30,10 @@ describe('Signup', () => {
     }
 
     it('creates an account, then logs in and deletes it via settings (cleanup)', () => {
+        cy.intercept('POST', '/signup').as('signupRequest'); // set up a listener BEFORE the request fires
         fillForm();
         submit();
-        cy.wait(3000);
+        cy.wait('@signupRequest');
 
         // After a successful signup the app redirects the browser to a
         // Stripe-hosted checkout page (or to /login), which is cross-origin
@@ -118,5 +119,15 @@ describe('Signup', () => {
         cy.get('input[placeholder="DELETE"]').type('DELETE');
         cy.contains('button', 'Confirm deletion').click();
         cy.url({ timeout: 10000 }).should('include', '/account-deleted');
+    });
+
+    after(() => {
+        // Best-effort cleanup, ignore errors if account doesn't exist
+        cy.request({
+            method: 'POST',
+            url: 'http://localhost:5001/api/test-cleanup', // a test-only endpoint that deletes by email if it exists
+            body: { email: validForm.email },
+            failOnStatusCode: false,
+        });
     });
 });
