@@ -59,7 +59,9 @@ app.use('/api/assistant', assistantRouter);
 app.use('/api/subscription', subscriptionRouter);
 app.use('/api/user', userRouter);
 app.use('/api/auth/reset-password', passwordResetRouter);
-app.use('api/test-cleanup', cypressRouter);
+if (process.env.NODE_ENV !== 'production') {
+    app.use('/api/test-cleanup', cypressRouter);
+}
 
 // Error handler middleware
 app.use(errorHandler);

@@ -16,7 +16,7 @@ export default function Receipts({ filtered }: Props) {
     return (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((r) => (
-                <Card key={r.id}>
+                <Card key={r.id} data-testid="receipt-card">
                     <CardHeader>
                         <div>
                             <CardTitle>{r.vendor_name}</CardTitle>

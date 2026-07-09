@@ -34,10 +34,10 @@ export default async function Page() {
                     </div>
                     <div className="grid grid-cols-3 gap-2 sm:flex sm:items-center">
                         <LogoutButton />
-                        <button className="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-700 hover:bg-slate-50 sm:w-auto sm:px-4">
+                        <button data-testid="export-button" className="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-700 hover:bg-slate-50 sm:w-auto sm:px-4">
                             {t('export')}
                         </button>
-                        <Link href="/upload" className="h-10 w-full rounded-md bg-teal-600 px-3 text-sm font-semibold text-white hover:bg-teal-700 sm:w-auto sm:px-4 flex items-center justify-center">
+                        <Link href="/upload" data-testid="upload-link" className="h-10 w-full rounded-md bg-teal-600 px-3 text-sm font-semibold text-white hover:bg-teal-700 sm:w-auto sm:px-4 flex items-center justify-center">
                             {t('addReceipt')}
                         </Link>
                     </div>

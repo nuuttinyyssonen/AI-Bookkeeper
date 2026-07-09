@@ -1,4 +1,4 @@
-describe('Signup', () => {
+describe('Account-lifecycle', () => {
     const validForm = {
         email: `cypress@example.com`,
         password: 'password123',
@@ -6,7 +6,7 @@ describe('Signup', () => {
         firstName: 'Matti',
         lastName: 'Meikalainen',
         phonenumber: '0401234567',
-        businessId: '1234567-8',
+        businessId: '1234567-9',
     };
 
     beforeEach(() => {
@@ -29,7 +29,7 @@ describe('Signup', () => {
         cy.get('button[type="submit"]').click();
     }
 
-    it('creates an account, then logs in and deletes it via settings (cleanup)', () => {
+    it('creates an account, then logs in', () => {
         cy.intercept('POST', '/signup').as('signupRequest'); // set up a listener BEFORE the request fires
         fillForm();
         submit();
