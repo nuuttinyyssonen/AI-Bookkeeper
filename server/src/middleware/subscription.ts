@@ -7,6 +7,8 @@ export const requireSubscription = async (req: Request, res: Response, next: Nex
 
     try {
         const subscription = await prisma.subscription.findUnique({ where: { user_id: user.id } });
+        console.log("user", user);
+        console.log("subscription", subscription);
 
         if (!subscription) {
             return next(new AuthorizationError("Subscription not found"));

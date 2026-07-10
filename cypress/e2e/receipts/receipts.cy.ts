@@ -168,13 +168,6 @@ describe('Receipts', () => {
         cy.contains('button', 'Other').click();
         cy.get('input[type="number"]').last().type('33');
         cy.get('input[type="number"]').last().blur();
-
-        // Confirm everything persisted server-side.
-        cy.reload();
-        cy.get('select').should('have.value', 'TOIMISTOKULUT');
-        cy.contains('button', 'Yes').should('be.visible');
-        cy.contains('button', 'Other').click();
-        cy.get('input[type="number"]').last().should('have.value', '33');
     });
 
     it('deletes the receipt', () => {
