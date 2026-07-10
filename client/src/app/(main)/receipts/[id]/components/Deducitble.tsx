@@ -42,6 +42,7 @@ export default function Deductible({ handleDeductibleToggle, isDeductible, deduc
             <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-slate-700">{t('label')}</span>
                 <button
+                    data-testid="deductible-toggle"
                     onClick={handleDeductibleToggle}
                     className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
                         isDeductible

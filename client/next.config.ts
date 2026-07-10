@@ -5,6 +5,9 @@ const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
     allowedDevOrigins: ['192.168.101.114'],
+    turbopack: {
+        root: __dirname,
+    },
     experimental: {
         serverActions: {
             bodySizeLimit: '15mb'

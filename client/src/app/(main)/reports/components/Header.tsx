@@ -48,6 +48,7 @@ export default function Header({reports, setReports}: Props) {
                 <button
                     onClick={() => setIsOpen(true)}
                     className="inline-flex items-center gap-2 rounded-md bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
+                    data-testid="new-report-button"
                 >
                     {t('newReport')}
                 </button>
@@ -59,16 +60,17 @@ export default function Header({reports, setReports}: Props) {
                             <p className="mt-1 text-sm text-slate-500">{t('modalDescription')}</p>
 
                             <select
+                                data-testid="select-timeperiod"
                                 value={timePeriod}
                                 onChange={(e) => setTimePeriod(e.target.value)}
                                 className="mt-4 w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-600"
                             >
-                                <option value="Q1">{t('periodQ1')}</option>
-                                <option value="Q2">{t('periodQ2')}</option>
-                                <option value="Q3">{t('periodQ3')}</option>
-                                <option value="Q4">{t('periodQ4')}</option>
-                                <option value="Monthly">{t('periodMonthly')}</option>
-                                <option value="YEARLY">{t('periodYearly')}</option>
+                                <option data-testid="new-report-Q1" value="Q1">{t('periodQ1')}</option>
+                                <option data-testid="new-report-Q2" value="Q2">{t('periodQ2')}</option>
+                                <option data-testid="new-report-Q3" value="Q3">{t('periodQ3')}</option>
+                                <option data-testid="new-report-Q4" value="Q4">{t('periodQ4')}</option>
+                                <option data-testid="new-report-Monthly" value="Monthly">{t('periodMonthly')}</option>
+                                <option data-testid="new-report-Yearly" value="YEARLY">{t('periodYearly')}</option>
                             </select>
 
                             <div className="mt-6 flex gap-3">
@@ -79,6 +81,7 @@ export default function Header({reports, setReports}: Props) {
                                     {t('cancel')}
                                 </button>
                                 <button
+                                    data-testid="generate-report"
                                     onClick={handleSubmit}
                                     disabled={isPending}
                                     className="flex-1 rounded-lg bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700 disabled:opacity-60"

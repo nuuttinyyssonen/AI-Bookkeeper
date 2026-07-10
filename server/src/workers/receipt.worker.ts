@@ -99,10 +99,11 @@ const worker = new Worker(
     const aiData = await parseReceiptData(fullText, categoryTypes, receipt_type ?? 'EXPENSE');
 
     // Find the category in the database based on AI-parsed category, fallback to "MUUT_KULUT" if not found
-    const category = await prisma.category.findUnique({ 
-        where: { type: aiData.category } 
-    }) ?? await prisma.category.findUnique({ 
-        where: { type: "MUUT_KULUT" } 
+    // or if the AI returned a category that isn't a valid CategoryType
+    const category = (aiData.category && categoryTypes.includes(aiData.category)
+        ? await prisma.category.findUnique({ where: { type: aiData.category } })
+        : null) ?? await prisma.category.findUnique({
+        where: { type: "MUUT_KULUT" }
     });
 
     if (!category) {
