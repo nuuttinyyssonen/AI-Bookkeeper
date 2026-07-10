@@ -41,6 +41,7 @@ export default function ChatHistory({ chatRooms, activeChatId, onDelete }: Props
                 {chatRooms.map((room) => (
                     <div
                         key={room.id}
+                        data-testid="chat-room-item"
                         onClick={() => router.push(`/assistant/${room.id}`)}
                         className={`group flex flex-col gap-0.5 rounded-xl px-3 py-2.5 mb-1 transition-colors cursor-pointer ${
                             activeChatId === room.id
@@ -53,6 +54,7 @@ export default function ChatHistory({ chatRooms, activeChatId, onDelete }: Props
                             <div className="flex items-center gap-1 flex-none">
                                 <span className="text-xs text-slate-400">{new Date(room.created_at).toLocaleDateString("fi-FI")}</span>
                                 <button
+                                    data-testid="delete-chat-room"
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         onDelete(room.id);

@@ -18,11 +18,6 @@ export const getUserData = async (req: Request, res: Response, next: NextFunctio
             return res.status(200).json({ user, subscription: null, history: [] });
         }
 
-        const invoices = await stripe.invoices.list({
-            customer: subscription.stripe_customer_id,
-            limit: 24,
-        });
-
         const getPlanName = (priceId: string) => {
             switch (priceId) {
                 case process.env.STRIPE_BASIC_PRICE_ID: return 'Basic — monthly';
@@ -33,21 +28,33 @@ export const getUserData = async (req: Request, res: Response, next: NextFunctio
             }
         };
 
-        const history = invoices.data
-            .filter(invoice => invoice.amount_paid > 0)
-            .map(invoice => {
-                const mainItem = invoice.lines.data.find((item: any) => item.amount > 0) ?? invoice.lines.data[0];
-                const priceId = (mainItem as any)?.pricing?.price_details?.price ?? '';
+        let history: any[] = [];
+        try {
+            const invoices = await stripe.invoices.list({
+                customer: subscription.stripe_customer_id,
+                limit: 24,
+            });
 
-                return {
-                    id: invoice.id,
-                    date: new Date(invoice.created * 1000).toLocaleDateString('fi-FI'),
-                    description: getPlanName(priceId),
-                    amount: `€${(invoice.amount_paid / 100).toFixed(2)}`,
-                    status: invoice.status,
-                    pdf: invoice.invoice_pdf,
-                };
-        });
+            history = invoices.data
+                .filter(invoice => invoice.amount_paid > 0)
+                .map(invoice => {
+                    const mainItem = invoice.lines.data.find((item: any) => item.amount > 0) ?? invoice.lines.data[0];
+                    const priceId = (mainItem as any)?.pricing?.price_details?.price ?? '';
+
+                    return {
+                        id: invoice.id,
+                        date: new Date(invoice.created * 1000).toLocaleDateString('fi-FI'),
+                        description: getPlanName(priceId),
+                        amount: `€${(invoice.amount_paid / 100).toFixed(2)}`,
+                        status: invoice.status,
+                        pdf: invoice.invoice_pdf,
+                    };
+            });
+        } catch (error) {
+            // Billing history is a non-critical extra; a Stripe lookup failure
+            // (e.g. missing/invalid customer) shouldn't take down the whole page.
+            history = [];
+        }
 
         return res.status(200).json({ user, subscription, history });
     } catch (error) {

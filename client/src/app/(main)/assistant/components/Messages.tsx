@@ -34,7 +34,7 @@ export default function Messages({messages}: Props) {
                                     AI
                                 </div>
                             )}
-                            <div className={`max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
+                            <div data-testid="chat-message" data-role={msg.role} className={`max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                                 isUser
                                     ? "rounded-br-sm bg-slate-900 text-white"
                                     : "rounded-bl-sm border border-slate-200 bg-white text-slate-800 shadow-sm"
