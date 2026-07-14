@@ -68,6 +68,7 @@
     "password": "Salasana",
     "confirmPassword": "Vahvista salasana",
     "repeatPassword": "Toista salasana",
+    "termsOfAgreement": "Hyväksyn <terms>käyttöehdot</terms> ja <privacy>tietosuojaselosteen</privacy>",
     "submit": "Luo tili",
     "submitting": "Luodaan tiliä...",
     "alreadyHaveAccount": "Onko sinulla jo tili?",
