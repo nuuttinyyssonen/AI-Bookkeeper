@@ -68,6 +68,7 @@
     "password": "Password",
     "confirmPassword": "Confirm password",
     "repeatPassword": "Repeat password",
+    "termsOfAgreement": "I agree to the <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy>",
     "submit": "Create account",
     "submitting": "Creating account...",
     "alreadyHaveAccount": "Already have an account?",
@@ -623,5 +624,254 @@
     "assistant": "AI assistant",
     "settings": "Settings",
     "menu": "Menu"
+  },
+
+  "termsPage": {
+    "metaTitle": "Terms of Service — AI Bookkeeper",
+    "eyebrow": "Draft",
+    "title": "Terms of Service",
+    "description": "Terms governing the use of the AI-Bookkeeper accounting application.",
+    "draftBanner": "This page contains AI-Bookkeeper's Terms of Service. The content must still be reviewed by a lawyer before official publication.",
+    "toc": [
+      { "id": "t1", "num": "01", "label": "Parties" },
+      { "id": "t2", "num": "02", "label": "Service description" },
+      { "id": "t3", "num": "03", "label": "User account" },
+      { "id": "t4", "num": "04", "label": "User responsibilities" },
+      { "id": "t5", "num": "05", "label": "Pricing" },
+      { "id": "t6", "num": "06", "label": "Intellectual property" },
+      { "id": "t7", "num": "07", "label": "Limitation of liability" },
+      { "id": "t8", "num": "08", "label": "Data protection" },
+      { "id": "t9", "num": "09", "label": "Term and termination" },
+      { "id": "t10", "num": "10", "label": "Governing law" },
+      { "id": "t11", "num": "11", "label": "Changes to Terms" },
+      { "id": "t12", "num": "12", "label": "Contact" }
+    ],
+    "sections": [
+      {
+        "id": "t1",
+        "num": "01",
+        "title": "Parties and scope",
+        "content": [
+          { "p": "These Terms of Service form a binding agreement between the AI-Bookkeeper service and its registered user. The Service is provided by AI-Bookkeeper (email: nuutti.nyyssonen@gmail.com)." },
+          { "p": "The Terms apply to all features of the AI-Bookkeeper service, including the web application, mobile application, and APIs. The Service is intended for Finnish entrepreneurs, sole traders, and small-sized businesses for managing bookkeeping records." },
+          { "p": "By registering for or using the Service, the User accepts these Terms in their entirety." }
+        ]
+      },
+      {
+        "id": "t2",
+        "num": "02",
+        "title": "Service description",
+        "content": [
+          { "p": "AI-Bookkeeper is an AI-powered bookkeeping service that provides the following features:" },
+          { "list": [
+            "Automatic interpretation of receipts and vouchers using OCR technology and artificial intelligence. Users can upload images or PDF files, from which the Service automatically identifies the vendor name, date, amount, and VAT.",
+            "Compiling bookkeeping records: the Service compiles the interpreted data into bookkeeping entries, calculates VAT applying Finland's current VAT rates, and produces an income and expense breakdown.",
+            "Reporting: You can generate monthly and annual reports, which can be exported as PDF or shared with an accountant.",
+            "AI assistant: the Service's built-in AI assistant answers bookkeeping-related questions in Finnish or English."
+          ] },
+          { "p": "AI-Bookkeeper does not provide official bookkeeping or tax advisory services and does not replace the services of a qualified accountant." }
+        ]
+      },
+      {
+        "id": "t3",
+        "num": "03",
+        "title": "User account and registration",
+        "content": [
+          { "p": "Using the Service requires registration and creating a personal user account. When registering, the User agrees to provide truthful and up-to-date information, including an email address, name, and Business ID." },
+          { "p": "The Service is intended primarily for business or trade use. The User is responsible for keeping their credentials and password confidential. Credentials may not be shared with third parties." },
+          { "p": "AI-Bookkeeper reserves the right to reject a registration request or delete a user account for a justified reason." }
+        ]
+      },
+      {
+        "id": "t4",
+        "num": "04",
+        "title": "User responsibilities and prohibited use",
+        "content": [
+          { "p": "The User is responsible for ensuring that the material submitted to the Service is genuine, lawful, and appropriate. Submitting forged or unlawfully obtained vouchers to the Service is prohibited." },
+          { "p": "The User agrees not to use the Service for unlawful purposes, to distribute malware, to place an unreasonable load on the Service, to gain unauthorized access to other users' data, or to commercially resell the Service without written permission." },
+          { "p": "The User is solely responsible for the accuracy of the material they submit and for reviewing the resulting bookkeeping records before submitting them to authorities." }
+        ]
+      },
+      {
+        "id": "t5",
+        "num": "05",
+        "title": "Pricing and payment terms",
+        "content": [
+          { "p": "The Service is offered on a monthly subscription basis. Current prices are shown on the Service's pricing page. AI-Bookkeeper reserves the right to change prices by giving at least 30 days' notice." },
+          { "p": "The subscription fee is charged monthly in advance via the payment processor Stripe. New users receive a 14-day free trial period, after which the subscription continues automatically unless the User cancels it." },
+          { "p": "If a payment is late or fails, AI-Bookkeeper reserves the right to restrict access to the Service. The subscription can be cancelled at any time. Payments are non-refundable." }
+        ]
+      },
+      {
+        "id": "t6",
+        "num": "06",
+        "title": "Intellectual property",
+        "content": [
+          { "p": "AI-Bookkeeper owns all rights to the Service's software, user interface and algorithms. The User retains full ownership of all material they upload as well as the bookkeeping records produced by the Service." },
+          { "p": "The User grants AI-Bookkeeper a limited license to the submitted material solely for the purpose of providing and improving the Service. AI-Bookkeeper does not disclose the User's material to third parties for commercial purposes." }
+        ]
+      },
+      {
+        "id": "t7",
+        "num": "07",
+        "title": "Service availability and limitation of liability",
+        "content": [
+          { "p": "AI-Bookkeeper strives to provide the Service without interruption but does not guarantee error-free operation. The Service is provided \"as is\" without warranties." },
+          { "p": "OCR and AI interpretation may contain errors. The User is obligated to verify the accuracy of the bookkeeping records before submitting them to authorities." },
+          { "p": "AI-Bookkeeper is not liable for indirect damages. Claims for compensation are limited to the subscription fees paid by the User during the preceding three months." }
+        ]
+      },
+      {
+        "id": "t9",
+        "num": "09",
+        "title": "Term and termination",
+        "content": [
+          { "p": "The agreement takes effect upon registration and remains valid until further notice. The User may terminate the agreement at any time by cancelling their subscription in the Service settings." },
+          { "p": "AI-Bookkeeper may suspend or terminate the User's access immediately if the User materially breaches these Terms, fails to pay amounts due, or compromises the security of other users' data." }
+        ]
+      },
+      {
+        "id": "t10",
+        "num": "10",
+        "title": "Governing law and dispute resolution",
+        "content": [
+          { "p": "These Terms are governed by Finnish law. Disputes arising from the Terms will primarily be resolved through negotiation between the parties. If no settlement is reached, the dispute will be resolved in the Helsinki District Court." }
+        ]
+      },
+      {
+        "id": "t11",
+        "num": "11",
+        "title": "Changes to these Terms",
+        "content": [
+          { "p": "AI-Bookkeeper reserves the right to change these Terms. Changes will be communicated to the User by email or via a notice within the Service at least 14 days before they take effect. By continuing to use the Service, the User accepts the updated Terms." }
+        ]
+      }
+    ],
+    "dataProtection": {
+      "title": "Data protection and security",
+      "text": "AI-Bookkeeper processes the User's personal data in accordance with the {link}, which forms an integral part of these Terms. AI-Bookkeeper complies with the EU General Data Protection Regulation (GDPR) and Finnish data protection legislation.",
+      "linkText": "Privacy Policy"
+    },
+    "contact": {
+      "title": "Contact",
+      "email": "Email"
+    }
+  },
+
+  "privacyPage": {
+    "metaTitle": "Privacy Policy — AI Bookkeeper",
+    "eyebrow": "GDPR 2016/679 · Articles 13 & 14",
+    "title": "Privacy Policy",
+    "description": "A description of how AI-Bookkeeper processes personal data extracted from receipts and vouchers.",
+    "updatedLabel": "Updated",
+    "updatedPlaceholder": "DATE",
+    "toc": [
+      { "id": "p1", "num": "01", "label": "Data controller" },
+      { "id": "p2", "num": "02", "label": "Contact person" },
+      { "id": "p3", "num": "03", "label": "Data processed" },
+      { "id": "p4", "num": "04", "label": "Purpose & basis" },
+      { "id": "p5", "num": "05", "label": "OCR & AI" },
+      { "id": "p6", "num": "06", "label": "Recipients" },
+      { "id": "p7", "num": "07", "label": "Transfer outside EEA" },
+      { "id": "p8", "num": "08", "label": "Retention period" },
+      { "id": "p9", "num": "09", "label": "Security" },
+      { "id": "p10", "num": "10", "label": "Data subject rights" },
+      { "id": "p11", "num": "11", "label": "Contact" }
+    ],
+    "s1": {
+      "title": "Data controller",
+      "orgIdLabel": "Business ID",
+      "orgIdPlaceholder": "1234567-8",
+      "addressLabel": "Address",
+      "addressPlaceholder": "address",
+      "emailLabel": "Email",
+      "phoneLabel": "Phone",
+      "phoneValue": "+358 40 123 4567"
+    },
+    "s2": {
+      "title": "Data protection contact person",
+      "emailLabel": "Email"
+    },
+    "s3": {
+      "title": "Personal data processed",
+      "intro": "The application processes data extracted from bookkeeping receipts and vouchers, such as:",
+      "items": [
+        "The seller's/business's name, address, and contact details",
+        "The date, amount, and product/service lines of the purchase transaction",
+        "The name of a seller's representative or cashier that may appear on the receipt",
+        "The receipt image/scan as such",
+        "Possible customer data (e.g. the name and contact details of the billed customer on B2B vouchers)"
+      ],
+      "excludeIntro": "We do not process:",
+      "excludeFillMe": "e.g. health data, special categories of personal data — specify if receipts may include e.g. pharmacy or healthcare service vouchers, and how these are handled"
+    },
+    "s4": {
+      "title": "Purpose and legal basis of processing",
+      "intro": "Personal data is processed for the following purposes:",
+      "tableHeaders": ["Purpose", "Legal basis"],
+      "tableRows": [
+        ["Fulfilling the bookkeeping obligation under the Finnish Accounting Act", "GDPR 6(1)(c) — legal obligation"],
+        ["Tracking income and expenses and managing business operations", "GDPR 6(1)(b) — performance of a contract"]
+      ],
+      "outro": "Data is not used for automated decision-making or profiling that would have a legal or otherwise significant effect on the data subject."
+    },
+    "s5": {
+      "title": "Automated processing: OCR and AI (LLM)",
+      "intro": "Data is automatically extracted from receipts using optical character recognition (OCR) and language-model-based (LLM) technology. This processing:",
+      "items": [
+        "Is based on the OpenAI API service",
+        "Takes place globally",
+        "Does not involve profiling that would affect the data subject's rights",
+        "Data is not used to further train the AI model"
+      ]
+    },
+    "s6": {
+      "title": "Data recipients and processors",
+      "intro": "Data may be transferred to the following processors under a data processing agreement (GDPR Art. 28):",
+      "tableHeaders": ["Service provider", "Purpose of processing", "Location"],
+      "tableRows": [
+        { "provider": "OCR service / Google Vision API", "purpose": "Receipt text recognition", "location": "United States, global" },
+        { "provider": "LLM provider, OpenAI", "purpose": "Data structuring and classification", "location": "United States, global" }
+      ]
+    },
+    "s7": {
+      "title": "Transfer of data outside the EU/EEA",
+      "text": "Part of the personal data processing takes place outside the EU/EEA, because we use an AI service provided by OpenAI (OpenAI OpCo, LLC / OpenAI Ireland Ltd.) for the automatic interpretation of receipts. OpenAI acts as a data processor in this processing, and the processing is governed by OpenAI's Data Processing Addendum, which is part of OpenAI's service agreement.",
+      "calloutLabel": "Safeguard",
+      "calloutText": "To the extent personal data is transferred outside the European Economic Area or Switzerland, the transfer is based on the European Commission's approved Standard Contractual Clauses (SCC), which ensure a level of protection for personal data equivalent to the requirements of EU data protection law."
+    },
+    "s8": {
+      "title": "Data retention period",
+      "textBefore": "Under the Finnish Accounting Act (1336/1997), vouchers and related data are retained for at least ",
+      "bold": "six (6) years",
+      "textAfter": " from the end of the financial period during which the voucher was created. After this, the data is deleted or anonymized unless other legislation requires a longer retention period."
+    },
+    "s9": {
+      "title": "Data security",
+      "intro": "Data is protected with appropriate technical and organizational measures, such as:",
+      "items": ["Encryption of stored data", "Restriction of access rights"],
+      "fillMeItem": "Other measures: backups, access logs, etc."
+    },
+    "s10": {
+      "title": "Data subject rights",
+      "intro": "The data subject (e.g. a seller's representative or customer named on a receipt) has the right to:",
+      "items": [
+        "access the data concerning them",
+        "request correction of inaccurate data",
+        "request erasure of data (subject to restrictions, as the Accounting Act may prevent erasure during the retention period)",
+        "lodge a complaint with the supervisory authority"
+      ],
+      "linkIntro": "Supervisory authority in Finland: Office of the Data Protection Ombudsman, "
+    },
+    "s11": {
+      "title": "Contact",
+      "text": "Requests concerning the exercise of data subject rights should be directed to the data controller named in section 1."
+    }
+  },
+
+  "cookieBanner": {
+    "text": "We use essential cookies to ensure the service works, such as for login and language settings. We do not use tracking or advertising cookies.",
+    "privacyLink": "Privacy Policy",
+    "accept": "Got it"
   }
 }

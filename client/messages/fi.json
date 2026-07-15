@@ -68,6 +68,7 @@
     "password": "Salasana",
     "confirmPassword": "Vahvista salasana",
     "repeatPassword": "Toista salasana",
+    "termsOfAgreement": "Hyväksyn <terms>käyttöehdot</terms> ja <privacy>tietosuojaselosteen</privacy>",
     "submit": "Luo tili",
     "submitting": "Luodaan tiliä...",
     "alreadyHaveAccount": "Onko sinulla jo tili?",
@@ -622,5 +623,254 @@
     "assistant": "Tekoälyavustaja",
     "settings": "Asetukset",
     "menu": "Valikko"
+  },
+
+  "termsPage": {
+    "metaTitle": "Käyttöehdot — AI Bookkeeper",
+    "eyebrow": "Luonnos",
+    "title": "Käyttöehdot",
+    "description": "AI-Bookkeeper-kirjanpitosovelluksen käyttöä koskevat ehdot.",
+    "draftBanner": "Tämä sivu sisältää AI-Bookkeeperin käyttöehdot. Sisältö tulee vielä tarkistuttaa juristilla ennen virallista julkaisua.",
+    "toc": [
+      { "id": "t1", "num": "01", "label": "Osapuolet" },
+      { "id": "t2", "num": "02", "label": "Palvelun kuvaus" },
+      { "id": "t3", "num": "03", "label": "Käyttäjätili" },
+      { "id": "t4", "num": "04", "label": "Käyttäjän vastuut" },
+      { "id": "t5", "num": "05", "label": "Hinnoittelu" },
+      { "id": "t6", "num": "06", "label": "Immateriaalioikeudet" },
+      { "id": "t7", "num": "07", "label": "Vastuunrajoitus" },
+      { "id": "t8", "num": "08", "label": "Tietosuoja" },
+      { "id": "t9", "num": "09", "label": "Kesto ja irtisanominen" },
+      { "id": "t10", "num": "10", "label": "Sovellettava laki" },
+      { "id": "t11", "num": "11", "label": "Muutokset ehtoihin" },
+      { "id": "t12", "num": "12", "label": "Yhteystiedot" }
+    ],
+    "sections": [
+      {
+        "id": "t1",
+        "num": "01",
+        "title": "Osapuolet ja soveltamisala",
+        "content": [
+          { "p": "Nämä käyttöehdot muodostavat sitovan sopimuksen AI-Bookkeeper-palvelun ja sen rekisteröityneen käyttäjän välillä. Palvelua tarjoaa AI-Bookkeeper (sähköposti: nuutti.nyyssonen@gmail.com)." },
+          { "p": "Ehdot koskevat kaikkia AI-Bookkeeper-palvelun ominaisuuksia, mukaan lukien verkkosovellusta, mobiilisovellusta sekä rajapintoja. Palvelu on tarkoitettu suomalaisille yrittäjille, toiminimiyrittäjille sekä pienille yrityksille kirjanpitoaineiston hallintaan." },
+          { "p": "Rekisteröitymällä tai käyttämällä Palvelua Käyttäjä hyväksyy nämä Ehdot kokonaisuudessaan." }
+        ]
+      },
+      {
+        "id": "t2",
+        "num": "02",
+        "title": "Palvelun kuvaus",
+        "content": [
+          { "p": "AI-Bookkeeper on tekoälypohjainen kirjanpitopalvelu, joka tarjoaa seuraavat toiminnot:" },
+          { "list": [
+            "Kuittien ja tositteiden automaattinen tulkinta OCR-teknologian ja tekoälyn avulla. Käyttäjä voi ladata kuvia tai PDF-tiedostoja, joista Palvelu tunnistaa automaattisesti toimittajan nimen, päivämäärän, summan ja arvonlisäveron.",
+            "Kirjanpitoaineiston koostaminen: Palvelu kokoaa tulkitun aineiston kirjanpitotiedoiksi, laskee arvonlisäverot soveltaen Suomen voimassa olevia ALV-kantoja ja muodostaa tulo- ja menoerittelyn.",
+            "Raportointi: Palvelussa voidaan tuottaa kuukausi- ja vuosiraportteja, joita voidaan viedä PDF-muodossa tai jakaa kirjanpitäjälle.",
+            "Tekoälyavustaja: Palvelun sisäinen AI-assistentti vastaa kirjanpitoon liittyviin kysymyksiin suomen tai englannin kielellä."
+          ] },
+          { "p": "AI-Bookkeeper ei tarjoa virallista kirjanpito- tai verokonsultointipalvelua eikä korvaa ammattitaitoisen kirjanpitäjän palveluita." }
+        ]
+      },
+      {
+        "id": "t3",
+        "num": "03",
+        "title": "Käyttäjätili ja rekisteröityminen",
+        "content": [
+          { "p": "Palvelun käyttö edellyttää rekisteröitymistä ja henkilökohtaisen käyttäjätilin luomista. Rekisteröityessään Käyttäjä sitoutuu antamaan totuudenmukaiset ja ajantasaiset tiedot, mukaan lukien sähköpostiosoitteen, nimen ja Y-tunnuksen." },
+          { "p": "Palvelu on tarkoitettu ensisijaisesti yritys- tai elinkeinonharjoittajakäyttöön. Käyttäjä on vastuussa käyttäjätunnustensa ja salasanansa luottamuksellisuuden säilyttämisestä. Tunnuksia ei saa luovuttaa kolmansille osapuolille." },
+          { "p": "AI-Bookkeeper pidättää oikeuden hylätä rekisteröitymispyyntö tai poistaa käyttäjätili perustellusta syystä." }
+        ]
+      },
+      {
+        "id": "t4",
+        "num": "04",
+        "title": "Käyttäjän vastuut ja kielletty käyttö",
+        "content": [
+          { "p": "Käyttäjä vastaa siitä, että Palveluun syötetty aineisto on aitoa, laillista ja asianmukaista. Väärennettyjen tai laittomasti hankittujen tositteiden syöttäminen Palveluun on kielletty." },
+          { "p": "Käyttäjä sitoutuu olemaan käyttämättä Palvelua lainvastaisiin tarkoituksiin, haittaohjelmien levittämiseen, Palvelun kohtuuttomaan kuormittamiseen, muiden käyttäjien tietoihin tunkeutumiseen tai Palvelun kaupalliseen jälleenmyyntiin ilman kirjallista lupaa." },
+          { "p": "Käyttäjä on yksin vastuussa syöttämänsä aineiston oikeellisuudesta ja siitä, että tuotettu kirjanpitoaineisto tarkastetaan ennen sen toimittamista viranomaisille." }
+        ]
+      },
+      {
+        "id": "t5",
+        "num": "05",
+        "title": "Hinnoittelu ja maksuehdot",
+        "content": [
+          { "p": "Palvelua tarjotaan kuukausitilauspohjaisesti. Voimassa olevat hinnat näkyvät Palvelun hinnoittelusivulla. AI-Bookkeeper pidättää oikeuden muuttaa hintoja ilmoittamalla asiasta vähintään 30 päivää etukäteen." },
+          { "p": "Tilausmaksu veloitetaan kuukausittain etukäteen Stripe-maksunvälittäjän kautta. Uusille käyttäjille tarjotaan 14 vuorokauden maksuton kokeilujakso, jonka jälkeen tilaus jatkuu automaattisesti, ellei Käyttäjä peruuta tilaustaan." },
+          { "p": "Mikäli maksu viivästyy tai epäonnistuu, AI-Bookkeeper pidättää oikeuden rajoittaa pääsyä Palveluun. Tilauksen voi peruuttaa milloin tahansa. Maksuja ei palauteta." }
+        ]
+      },
+      {
+        "id": "t6",
+        "num": "06",
+        "title": "Immateriaalioikeudet",
+        "content": [
+          { "p": "AI-Bookkeeper omistaa kaikki oikeudet Palvelun ohjelmistoon, käyttöliittymään ja algoritmeihin. Käyttäjä säilyttää täyden omistusoikeuden kaikkeen lataamaansa aineistoon sekä Palvelun tuottamaan kirjanpitoaineistoon." },
+          { "p": "Käyttäjä myöntää AI-Bookkeeperille rajatun käyttöoikeuden syötettyyn aineistoon ainoastaan Palvelun tuottamiseksi ja parantamiseksi. AI-Bookkeeper ei luovuta käyttäjän aineistoa kolmansille osapuolille kaupallisiin tarkoituksiin." }
+        ]
+      },
+      {
+        "id": "t7",
+        "num": "07",
+        "title": "Palvelun saatavuus ja vastuunrajoitus",
+        "content": [
+          { "p": "AI-Bookkeeper pyrkii tarjoamaan Palvelua keskeytyksettä, mutta ei takaa virheetöntä toimintaa. Palvelu tarjotaan \"sellaisena kuin se on\" ilman takuita." },
+          { "p": "OCR- ja tekoälytulkinta voivat sisältää virheitä. Käyttäjä on velvollinen tarkistamaan kirjanpitoaineiston oikeellisuuden ennen sen toimittamista viranomaisille." },
+          { "p": "AI-Bookkeeper ei ole vastuussa välillisistä vahingoista. Korvausvaatimukset rajoittuvat enintään Käyttäjän viimeksi kuluneiden kolmen kuukauden aikana maksamiin tilausmaksuihin." }
+        ]
+      },
+      {
+        "id": "t9",
+        "num": "09",
+        "title": "Sopimuksen kesto ja irtisanominen",
+        "content": [
+          { "p": "Sopimus tulee voimaan rekisteröitymishetkellä ja on voimassa toistaiseksi. Käyttäjä voi irtisanoa sopimuksen milloin tahansa peruuttamalla tilauksensa Palvelun asetuksista." },
+          { "p": "AI-Bookkeeper voi keskeyttää tai päättää Käyttäjän käyttöoikeuden välittömästi, mikäli Käyttäjä rikkoo näitä Ehtoja olennaisesti, ei suorita erääntyneitä maksuja tai vaarantaa muiden käyttäjien tietoturvan." }
+        ]
+      },
+      {
+        "id": "t10",
+        "num": "10",
+        "title": "Sovellettava laki ja riidanratkaisu",
+        "content": [
+          { "p": "Näihin Ehtoihin sovelletaan Suomen lakia. Ehdoista aiheutuvat riitaisuudet pyritään ratkaisemaan osapuolten välisin neuvotteluin. Mikäli sovintoon ei päästä, riita ratkaistaan Helsingin käräjäoikeudessa." }
+        ]
+      },
+      {
+        "id": "t11",
+        "num": "11",
+        "title": "Muutokset käyttöehtoihin",
+        "content": [
+          { "p": "AI-Bookkeeper pidättää oikeuden muuttaa näitä Ehtoja. Muutoksista ilmoitetaan Käyttäjälle sähköpostitse tai Palvelun sisäisellä ilmoituksella vähintään 14 vuorokautta ennen muutosten voimaantuloa. Jatkamalla Palvelun käyttöä Käyttäjä hyväksyy päivitetyt Ehdot." }
+        ]
+      }
+    ],
+    "dataProtection": {
+      "title": "Tietosuoja ja tietoturva",
+      "text": "AI-Bookkeeper käsittelee Käyttäjän henkilötietoja {link} mukaisesti, joka muodostaa erottamattoman osan näitä Ehtoja. AI-Bookkeeper noudattaa EU:n yleistä tietosuoja-asetusta (GDPR) sekä Suomen tietosuojalainsäädäntöä.",
+      "linkText": "tietosuojaselosteen"
+    },
+    "contact": {
+      "title": "Yhteystiedot",
+      "email": "Sähköposti"
+    }
+  },
+
+  "privacyPage": {
+    "metaTitle": "Tietosuojaseloste — AI Bookkeeper",
+    "eyebrow": "GDPR 2016/679 · artiklat 13 & 14",
+    "title": "Tietosuojaseloste",
+    "description": "Kuvaus siitä, miten AI-Bookkeeper käsittelee kuiteista ja tositteista poimittavia henkilötietoja.",
+    "updatedLabel": "Päivitetty",
+    "updatedPlaceholder": "PVM",
+    "toc": [
+      { "id": "p1", "num": "01", "label": "Rekisterinpitäjä" },
+      { "id": "p2", "num": "02", "label": "Yhteyshenkilö" },
+      { "id": "p3", "num": "03", "label": "Käsiteltävät tiedot" },
+      { "id": "p4", "num": "04", "label": "Tarkoitus ja peruste" },
+      { "id": "p5", "num": "05", "label": "OCR ja tekoäly" },
+      { "id": "p6", "num": "06", "label": "Vastaanottajat" },
+      { "id": "p7", "num": "07", "label": "Siirto EU/ETA:n ulkop." },
+      { "id": "p8", "num": "08", "label": "Säilytysaika" },
+      { "id": "p9", "num": "09", "label": "Tietoturva" },
+      { "id": "p10", "num": "10", "label": "Rekisteröidyn oikeudet" },
+      { "id": "p11", "num": "11", "label": "Yhteydenotot" }
+    ],
+    "s1": {
+      "title": "Rekisterinpitäjä",
+      "orgIdLabel": "Y-tunnus",
+      "orgIdPlaceholder": "1234567-8",
+      "addressLabel": "Osoite",
+      "addressPlaceholder": "osoite",
+      "emailLabel": "Sähköposti",
+      "phoneLabel": "Puhelin",
+      "phoneValue": "040 123 4567"
+    },
+    "s2": {
+      "title": "Yhteyshenkilö tietosuoja-asioissa",
+      "emailLabel": "Sähköposti"
+    },
+    "s3": {
+      "title": "Käsiteltävät henkilötiedot",
+      "intro": "Sovellus käsittelee kirjanpidon kuiteista ja tositteista poimittavia tietoja, kuten:",
+      "items": [
+        "Myyjän/liikkeen nimi, osoite ja yhteystiedot",
+        "Ostotapahtuman päivämäärä, summa ja tuote-/palvelurivit",
+        "Kuitissa mahdollisesti näkyvä myyjän edustajan tai kassahenkilön nimi",
+        "Kuitin kuva/skannaus sellaisenaan",
+        "Mahdolliset asiakastiedot (esim. laskutettavan asiakkaan nimi ja yhteystiedot B2B-tositteissa)"
+      ],
+      "excludeIntro": "Emme käsittele:",
+      "excludeFillMe": "esim. terveystietoja, erityisiä henkilötietoryhmiä — tarkenna, jos kuiteissa voi esiintyä esim. apteekki- tai terveyspalvelutositteita, ja miten näitä käsitellään"
+    },
+    "s4": {
+      "title": "Käsittelyn tarkoitus ja oikeusperuste",
+      "intro": "Henkilötietoja käsitellään seuraaviin tarkoituksiin:",
+      "tableHeaders": ["Tarkoitus", "Oikeusperuste"],
+      "tableRows": [
+        ["Kirjanpitolain mukaisen kirjanpitovelvoitteen täyttäminen", "GDPR 6(1)(c) — lakisääteinen velvoite"],
+        ["Tulojen ja menojen seuranta ja liiketoiminnan hallinta", "GDPR 6(1)(b) — sopimuksen täytäntöönpano"]
+      ],
+      "outro": "Tietoja ei käytetä automaattiseen päätöksentekoon tai profilointiin, joka vaikuttaisi rekisteröityyn oikeudellisesti tai merkittävästi."
+    },
+    "s5": {
+      "title": "Automaattinen käsittely: OCR ja tekoäly (LLM)",
+      "intro": "Kuiteista poimitaan tietoja automaattisesti optisen tekstintunnistuksen (OCR) ja kielimallipohjaisen (LLM) teknologian avulla. Tämä käsittely:",
+      "items": [
+        "Perustuu OpenAI API -palveluun",
+        "Tapahtuu globaalisti",
+        "Ei sisällä profilointia, joka vaikuttaisi rekisteröidyn oikeuksiin",
+        "Dataa ei käytetä tekoälymallin jatkokouluttamiseen"
+      ]
+    },
+    "s6": {
+      "title": "Tietojen vastaanottajat ja käsittelijät",
+      "intro": "Tietoja voidaan siirtää seuraaville käsittelijöille tietojenkäsittelysopimuksen (GDPR art. 28) nojalla:",
+      "tableHeaders": ["Palveluntarjoaja", "Käsittelyn tarkoitus", "Sijainti"],
+      "tableRows": [
+        { "provider": "OCR-palvelu / Google Vision API", "purpose": "Kuittien tekstintunnistus", "location": "Yhdysvallat, globaali" },
+        { "provider": "LLM-toimittaja, OpenAI", "purpose": "Tietojen jäsentely ja luokittelu", "location": "Yhdysvallat, globaali" }
+      ]
+    },
+    "s7": {
+      "title": "Tietojen siirto EU/ETA-alueen ulkopuolelle",
+      "text": "Osa henkilötietojen käsittelystä tapahtuu EU/ETA-alueen ulkopuolella, koska käytämme kuittien automaattiseen tulkintaan OpenAI:n tarjoamaa tekoälypalvelua (OpenAI OpCo, LLC / OpenAI Ireland Ltd.). OpenAI toimii tässä käsittelyssä henkilötietojen käsittelijänä, ja käsittelyä säätelee OpenAI:n tietojenkäsittelyä koskeva lisäosa (Data Processing Addendum), joka on osa OpenAI:n palvelusopimusta.",
+      "calloutLabel": "Suojatoimi",
+      "calloutText": "Siltä osin kuin henkilötietoja siirretään Euroopan talousalueen tai Sveitsin ulkopuolelle, siirto perustuu Euroopan komission hyväksymiin vakiosopimuslausekkeisiin (Standard Contractual Clauses, SCC), jotka varmistavat henkilötietojen suojan tason vastaavan EU:n tietosuojalainsäädännön vaatimuksia."
+    },
+    "s8": {
+      "title": "Tietojen säilytysaika",
+      "textBefore": "Kirjanpitolain (1336/1997) mukaan tositteet ja niihin liittyvät tiedot säilytetään vähintään ",
+      "bold": "kuusi (6) vuotta",
+      "textAfter": " sen tilikauden päättymisestä, jonka aikana tosite on syntynyt. Tämän jälkeen tiedot poistetaan tai anonymisoidaan, ellei muu lainsäädäntö edellytä pidempää säilytystä."
+    },
+    "s9": {
+      "title": "Tietoturva",
+      "intro": "Tietoja suojataan asianmukaisin teknisin ja organisatorisin toimenpitein, kuten:",
+      "items": ["Tallennettujen tietojen salaus", "Käyttöoikeuksien rajaaminen"],
+      "fillMeItem": "Muut toimenpiteet: varmuuskopiointi, pääsylokit jne."
+    },
+    "s10": {
+      "title": "Rekisteröidyn oikeudet",
+      "intro": "Rekisteröidyllä (esim. kuitissa mainitulla myyjän edustajalla tai asiakkaalla) on oikeus:",
+      "items": [
+        "saada pääsy häntä koskeviin tietoihin",
+        "vaatia virheellisen tiedon korjaamista",
+        "vaatia tiedon poistamista (rajoituksin, koska kirjanpitolaki voi estää poiston säilytysaikana)",
+        "tehdä valitus valvontaviranomaiselle"
+      ],
+      "linkIntro": "Valvontaviranomainen Suomessa: Tietosuojavaltuutetun toimisto, "
+    },
+    "s11": {
+      "title": "Yhteydenotot",
+      "text": "Rekisteröidyn oikeuksien käyttöä koskevat pyynnöt osoitetaan kohdassa 1 mainittuun rekisterinpitäjään."
+    }
+  },
+
+  "cookieBanner": {
+    "text": "Käytämme välttämättömiä evästeitä palvelun toiminnan varmistamiseksi, kuten kirjautumiseen ja kieliasetuksiin. Emme käytä seuranta- tai mainontaevästeitä.",
+    "privacyLink": "Tietosuojaseloste",
+    "accept": "Ymmärrän"
   }
 }

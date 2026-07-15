@@ -205,8 +205,8 @@ async function Footer() {
           <span>© {new Date().getFullYear()} AI Bookkeeper</span>
         </div>
         <div className="flex items-center gap-6">
-          <a href="#" className="hover:text-slate-900">{t('privacy')}</a>
-          <a href="#" className="hover:text-slate-900">{t('terms')}</a>
+          <a href="/privacy" className="hover:text-slate-900">{t('privacy')}</a>
+          <a href="/terms" className="hover:text-slate-900">{t('terms')}</a>
           <a href="#" className="hover:text-slate-900">{t('contact')}</a>
         </div>
       </div>

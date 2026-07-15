@@ -11,6 +11,7 @@ export type SignupInput = {
   lastName: string;
   phonenumber: string;
   businessId: string;
+  termsOfAgreement: boolean;
 };
 
 export type EmailInput = {

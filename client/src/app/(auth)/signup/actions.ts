@@ -16,7 +16,8 @@ export default async function signupAction(
         firstName: formData.get("firstName"),
         lastName: formData.get("lastName"),
         phonenumber: formData.get("phonenumber"),
-        businessId: formData.get("businessId")
+        businessId: formData.get("businessId"),
+        termsOfAgreement: formData.get("termsOfAgreement") === "on"
     });
 
     const selectedPlan = formData.get('selectedPlan') as string;
@@ -25,7 +26,12 @@ export default async function signupAction(
         return { error: result.error.issues[0].message };
     }
 
-    const { email, password, passwordRepeat, firstName, lastName, phonenumber, businessId } = result.data;
+    const { email, password, passwordRepeat, firstName, lastName, phonenumber, businessId, termsOfAgreement } = result.data;
+
+    if(!termsOfAgreement) {
+        console.log(termsOfAgreement);
+        return { error: "Privacy policy and Terms of Service is not agreed" };
+    }
 
     if (!email || !password || !passwordRepeat || !lastName || !firstName || !phonenumber || !businessId) {
         return { error: "All fields are required" };
