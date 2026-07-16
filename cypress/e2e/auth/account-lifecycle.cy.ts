@@ -23,6 +23,7 @@ describe('Account-lifecycle', () => {
         cy.get('input[name="businessId"]').clear().type(form.businessId);
         cy.get('input[name="password"]').clear().type(form.password);
         cy.get('input[name="passwordRepeat"]').clear().type(form.passwordRepeat);
+        cy.get('input[name="termsOfAgreement"]').check();
     }
 
     function submit() {
