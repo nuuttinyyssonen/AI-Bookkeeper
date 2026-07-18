@@ -9,9 +9,10 @@ import PricingCards from "./PricingCards";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { useEffect } from 'react';
+import { Subscription } from "@/app/types/subscription";
 
 interface Props {
-    subscription: any;
+    subscription: Subscription | null;
 }
 
 export default function PricingProvider({ subscription }: Props) {

@@ -4,9 +4,10 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { updateUserData } from "../action";
 import { toast } from "sonner";
+import { User } from "@/app/types/user";
 
 interface Props {
-    user: any;
+    user: User;
 }
 
 export default function Information({ user }: Props) {

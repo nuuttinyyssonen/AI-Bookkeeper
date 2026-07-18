@@ -1,34 +1,25 @@
 // lib/veroVatMapper.ts
 
-interface VatBreakdownItem {
-    net: number;
-    rate: number;
-    gross: number;
-    vat_amount: number;
-}
+import { VatBreakdown, VatBreakdownRow } from "@/app/types/report";
+import { User } from "@/app/types/user";
 
-interface VatBreakdown {
-    sales: VatBreakdownItem[];
-    purchases: VatBreakdownItem[];
-}
-
-const getHighRate = (items: VatBreakdownItem[]) =>
+const getHighRate = (items: VatBreakdownRow[]) =>
     items.filter(i => i.rate === 25.5 || i.rate === 24)
          .reduce((sum, i) => sum + i.vat_amount, 0);
 
-const getMediumRate = (items: VatBreakdownItem[]) =>
+const getMediumRate = (items: VatBreakdownRow[]) =>
     items.filter(i => i.rate === 14 || i.rate === 13.5)
          .reduce((sum, i) => sum + i.vat_amount, 0);
 
-const getLowRate = (items: VatBreakdownItem[]) =>
+const getLowRate = (items: VatBreakdownRow[]) =>
     items.filter(i => i.rate === 10)
          .reduce((sum, i) => sum + i.vat_amount, 0);
 
 export const mapVatReportToVeroRequest = (
     report: {
         vat_breakdown: VatBreakdown;
-        period_end: Date;
-        user: { business_id: string; first_name: string; last_name: string; phonenumber: string };
+        period_end: Date | string;
+        user: Pick<User, "business_id" | "first_name" | "last_name" | "phonenumber">;
     }
 ) => {
     const { sales, purchases } = report.vat_breakdown;

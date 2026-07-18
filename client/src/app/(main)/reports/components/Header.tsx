@@ -4,10 +4,11 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { createReport } from "../action";
+import { VatReport } from "@/app/types/report";
 
 interface Props {
-    reports: any[];
-    setReports: React.Dispatch<React.SetStateAction<any[]>>;
+    reports: VatReport[];
+    setReports: React.Dispatch<React.SetStateAction<VatReport[]>>;
 };
 
 export default function Header({reports, setReports}: Props) {

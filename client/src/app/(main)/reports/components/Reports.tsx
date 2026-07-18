@@ -1,9 +1,10 @@
 import ReportEmpty from "./ReportEmpty";
 import ReportTableHead from "./ReportTableHead";
 import ReportRow from "./ReportRow";
+import { VatReport } from "@/app/types/report";
 
 interface Props {
-    reports: any
+    reports: VatReport[]
 };
 
 export default function Reports({reports}: Props) {
@@ -14,7 +15,7 @@ export default function Reports({reports}: Props) {
                     <table className="w-full text-sm">
                         <ReportTableHead />
                         <tbody className="divide-y divide-slate-100">
-                            {reports.map((report: any) => (
+                            {reports.map((report) => (
                                 <ReportRow key={report.id} report={report} />
                             ))}
                         </tbody>

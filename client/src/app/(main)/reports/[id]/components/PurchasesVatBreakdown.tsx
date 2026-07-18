@@ -1,13 +1,11 @@
 'use client';
 
 import { useTranslations } from "next-intl";
+import { VatBreakdown, VatReport } from "@/app/types/report";
 
 interface Props {
-    vatBreakdown: {
-        sales: { rate: number; net: number; vat_amount: number; gross: number }[];
-        purchases: { rate: number; net: number; vat_amount: number; gross: number }[];
-    },
-    report: any
+    vatBreakdown: VatBreakdown,
+    report: VatReport
 }
 
 export default function PurchasesVatBreakdown({vatBreakdown, report}: Props) {

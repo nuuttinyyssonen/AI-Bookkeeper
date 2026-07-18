@@ -4,6 +4,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { mapVatReportToVeroRequest } from "@/lib/veroVatMapper";
+import { User } from "@/app/types/user";
+import { VatReport } from "@/app/types/report";
+import { VeroFileReturnResponse, VeroGetReturnResponse } from "@/app/types/vero";
 
 interface VatFields {
     highVatRate: number;
@@ -16,8 +19,8 @@ interface VatFields {
 }
 
 interface Props {
-    user: any;
-    reports: any[];
+    user: User;
+    reports: VatReport[];
 }
 
 export default function VatReturnForm({ user, reports }: Props) {
@@ -27,8 +30,8 @@ export default function VatReturnForm({ user, reports }: Props) {
     const [selectedReportId, setSelectedReportId] = useState("");
     const [fields, setFields] = useState<VatFields | null>(null);
     const [editing, setEditing] = useState(false);
-    const [result, setResult] = useState<any>(null);
-    const [filedReturn, setFiledReturn] = useState<any>(null);
+    const [result, setResult] = useState<VeroFileReturnResponse | null>(null);
+    const [filedReturn, setFiledReturn] = useState<VeroGetReturnResponse | null>(null);
     const [loading, setLoading] = useState(false);
 
     const handleReportSelect = (id: string) => {
@@ -186,7 +189,7 @@ export default function VatReturnForm({ user, reports }: Props) {
                         <div className="text-sm p-4 rounded-lg bg-green-50 border border-green-200">
                             <p className="text-green-700 font-medium">{t('filedSuccess')}</p>
                             <p className="text-slate-600 mt-1">{t('id', { id: result.UniqueIdentifier })}</p>
-                            <p className="text-slate-600">{t('timestamp', { timestamp: result.AcceptedTimestamp })}</p>
+                            <p className="text-slate-600">{t('timestamp', { timestamp: result.AcceptedTimestamp ?? '' })}</p>
                             <button
                                 onClick={handleGetReturn}
                                 className="mt-3 h-8 px-3 text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-100"
