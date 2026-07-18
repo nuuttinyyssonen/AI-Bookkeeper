@@ -2,6 +2,12 @@ import { Request, Response, NextFunction } from "express";
 import { supabase } from "../lib/supabase";
 import { AuthenticationError } from "../utils/error";
 
+/**
+ * Logs out the authenticated user by invalidating the Supabase session and clearing the JWT cookie.
+ * @param req.cookies.token - User's authentication token from cookies
+ * @returns 200 with success message
+ * @throws {AuthenticationError} 401 - If token is missing or session is invalid/expired
+ */
 export const logoutController = async (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies.token;
 

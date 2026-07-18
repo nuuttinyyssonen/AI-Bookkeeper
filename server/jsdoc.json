@@ -1,0 +1,12 @@
+{
+    "source": {
+        "include": ["src/controllers", "src/routes"],
+        "includePattern": ".+\\.ts$"
+    },
+    "opts": {
+        "destination": "docs",
+        "recurse": true,
+        "template": "node_modules/better-docs"
+    },
+    "plugins": ["node_modules/better-docs/typescript"]
+}

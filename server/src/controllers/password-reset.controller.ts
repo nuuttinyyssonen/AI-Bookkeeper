@@ -9,6 +9,15 @@ import { supabaseAdmin } from "../lib/supabase";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+/**
+ * Sends a password reset link to the user's email address.
+ * Deletes any existing reset tokens before creating a new one with a 15-minute expiry.
+ * @param req.body.email - Email address to send the reset link to
+ * @returns 200 with success message
+ * @throws {ValidationError} 400 - If email fails validation
+ * @throws {NotFoundError} 404 - If no user found with the provided email
+ * @throws {Error} 500 - If token creation or email sending fails
+ */
 export const sendPasswordResetLink = async (req: Request, res: Response, next: NextFunction) => {
     // Validating email with zod
     const result = emailSchema.safeParse(req.body);
@@ -48,6 +57,16 @@ export const sendPasswordResetLink = async (req: Request, res: Response, next: N
     }
 };
 
+/**
+ * Resets the user's password using a valid password reset token.
+ * Updates password in both Supabase auth and the database, then deletes the token to prevent reuse.
+ * @param req.params.id - Password reset token ID
+ * @param req.body.password - New password
+ * @returns 200 with success message
+ * @throws {ValidationError} 400 - If token ID or password fails validation, or reset link has expired
+ * @throws {NotFoundError} 404 - If reset token or user is not found
+ * @throws {Error} 500 - If Supabase or database update fails
+ */
 export const resetPassword = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
     // Validating id and password with zod
     const id_result = idSchema.safeParse(req.params);

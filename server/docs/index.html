@@ -1,0 +1,102 @@
+<!DOCTYPE html><html class="default" lang="en" data-base="./"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>server</title><meta name="description" content="Documentation for server"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar">
+<div class="tsd-toolbar-contents container"><a href="index.html" class="title">server</a>
+<div id="tsd-toolbar-links"></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/>
+<ul role="listbox" id="tsd-search-results"></ul>
+<div id="tsd-search-status" aria-live="polite" aria-atomic="true">
+<div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></header>
+<div class="container container-main">
+<div class="col-content">
+<div class="tsd-page-title">
+<h1>server</h1></div>
+<div class="tsd-panel tsd-typography"><h1 id="server-docker-test-database-setup" class="tsd-anchor-link">Server - Docker test database setup<a href="#server-docker-test-database-setup" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h1>
+<p>Tässä ohjeessa kuvataan, miten tämä palvelinprojekti otetaan käyttöön ja miten testit ajetaan Docker-ympäristössä.</p>
+<h2 id="ennen-käyttöä-uutta-konetta" class="tsd-anchor-link">Ennen käyttöä / uutta konetta<a href="#ennen-käyttöä-uutta-konetta" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<ol>
+<li>Asenna Docker Desktop tai Docker Engine.</li>
+<li>Asenna Node.js (suositus: 18+).</li>
+<li>Avaa terminaali projektin <code>server</code>-kansiossa.</li>
+<li>Asenna riippuvuudet:</li>
+</ol>
+<pre><code class="bash"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">install</span>
+</code><button type="button">Copy</button></pre>
+
+<h2 id="ympäristömuuttujat" class="tsd-anchor-link">Ympäristömuuttujat<a href="#ympäristömuuttujat" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>Kopioi <code>.env</code>-tiedosto tai luo oma <code>server/.env</code> ja varmista, että ainakin seuraavat arvot ovat mukana:</p>
+<pre><code class="env">DATABASE_URL_TEST="postgresql://prisma:prisma@localhost:5433/tests"
+SUPABASE_URL="https://..."
+SUPABASE_ANON_KEY="..."
+SUPABASE_SERVICE_ROLE_KEY="..."
+</code><button type="button">Copy</button></pre>
+
+<p>Huomioi, että <code>DATABASE_URL_TEST</code> on testitietokannan osoite Docker-postgres-palvelua varten.</p>
+<h2 id="docker-testitietokannan-käynnistäminen" class="tsd-anchor-link">Docker-testitietokannan käynnistäminen<a href="#docker-testitietokannan-käynnistäminen" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>Käynnistä ensin PostgreSQL-palvelu Docker Compose -konfiguraatiolla:</p>
+<pre><code class="bash"><span class="hl-0">docker</span><span class="hl-1"> </span><span class="hl-2">compose</span><span class="hl-1"> </span><span class="hl-2">up</span><span class="hl-1"> </span><span class="hl-3">-d</span><span class="hl-1"> </span><span class="hl-2">db</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Se aloittaa testitietokannan portissa <code>5433</code>.</p>
+<h2 id="testien-ajaminen" class="tsd-anchor-link">Testien ajaminen<a href="#testien-ajaminen" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>Tässä projektissa on oma Docker-testiskripti, joka käynnistää tietokannan, synkronoi Prisma-skeeman ja ajaa Jest-testit.</p>
+<pre><code class="bash"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">run</span><span class="hl-1"> </span><span class="hl-2">test:docker</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Tämä ajaa seuraavat vaiheet:</p>
+<ol>
+<li><code>docker compose up -d db</code></li>
+<li><code>node scripts/setupTestDb.js</code></li>
+<li><code>NODE_ENV=test jest</code></li>
+</ol>
+<p>Jos haluat ajaa testit erikseen ilman Dockerin käynnistystä (esim. jos koneessa on jo paikallinen testi-DB), voit käyttää:</p>
+<pre><code class="bash"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">test</span>
+</code><button type="button">Copy</button></pre>
+
+<h2 id="testitietokannan-asettaminen-erikseen" class="tsd-anchor-link">Testitietokannan asettaminen erikseen<a href="#testitietokannan-asettaminen-erikseen" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>Jos haluat vain synkronoida testitietokannan skeeman:</p>
+<pre><code class="bash"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">run</span><span class="hl-1"> </span><span class="hl-2">setup:testdb</span>
+</code><button type="button">Copy</button></pre>
+
+<h2 id="yleisiä-huomioita" class="tsd-anchor-link">Yleisiä huomioita<a href="#yleisiä-huomioita" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<ul>
+<li>Testit käyttävät <code>NODE_ENV=test</code>-tilaa.</li>
+<li>Testien tietokanta on <code>postgresql://prisma:prisma@localhost:5433/tests</code>.</li>
+<li>Supabase-auth ja muut palvelut käyttävät omia ympäristömuuttujiaan, joten varmista, että ne ovat oikein myös uudella koneella.</li>
+</ul>
+<h2 id="kun-siirryt-uuteen-koneeseen" class="tsd-anchor-link">Kun siirryt uuteen koneeseen<a href="#kun-siirryt-uuteen-koneeseen" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<ol>
+<li>kloonaa repositorio.</li>
+<li>siirry <code>server</code>-kansioon.</li>
+<li>asenna <code>npm install</code>.</li>
+<li>luo <code>.env</code> samanlaiseksi kuin yllä.</li>
+<li>käynnistä <code>docker compose up -d db</code>.</li>
+<li>aja <code>npm run test:docker</code>.</li>
+</ol>
+</div></div>
+<div class="col-sidebar">
+<div class="page-menu">
+<div class="tsd-navigation settings">
+<details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg>
+<h3>Settings</h3></summary>
+<div class="tsd-accordion-details">
+<div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span>
+<ul id="tsd-filter-options">
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div>
+<div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div>
+<details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg>
+<h3>On This Page</h3></summary>
+<div class="tsd-accordion-details"><a href="#server-docker-test-database-setup"><span>Server -<wbr/> <wbr/>Docker test database setup</span></a>
+<ul>
+<li><a href="#ennen-käyttöä-uutta-konetta"><span>Ennen käyttöä / uutta konetta</span></a></li>
+<li><a href="#ympäristömuuttujat"><span>Ympäristömuuttujat</span></a></li>
+<li><a href="#docker-testitietokannan-käynnistäminen"><span>Docker-<wbr/>testitietokannan käynnistäminen</span></a></li>
+<li><a href="#testien-ajaminen"><span>Testien ajaminen</span></a></li>
+<li><a href="#testitietokannan-asettaminen-erikseen"><span>Testitietokannan asettaminen erikseen</span></a></li>
+<li><a href="#yleisiä-huomioita"><span>Yleisiä huomioita</span></a></li>
+<li><a href="#kun-siirryt-uuteen-koneeseen"><span>Kun siirryt uuteen koneeseen</span></a></li></ul></div></details></div>
+<div class="site-menu">
+<nav class="tsd-navigation"><a href="modules.html">server</a>
+<ul class="tsd-small-nested-navigation" id="tsd-nav-container">
+<li>Loading...</li></ul></nav></div></div></div><footer>
+<p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer>
+<div class="overlay"></div></body></html>

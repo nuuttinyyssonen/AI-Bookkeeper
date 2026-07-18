@@ -22,8 +22,16 @@ const getDateRange = (timePeriod: string): { start: Date; end: Date } => {
     }
 };
 
-// Controller for handling VAT report generation and retrieval. 
-// It includes functions to create a new report based on a specified time period, get all reports for the authenticated user
+/**
+ * Generates a VAT report for the given time period from the user's receipts, grouping
+ * sales and purchase VAT by rate. Overwrites an existing undeclared draft for the same
+ * period if one exists, otherwise creates a new report.
+ * @param {Request} req.user - User from auth middleware
+ * @param {Request} req.body - Time period to generate the report for (e.g. Q1, Monthly)
+ * @returns 200 or 201 with the created/updated VAT report
+ * @throws {ValidationError} 400 - If time period fails validation
+ * @throws {Error} 500 - If database queries fail
+ */
 export const createReport = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
 
@@ -143,6 +151,12 @@ export const createReport = async (req: Request, res: Response, next: NextFuncti
     }
 };
 
+/**
+ * Gets all VAT reports belonging to the authenticated user.
+ * @param {Request} req.user - User from auth middleware
+ * @returns 200 with `{ reports }`
+ * @throws {Error} 500 - If database query fails
+ */
 export const getReports = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
 
@@ -154,6 +168,14 @@ export const getReports = async (req: Request, res: Response, next: NextFunction
     }
 };
 
+/**
+ * Retrieves a single VAT report by ID.
+ * @param {Request} req.params - Report ID
+ * @returns 200 with the VAT report
+ * @throws {ValidationError} 400 - If report ID fails validation
+ * @throws {NotFoundError} 404 - If report not found
+ * @throws {Error} 500 - If database query fails
+ */
 export const getReportById = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
     // Getting ID from params and validating with zod.
     const idResult = idSchema.safeParse(req.params);
@@ -176,6 +198,13 @@ export const getReportById = async (req: Request<{id: string}>, res: Response, n
     }
 };
 
+/**
+ * Deletes a VAT report by ID.
+ * @param {Request} req.params - Report ID
+ * @returns 200 with success message
+ * @throws {ValidationError} 400 - If report ID fails validation
+ * @throws {Error} 500 - If database delete fails
+ */
 export const deleteReportById = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
     // Getting ID from params and validating with zod.
     const idResult = idSchema.safeParse(req.params);
@@ -194,6 +223,13 @@ export const deleteReportById = async (req: Request<{id: string}>, res: Response
     }
 };
 
+/**
+ * Marks a VAT report as having been declared/sent to Vero.
+ * @param {Request} req.params - Report ID
+ * @returns 200 with success message
+ * @throws {ValidationError} 400 - If report ID fails validation
+ * @throws {Error} 500 - If database update fails
+ */
 export const updateReportVatDeclarationSent = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
     // Getting ID from params and validating with zod.
     const idResult = idSchema.safeParse(req.params);
@@ -214,6 +250,16 @@ export const updateReportVatDeclarationSent = async (req: Request<{id: string}>,
     }
 };
 
+/**
+ * Generates and streams a PDF summary of a VAT report, including sales and purchase
+ * VAT breakdowns by rate.
+ * @param {Request} req.params - Report ID
+ * @param {Request} req.user - User from auth middleware
+ * @returns Streams a PDF file as an attachment
+ * @throws {ValidationError} 400 - If report ID fails validation
+ * @throws {NotFoundError} 404 - If report not found or does not belong to user
+ * @throws {Error} 500 - If database query or PDF generation fails
+ */
 export const getReportPdf = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
     const user = req.user;
     // Getting ID from params and validating with zod.

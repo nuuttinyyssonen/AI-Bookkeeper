@@ -6,6 +6,16 @@ import { ConflictError, AuthenticationError } from "../utils/error";
 import { loginSchema } from "../schemas/auth.schema";
 import { ValidationError } from "../utils/error";
 
+/**
+ * Authenticates a user with email and password.
+ * Validates credentials against the database and signs in via Supabase to obtain a JWT.
+ * @param req.body.email - User's email address
+ * @param req.body.password - User's password
+ * @returns 200 with user object containing JWT token and profile fields
+ * @throws {ValidationError} 400 - If email or password fails validation
+ * @throws {ConflictError} 409 - If email or password is incorrect
+ * @throws {AuthenticationError} 401 - If Supabase authentication fails
+ */
 export const loginController = async (req: Request, res: Response, next: NextFunction) => {
     // Getting user's email and password from the request with using zod schema.
     const result = loginSchema.safeParse(req.body);

@@ -7,6 +7,16 @@ import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+/**
+ * Handles incoming Stripe webhook events for subscription lifecycle changes.
+ * Verifies the webhook signature, then creates/updates the local subscription record
+ * for checkout completion, payment success, cancellation and status/plan updates,
+ * emailing the user on cancellation and reactivation.
+ * @param {Request} req.body - Raw Stripe event payload
+ * @param {Request} req.headers - Stripe signature header used to verify the event
+ * @returns 200 with `{ received: true }`
+ * @throws {ValidationError} 400 - If Webhook signature is invalid
+ */
 export const webhookEndpoint = async (req: Request, res: Response, next: NextFunction) => {
     const sig = req.headers['stripe-signature']!;
 

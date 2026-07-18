@@ -6,6 +6,14 @@ import { categorySchema, isDeductibleSchema, receiptQuerySchema, updateReceiptSc
 import { CategoryType, ReceiptType } from "@prisma/client";
 import ExcelJS from 'exceljs';
 
+/**
+ * Retrieves a paginated, filterable list of the authenticated user's receipts.
+ * @param {Request} req.user - User from auth middleware
+ * @param {Request} req.query - Pagination, date range, search, category and type filters
+ * @returns 200 with receipts, pagination info, expense/income totals and document processing flags
+ * @throws {ValidationError} 400 - If query params fail validation
+ * @throws {ServerError} 500 - If database queries fail
+ */
 export const getAllReceiptsByUserId = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
 
@@ -68,6 +76,15 @@ export const getAllReceiptsByUserId = async (req: Request, res: Response, next: 
     }
 };
 
+/**
+ * Retrieves a single receipt belonging to the authenticated user, including its VAT entries.
+ * @param {Request} req.params - Receipt ID
+ * @param {Request} req.user - User from auth middleware
+ * @returns 200 with `{ receipt }`
+ * @throws {ValidationError} 400 - If receipt ID fails validation
+ * @throws {NotFoundError} 404 - If receipt not found or does not belong to user
+ * @throws {ServerError} 500 - If database query fails
+ */
 export const getReceiptById = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
     // Getting id from params and validating with zod
     const result = idSchema.safeParse(req.params);
@@ -89,6 +106,14 @@ export const getReceiptById = async (req: Request<{id: string}>, res: Response, 
     }
 };
 
+/**
+ * Gets the processing status overview for a batch of uploaded documents.
+ * @param {Request} req.params - Upload batch ID
+ * @param {Request} req.user - User from auth middleware
+ * @returns 200 with counts of pending, processing and completed documents, plus the batch total
+ * @throws {ValidationError} 400 - If batch ID fails validation
+ * @throws {ServerError} 500 - If database queries fail
+ */
 export const getReceiptStatus = async(req: Request<{batchId: string}>, res: Response, next: NextFunction) => {
     const user = req.user;
 
@@ -140,6 +165,15 @@ export const getReceiptStatus = async(req: Request<{batchId: string}>, res: Resp
 };
 
 
+/**
+ * Updates a receipt's vendor, amount, date and associated VAT entries.
+ * @param {Request} req.params - Receipt ID
+ * @param {Request} req.body - Updated vendor name, total amount, receipt date and VAT entries
+ * @param {Request} req.user - User from auth middleware
+ * @returns 200 with success message
+ * @throws {ValidationError} 400 - If receipt ID or body fails validation
+ * @throws {ServerError} 500 - If database transaction fails
+ */
 export const updateReceipt = async(req: Request<{id: string}>, res: Response, next: NextFunction) => {
     const idResult = idSchema.safeParse(req.params);
     const bodyResult = updateReceiptSchema.safeParse(req.body);
@@ -177,6 +211,14 @@ export const updateReceipt = async(req: Request<{id: string}>, res: Response, ne
     }
 };
 
+/**
+ * Changes the category assigned to a receipt.
+ * @param {Request} req.params - Receipt ID
+ * @param {Request} req.body - New category type
+ * @returns 200 with success message
+ * @throws {ValidationError} 400 - If category or receipt ID fails validation
+ * @throws {ServerError} 500 - If database update fails
+ */
 export const changeReceiptCategory = async(req: Request<{id: string}>, res: Response, next: NextFunction) => {
     // Getting category from req.body and id from params and validating with zod
     const cateogryResult = categorySchema.safeParse(req.body);
@@ -208,6 +250,14 @@ export const changeReceiptCategory = async(req: Request<{id: string}>, res: Resp
     }
 };
 
+/**
+ * Changes whether a receipt is marked as tax deductible.
+ * @param {Request} req.params - Receipt ID
+ * @param {Request} req.body - New `isDeductible` boolean value
+ * @returns 200 with success message
+ * @throws {ValidationError} 400 - If body or receipt ID fails validation
+ * @throws {ServerError} 500 - If database update fails
+ */
 export const changeReceiptDeductible = async(req: Request<{id: string}>, res: Response, next: NextFunction) => {
     // Getting category from req.body and id from params and validating with zod
     const deductibleResult = isDeductibleSchema.safeParse(req.body);
@@ -236,6 +286,14 @@ export const changeReceiptDeductible = async(req: Request<{id: string}>, res: Re
     }
 };
 
+/**
+ * Changes the VAT deductibility percentage applied to a receipt.
+ * @param {Request} req.params - Receipt ID
+ * @param {Request} req.body - New deductibility percentage value
+ * @returns 200 with success message
+ * @throws {ValidationError} 400 - If body or receipt ID fails validation
+ * @throws {ServerError} 500 - If database update fails
+ */
 export const changeReceiptDeductibilityPercentage = async(req: Request<{id: string}>, res: Response, next: NextFunction) => {
     // Getting category from req.body and id from params and validating with zod
     const deductibleResult = deductibilityPercentageSchema.safeParse(req.body);
@@ -264,6 +322,14 @@ export const changeReceiptDeductibilityPercentage = async(req: Request<{id: stri
     }
 };
 
+/**
+ * Exports the authenticated user's filtered receipts as an Excel (.xlsx) file.
+ * @param {Request} req.user - User from auth middleware
+ * @param {Request} req.query - Date range, search, category and type filters
+ * @returns Streams an .xlsx file as an attachment
+ * @throws {ValidationError} 400 - If query params fail validation
+ * @throws {ServerError} 500 - If database query or workbook generation fails
+ */
 export const exportReceiptsToExcel = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
 
