@@ -6,7 +6,14 @@ import { ValidationError, NotFoundError } from "../utils/error";
 import { generateChatResponse, generateChatTitle } from "../services/openai.service";
 
 
-// New chatroom
+/**
+ * Creates a new chat room with an AI-generated title based on the initial message.
+ * @param {Request} req.body - Initial message in the body
+ * @param {Request} req.user - User from auth middleware
+ * @returns {201} Creates chat room, inserts first message and returns chatroom id and title.
+ * @throws {ValidationError} 400 - If request body fails validation
+ * @throws {Error} 500 - If chat room creation or title generation fails
+ */
 export const createChatRoom = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
     const result = chatMessageSchema.safeParse(req.body);
@@ -28,7 +35,16 @@ export const createChatRoom = async (req: Request, res: Response, next: NextFunc
     }
 };
 
-// Message to chatroom
+/**
+ * Sends a message to an existing chat room and streams the AI response using SSE.
+ * @param {Request} req.body - Chat message
+ * @param {Request} req.params - ID of the chat room
+ * @param {Request} req.user - User from auth middleware
+ * @returns Streams AI response chunks as Server-Sent Events, ends with [DONE]
+ * @throws {ValidationError} 400 - If message or chat room ID fails validation
+ * @throws {NotFoundError} 404 - If chat room not found or does not belong to user
+ * @throws {Error} 500 - If AI generation or database operations fail
+ */
 export const createChatMessage = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
     const user = req.user;
     const resultMessage = chatMessageSchema.safeParse(req.body);
@@ -83,6 +99,13 @@ export const createChatMessage = async (req: Request<{id: string}>, res: Respons
     }
 };
 
+/**
+ * Gets all user's and AI's messages from chat room with id.
+ * @param {Request} req.params - Chat room ID
+ * @returns 200 with object containing messages array
+ * @throws {ValidationError} 400 - If chat room ID fails validation
+ * @throws {Error} 500 - If database operations fail
+ */
 export const getMessagesFromChatRoom = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
     const result = idSchema.safeParse(req.params);
     if (!result.success) {
@@ -98,6 +121,12 @@ export const getMessagesFromChatRoom = async (req: Request<{id: string}>, res: R
     }
 };
 
+/**
+ * Gets all user's chat rooms with user_id
+ * @param {Request} req.user - User from auth middleware
+ * @returns 200 with object containing chatRooms array
+ * @throws {Error} 500 - If database operations fail unexpectedly
+ */
 export const getChatRooms = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
     try {
@@ -108,6 +137,13 @@ export const getChatRooms = async (req: Request, res: Response, next: NextFuncti
     }
 };
 
+/**
+ * Deletes chat by id from request params.
+ * @param {Request} req.params - Chat room ID
+ * @returns 200 with success message
+ * @throws {ValidationError} 400 - If chat room ID fails validation
+ * @throws {Error} 500 - If database operations fail unexpectedly
+ */
 export const deleteChatByID = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
     const result = idSchema.safeParse(req.params);
     if (!result.success) {

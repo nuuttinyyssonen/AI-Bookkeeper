@@ -7,13 +7,13 @@ export const receiptQueue = new Queue("receiptQueue", {
     },
 });
 
-export const chatQueue = new Queue("chatQueue", {
+const chatQueue = new Queue("chatQueue", {
     connection: {
         url: process.env.REDIS_URL,
     },
 });
 
-export const clearQueue = async () => {
+const clearQueue = async () => {
     await receiptQueue.drain();
     await receiptQueue.clean(0, 100, "failed");
     await chatQueue.drain();

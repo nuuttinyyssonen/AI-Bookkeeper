@@ -9,9 +9,10 @@ import StatusCard from "./StatusCard";
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { VatReport } from "@/app/types/report";
 
 interface Props {
-    report: any,
+    report: VatReport,
     id: string
 }
 
@@ -19,10 +20,7 @@ export default function ReportOverview({report, id}: Props) {
     const t = useTranslations('reportOverview');
     const [deleted, setDeleted] = useState(false);
 
-    const vatBreakdown = report.vat_breakdown as {
-        sales: { rate: number; net: number; vat_amount: number; gross: number }[];
-        purchases: { rate: number; net: number; vat_amount: number; gross: number }[];
-    };
+    const vatBreakdown = report.vat_breakdown;
 
     const isRefund = Number(report.vat_payable) < 0;
 

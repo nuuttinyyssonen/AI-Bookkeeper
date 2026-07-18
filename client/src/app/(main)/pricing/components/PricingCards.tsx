@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useState } from "react";
 import { upgradeSubscription } from "../action";
-import { subscriptionType, SubscriptionType } from "@/app/types/subscription";
+import { subscriptionType, Subscription, SubscriptionType } from "@/app/types/subscription";
 
 const planKeys = ['basic', 'premium'] as const;
 
@@ -30,7 +30,7 @@ const planMeta = {
 
 interface Props {
     isYearly: boolean;
-    subscription: any;
+    subscription: Subscription | null;
 }
 
 export default function PricingCards({ isYearly, subscription }: Props) {

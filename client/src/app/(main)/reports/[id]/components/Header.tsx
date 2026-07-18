@@ -4,9 +4,10 @@ import { useTranslations } from "next-intl";
 import DownloadPDF from "./DownloadPDF";
 import Link from "next/link";
 import DeleteReport from "./DeleteReport";
+import { VatReport } from "@/app/types/report";
 
 interface Props {
-    report: any,
+    report: VatReport,
     id: string,
     setDeleted: React.Dispatch<React.SetStateAction<boolean>>;
 };

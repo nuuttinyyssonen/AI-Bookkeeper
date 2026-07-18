@@ -6,6 +6,7 @@ import { getUserData } from "../settings/action";
 import { getReports } from "../reports/action";
 
 import VatReturnForm from "./components/VatReturnForm";
+import { VeroFilingPeriod } from "@/app/types/vero";
 
 export default async function VatReturnPage() {
     await authenticateUser();
@@ -53,7 +54,7 @@ export default async function VatReturnPage() {
     }
 
     const periodsData = periodsRes.ok ? await periodsRes.json() : null;
-    const periods = periodsData?.FilingPeriod ?? [];
+    const periods: VeroFilingPeriod[] = periodsData?.FilingPeriod ?? [];
 
     return (
         <div className="min-h-screen bg-slate-50 p-8">
@@ -64,7 +65,7 @@ export default async function VatReturnPage() {
                     <p className="text-sm text-slate-500">{t('noPeriodsAvailable')}</p>
                 ) : (
                     <ul className="space-y-2">
-                        {periods.map((p: any, index: number) => (
+                        {periods.map((p, index) => (
                             <li key={index} className="flex items-center justify-between text-sm border border-slate-100 rounded-lg px-4 py-3">
                                 <span>{p.FilingPeriod}</span>
                                 <span className={`text-xs font-medium px-2 py-1 rounded-full ${p.Status === "Open" ? "bg-green-100 text-green-700" : "bg-slate-100 text-slate-500"}`}>

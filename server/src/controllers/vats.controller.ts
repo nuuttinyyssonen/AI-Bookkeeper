@@ -4,6 +4,13 @@ import { ServerError } from "../utils/error";
 import { idSchema, receiptIdSchema } from "../schemas/id.schema";
 import { ValidationError } from "../utils/error";
 
+/**
+ * Retrieves all VAT entries belonging to a receipt.
+ * @param {Request} req.params - Receipt ID
+ * @returns 200 with `{ vats }`
+ * @throws {ValidationError} 400 - If receipt ID fails validation
+ * @throws {ServerError} 500 - If database query fails
+ */
 export const getVatsByReceiptId = async (req: Request<{receipt_id: string}>, res: Response, next: NextFunction) => {
     // Getting id from params and validating with zod
     const result = receiptIdSchema.safeParse(req.params);
@@ -21,6 +28,13 @@ export const getVatsByReceiptId = async (req: Request<{receipt_id: string}>, res
     }
 };
 
+/**
+ * Retrieves a single VAT entry by ID.
+ * @param {Request} req.params - VAT entry ID
+ * @returns 200 with `{ vats }`
+ * @throws {ValidationError} 400 - If VAT entry ID fails validation
+ * @throws {ServerError} 500 - If database query fails
+ */
 export const getVatById = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
     // Getting id from params and validating with zod
     const result = idSchema.safeParse(req.params);

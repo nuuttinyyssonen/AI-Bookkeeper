@@ -4,9 +4,10 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import CancelSubscription from "./CancelSubscription";
 import ReactivateSubscription from "./ReactivateSubscription";
+import { Subscription as SubscriptionData } from "@/app/types/subscription";
 
 interface Props {
-    subscription: any;
+    subscription: SubscriptionData | null;
 }
 
 export default function Subscription({ subscription }: Props) {

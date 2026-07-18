@@ -4,6 +4,7 @@ const client = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
 
+// Function for generating AI assistance response
 export const generateChatResponse = async (
     message: string,
     history: { role: string; content: string }[],

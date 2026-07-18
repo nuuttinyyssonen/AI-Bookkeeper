@@ -9,7 +9,7 @@ interface RateLimiterOptions {
   blockDuration?: number; // seconds, optional
 }
 
-export const createRateLimiter = ({ keyPrefix, points, duration = 60, blockDuration }: RateLimiterOptions) =>
+const createRateLimiter = ({ keyPrefix, points, duration = 60, blockDuration }: RateLimiterOptions) =>
   new RateLimiterRedis({
     storeClient: redis,
     keyPrefix,

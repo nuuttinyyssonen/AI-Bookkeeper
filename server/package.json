@@ -48,6 +48,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@jsdoc/salty": "^0.2.12",
     "@types/bcrypt": "^6.0.0",
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
@@ -61,11 +62,15 @@
     "@types/pg": "^8.20.0",
     "@types/redis": "^4.0.10",
     "@types/supertest": "^7.2.0",
+    "better-docs": "^2.7.3",
     "jest": "^30.4.2",
+    "jsdoc-plugin-typescript": "^3.2.1",
     "nodemon": "^3.1.14",
     "supertest": "^7.2.2",
     "ts-jest": "^29.4.11",
     "ts-node": "^10.9.2",
+    "ts-prune": "^0.10.3",
+    "typedoc": "^0.28.20",
     "typescript": "^6.0.3"
   }
 }

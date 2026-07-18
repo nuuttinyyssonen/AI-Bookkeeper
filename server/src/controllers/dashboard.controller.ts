@@ -1,6 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import { prisma } from "../lib/prisma";
 
+/**
+ * Retrieves dashboard summary data for the authenticated user.
+ * Aggregates total revenue, expenses, and net profit for the current year,
+ * and returns the 5 most recent receipts.
+ * @param {Request} req.user - User from auth middleware
+ * @returns 200 with `{ revenue, expenses, net_profit, recent_receipts }`
+ * @throws {Error} 500 - If database queries fail
+ */
 export const getDashboardData = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
     try {
@@ -56,6 +64,13 @@ export const getDashboardData = async (req: Request, res: Response, next: NextFu
     }
 };
 
+/**
+ * Retrieves monthly cash flow data for the authenticated user over the last 6 months.
+ * Groups income and expenses by month for chart visualization.
+ * @param {Request} req.user - User from auth middleware
+ * @returns 200 with `{ cashflow }` array of monthly income and expense totals
+ * @throws {Error} 500 - If database queries fail
+ */
 export const getCashFlowData = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
     try {

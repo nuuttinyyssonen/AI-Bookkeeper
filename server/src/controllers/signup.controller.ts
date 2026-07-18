@@ -6,6 +6,15 @@ import { ValidationError, ConflictError, ServerError } from '../utils/error';
 import { signupSchema } from '../schemas/auth.schema';
 import { idSchema } from '../schemas/id.schema';
 
+/**
+ * Registers a new user: creates the auth user in Supabase, hashes the password
+ * and creates the corresponding user record in the database.
+ * @param {Request} req.body - Signup data (email, password, first/last name, phonenumber, business_id)
+ * @returns {201} Created user's id, email, first_name and last_name
+ * @throws {ValidationError} 400 - If request body fails validation
+ * @throws {ConflictError} 409 - If email is already in use
+ * @throws {ServerError} 500 - If Supabase or database user creation fails
+ */
 export const signupController = async (req: Request, res: Response, next: NextFunction) => {
     // Getting user's data from request body
     // Validation with zod schema
@@ -69,6 +78,13 @@ export const signupController = async (req: Request, res: Response, next: NextFu
     }
 };
 
+/**
+ * Deletes a user by id.
+ * @param {Request} req.body - User ID
+ * @returns 200 with success message
+ * @throws {ValidationError} 400 - If user ID fails validation
+ * @throws {Error} 500 - If database delete fails
+ */
 export const deleteUser = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
     // Validation with zod schema
     const result = idSchema.safeParse(req.body);

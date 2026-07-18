@@ -2,7 +2,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export const logoutUser = async (_prevState: any, _formData: FormData) => {
+export const logoutUser = async (_prevState: { error?: string } | null, _formData: FormData) => {
     try {
         const cookieStore = await cookies();
         const token = cookieStore.get("token")?.value;

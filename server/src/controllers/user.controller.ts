@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { prisma } from "../lib/prisma";
-import { ConflictError, ServerError } from "../utils/error";
+import { ConflictError, NotFoundError, ServerError } from "../utils/error";
 import { stripe } from "../services/stripe.service";
 import { supabaseAdmin } from "../lib/supabase";
 import { Resend } from 'resend';
@@ -8,6 +8,12 @@ import { deleteFileFromSupabase } from "../services/supabase.service";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+/**
+ * Retrieves the authenticated user's profile, subscription and billing history.
+ * @param {Request} req.user - User from auth middleware
+ * @returns 200 with `{ user, subscription, history }`
+ * @throws {Error} 500 - If database query fails
+ */
 export const getUserData = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
 
@@ -62,6 +68,14 @@ export const getUserData = async (req: Request, res: Response, next: NextFunctio
     }
 };
 
+/**
+ * Updates the authenticated user's profile data.
+ * @param {Request} req.user - User from auth middleware
+ * @param {Request} req.body - Updated first_name, last_name, email, phonenumber and business_id
+ * @returns 200 with success message
+ * @throws {ConflictError} 409 - If the new email is already taken by another user
+ * @throws {Error} 500 - If database update fails
+ */
 export const updateUserData = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
     const { first_name, last_name, email, phonenumber, business_id } = req.body;
@@ -86,6 +100,15 @@ export const updateUserData = async (req: Request, res: Response, next: NextFunc
     }
 };
 
+/**
+ * Permanently deletes the authenticated user's account: cancels any active subscription,
+ * removes VAT reports, receipts, documents (including files in Supabase Storage) and
+ * chat history, deletes the Supabase auth user, then the database user record, and
+ * sends a confirmation email.
+ * @param {Request} req.user - User from auth middleware
+ * @returns 200 with success message
+ * @throws {ServerError} 500 - If subscription cancellation, data deletion, or Supabase/database user deletion fails
+ */
 export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
 
@@ -158,6 +181,13 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
     return res.status(200).json({ message: "Your account was deleted successfully" });
 };
 
+/**
+ * Retrieves the authenticated user's subscription.
+ * @param {Request} req.user - User from auth middleware
+ * @returns 200 with `{ subscription }`
+ * @throws {NotFoundError} 404 - If no subscription was found
+ * @throws {Error} 500 - If database query fails
+ */
 export const getUserSubscription = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const subscription = await prisma.subscription.findFirst({

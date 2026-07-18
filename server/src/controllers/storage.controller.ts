@@ -30,6 +30,16 @@ const normalizeMulterFiles = (
         : Object.values(multerFiles).flat();
 };
 
+/**
+ * Uploads one or more files to Supabase Storage, saves document metadata to the
+ * database and queues each document for receipt processing.
+ * @param {Request} req.files - Uploaded files (multer, single or multiple fields)
+ * @param {Request} req.body - Optional `receipt_type`, defaults to "EXPENSE"
+ * @param {Request} req.user - User from auth middleware
+ * @returns 200 with the created document records
+ * @throws {ValidationError} 400 - If no files were provided
+ * @throws {ServerError} 500 - If upload, database save or queuing fails
+ */
 export const uploadFile = async (req: Request, res: Response, next: NextFunction) => {
     const files = normalizeMulterFiles(req.files as Express.Multer.File[] | { [fieldname: string]: Express.Multer.File[] });
     const user = req.user;
@@ -91,6 +101,17 @@ export const uploadFile = async (req: Request, res: Response, next: NextFunction
     }
 };
 
+/**
+ * Deletes a receipt's associated document: removes its VAT entries and receipt
+ * record (if any), then deletes the file from Supabase Storage and the document record.
+ * @param {Request} req.params - Receipt ID
+ * @param {Request} req.user - User from auth middleware
+ * @returns 200 with success message
+ * @throws {ValidationError} 400 - If receipt ID fails validation or file name is missing
+ * @throws {NotFoundError} 404 - If document not found
+ * @throws {AuthenticationError} 401 - If the document does not belong to the user
+ * @throws {ServerError} 500 - If file or database deletion fails
+ */
 export const deleteFile = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
     // Getting id from params and validating with zod
     const result = idSchema.safeParse(req.params);
@@ -140,6 +161,16 @@ export const deleteFile = async (req: Request<{id: string}>, res: Response, next
     }
 }
 
+/**
+ * Downloads the file associated with a receipt from Supabase Storage.
+ * @param {Request} req.params - Receipt ID
+ * @param {Request} req.user - User from auth middleware
+ * @returns Sends the file buffer as an attachment
+ * @throws {ValidationError} 400 - If receipt ID fails validation
+ * @throws {NotFoundError} 404 - If receipt or document not found
+ * @throws {AuthenticationError} 401 - If the document does not belong to the user
+ * @throws {ServerError} 500 - If file download fails
+ */
 export const downloadFile = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
     // Getting id from params and validating with zod
     const result = idSchema.safeParse(req.params);

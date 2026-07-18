@@ -3,9 +3,10 @@
 import DownloadButton from "./DownloadButton"
 import Link from "next/link"
 import { useTranslations } from "next-intl";
+import { VatReport } from "@/app/types/report";
 
 interface Props {
-    report: any
+    report: VatReport
 }
 
 export default function ReportRow({report}: Props) {

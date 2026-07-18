@@ -1,9 +1,10 @@
 'use client';
 
 import { useTranslations } from "next-intl";
+import { PaymentHistoryItem } from "@/app/types/subscription";
 
 interface Props {
-    history: any;
+    history: PaymentHistoryItem[];
 }
 
 export default function Transactions({ history }: Props) {
@@ -13,7 +14,7 @@ export default function Transactions({ history }: Props) {
         <div className="rounded-lg border border-border bg-white p-6 space-y-4">
             <h2 className="text-sm font-medium text-slate-950">{t('title')}</h2>
             <div className="divide-y divide-border">
-                {history.map((payment: any) => (
+                {history.map((payment) => (
                     <div key={payment.id} className="flex items-center justify-between py-3">
                         <div>
                             <p className="text-sm font-medium text-slate-950">{payment.description}</p>

@@ -5,6 +5,14 @@ import { NotFoundError, ServerError } from "../utils/error";
 import { SubscriptionStatus, SubscriptionType } from "@prisma/client";
 import { deleteFileFromSupabase } from "../services/supabase.service";
 
+/**
+ * Cypress controller route meant for clean up in E2E tests. Deletes user and all data user has.
+ * Deletes in order: subscription, VAT reports, receipts, documents (Supabase storage + DB),
+ * chat messages, chat rooms, Supabase auth user, and finally the DB user record.
+ * @param {Request} req.body.email - Email of the user to delete
+ * @returns 200 with success message, or "No user to delete" if user not found
+ * @throws {ServerError} 500 - If deletion of receipts, files, chat data, or user fails
+ */
 export const deleteUserByEmail = async (req: Request, res: Response, next: NextFunction) => {
     const { email } = req.body;
 
@@ -66,8 +74,12 @@ export const deleteUserByEmail = async (req: Request, res: Response, next: NextF
     return res.status(200).json({ message: "Your account was deleted successfully" });
 };
 
-// Test-only helper: grants an active subscription so e2e tests can exercise
-// routes gated by requireSubscription without going through real Stripe checkout.
+/**
+ * Cypress controller route meant for E2E tests to give user's susbcription.
+ * @param {Request} req.body.email - Email of the user to delete
+ * @returns 200 with success message
+ * @throws {ServerError} 500 - If granting susbcription or DB operations fail
+ */
 export const grantSubscription = async (req: Request, res: Response, next: NextFunction) => {
     const { email } = req.body;
 

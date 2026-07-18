@@ -14,7 +14,7 @@ export type ReceiptParams = {
 };
 
 export type ReceiptsResponse = {
-    receipts: any[];
+    receipts: Receipt[];
     total: number;
     page: number;
     limit: number;

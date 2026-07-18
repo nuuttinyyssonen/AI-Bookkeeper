@@ -12,6 +12,13 @@ const PRICE_IDS = {
     PREMIUM_YEARLY: process.env.STRIPE_PREMIUM_YEARLY_PRICE_ID,
 };
 
+/**
+ * Creates a Stripe Checkout session for a new subscription.
+ * @param {Request} req.body - Subscription type and user id
+ * @returns 200 with the Stripe checkout session URL
+ * @throws {ValidationError} 400 - If body fails validation or price id is not configured
+ * @throws {Error} 500 - If Stripe session creation fails
+ */
 export const createCheckoutSession = async (req: Request, res: Response, next: NextFunction) => {
     // Validating subscription type with zod
     const result = checkoutSchema.safeParse(req.body);
@@ -42,6 +49,13 @@ export const createCheckoutSession = async (req: Request, res: Response, next: N
     }
 };
 
+/**
+ * Cancels the authenticated user's subscription at the end of the current billing period.
+ * @param {Request} req.user - User from auth middleware
+ * @returns 200 with success message
+ * @throws {NotFoundError} 404 - If user has no subscription
+ * @throws {Error} 500 - If Stripe update fails
+ */
 export const deleteSubscription = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
     const subscription = await prisma.subscription.findUnique({ where: { user_id: user.id } });
@@ -59,6 +73,16 @@ export const deleteSubscription = async (req: Request, res: Response, next: Next
     }
 };
 
+/**
+ * Changes the authenticated user's subscription plan, updating the price in Stripe
+ * (with immediate proration) and the subscription record in the database.
+ * @param {Request} req.user - User from auth middleware
+ * @param {Request} req.body - New subscription type
+ * @returns 200 with success message
+ * @throws {ValidationError} 400 - If subscription type fails validation or is invalid
+ * @throws {NotFoundError} 404 - If user has no subscription
+ * @throws {Error} 500 - If Stripe or database update fails
+ */
 export const changeSubscription = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
     // Validating subscription type with zod
@@ -115,6 +139,13 @@ export const changeSubscription = async (req: Request, res: Response, next: Next
     }
 };
 
+/**
+ * Reactivates a subscription that was previously scheduled for cancellation.
+ * @param {Request} req.user - User from auth middleware
+ * @returns 200 with success message
+ * @throws {NotFoundError} 404 - If user has no subscription
+ * @throws {Error} 500 - If Stripe update fails
+ */
 export const revokeSubscription = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
     const subscription = await prisma.subscription.findUnique({ where: { user_id: user.id } });
@@ -132,6 +163,12 @@ export const revokeSubscription = async (req: Request, res: Response, next: Next
     }
 };
 
+/**
+ * Retrieves the authenticated user's subscription status.
+ * @param {Request} req.user - User from auth middleware
+ * @returns 200 with `{ subscription }`, or a message if no subscription exists
+ * @throws {Error} 500 - If database query fails
+ */
 export const getSubscriptionStatus = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
     try {

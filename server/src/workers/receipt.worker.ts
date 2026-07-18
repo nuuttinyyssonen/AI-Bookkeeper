@@ -3,7 +3,7 @@ import { analyzeReceipt } from "../services/ocr.service";
 import { parseReceiptData } from "../services/openai.service";
 import { downloadFileFromSupabase } from "../services/supabase.service";
 import { prisma } from "../lib/prisma";
-import { ReceiptType, CategoryType } from "@prisma/client";
+import { ReceiptType } from "@prisma/client";
 import logger from "../lib/logger";
 
 // Retry logic with exponential backoff for handling race conditions
