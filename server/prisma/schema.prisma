@@ -28,6 +28,8 @@ model PasswordResetToken {
   user_id    String
   expires_at DateTime
   user       User     @relation(fields: [user_id], references: [id])
+
+  @@index([user_id])
 }
 
 model Document {
@@ -42,6 +44,9 @@ model Document {
   user_id         String
   user            User  @relation(fields: [user_id], references: [id])
   receipts        Receipt[]
+
+  @@index([user_id])
+  @@index([status])
 }
 
 model Receipt {
@@ -60,6 +65,12 @@ model Receipt {
   document                      Document    @relation(fields: [document_id], references: [id])
   category                      Category?   @relation(fields: [category_id], references: [id])
   receiptVats                   ReceiptVat[]
+
+  @@index([user_id])
+  @@index([document_id])
+  @@index([receipt_date])
+  @@index([receipt_type])
+  @@index([category_id])
 }
 
 model Category {
@@ -77,6 +88,8 @@ model ReceiptVat {
   vat_amount     Float
   total          Float
   receipt        Receipt  @relation(fields: [receipt_id], references: [id])
+
+  @@index([receipt_id])
 }
 
 model VatReport {
@@ -107,6 +120,8 @@ model VatReport {
   created_at              DateTime          @default(now())
 
   user                    User              @relation(fields: [user_id], references: [id])
+
+  @@index([user_id])
 }
 
 model ChatRoom {
@@ -116,6 +131,8 @@ model ChatRoom {
   created_at              DateTime          @default(now())
   user                    User              @relation(fields: [user_id], references: [id])  
   messages                ChatMessage[]
+
+  @@index([user_id])
 }
 
 model ChatMessage {
@@ -125,6 +142,8 @@ model ChatMessage {
   role                    ChatRole
   created_at              DateTime          @default(now())
   chatroom                ChatRoom          @relation(fields: [chatroom_id], references: [id])  
+
+  @@index([chatroom_id])
 }
 
 model Subscription {
