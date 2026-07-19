@@ -107,6 +107,7 @@ export const createChatMessage = async (req: Request<{id: string}>, res: Respons
  * @throws {Error} 500 - If database operations fail
  */
 export const getMessagesFromChatRoom = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
+    const user = req.user
     const result = idSchema.safeParse(req.params);
     if (!result.success) {
         return next(new ValidationError(result.error.issues[0].message));
@@ -114,7 +115,7 @@ export const getMessagesFromChatRoom = async (req: Request<{id: string}>, res: R
     const { id } = result.data;
 
     try {
-        const messages = await prisma.chatMessage.findMany({ where: { chatroom_id: id } });
+        const messages = await prisma.chatMessage.findMany({ where: { chatroom_id: id, chatroom: { user_id: user.id } } });
         return res.status(200).json({ messages });
     } catch(error) {
         next(error);
@@ -145,6 +146,7 @@ export const getChatRooms = async (req: Request, res: Response, next: NextFuncti
  * @throws {Error} 500 - If database operations fail unexpectedly
  */
 export const deleteChatByID = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
+    const user = req.user;
     const result = idSchema.safeParse(req.params);
     if (!result.success) {
         return next(new ValidationError(result.error.issues[0].message));
@@ -152,8 +154,8 @@ export const deleteChatByID = async (req: Request<{id: string}>, res: Response, 
     const { id } = result.data;
 
     try {
-        await prisma.chatMessage.deleteMany({ where: { chatroom_id: id } });
-        await prisma.chatRoom.delete({ where: { id: id } });
+        await prisma.chatMessage.deleteMany({ where: { chatroom_id: id, chatroom: { user_id: user.id} } });
+        await prisma.chatRoom.delete({ where: { id: id, user_id: user.id } });
         return res.status(200).json({ message: "Chat deleted successfully" });
     } catch(error) {
         next(error);

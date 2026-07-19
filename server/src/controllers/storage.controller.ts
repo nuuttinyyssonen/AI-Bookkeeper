@@ -121,8 +121,8 @@ export const deleteFile = async (req: Request<{id: string}>, res: Response, next
 
     const { id } = result.data;
 
-    const receipt = await prisma.receipt.findUnique({ where: { id } });
-    const document = await prisma.document.findUnique({ where: { id: receipt?.document_id } });
+    const receipt = await prisma.receipt.findUnique({ where: { id, user_id: req.user.id } });
+    const document = await prisma.document.findUnique({ where: { id: receipt?.document_id, user_id: req.user.id } });
 
     const fileName = document?.document_name
 
@@ -133,19 +133,13 @@ export const deleteFile = async (req: Request<{id: string}>, res: Response, next
 
     try {
         // Find document from database by file name
-        const document = await prisma.document.findUnique({ where: { document_name: fileName } });
+        const document = await prisma.document.findUnique({ where: { document_name: fileName, user_id: req.user.id } });
 
         if (!document) {
             return next(new NotFoundError("File not found"));
         }
-
-        // Ensure user can only delete their own files
-        if (document.user_id !== req.user.id) {
-            return next(new AuthenticationError("Unauthorized"));
-        }
-
         
-        const receipt = await prisma.receipt.findFirst({ where: { document_id: document.id } });
+        const receipt = await prisma.receipt.findFirst({ where: { document_id: document.id, user_id: req.user.id } });
 
         // Delete associated receipt vats and receipt (if any), then delete file
         if (receipt) {
@@ -181,18 +175,14 @@ export const downloadFile = async (req: Request<{id: string}>, res: Response, ne
     const { id } = result.data;
 
     try {
-        const receipt = await prisma.receipt.findUnique({ where: { id } });
+        const receipt = await prisma.receipt.findUnique({ where: { id, user_id: req.user.id } });
         if (!receipt) {
             return next(new NotFoundError("Receipt not found"));
         }
 
-        const document = await prisma.document.findUnique({ where: { id: receipt.document_id } });
+        const document = await prisma.document.findUnique({ where: { id: receipt.document_id, user_id: req.user.id} });
         if (!document) {
             return next(new NotFoundError("File not found"));
-        }
-
-        if (document.user_id !== req.user.id) {
-            return next(new AuthenticationError("Unauthorized"));
         }
 
         const fileBuffer = await downloadFileFromSupabase(document.document_name);

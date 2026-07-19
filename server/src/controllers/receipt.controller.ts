@@ -198,7 +198,7 @@ export const updateReceipt = async(req: Request<{id: string}>, res: Response, ne
             if (vats && vats.length > 0) {
                 await Promise.all(vats.map(vat =>
                     tx.receiptVat.update({
-                        where: { id: vat.id },
+                        where: { id: vat.id, receipt: { user_id: req.user.id } },
                         data: { rate: vat.rate, net_amount: vat.net_amount, vat_amount: vat.vat_amount, total: vat.total },
                     })
                 ));
@@ -237,7 +237,7 @@ export const changeReceiptCategory = async(req: Request<{id: string}>, res: Resp
 
     try {
         await prisma.receipt.update({
-            where: { id },
+            where: { id, user_id: req.user.id },
             data: {
                 category: {
                     connect: { type: category as CategoryType }
@@ -275,7 +275,7 @@ export const changeReceiptDeductible = async(req: Request<{id: string}>, res: Re
 
     try {
         await prisma.receipt.update({
-            where: { id },
+            where: { id, user_id: req.user.id },
             data: {
                 is_deductible: isDeductible
             }
@@ -311,7 +311,7 @@ export const changeReceiptDeductibilityPercentage = async(req: Request<{id: stri
 
     try {
         await prisma.receipt.update({
-            where: { id },
+            where: { id, user_id: req.user.id },
             data: {
                 vat_deductibility_percentage: deductibilityPercentage
             }

@@ -186,7 +186,7 @@ export const getReportById = async (req: Request<{id: string}>, res: Response, n
     const { id } = idResult.data;
     
     try {
-        const report = await prisma.vatReport.findUnique({ where: { id } });
+        const report = await prisma.vatReport.findUnique({ where: { id, user_id: req.user.id} });
         
         if (!report) {
             return next(new NotFoundError("Report not found"));
@@ -215,7 +215,7 @@ export const deleteReportById = async (req: Request<{id: string}>, res: Response
     const { id } = idResult.data;
     
     try {
-        await prisma.vatReport.delete({ where: { id } });
+        await prisma.vatReport.delete({ where: { id, user_id: req.user.id} });
         
         return res.status(200).json({ message: "report deleted successfully" });
     } catch(error) {
@@ -241,7 +241,7 @@ export const updateReportVatDeclarationSent = async (req: Request<{id: string}>,
     
     try {
         await prisma.vatReport.update({
-            where: { id },
+            where: { id, user_id: req.user.id },
             data: { vat_declaration_sent: true },
         });
         return res.status(200).json({ message: "report updated successfully" });
