@@ -158,7 +158,15 @@ export const getReceiptStatus = async(req: Request<{batchId: string}>, res: Resp
             }
         });
 
-        return res.status(200).json({ pending_documents, completed_documents, total, processing_documents });
+        const failed_documents = await prisma.document.count({
+            where: {
+                user_id: user.id,
+                status: "FAILED",
+                upload_batch_id: batchId
+            }
+        });
+
+        return res.status(200).json({ pending_documents, completed_documents, total, processing_documents, failed_documents });
     } catch(error) {
         return next(new ServerError("Internal server error"));
     }  

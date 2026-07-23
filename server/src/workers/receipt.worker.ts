@@ -124,11 +124,11 @@ const worker = new Worker(
 
         // Map AI-parsed VAT data to the receiptVats relation
         receiptVats: {
-          create: aiData.vat.map((v: any) => ({
-            rate: v.rate,
-            net_amount: v.net,
-            vat_amount: v.vat_amount,
-            total: v.total
+          create: (aiData.vat ?? []).map((v: any) => ({
+              rate: v.rate ?? (v.net > 0 ? Math.round((v.vat_amount / v.net) * 100) : 0),
+              net_amount: v.net ?? 0,
+              vat_amount: v.vat_amount ?? 0,
+              total: v.total ?? 0
           }))
         }
       };
@@ -162,12 +162,24 @@ worker.on("completed", job => {
     });
 });
 
-worker.on("failed", (job, err) => {
-  logger.error({
+worker.on("failed", async (job, err) => {
+    logger.error({
         message: "Receipt job failed",
         jobId: job?.id,
         filePath: job?.data.filePath,
         error: err.message,
         stack: err.stack
     });
+
+    // Update document status to FAILED so frontend stops polling
+    if (job?.data.filePath) {
+        try {
+            await prisma.document.updateMany({
+                where: { file_path: job.data.filePath },
+                data: { status: "FAILED" }
+            });
+        } catch (dbErr) {
+            logger.error({ message: "Failed to update document status to FAILED", error: dbErr });
+        }
+    }
 });

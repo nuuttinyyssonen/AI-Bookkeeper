@@ -48,9 +48,10 @@ export const UploadFiles = async (
 
 export const getBatchStatus = async (batchId: string): Promise<{ 
     total: number; 
-    completed_documents: number, 
-    pending_documents: number ,
-    processing_documents: number
+    completed_documents: number; 
+    pending_documents: number;
+    processing_documents: number;
+    failed_documents: number;
 }> => {
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;

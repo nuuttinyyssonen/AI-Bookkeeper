@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { getBatchStatus, UploadFiles, type UploadState } from "../action";
 import { toast } from "sonner";
-import Router from "next/router";
 
 import Progressbar from "./Progressbar";
 import ExpenseUpload from "./ExpenseUpload";
@@ -21,7 +20,7 @@ export default function UploadOverview() {
     const [progress, setProgress] = useState<string | null>(null);
 
     const pollBatchStatus = (batchId?: string) => {
-        return new Promise<{ pending_documents: number; completed_documents: number; total: number; processing_documents: number }>((resolve, reject) => {
+        return new Promise<{ pending_documents: number; completed_documents: number; total: number; processing_documents: number; failed_documents: number }>((resolve, reject) => {
             const interval = setInterval(async () => {
                 try {
                     if (!batchId) return;
@@ -81,6 +80,9 @@ export default function UploadOverview() {
                     const data = await pollBatchStatus(result.upload_batch_id);
                     setProgress(null);
                     toast.success(t('analyzeSuccess', { completed: data.completed_documents, total: data.total }));
+                    if (data.failed_documents > 0) {
+                        toast.error(`${data.failed_documents} kuittia epäonnistui analysoinnissa`);
+                    }
                 } catch {
                     setProgress(null);
                     toast.error(t('analyzeFailed'));
