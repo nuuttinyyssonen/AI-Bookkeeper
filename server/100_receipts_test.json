@@ -1,0 +1,2254 @@
+[
+  {
+    "vendor_name": "ABC Liikennemyymälä",
+    "total_amount": 5.16,
+    "receipt_date": "2024-01-31T08:13:14.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-01-31T08:13:14.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 2.74,
+        "vat_amount": 0.38,
+        "total": 3.12
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 1.63,
+        "vat_amount": 0.41,
+        "total": 2.04
+      }
+    ]
+  },
+  {
+    "vendor_name": "Neste Express",
+    "total_amount": 23.34,
+    "receipt_date": "2026-04-06T07:46:29.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2026-04-06T07:46:29.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 8.11,
+        "vat_amount": 1.13,
+        "total": 9.24
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 11.24,
+        "vat_amount": 2.86,
+        "total": 14.1
+      }
+    ]
+  },
+  {
+    "vendor_name": "Yliopiston Apteekki",
+    "total_amount": 53.78,
+    "receipt_date": "2025-10-25T08:38:40.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-10-25T08:38:40.000Z",
+    "receiptVats": [
+      {
+        "rate": 10,
+        "net_amount": 37.26,
+        "vat_amount": 3.73,
+        "total": 40.99
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 10.19,
+        "vat_amount": 2.6,
+        "total": 12.79
+      }
+    ]
+  },
+  {
+    "vendor_name": "Alko Iso Omena",
+    "total_amount": 98.31,
+    "receipt_date": "2024-05-22T10:47:35.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-05-22T10:47:35.000Z",
+    "receiptVats": [
+      {
+        "rate": 25.5,
+        "net_amount": 78.33,
+        "vat_amount": 19.98,
+        "total": 98.31
+      }
+    ]
+  },
+  {
+    "vendor_name": "Lidl Myllypuro",
+    "total_amount": 17.6,
+    "receipt_date": "2026-05-31T07:43:46.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2026-05-31T07:43:46.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 15.44,
+        "vat_amount": 2.16,
+        "total": 17.6
+      }
+    ]
+  },
+  {
+    "vendor_name": "K-Citymarket Kaari",
+    "total_amount": 13.83,
+    "receipt_date": "2026-02-19T09:34:49.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2026-02-19T09:34:49.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 10.08,
+        "vat_amount": 1.41,
+        "total": 11.49
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 1.86,
+        "vat_amount": 0.48,
+        "total": 2.34
+      }
+    ]
+  },
+  {
+    "vendor_name": "Alepa Rautatientori",
+    "total_amount": 38.74,
+    "receipt_date": "2024-05-03T10:14:04.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-05-03T10:14:04.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 21.44,
+        "vat_amount": 3.0,
+        "total": 24.44
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 11.39,
+        "vat_amount": 2.91,
+        "total": 14.3
+      }
+    ]
+  },
+  {
+    "vendor_name": "Yliopiston Apteekki",
+    "total_amount": 43.71,
+    "receipt_date": "2025-08-13T14:15:50.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-08-13T14:15:50.000Z",
+    "receiptVats": [
+      {
+        "rate": 10,
+        "net_amount": 32.07,
+        "vat_amount": 3.21,
+        "total": 35.28
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 6.72,
+        "vat_amount": 1.71,
+        "total": 8.43
+      }
+    ]
+  },
+  {
+    "vendor_name": "Alepa Rautatientori",
+    "total_amount": 38.04,
+    "receipt_date": "2026-06-01T20:35:06.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2026-06-01T20:35:06.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 22.19,
+        "vat_amount": 3.11,
+        "total": 25.3
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 10.15,
+        "vat_amount": 2.59,
+        "total": 12.74
+      }
+    ]
+  },
+  {
+    "vendor_name": "Prisma Länsikeskus",
+    "total_amount": 17.34,
+    "receipt_date": "2026-01-18T19:35:42.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2026-01-18T19:35:42.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 9.83,
+        "vat_amount": 1.38,
+        "total": 11.21
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 4.88,
+        "vat_amount": 1.25,
+        "total": 6.13
+      }
+    ]
+  },
+  {
+    "vendor_name": "K-Market Ranta",
+    "total_amount": 52.29,
+    "receipt_date": "2024-03-24T13:42:37.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-03-24T13:42:37.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 10.72,
+        "vat_amount": 1.5,
+        "total": 12.22
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 31.93,
+        "vat_amount": 8.14,
+        "total": 40.07
+      }
+    ]
+  },
+  {
+    "vendor_name": "ABC Liikennemyymälä",
+    "total_amount": 38.52,
+    "receipt_date": "2025-01-13T11:10:28.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-01-13T11:10:28.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 18.15,
+        "vat_amount": 2.54,
+        "total": 20.69
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 14.21,
+        "vat_amount": 3.62,
+        "total": 17.83
+      }
+    ]
+  },
+  {
+    "vendor_name": "R-kioski Keskusasema",
+    "total_amount": 18.9,
+    "receipt_date": "2024-02-22T08:40:27.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-02-22T08:40:27.000Z",
+    "receiptVats": [
+      {
+        "rate": 10,
+        "net_amount": 7.93,
+        "vat_amount": 0.79,
+        "total": 8.72
+      },
+      {
+        "rate": 14,
+        "net_amount": 8.93,
+        "vat_amount": 1.25,
+        "total": 10.18
+      }
+    ]
+  },
+  {
+    "vendor_name": "S-market Peltola",
+    "total_amount": 42.92,
+    "receipt_date": "2025-07-27T21:55:26.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-07-27T21:55:26.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 24.12,
+        "vat_amount": 3.38,
+        "total": 27.5
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 12.29,
+        "vat_amount": 3.13,
+        "total": 15.42
+      }
+    ]
+  },
+  {
+    "vendor_name": "S-market Peltola",
+    "total_amount": 30.06,
+    "receipt_date": "2024-08-16T07:42:12.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-08-16T07:42:12.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 12.93,
+        "vat_amount": 1.81,
+        "total": 14.74
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 12.21,
+        "vat_amount": 3.11,
+        "total": 15.32
+      }
+    ]
+  },
+  {
+    "vendor_name": "Alepa Rautatientori",
+    "total_amount": 48.68,
+    "receipt_date": "2026-01-29T18:42:12.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2026-01-29T18:42:12.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 38.53,
+        "vat_amount": 5.39,
+        "total": 43.92
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 3.79,
+        "vat_amount": 0.97,
+        "total": 4.76
+      }
+    ]
+  },
+  {
+    "vendor_name": "Sale Koivula",
+    "total_amount": 36.36,
+    "receipt_date": "2025-11-22T10:32:30.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-11-22T10:32:30.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 12.73,
+        "vat_amount": 1.78,
+        "total": 14.51
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 17.41,
+        "vat_amount": 4.44,
+        "total": 21.85
+      }
+    ]
+  },
+  {
+    "vendor_name": "R-kioski Keskusasema",
+    "total_amount": 38.15,
+    "receipt_date": "2026-04-03T18:33:29.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2026-04-03T18:33:29.000Z",
+    "receiptVats": [
+      {
+        "rate": 10,
+        "net_amount": 12.17,
+        "vat_amount": 1.22,
+        "total": 13.39
+      },
+      {
+        "rate": 14,
+        "net_amount": 12.64,
+        "vat_amount": 1.77,
+        "total": 14.41
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 8.25,
+        "vat_amount": 2.1,
+        "total": 10.35
+      }
+    ]
+  },
+  {
+    "vendor_name": "Alko Iso Omena",
+    "total_amount": 141.19,
+    "receipt_date": "2024-11-23T21:34:05.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-11-23T21:34:05.000Z",
+    "receiptVats": [
+      {
+        "rate": 25.5,
+        "net_amount": 112.5,
+        "vat_amount": 28.69,
+        "total": 141.19
+      }
+    ]
+  },
+  {
+    "vendor_name": "Neste Express",
+    "total_amount": 14.48,
+    "receipt_date": "2025-08-12T13:30:00.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-08-12T13:30:00.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 9.98,
+        "vat_amount": 1.4,
+        "total": 11.38
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 2.47,
+        "vat_amount": 0.63,
+        "total": 3.1
+      }
+    ]
+  },
+  {
+    "vendor_name": "Neste Express",
+    "total_amount": 31.62,
+    "receipt_date": "2024-03-26T17:27:08.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-03-26T17:27:08.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 8.35,
+        "vat_amount": 1.17,
+        "total": 9.52
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 17.61,
+        "vat_amount": 4.49,
+        "total": 22.1
+      }
+    ]
+  },
+  {
+    "vendor_name": "Alepa Rautatientori",
+    "total_amount": 23.91,
+    "receipt_date": "2024-03-11T19:41:02.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-03-11T19:41:02.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 8.47,
+        "vat_amount": 1.19,
+        "total": 9.66
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 11.35,
+        "vat_amount": 2.9,
+        "total": 14.25
+      }
+    ]
+  },
+  {
+    "vendor_name": "Prisma Länsikeskus",
+    "total_amount": 13.12,
+    "receipt_date": "2024-06-16T11:06:37.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-06-16T11:06:37.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 11.51,
+        "vat_amount": 1.61,
+        "total": 13.12
+      }
+    ]
+  },
+  {
+    "vendor_name": "Neste Express",
+    "total_amount": 57.43,
+    "receipt_date": "2025-01-14T08:32:41.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-01-14T08:32:41.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 3.78,
+        "vat_amount": 0.53,
+        "total": 4.31
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 42.33,
+        "vat_amount": 10.79,
+        "total": 53.12
+      }
+    ]
+  },
+  {
+    "vendor_name": "Alepa Rautatientori",
+    "total_amount": 31.24,
+    "receipt_date": "2026-05-21T12:11:31.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2026-05-21T12:11:31.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 17.94,
+        "vat_amount": 2.51,
+        "total": 20.45
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 8.6,
+        "vat_amount": 2.19,
+        "total": 10.79
+      }
+    ]
+  },
+  {
+    "vendor_name": "Sale Koivula",
+    "total_amount": 45.31,
+    "receipt_date": "2025-03-11T18:35:21.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-03-11T18:35:21.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 26.18,
+        "vat_amount": 3.66,
+        "total": 29.84
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 12.33,
+        "vat_amount": 3.14,
+        "total": 15.47
+      }
+    ]
+  },
+  {
+    "vendor_name": "K-Citymarket Kaari",
+    "total_amount": 60.41,
+    "receipt_date": "2026-06-08T19:31:06.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2026-06-08T19:31:06.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 40.27,
+        "vat_amount": 5.64,
+        "total": 45.91
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 11.55,
+        "vat_amount": 2.95,
+        "total": 14.5
+      }
+    ]
+  },
+  {
+    "vendor_name": "Alko Iso Omena",
+    "total_amount": 179.57,
+    "receipt_date": "2026-03-20T16:14:49.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2026-03-20T16:14:49.000Z",
+    "receiptVats": [
+      {
+        "rate": 25.5,
+        "net_amount": 143.08,
+        "vat_amount": 36.49,
+        "total": 179.57
+      }
+    ]
+  },
+  {
+    "vendor_name": "Lidl Myllypuro",
+    "total_amount": 32.0,
+    "receipt_date": "2024-10-22T18:18:44.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-10-22T18:18:44.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 20.65,
+        "vat_amount": 2.89,
+        "total": 23.54
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 6.74,
+        "vat_amount": 1.72,
+        "total": 8.46
+      }
+    ]
+  },
+  {
+    "vendor_name": "ABC Liikennemyymälä",
+    "total_amount": 34.51,
+    "receipt_date": "2025-07-06T14:28:05.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-07-06T14:28:05.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 15.1,
+        "vat_amount": 2.11,
+        "total": 17.21
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 13.78,
+        "vat_amount": 3.52,
+        "total": 17.3
+      }
+    ]
+  },
+  {
+    "vendor_name": "Prisma Länsikeskus",
+    "total_amount": 48.15,
+    "receipt_date": "2024-10-22T17:25:52.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-10-22T17:25:52.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 8.81,
+        "vat_amount": 1.23,
+        "total": 10.04
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 30.37,
+        "vat_amount": 7.74,
+        "total": 38.11
+      }
+    ]
+  },
+  {
+    "vendor_name": "Alepa Rautatientori",
+    "total_amount": 24.56,
+    "receipt_date": "2024-07-27T11:35:08.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-07-27T11:35:08.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 13.03,
+        "vat_amount": 1.82,
+        "total": 14.85
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 7.74,
+        "vat_amount": 1.97,
+        "total": 9.71
+      }
+    ]
+  },
+  {
+    "vendor_name": "ABC Liikennemyymälä",
+    "total_amount": 25.98,
+    "receipt_date": "2025-07-18T09:24:12.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-07-18T09:24:12.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 10.39,
+        "vat_amount": 1.46,
+        "total": 11.85
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 11.26,
+        "vat_amount": 2.87,
+        "total": 14.13
+      }
+    ]
+  },
+  {
+    "vendor_name": "Sale Koivula",
+    "total_amount": 42.87,
+    "receipt_date": "2025-04-29T18:58:51.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-04-29T18:58:51.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 20.03,
+        "vat_amount": 2.8,
+        "total": 22.83
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 15.97,
+        "vat_amount": 4.07,
+        "total": 20.04
+      }
+    ]
+  },
+  {
+    "vendor_name": "S-market Peltola",
+    "total_amount": 65.59,
+    "receipt_date": "2026-02-16T14:55:34.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2026-02-16T14:55:34.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 37.61,
+        "vat_amount": 5.26,
+        "total": 42.87
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 18.1,
+        "vat_amount": 4.62,
+        "total": 22.72
+      }
+    ]
+  },
+  {
+    "vendor_name": "Prisma Länsikeskus",
+    "total_amount": 52.61,
+    "receipt_date": "2025-04-17T17:16:29.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-04-17T17:16:29.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 17.19,
+        "vat_amount": 2.41,
+        "total": 19.6
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 26.3,
+        "vat_amount": 6.71,
+        "total": 33.01
+      }
+    ]
+  },
+  {
+    "vendor_name": "S-market Peltola",
+    "total_amount": 10.2,
+    "receipt_date": "2026-05-23T14:06:15.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2026-05-23T14:06:15.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 8.95,
+        "vat_amount": 1.25,
+        "total": 10.2
+      }
+    ]
+  },
+  {
+    "vendor_name": "Neste Express",
+    "total_amount": 32.59,
+    "receipt_date": "2026-01-08T19:42:43.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2026-01-08T19:42:43.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 15.72,
+        "vat_amount": 2.2,
+        "total": 17.92
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 11.69,
+        "vat_amount": 2.98,
+        "total": 14.67
+      }
+    ]
+  },
+  {
+    "vendor_name": "Alko Iso Omena",
+    "total_amount": 114.13,
+    "receipt_date": "2025-01-09T15:32:58.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-01-09T15:32:58.000Z",
+    "receiptVats": [
+      {
+        "rate": 25.5,
+        "net_amount": 90.94,
+        "vat_amount": 23.19,
+        "total": 114.13
+      }
+    ]
+  },
+  {
+    "vendor_name": "Neste Express",
+    "total_amount": 28.41,
+    "receipt_date": "2025-08-21T13:52:40.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-08-21T13:52:40.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 7.73,
+        "vat_amount": 1.08,
+        "total": 8.81
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 15.62,
+        "vat_amount": 3.98,
+        "total": 19.6
+      }
+    ]
+  },
+  {
+    "vendor_name": "R-kioski Keskusasema",
+    "total_amount": 16.8,
+    "receipt_date": "2026-01-30T18:34:26.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2026-01-30T18:34:26.000Z",
+    "receiptVats": [
+      {
+        "rate": 10,
+        "net_amount": 4.2,
+        "vat_amount": 0.42,
+        "total": 4.62
+      },
+      {
+        "rate": 14,
+        "net_amount": 6.79,
+        "vat_amount": 0.95,
+        "total": 7.74
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 3.54,
+        "vat_amount": 0.9,
+        "total": 4.44
+      }
+    ]
+  },
+  {
+    "vendor_name": "ABC Liikennemyymälä",
+    "total_amount": 16.36,
+    "receipt_date": "2025-01-06T08:43:23.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-01-06T08:43:23.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 5.21,
+        "vat_amount": 0.73,
+        "total": 5.94
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 8.3,
+        "vat_amount": 2.12,
+        "total": 10.42
+      }
+    ]
+  },
+  {
+    "vendor_name": "K-Citymarket Kaari",
+    "total_amount": 59.38,
+    "receipt_date": "2025-01-01T19:50:15.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-01-01T19:50:15.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 36.55,
+        "vat_amount": 5.12,
+        "total": 41.67
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 14.11,
+        "vat_amount": 3.6,
+        "total": 17.71
+      }
+    ]
+  },
+  {
+    "vendor_name": "K-Market Ranta",
+    "total_amount": 21.88,
+    "receipt_date": "2026-06-06T17:33:19.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2026-06-06T17:33:19.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 16.89,
+        "vat_amount": 2.36,
+        "total": 19.25
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 2.1,
+        "vat_amount": 0.53,
+        "total": 2.63
+      }
+    ]
+  },
+  {
+    "vendor_name": "Lidl Myllypuro",
+    "total_amount": 34.31,
+    "receipt_date": "2025-04-07T21:14:26.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-04-07T21:14:26.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 21.89,
+        "vat_amount": 3.07,
+        "total": 24.96
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 7.45,
+        "vat_amount": 1.9,
+        "total": 9.35
+      }
+    ]
+  },
+  {
+    "vendor_name": "Alepa Rautatientori",
+    "total_amount": 15.14,
+    "receipt_date": "2024-12-28T20:42:48.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-12-28T20:42:48.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 11.31,
+        "vat_amount": 1.58,
+        "total": 12.89
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 1.79,
+        "vat_amount": 0.46,
+        "total": 2.25
+      }
+    ]
+  },
+  {
+    "vendor_name": "R-kioski Keskusasema",
+    "total_amount": 11.06,
+    "receipt_date": "2026-02-24T20:39:39.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2026-02-24T20:39:39.000Z",
+    "receiptVats": [
+      {
+        "rate": 10,
+        "net_amount": 4.3,
+        "vat_amount": 0.43,
+        "total": 4.73
+      },
+      {
+        "rate": 14,
+        "net_amount": 4.27,
+        "vat_amount": 0.6,
+        "total": 4.87
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 1.16,
+        "vat_amount": 0.3,
+        "total": 1.46
+      }
+    ]
+  },
+  {
+    "vendor_name": "S-market Peltola",
+    "total_amount": 61.61,
+    "receipt_date": "2025-01-13T11:46:20.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-01-13T11:46:20.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 14.24,
+        "vat_amount": 1.99,
+        "total": 16.23
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 36.16,
+        "vat_amount": 9.22,
+        "total": 45.38
+      }
+    ]
+  },
+  {
+    "vendor_name": "Yliopiston Apteekki",
+    "total_amount": 25.47,
+    "receipt_date": "2025-03-16T08:18:43.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-03-16T08:18:43.000Z",
+    "receiptVats": [
+      {
+        "rate": 10,
+        "net_amount": 11.95,
+        "vat_amount": 1.2,
+        "total": 13.15
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 9.82,
+        "vat_amount": 2.5,
+        "total": 12.32
+      }
+    ]
+  },
+  {
+    "vendor_name": "K-Market Ranta",
+    "total_amount": 20.95,
+    "receipt_date": "2024-08-23T15:35:53.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-08-23T15:35:53.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 18.38,
+        "vat_amount": 2.57,
+        "total": 20.95
+      }
+    ]
+  },
+  {
+    "vendor_name": "Alko Iso Omena",
+    "total_amount": 64.34,
+    "receipt_date": "2025-09-24T14:53:44.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-09-24T14:53:44.000Z",
+    "receiptVats": [
+      {
+        "rate": 25.5,
+        "net_amount": 51.27,
+        "vat_amount": 13.07,
+        "total": 64.34
+      }
+    ]
+  },
+  {
+    "vendor_name": "Lidl Myllypuro",
+    "total_amount": 35.45,
+    "receipt_date": "2025-11-02T08:11:49.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-11-02T08:11:49.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 16.6,
+        "vat_amount": 2.32,
+        "total": 18.92
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 13.17,
+        "vat_amount": 3.36,
+        "total": 16.53
+      }
+    ]
+  },
+  {
+    "vendor_name": "Yliopiston Apteekki",
+    "total_amount": 71.15,
+    "receipt_date": "2025-09-21T16:32:24.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-09-21T16:32:24.000Z",
+    "receiptVats": [
+      {
+        "rate": 10,
+        "net_amount": 43.24,
+        "vat_amount": 4.32,
+        "total": 47.56
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 18.8,
+        "vat_amount": 4.79,
+        "total": 23.59
+      }
+    ]
+  },
+  {
+    "vendor_name": "Yliopiston Apteekki",
+    "total_amount": 80.53,
+    "receipt_date": "2025-01-31T13:49:21.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-01-31T13:49:21.000Z",
+    "receiptVats": [
+      {
+        "rate": 10,
+        "net_amount": 48.82,
+        "vat_amount": 4.88,
+        "total": 53.7
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 21.38,
+        "vat_amount": 5.45,
+        "total": 26.83
+      }
+    ]
+  },
+  {
+    "vendor_name": "R-kioski Keskusasema",
+    "total_amount": 39.15,
+    "receipt_date": "2025-03-09T15:23:01.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-03-09T15:23:01.000Z",
+    "receiptVats": [
+      {
+        "rate": 10,
+        "net_amount": 11.8,
+        "vat_amount": 1.18,
+        "total": 12.98
+      },
+      {
+        "rate": 14,
+        "net_amount": 19.82,
+        "vat_amount": 2.77,
+        "total": 22.59
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 2.85,
+        "vat_amount": 0.73,
+        "total": 3.58
+      }
+    ]
+  },
+  {
+    "vendor_name": "Alko Iso Omena",
+    "total_amount": 79.21,
+    "receipt_date": "2025-09-24T09:38:24.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-09-24T09:38:24.000Z",
+    "receiptVats": [
+      {
+        "rate": 25.5,
+        "net_amount": 63.12,
+        "vat_amount": 16.09,
+        "total": 79.21
+      }
+    ]
+  },
+  {
+    "vendor_name": "K-Market Ranta",
+    "total_amount": 14.77,
+    "receipt_date": "2024-10-15T19:24:32.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-10-15T19:24:32.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 10.39,
+        "vat_amount": 1.45,
+        "total": 11.84
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 2.33,
+        "vat_amount": 0.6,
+        "total": 2.93
+      }
+    ]
+  },
+  {
+    "vendor_name": "Sale Koivula",
+    "total_amount": 19.07,
+    "receipt_date": "2024-10-06T14:57:32.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-10-06T14:57:32.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 4.66,
+        "vat_amount": 0.65,
+        "total": 5.31
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 10.96,
+        "vat_amount": 2.8,
+        "total": 13.76
+      }
+    ]
+  },
+  {
+    "vendor_name": "K-Market Ranta",
+    "total_amount": 23.19,
+    "receipt_date": "2025-09-22T07:57:05.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-09-22T07:57:05.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 18.01,
+        "vat_amount": 2.52,
+        "total": 20.53
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 2.12,
+        "vat_amount": 0.54,
+        "total": 2.66
+      }
+    ]
+  },
+  {
+    "vendor_name": "Lidl Myllypuro",
+    "total_amount": 7.4,
+    "receipt_date": "2025-05-26T16:34:01.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-05-26T16:34:01.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 4.16,
+        "vat_amount": 0.58,
+        "total": 4.74
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 2.12,
+        "vat_amount": 0.54,
+        "total": 2.66
+      }
+    ]
+  },
+  {
+    "vendor_name": "K-Market Ranta",
+    "total_amount": 21.8,
+    "receipt_date": "2026-01-20T17:40:06.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2026-01-20T17:40:06.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 16.45,
+        "vat_amount": 2.3,
+        "total": 18.75
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 2.43,
+        "vat_amount": 0.62,
+        "total": 3.05
+      }
+    ]
+  },
+  {
+    "vendor_name": "K-Market Ranta",
+    "total_amount": 28.59,
+    "receipt_date": "2024-07-23T21:02:20.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-07-23T21:02:20.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 17.66,
+        "vat_amount": 2.47,
+        "total": 20.13
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 6.74,
+        "vat_amount": 1.72,
+        "total": 8.46
+      }
+    ]
+  },
+  {
+    "vendor_name": "ABC Liikennemyymälä",
+    "total_amount": 25.09,
+    "receipt_date": "2025-05-23T18:31:23.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-05-23T18:31:23.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 6.19,
+        "vat_amount": 0.87,
+        "total": 7.06
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 14.37,
+        "vat_amount": 3.66,
+        "total": 18.03
+      }
+    ]
+  },
+  {
+    "vendor_name": "K-Citymarket Kaari",
+    "total_amount": 28.11,
+    "receipt_date": "2026-03-21T07:04:42.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2026-03-21T07:04:42.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 19.95,
+        "vat_amount": 2.79,
+        "total": 22.74
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 4.28,
+        "vat_amount": 1.09,
+        "total": 5.37
+      }
+    ]
+  },
+  {
+    "vendor_name": "S-market Peltola",
+    "total_amount": 25.84,
+    "receipt_date": "2024-09-25T19:16:45.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-09-25T19:16:45.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 17.6,
+        "vat_amount": 2.46,
+        "total": 20.06
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 4.61,
+        "vat_amount": 1.17,
+        "total": 5.78
+      }
+    ]
+  },
+  {
+    "vendor_name": "Prisma Länsikeskus",
+    "total_amount": 12.44,
+    "receipt_date": "2024-11-23T17:22:45.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-11-23T17:22:45.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 6.18,
+        "vat_amount": 0.87,
+        "total": 7.05
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 4.29,
+        "vat_amount": 1.1,
+        "total": 5.39
+      }
+    ]
+  },
+  {
+    "vendor_name": "Neste Express",
+    "total_amount": 35.2,
+    "receipt_date": "2026-01-06T14:33:26.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2026-01-06T14:33:26.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 16.83,
+        "vat_amount": 2.36,
+        "total": 19.19
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 12.76,
+        "vat_amount": 3.25,
+        "total": 16.01
+      }
+    ]
+  },
+  {
+    "vendor_name": "S-market Peltola",
+    "total_amount": 21.79,
+    "receipt_date": "2024-06-14T12:59:45.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-06-14T12:59:45.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 19.11,
+        "vat_amount": 2.68,
+        "total": 21.79
+      }
+    ]
+  },
+  {
+    "vendor_name": "ABC Liikennemyymälä",
+    "total_amount": 25.16,
+    "receipt_date": "2024-09-28T17:13:49.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-09-28T17:13:49.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 8.08,
+        "vat_amount": 1.13,
+        "total": 9.21
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 12.71,
+        "vat_amount": 3.24,
+        "total": 15.95
+      }
+    ]
+  },
+  {
+    "vendor_name": "ABC Liikennemyymälä",
+    "total_amount": 59.61,
+    "receipt_date": "2025-06-11T15:06:20.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-06-11T15:06:20.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 13.75,
+        "vat_amount": 1.93,
+        "total": 15.68
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 35.0,
+        "vat_amount": 8.93,
+        "total": 43.93
+      }
+    ]
+  },
+  {
+    "vendor_name": "K-Market Ranta",
+    "total_amount": 23.37,
+    "receipt_date": "2024-04-02T13:32:29.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-04-02T13:32:29.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 14.14,
+        "vat_amount": 1.98,
+        "total": 16.12
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 5.78,
+        "vat_amount": 1.47,
+        "total": 7.25
+      }
+    ]
+  },
+  {
+    "vendor_name": "K-Market Ranta",
+    "total_amount": 16.57,
+    "receipt_date": "2024-07-18T12:35:18.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-07-18T12:35:18.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 7.66,
+        "vat_amount": 1.07,
+        "total": 8.73
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 6.25,
+        "vat_amount": 1.59,
+        "total": 7.84
+      }
+    ]
+  },
+  {
+    "vendor_name": "Yliopiston Apteekki",
+    "total_amount": 77.7,
+    "receipt_date": "2025-06-11T09:20:59.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-06-11T09:20:59.000Z",
+    "receiptVats": [
+      {
+        "rate": 10,
+        "net_amount": 60.95,
+        "vat_amount": 6.09,
+        "total": 67.04
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 8.49,
+        "vat_amount": 2.17,
+        "total": 10.66
+      }
+    ]
+  },
+  {
+    "vendor_name": "Yliopiston Apteekki",
+    "total_amount": 34.49,
+    "receipt_date": "2024-09-28T17:50:49.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-09-28T17:50:49.000Z",
+    "receiptVats": [
+      {
+        "rate": 10,
+        "net_amount": 21.87,
+        "vat_amount": 2.19,
+        "total": 24.06
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 8.31,
+        "vat_amount": 2.12,
+        "total": 10.43
+      }
+    ]
+  },
+  {
+    "vendor_name": "ABC Liikennemyymälä",
+    "total_amount": 28.79,
+    "receipt_date": "2024-05-21T15:13:35.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-05-21T15:13:35.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 12.27,
+        "vat_amount": 1.72,
+        "total": 13.99
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 11.79,
+        "vat_amount": 3.01,
+        "total": 14.8
+      }
+    ]
+  },
+  {
+    "vendor_name": "Alepa Rautatientori",
+    "total_amount": 23.34,
+    "receipt_date": "2024-10-12T15:19:14.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-10-12T15:19:14.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 12.87,
+        "vat_amount": 1.8,
+        "total": 14.67
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 6.91,
+        "vat_amount": 1.76,
+        "total": 8.67
+      }
+    ]
+  },
+  {
+    "vendor_name": "Alepa Rautatientori",
+    "total_amount": 28.99,
+    "receipt_date": "2025-07-05T11:59:35.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-07-05T11:59:35.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 11.16,
+        "vat_amount": 1.56,
+        "total": 12.72
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 12.96,
+        "vat_amount": 3.31,
+        "total": 16.27
+      }
+    ]
+  },
+  {
+    "vendor_name": "Prisma Länsikeskus",
+    "total_amount": 11.42,
+    "receipt_date": "2025-07-17T21:10:26.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-07-17T21:10:26.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 7.42,
+        "vat_amount": 1.04,
+        "total": 8.46
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 2.36,
+        "vat_amount": 0.6,
+        "total": 2.96
+      }
+    ]
+  },
+  {
+    "vendor_name": "ABC Liikennemyymälä",
+    "total_amount": 8.21,
+    "receipt_date": "2024-06-29T21:58:02.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-06-29T21:58:02.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 3.87,
+        "vat_amount": 0.54,
+        "total": 4.41
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 3.03,
+        "vat_amount": 0.77,
+        "total": 3.8
+      }
+    ]
+  },
+  {
+    "vendor_name": "Neste Express",
+    "total_amount": 30.85,
+    "receipt_date": "2024-01-15T18:21:50.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-01-15T18:21:50.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 11.14,
+        "vat_amount": 1.56,
+        "total": 12.7
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 14.46,
+        "vat_amount": 3.69,
+        "total": 18.15
+      }
+    ]
+  },
+  {
+    "vendor_name": "ABC Liikennemyymälä",
+    "total_amount": 26.43,
+    "receipt_date": "2024-08-29T07:42:07.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-08-29T07:42:07.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 9.72,
+        "vat_amount": 1.36,
+        "total": 11.08
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 12.23,
+        "vat_amount": 3.12,
+        "total": 15.35
+      }
+    ]
+  },
+  {
+    "vendor_name": "Neste Express",
+    "total_amount": 29.48,
+    "receipt_date": "2025-09-02T20:50:05.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-09-02T20:50:05.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 8.51,
+        "vat_amount": 1.19,
+        "total": 9.7
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 15.76,
+        "vat_amount": 4.02,
+        "total": 19.78
+      }
+    ]
+  },
+  {
+    "vendor_name": "K-Citymarket Kaari",
+    "total_amount": 23.13,
+    "receipt_date": "2026-01-04T16:31:05.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2026-01-04T16:31:05.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 13.08,
+        "vat_amount": 1.83,
+        "total": 14.91
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 6.55,
+        "vat_amount": 1.67,
+        "total": 8.22
+      }
+    ]
+  },
+  {
+    "vendor_name": "S-market Peltola",
+    "total_amount": 27.36,
+    "receipt_date": "2024-07-03T19:08:49.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-07-03T19:08:49.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 21.12,
+        "vat_amount": 2.96,
+        "total": 24.08
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 2.61,
+        "vat_amount": 0.67,
+        "total": 3.28
+      }
+    ]
+  },
+  {
+    "vendor_name": "Lidl Myllypuro",
+    "total_amount": 18.39,
+    "receipt_date": "2026-01-06T15:27:34.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2026-01-06T15:27:34.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 5.02,
+        "vat_amount": 0.7,
+        "total": 5.72
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 10.1,
+        "vat_amount": 2.57,
+        "total": 12.67
+      }
+    ]
+  },
+  {
+    "vendor_name": "S-market Peltola",
+    "total_amount": 46.01,
+    "receipt_date": "2024-09-07T18:02:25.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-09-07T18:02:25.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 22.91,
+        "vat_amount": 3.21,
+        "total": 26.12
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 15.85,
+        "vat_amount": 4.04,
+        "total": 19.89
+      }
+    ]
+  },
+  {
+    "vendor_name": "Sale Koivula",
+    "total_amount": 19.05,
+    "receipt_date": "2024-11-03T11:03:35.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-11-03T11:03:35.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 3.18,
+        "vat_amount": 0.45,
+        "total": 3.63
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 12.29,
+        "vat_amount": 3.13,
+        "total": 15.42
+      }
+    ]
+  },
+  {
+    "vendor_name": "K-Market Ranta",
+    "total_amount": 27.96,
+    "receipt_date": "2025-02-26T13:35:33.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-02-26T13:35:33.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 11.02,
+        "vat_amount": 1.54,
+        "total": 12.56
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 12.27,
+        "vat_amount": 3.13,
+        "total": 15.4
+      }
+    ]
+  },
+  {
+    "vendor_name": "K-Citymarket Kaari",
+    "total_amount": 37.69,
+    "receipt_date": "2024-01-16T10:59:12.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-01-16T10:59:12.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 12.87,
+        "vat_amount": 1.8,
+        "total": 14.67
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 18.34,
+        "vat_amount": 4.68,
+        "total": 23.02
+      }
+    ]
+  },
+  {
+    "vendor_name": "Prisma Länsikeskus",
+    "total_amount": 30.29,
+    "receipt_date": "2025-08-21T16:46:26.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-08-21T16:46:26.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 23.72,
+        "vat_amount": 3.32,
+        "total": 27.04
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 2.59,
+        "vat_amount": 0.66,
+        "total": 3.25
+      }
+    ]
+  },
+  {
+    "vendor_name": "Prisma Länsikeskus",
+    "total_amount": 30.78,
+    "receipt_date": "2024-02-04T20:54:04.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-02-04T20:54:04.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 24.65,
+        "vat_amount": 3.45,
+        "total": 28.1
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 2.14,
+        "vat_amount": 0.54,
+        "total": 2.68
+      }
+    ]
+  },
+  {
+    "vendor_name": "S-market Peltola",
+    "total_amount": 51.35,
+    "receipt_date": "2024-09-03T10:39:33.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-09-03T10:39:33.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 33.57,
+        "vat_amount": 4.7,
+        "total": 38.27
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 10.42,
+        "vat_amount": 2.66,
+        "total": 13.08
+      }
+    ]
+  },
+  {
+    "vendor_name": "Lidl Myllypuro",
+    "total_amount": 23.57,
+    "receipt_date": "2024-12-05T16:54:06.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-12-05T16:54:06.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 10.25,
+        "vat_amount": 1.43,
+        "total": 11.68
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 9.47,
+        "vat_amount": 2.42,
+        "total": 11.89
+      }
+    ]
+  },
+  {
+    "vendor_name": "Sale Koivula",
+    "total_amount": 13.15,
+    "receipt_date": "2024-07-31T16:09:48.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-07-31T16:09:48.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 3.43,
+        "vat_amount": 0.48,
+        "total": 3.91
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 7.36,
+        "vat_amount": 1.88,
+        "total": 9.24
+      }
+    ]
+  },
+  {
+    "vendor_name": "Yliopiston Apteekki",
+    "total_amount": 45.76,
+    "receipt_date": "2024-03-18T12:38:49.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-03-18T12:38:49.000Z",
+    "receiptVats": [
+      {
+        "rate": 10,
+        "net_amount": 30.45,
+        "vat_amount": 3.05,
+        "total": 33.5
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 9.77,
+        "vat_amount": 2.49,
+        "total": 12.26
+      }
+    ]
+  },
+  {
+    "vendor_name": "ABC Liikennemyymälä",
+    "total_amount": 30.77,
+    "receipt_date": "2024-06-06T18:24:20.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-06-06T18:24:20.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 16.07,
+        "vat_amount": 2.25,
+        "total": 18.32
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 9.92,
+        "vat_amount": 2.53,
+        "total": 12.45
+      }
+    ]
+  },
+  {
+    "vendor_name": "Sale Koivula",
+    "total_amount": 22.18,
+    "receipt_date": "2025-09-04T19:20:55.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-09-04T19:20:55.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 19.46,
+        "vat_amount": 2.72,
+        "total": 22.18
+      }
+    ]
+  },
+  {
+    "vendor_name": "K-Citymarket Kaari",
+    "total_amount": 36.87,
+    "receipt_date": "2025-09-27T13:51:55.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2025-09-27T13:51:55.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 25.87,
+        "vat_amount": 3.62,
+        "total": 29.49
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 5.88,
+        "vat_amount": 1.5,
+        "total": 7.38
+      }
+    ]
+  },
+  {
+    "vendor_name": "Yliopiston Apteekki",
+    "total_amount": 47.41,
+    "receipt_date": "2026-02-25T15:01:46.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2026-02-25T15:01:46.000Z",
+    "receiptVats": [
+      {
+        "rate": 10,
+        "net_amount": 27.42,
+        "vat_amount": 2.74,
+        "total": 30.16
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 13.75,
+        "vat_amount": 3.5,
+        "total": 17.25
+      }
+    ]
+  },
+  {
+    "vendor_name": "Lidl Myllypuro",
+    "total_amount": 33.74,
+    "receipt_date": "2024-12-29T09:41:39.000Z",
+    "receipt_type": "EXPENSE",
+    "is_deductible": true,
+    "vat_deductibility_percentage": "100.00",
+    "created_at": "2024-12-29T09:41:39.000Z",
+    "receiptVats": [
+      {
+        "rate": 14,
+        "net_amount": 24.53,
+        "vat_amount": 3.43,
+        "total": 27.96
+      },
+      {
+        "rate": 25.5,
+        "net_amount": 4.61,
+        "vat_amount": 1.17,
+        "total": 5.78
+      }
+    ]
+  }
+]
