@@ -1,9 +1,25 @@
-import { View, Text, TextInput, TouchableOpacity } from "react-native"
+import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native"
 import { useState } from "react"
+import api from "../../services/api";
+import { useAuth } from "../../context/authContext";
 
 export default function LoginForm({ navigation }: any) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const { login } = useAuth();
+
+    const handleLogin = async () => {
+        try {
+            const response = await api.post('/api/auth/login', {
+                email,
+                password
+            });
+            await login(response.data.user.token);
+        } catch(error: any) {
+            Alert.alert("Virhe", error.response?.data?.message || "Kirjautuminen epäonnistui");
+        }
+    };
 
     return(
         <View className="flex-1 justify-center bg-slate-50 px-4">
@@ -30,7 +46,7 @@ export default function LoginForm({ navigation }: any) {
                         className="h-11 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950"
                         placeholderTextColor="#94a3b8"
                     />
-                    <TouchableOpacity className="h-11 items-center justify-center rounded-lg bg-slate-950">
+                    <TouchableOpacity onPress={handleLogin} className="h-11 items-center justify-center rounded-lg bg-slate-950">
                         <Text className="text-sm font-semibold text-white">Kirjaudu</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
