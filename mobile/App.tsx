@@ -1,12 +1,24 @@
 import "./global.css";
-import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+// Importing Components
+import LoginForm from "./screens/auth/LoginForm";
+import SignupForm from "./screens/auth/SignupForm";
+import PasswordResetForm from "./screens/auth/PasswordResetForm";
+
+// Create stack outside of App
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-  return (
-    <View className="flex-1 bg-white items-center justify-center">
-      <Text className="text-xl font-bold text-slate-800">AI-Bookkeeper</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  
+    return (
+        <NavigationContainer>
+            <Stack.Navigator>
+                <Stack.Screen name="Login" component={LoginForm}/>
+                <Stack.Screen name="Signup" component={SignupForm}/>
+                <Stack.Screen name="PasswordReset" component={PasswordResetForm}/>
+            </Stack.Navigator>
+        </NavigationContainer> 
+    );
 }
