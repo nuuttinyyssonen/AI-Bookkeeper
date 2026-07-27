@@ -12,6 +12,8 @@ const PRICE_IDS = {
     PREMIUM_YEARLY: process.env.STRIPE_PREMIUM_YEARLY_PRICE_ID,
 };
 
+const MOBILE_APP_SCHEME = "aibookkeeper";
+
 /**
  * Creates a Stripe Checkout session for a new subscription.
  * @param {Request} req.body - Subscription type and user id
@@ -27,19 +29,24 @@ export const createCheckoutSession = async (req: Request, res: Response, next: N
         return next(new ValidationError(result.error.issues[0].message));
     }
 
-    const { subscriptionType, user_id } = result.data;
+    const { subscriptionType, user_id, platform } = result.data;
     const priceId = PRICE_IDS[subscriptionType as SubscriptionType];
     if(!priceId) {
         return next(new ValidationError("Price id is not valid"));
     }
+
+    // Mobile has no web page to redirect back to, so Stripe redirects into the app via a deep link instead
+    const { successUrl, cancelUrl } = platform === "mobile"
+        ? { successUrl: `${MOBILE_APP_SCHEME}://checkout-success`, cancelUrl: `${MOBILE_APP_SCHEME}://checkout-cancel` }
+        : { successUrl: `${process.env.CLIENT_URL}/login?message=subscription-activated`, cancelUrl: `${process.env.CLIENT_URL}/signup` };
 
     try {
         const session = await stripe.checkout.sessions.create({
             mode: 'subscription',
             payment_method_types: ['card'],
             line_items: [{ price: priceId, quantity: 1 }],
-            success_url: `${process.env.CLIENT_URL}/login?message=subscription-activated`,
-            cancel_url: `${process.env.CLIENT_URL}/signup`,
+            success_url: successUrl,
+            cancel_url: cancelUrl,
             metadata: { user_id, subscriptionType },
         });
 
@@ -177,6 +184,25 @@ export const getSubscriptionStatus = async (req: Request, res: Response, next: N
             return res.json({ message: "You don't have an active subscription" });
         }
         return res.status(200).json({ subscription });
+    } catch(error) {
+        return next(error);
+    }
+};
+
+/**
+ * Retrieves the user's subscription status in mobile checkout.
+ * @param {Request} req.query - Gets user id from query params
+ * @returns 200 with `{ subscription }`, or a message if no subscription exists
+ * @throws {Error} 500 - If database query fails
+ */
+export const getSubscriptionStatusByParams = async (req: Request<{user_id: string}>, res: Response, next: NextFunction) => {
+    const { user_id } = req.params
+    try {
+        const subscription = await prisma.subscription.findUnique({ where: { user_id: user_id } });
+        if(!subscription) {
+            return res.json({ message: "You don't have an active subscription" });
+        }
+        return res.status(200).json({ hasSubscription: !!subscription });
     } catch(error) {
         return next(error);
     }
