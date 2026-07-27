@@ -56,10 +56,10 @@ export default function DashboardScreen({ navigation }: any) {
                     <TouchableOpacity onPress={handleLogout} className="h-10 flex-1 items-center justify-center rounded-md border border-slate-300 bg-white">
                         <Text className="text-sm font-medium text-slate-700">Kirjaudu ulos</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={handleLogout} className="h-10 flex-1 items-center justify-center rounded-md border border-slate-300 bg-white">
+                    <TouchableOpacity className="h-10 flex-1 items-center justify-center rounded-md border border-slate-300 bg-white">
                         <Text className="text-sm font-medium text-slate-700">Vie</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={handleLogout} className="h-10 flex-1 items-center justify-center rounded-md bg-teal-600">
+                    <TouchableOpacity onPress={() => navigation.navigate("Upload")} className="h-10 flex-1 items-center justify-center rounded-md bg-teal-600">
                         <Text className="text-sm font-semibold text-white">Lisää kuitti</Text>
                     </TouchableOpacity>
                 </View>
