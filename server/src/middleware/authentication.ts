@@ -4,8 +4,14 @@ import { prisma } from "../lib/prisma";
 import { AuthenticationError } from "../utils/error";
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
-    // Get token from cookie
-    const token = req.cookies?.token;
+    // Native sends: Authorization: Bearer <token>
+    // Web sends: cookie
+    const authHeader = req.headers.authorization;
+    const bearerToken = authHeader?.startsWith("Bearer ") 
+        ? authHeader.split(" ")[1] 
+        : null;
+
+    const token = bearerToken || req.cookies?.token;
 
     if(!token) {
         return next(new AuthenticationError("Token is missing"));
