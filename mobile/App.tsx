@@ -5,8 +5,11 @@ import { AuthProvider, useAuth } from "./context/authContext";
 
 import LoginForm from "./screens/auth/LoginForm";
 import SignupForm from "./screens/auth/SignupForm";
-import PasswordResetForm from "./screens/auth/PasswordResetForm";
+import ForgotPasswordForm from "./screens/auth/ForgotPasswordForm";
+import ResetPasswordForm from "./screens/auth/ResetPasswordForm";
 import Dashboard from "./screens/main/Dashboard";
+
+import Toast from 'react-native-toast-message';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,7 +26,8 @@ function RootNavigator() {
                 <>
                     <Stack.Screen name="Login" component={LoginForm} />
                     <Stack.Screen name="Signup" component={SignupForm} />
-                    <Stack.Screen name="PasswordResetForm" component={PasswordResetForm} />
+                    <Stack.Screen name="ForgotPasswordForm" component={ForgotPasswordForm} />
+                    <Stack.Screen name="ResetPassword" component={ResetPasswordForm} />
                 </>
             )}
         </Stack.Navigator>
@@ -36,6 +40,7 @@ export default function App() {
             <NavigationContainer>
                 <RootNavigator />
             </NavigationContainer>
+            <Toast/>
         </AuthProvider>
     );
 };

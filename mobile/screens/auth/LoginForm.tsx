@@ -54,7 +54,7 @@ export default function LoginForm({ navigation }: any) {
                             Uusi käyttäjä? <Text className="font-semibold text-teal-700">Luo tili</Text>
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate("PasswordReset")}>
+                    <TouchableOpacity onPress={() => navigation.navigate("ForgotPasswordForm")}>
                         <Text className="text-center text-sm leading-6 text-slate-500">
                             Unohditko salasanasi? <Text className="font-semibold text-teal-700">Palauta salasana</Text>
                         </Text>

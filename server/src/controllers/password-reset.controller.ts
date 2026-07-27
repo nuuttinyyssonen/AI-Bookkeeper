@@ -8,6 +8,7 @@ import { idSchema } from "../schemas/id.schema";
 import { supabaseAdmin } from "../lib/supabase";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+const MOBILE_APP_SCHEME = "aibookkeeper";
 
 /**
  * Sends a password reset link to the user's email address.
@@ -26,7 +27,7 @@ export const sendPasswordResetLink = async (req: Request, res: Response, next: N
         return next(new ValidationError(result.error.issues[0].message));
     }
 
-    const { email } = result.data;
+    const { email, platform } = result.data;
 
     try {
         const user = await prisma.user.findUnique({ where: { email: email } });
@@ -44,14 +45,23 @@ export const sendPasswordResetLink = async (req: Request, res: Response, next: N
             }
         });
 
+        // Mobile has no web page to redirect back to, so Stripe redirects into the app via a deep link instead
+        const url = platform === "mobile"
+            ? `<p>Here is your password reset link <a href="${MOBILE_APP_SCHEME}://reset-password?token=${token.id}">Reset password</a></p>`
+            : `<p>Here is your password reset link http://localhost:3000/reset-password/${token.id}.</p>`;
+
+
         await resend.emails.send({
             from: 'onboarding@resend.dev',
             to: user.email,
             subject: 'Password reset link',
-            html: `<p>Here is your password reset link http://localhost:3000/reset-password/${token.id}.</p>`
+            html: url
         });
 
-        return res.status(200).json({ message: "Password reset link has been sent to your email" });
+        return res.status(200).json({ 
+            message: "Password reset link has been sent to your email",
+            ...(platform === "mobile" && { token: token.id })
+        });
     } catch(error) {
         return next(error);
     }

@@ -15,7 +15,8 @@ export const signupSchema = z.object({
 });
 
 export const emailSchema = z.object({
-    email: z.email("Invalid email")
+    email: z.email("Invalid email"),
+    platform: z.enum(["web", "mobile"]).optional()
 });
 
 export const passwordSchema = z.object({
