@@ -7,7 +7,9 @@ import LoginForm from "./screens/auth/LoginForm";
 import SignupForm from "./screens/auth/SignupForm";
 import ForgotPasswordForm from "./screens/auth/ForgotPasswordForm";
 import ResetPasswordForm from "./screens/auth/ResetPasswordForm";
-import Dashboard from "./screens/main/Dashboard";
+import Dashboard from "./screens/main/DashboardScreen";
+
+import MainTabNavigator from "./navigation/MainTabNavigator";
 
 import Toast from 'react-native-toast-message';
 
@@ -21,7 +23,7 @@ function RootNavigator() {
     return (
         <Stack.Navigator>
             {isAuthenticated ? (
-                <Stack.Screen name="Dashboard" component={Dashboard} />
+                <Stack.Screen name="Main" component={MainTabNavigator} />
             ) : (
                 <>
                     <Stack.Screen name="Login" component={LoginForm} />
