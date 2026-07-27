@@ -3,7 +3,7 @@ import { useAuth } from "../../context/authContext";
 import { useEffect, useState } from "react";
 import api from "../../services/api";
 
-export default function Dashboard({ navigation }: any) {
+export default function DashboardScreen({ navigation }: any) {
     const { logout } = useAuth();
     const [revenue, setRevenue] = useState("");
     const [expenses, setExpenses] = useState("");
