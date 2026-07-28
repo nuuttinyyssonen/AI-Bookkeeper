@@ -7,7 +7,7 @@ import LoginForm from "./screens/auth/LoginForm";
 import SignupForm from "./screens/auth/SignupForm";
 import ForgotPasswordForm from "./screens/auth/ForgotPasswordForm";
 import ResetPasswordForm from "./screens/auth/ResetPasswordForm";
-import Dashboard from "./screens/main/DashboardScreen";
+import ReceiptViewScreen from "./screens/main/ReceiptViewScreen";
 
 import MainTabNavigator from "./navigation/MainTabNavigator";
 
@@ -23,7 +23,10 @@ function RootNavigator() {
     return (
         <Stack.Navigator>
             {isAuthenticated ? (
-                <Stack.Screen name="Main" component={MainTabNavigator} />
+                <>
+                    <Stack.Screen name="Main" component={MainTabNavigator} />
+                    <Stack.Screen name="ReceiptView" component={ReceiptViewScreen} />
+                </>
             ) : (
                 <>
                     <Stack.Screen name="Login" component={LoginForm} />
