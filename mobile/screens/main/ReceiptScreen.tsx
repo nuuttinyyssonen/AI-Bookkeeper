@@ -30,6 +30,7 @@ export default function ReceiptScreen({ navigation }: any) {
     // Filter between expenses and incomes
     const receipts = activeTab === "EXPENSE" ? expenses : incomes;
 
+    // Filtering receipts from current page
     const totalPages = Math.max(1, Math.ceil(receipts.length / RECEIPTS_PER_PAGE));
     const currentPage = Math.min(page, totalPages);
     const paginatedReceipts = receipts.slice(
