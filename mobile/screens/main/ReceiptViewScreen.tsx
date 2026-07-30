@@ -1,11 +1,24 @@
 import { useEffect, useState } from "react";
 import { View, Alert, Text, TouchableOpacity, ScrollView, Image } from "react-native";
 import api from "../../services/api";
+import Categories from "../../components/Categories";
 
 export default function ReceiptViewScreen({ navigation, route }: any) {
     const { id } = route.params;
     const [receipt, setReceipt] = useState<any>();
     const [fileUrl, setFileUrl] = useState<string | null>(null);
+    const [selectedCategory, setSelectedCategory] = useState<string>("");
+
+    const handleCategoryChange = async (category: string) => {
+        const previousCategory = selectedCategory;
+        setSelectedCategory(category);
+        try {
+            await api.put(`/api/receipt/category/${id}`, { category });
+        } catch (error: any) {
+            setSelectedCategory(previousCategory);
+            Alert.alert(error.response?.data?.message || "Virhe, kategorian päivittäminen epäonnistui");
+        }
+    };
 
     const handleDownload = async (receipt_id: string) => {
         const response = await api.get(`/api/storage/fileUrl/${receipt_id}`);
@@ -17,6 +30,7 @@ export default function ReceiptViewScreen({ navigation, route }: any) {
             try {
                 const response = await api.get(`/api/receipt/${id}`);
                 setReceipt(response.data.receipt);
+                setSelectedCategory(response.data.receipt.category?.type ?? "");
                 await handleDownload(id);
             } catch(error: any) {
                 return Alert.alert(error.response.data?.message || "Virhe, Kuitin hakeminen epäonnistui");
@@ -24,10 +38,6 @@ export default function ReceiptViewScreen({ navigation, route }: any) {
         };
         fetchReceiptById();
     }, []);
-
-    const handleNavigateToReceipts = () => {
-
-    };
 
     if(!receipt) {
         return (
@@ -44,6 +54,12 @@ export default function ReceiptViewScreen({ navigation, route }: any) {
             <View className="border-b border-slate-200 bg-white px-4 py-4">
                 <Text className="text-2xl font-semibold text-slate-950">Kuitin tiedot</Text>
                 <Text className="mt-1 text-sm text-slate-500">Tarkastele kuitin tietoja, kuvaa ja toimintovaihtoehtoja.</Text>
+                <TouchableOpacity 
+                    onPress={() => navigation.navigate("Main", { screen: "Receipts" })}
+                    className="h-11 items-center justify-center rounded-lg border border-slate-200 bg-white px-4"
+                >
+                    <Text className="text-sm font-semibold text-slate-950">Takaisin</Text>
+                </TouchableOpacity>
             </View>
 
             <View className="gap-6 px-4 py-6">
@@ -84,12 +100,16 @@ export default function ReceiptViewScreen({ navigation, route }: any) {
                         <Text className="mt-4 text-sm text-slate-500">ALV-tietoja ei saatavilla.</Text>
                     )}
 
+                    <View className="mt-4">
+                        <Categories
+                            selectedCategory={selectedCategory}
+                            handleCategoryChange={handleCategoryChange}
+                        />
+                    </View>
+
                     <View className="mt-6 flex-row flex-wrap gap-3">
-                        <TouchableOpacity onPress={handleNavigateToReceipts} className="h-9 items-center justify-center rounded-md bg-red-600 px-4">
+                        <TouchableOpacity className="h-9 items-center justify-center rounded-md bg-red-600 px-4">
                             <Text className="text-sm font-semibold text-white">Poista kuitti</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity className="h-9 items-center justify-center rounded-md bg-teal-600 px-4">
-                            <Text className="text-sm font-semibold text-white">Lataa PDF</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
