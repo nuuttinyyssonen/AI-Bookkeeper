@@ -1,57 +1,31 @@
-import { View, Text, TextInput, TouchableOpacity, ScrollView } from "react-native"
-import { useState } from "react";
-
-const mockExpenseReceipts = [
-    {
-        id: "1",
-        vendor_name: "K-Market Kauppatori",
-        receipt_date: "2026-07-24",
-        total_amount: "84,90",
-        category: "Ravintola & kahvila",
-        is_deductible: true,
-        vats: [
-            { id: "1a", rate: "24%", net: "68,47", vat: "16,43", total: "84,90" },
-        ],
-    },
-    {
-        id: "2",
-        vendor_name: "Elisa Oyj",
-        receipt_date: "2026-07-20",
-        total_amount: "39,90",
-        category: "Puhelin & internet",
-        is_deductible: true,
-        vats: [
-            { id: "2a", rate: "25,5%", net: "31,79", vat: "8,11", total: "39,90" },
-        ],
-    },
-    {
-        id: "3",
-        vendor_name: "Neste Oyj",
-        receipt_date: "2026-07-15",
-        total_amount: "62,30",
-        category: "Matkakulut",
-        is_deductible: false,
-        vats: [],
-    },
-];
-
-const mockIncomeReceipts = [
-    {
-        id: "4",
-        vendor_name: "Yritysasiakas Oy",
-        receipt_date: "2026-07-22",
-        total_amount: "1 250,00",
-        category: "Konsultointi",
-        is_deductible: true,
-        vats: [
-            { id: "4a", rate: "25,5%", net: "996,02", vat: "253,98", total: "1 250,00" },
-        ],
-    },
-];
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert } from "react-native"
+import { useState, useEffect } from "react";
+import api from "../../services/api";
 
 export default function ReceiptScreen({ navigation }: any) {
     const [activeTab, setActiveTab] = useState<"EXPENSE" | "INCOME">("EXPENSE");
-    const receipts = activeTab === "EXPENSE" ? mockExpenseReceipts : mockIncomeReceipts;
+    const [expenses, setExpenses] = useState([]);
+    const [incomes, setIncomes] = useState([]);
+
+    useEffect(() => {
+        const fetchReceipts = async () => {
+            try {
+                const response = await api.get("/api/receipt");
+                const expense_receipts = response.data.receipts.filter((r: any) => r.receipt_type === "EXPENSE")
+                const income_receipts = response.data.receipts.filter((r: any) => r.receipt_type === "INCOME");
+
+                setExpenses(expense_receipts);
+                setIncomes(income_receipts);
+
+            } catch(error: any) {
+                Alert.alert("Virhe", "Kuittien hakeminen epäonnistui");
+            }
+        };
+        fetchReceipts();
+    }, []);
+
+    // Filter between expenses and incomes
+    const receipts = activeTab === "EXPENSE" ? expenses : incomes;
 
     const handleNavigateToReceipt = (id: string) => {
         navigation.navigate("ReceiptView", { id });
@@ -77,7 +51,7 @@ export default function ReceiptScreen({ navigation }: any) {
                         className={`px-1 pb-3 ${activeTab === "EXPENSE" ? "border-b-2 border-slate-950" : ""}`}
                     >
                         <Text className={`text-sm font-medium ${activeTab === "EXPENSE" ? "text-slate-950" : "text-slate-500"}`}>
-                            Kulut ({mockExpenseReceipts.length})
+                            Kulut ({expenses.length})
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -85,7 +59,7 @@ export default function ReceiptScreen({ navigation }: any) {
                         className={`px-1 pb-3 ${activeTab === "INCOME" ? "border-b-2 border-teal-600" : ""}`}
                     >
                         <Text className={`text-sm font-medium ${activeTab === "INCOME" ? "text-teal-600" : "text-slate-500"}`}>
-                            Tulot ({mockIncomeReceipts.length})
+                            Tulot ({incomes.length})
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -103,10 +77,10 @@ export default function ReceiptScreen({ navigation }: any) {
                                 <Text className="text-lg font-semibold text-slate-950">{r.total_amount} €</Text>
                             </View>
 
-                            {r.vats.length > 0 ? (
+                            {r.receiptVats.length > 0 ? (
                                 <View className="mt-4 gap-2 rounded-lg border border-slate-200 bg-slate-50 p-4">
                                     <Text className="text-sm font-semibold text-slate-700">ALV-erittely</Text>
-                                    {r.vats.map((vat: any) => (
+                                    {r.receiptVats.map((vat: any) => (
                                         <View key={vat.id} className="gap-1">
                                             <Text className="text-sm text-slate-700">Kanta {vat.rate}</Text>
                                             <Text className="text-sm text-slate-700">Netto {vat.net} €</Text>
@@ -120,7 +94,7 @@ export default function ReceiptScreen({ navigation }: any) {
                             )}
 
                             <View className="mt-3 flex-row items-center justify-between">
-                                <Text className="text-sm text-slate-500">{r.category}</Text>
+                                <Text className="text-sm text-slate-500">{r.category.label}</Text>
                                 <Text className={`text-sm font-medium ${r.is_deductible ? "text-teal-600" : "text-red-500"}`}>
                                     {r.is_deductible ? "Vähennyskelpoinen" : "Ei vähennyskelpoinen"}
                                 </Text>
