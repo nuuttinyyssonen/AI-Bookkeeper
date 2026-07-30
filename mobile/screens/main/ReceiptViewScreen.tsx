@@ -2,13 +2,18 @@ import { useEffect, useState } from "react";
 import { View, Alert, Text, TouchableOpacity, ScrollView, Image } from "react-native";
 import api from "../../services/api";
 import Categories from "../../components/Categories";
+import Deductible from "../../components/Deductible";
+import Toast from "react-native-toast-message";
 
 export default function ReceiptViewScreen({ navigation, route }: any) {
     const { id } = route.params;
     const [receipt, setReceipt] = useState<any>();
     const [fileUrl, setFileUrl] = useState<string | null>(null);
     const [selectedCategory, setSelectedCategory] = useState<string>("");
+    const [isDeductible, setIsDeductible] = useState<boolean>(true);
+    const [deductiblePercentage, setDeductiblePercentage] = useState<number>(100);
 
+    // Request to change category on receipt
     const handleCategoryChange = async (category: string) => {
         const previousCategory = selectedCategory;
         setSelectedCategory(category);
@@ -20,17 +25,73 @@ export default function ReceiptViewScreen({ navigation, route }: any) {
         }
     };
 
+    // Request to toggle deductible status on receipt
+    const handleDeductibleToggle = async () => {
+        const previousValue = isDeductible;
+        const newValue = !isDeductible;
+        setIsDeductible(newValue);
+        try {
+            await api.put(`/api/receipt/is_deductible/${id}`, { isDeductible: newValue });
+        } catch (error: any) {
+            setIsDeductible(previousValue);
+            Alert.alert(error.response?.data?.message || "Virhe, vähennyskelpoisuuden päivittäminen epäonnistui");
+        }
+    };
+
+    // Request to change deductible percentage on receipt
+    const handleDeductiblePercentageChange = async (value: number) => {
+        const previousValue = deductiblePercentage;
+        setDeductiblePercentage(value);
+        try {
+            await api.put(`/api/receipt/percentage/${id}`, { deductibilityPercentage: value });
+        } catch (error: any) {
+            setDeductiblePercentage(previousValue);
+            Alert.alert(error.response?.data?.message || "Virhe, prosenttiosuuden päivittäminen epäonnistui");
+        }
+    };
+
+    // Downloading file for image preview
     const handleDownload = async (receipt_id: string) => {
         const response = await api.get(`/api/storage/fileUrl/${receipt_id}`);
         setFileUrl(response.data.url);
     };
 
+    const handleDeleteReceipt = async () => {
+        Alert.alert(
+            "Poista kuitti",
+            "Haluatko varmasti poistaa kuitin?",
+            [
+                { text: "Peruuta", style: "cancel" },
+                {
+                    text: "Poista",
+                    style: "destructive",
+                    onPress: async () => {
+                        try {
+                            const response = await api.delete(`/api/storage/${id}`);
+                            Toast.show({
+                                type: "success",
+                                text1: "Onnistui",
+                                text2: response.data.message
+                            });
+                            navigation.goBack();
+                        } catch(error: any) {
+                            Alert.alert(error.response?.data?.message || "Virhe, Kuitin poistaminen epäonnistui");
+                        }
+                    }
+                }
+            ]
+        );
+    };
+
+    // Fetching all data of receipt
     useEffect(() => {
         const fetchReceiptById = async() => {
             try {
                 const response = await api.get(`/api/receipt/${id}`);
                 setReceipt(response.data.receipt);
                 setSelectedCategory(response.data.receipt.category?.type ?? "");
+                setIsDeductible(response.data.receipt.is_deductible ?? true);
+                setDeductiblePercentage(response.data.receipt.vat_deductibility_percentage ?? 100);
                 await handleDownload(id);
             } catch(error: any) {
                 return Alert.alert(error.response.data?.message || "Virhe, Kuitin hakeminen epäonnistui");
@@ -39,6 +100,7 @@ export default function ReceiptViewScreen({ navigation, route }: any) {
         fetchReceiptById();
     }, []);
 
+    // Showing loading screen when data is not fetched yet.
     if(!receipt) {
         return (
             <View className="flex-1 bg-slate-50 px-4 py-8">
@@ -107,8 +169,17 @@ export default function ReceiptViewScreen({ navigation, route }: any) {
                         />
                     </View>
 
+                    <View className="mt-4">
+                        <Deductible
+                            handleDeductibleToggle={handleDeductibleToggle}
+                            isDeductible={isDeductible}
+                            deductiblePercentage={deductiblePercentage}
+                            handleDeductiblePercentageChange={handleDeductiblePercentageChange}
+                        />
+                    </View>
+
                     <View className="mt-6 flex-row flex-wrap gap-3">
-                        <TouchableOpacity className="h-9 items-center justify-center rounded-md bg-red-600 px-4">
+                        <TouchableOpacity onPress={handleDeleteReceipt} className="h-9 items-center justify-center rounded-md bg-red-600 px-4">
                             <Text className="text-sm font-semibold text-white">Poista kuitti</Text>
                         </TouchableOpacity>
                     </View>

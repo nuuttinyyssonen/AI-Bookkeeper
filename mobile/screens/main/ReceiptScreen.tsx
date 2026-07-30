@@ -1,31 +1,39 @@
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert } from "react-native"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import api from "../../services/api";
 
 export default function ReceiptScreen({ navigation }: any) {
     const [activeTab, setActiveTab] = useState<"EXPENSE" | "INCOME">("EXPENSE");
     const [expenses, setExpenses] = useState([]);
     const [incomes, setIncomes] = useState([]);
+    const [expenseTotal, setExpenseTotal] = useState(0);
+    const [incomeTotal, setIncomeTotal] = useState(0);
     const [page, setPage] = useState(1);
     const RECEIPTS_PER_PAGE = 5;
 
-    useEffect(() => {
-        const fetchReceipts = async () => {
-            try {
-                const response = await api.get("/api/receipt");
+    const fetchReceipts = async () => {
+        try {
+            const response = await api.get("/api/receipt");
 
-                // Filtering receipts to income and expenses tabs
-                const expense_receipts = response.data.receipts.filter((r: any) => r.receipt_type === "EXPENSE")
-                const income_receipts = response.data.receipts.filter((r: any) => r.receipt_type === "INCOME");
+            // Filtering receipts to income and expenses tabs
+            const expense_receipts = response.data.receipts.filter((r: any) => r.receipt_type === "EXPENSE")
+            const income_receipts = response.data.receipts.filter((r: any) => r.receipt_type === "INCOME");
 
-                setExpenses(expense_receipts);
-                setIncomes(income_receipts);
-            } catch(error: any) {
-                Alert.alert("Virhe", "Kuittien hakeminen epäonnistui");
-            }
-        };
-        fetchReceipts();
-    }, []);
+            setExpenses(expense_receipts);
+            setIncomes(income_receipts);
+            setExpenseTotal(response.data.expenseTotal);
+            setIncomeTotal(response.data.incomeTotal);
+        } catch(error: any) {
+            Alert.alert("Virhe", "Kuittien hakeminen epäonnistui");
+        }
+    };
+
+    useFocusEffect(
+        useCallback(() => {
+            fetchReceipts();
+        }, [])
+    );
 
     // Filter between expenses and incomes
     const receipts = activeTab === "EXPENSE" ? expenses : incomes;
@@ -67,7 +75,7 @@ export default function ReceiptScreen({ navigation }: any) {
                         className={`px-1 pb-3 ${activeTab === "EXPENSE" ? "border-b-2 border-slate-950" : ""}`}
                     >
                         <Text className={`text-sm font-medium ${activeTab === "EXPENSE" ? "text-slate-950" : "text-slate-500"}`}>
-                            Kulut ({expenses.length})
+                            Kulut ({expenseTotal})
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -75,7 +83,7 @@ export default function ReceiptScreen({ navigation }: any) {
                         className={`px-1 pb-3 ${activeTab === "INCOME" ? "border-b-2 border-teal-600" : ""}`}
                     >
                         <Text className={`text-sm font-medium ${activeTab === "INCOME" ? "text-teal-600" : "text-slate-500"}`}>
-                            Tulot ({incomes.length})
+                            Tulot ({incomeTotal})
                         </Text>
                     </TouchableOpacity>
                 </View>
