@@ -6,17 +6,20 @@ export default function ReceiptScreen({ navigation }: any) {
     const [activeTab, setActiveTab] = useState<"EXPENSE" | "INCOME">("EXPENSE");
     const [expenses, setExpenses] = useState([]);
     const [incomes, setIncomes] = useState([]);
+    const [page, setPage] = useState(1);
+    const RECEIPTS_PER_PAGE = 5;
 
     useEffect(() => {
         const fetchReceipts = async () => {
             try {
                 const response = await api.get("/api/receipt");
+
+                // Filtering receipts to income and expenses tabs
                 const expense_receipts = response.data.receipts.filter((r: any) => r.receipt_type === "EXPENSE")
                 const income_receipts = response.data.receipts.filter((r: any) => r.receipt_type === "INCOME");
 
                 setExpenses(expense_receipts);
                 setIncomes(income_receipts);
-
             } catch(error: any) {
                 Alert.alert("Virhe", "Kuittien hakeminen epäonnistui");
             }
@@ -26,6 +29,18 @@ export default function ReceiptScreen({ navigation }: any) {
 
     // Filter between expenses and incomes
     const receipts = activeTab === "EXPENSE" ? expenses : incomes;
+
+    const totalPages = Math.max(1, Math.ceil(receipts.length / RECEIPTS_PER_PAGE));
+    const currentPage = Math.min(page, totalPages);
+    const paginatedReceipts = receipts.slice(
+        (currentPage - 1) * RECEIPTS_PER_PAGE,
+        currentPage * RECEIPTS_PER_PAGE
+    );
+
+    const handleChangeTab = (tab: "EXPENSE" | "INCOME") => {
+        setActiveTab(tab);
+        setPage(1);
+    };
 
     const handleNavigateToReceipt = (id: string) => {
         navigation.navigate("ReceiptView", { id });
@@ -47,7 +62,7 @@ export default function ReceiptScreen({ navigation }: any) {
             <View className="gap-6 px-4 py-6">
                 <View className="flex-row gap-2 border-b border-slate-200">
                     <TouchableOpacity
-                        onPress={() => setActiveTab("EXPENSE")}
+                        onPress={() => handleChangeTab("EXPENSE")}
                         className={`px-1 pb-3 ${activeTab === "EXPENSE" ? "border-b-2 border-slate-950" : ""}`}
                     >
                         <Text className={`text-sm font-medium ${activeTab === "EXPENSE" ? "text-slate-950" : "text-slate-500"}`}>
@@ -55,7 +70,7 @@ export default function ReceiptScreen({ navigation }: any) {
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => setActiveTab("INCOME")}
+                        onPress={() => handleChangeTab("INCOME")}
                         className={`px-1 pb-3 ${activeTab === "INCOME" ? "border-b-2 border-teal-600" : ""}`}
                     >
                         <Text className={`text-sm font-medium ${activeTab === "INCOME" ? "text-teal-600" : "text-slate-500"}`}>
@@ -65,7 +80,7 @@ export default function ReceiptScreen({ navigation }: any) {
                 </View>
 
                 <View className="gap-4">
-                    {receipts.map((r: any) => (
+                    {paginatedReceipts.map((r: any) => (
                         <View key={r.id} className="rounded-md border border-slate-200 bg-white p-5">
                             <View className="flex-row items-start justify-between">
                                 <View>
@@ -82,10 +97,10 @@ export default function ReceiptScreen({ navigation }: any) {
                                     <Text className="text-sm font-semibold text-slate-700">ALV-erittely</Text>
                                     {r.receiptVats.map((vat: any) => (
                                         <View key={vat.id} className="gap-1">
-                                            <Text className="text-sm text-slate-700">Kanta {vat.rate}</Text>
-                                            <Text className="text-sm text-slate-700">Netto {vat.net} €</Text>
-                                            <Text className="text-sm text-slate-700">ALV {vat.vat} €</Text>
-                                            <Text className="text-sm text-slate-700">Yhteensä {vat.total} €</Text>
+                                            <Text className="text-sm text-slate-700">Kanta: {vat.rate} %</Text>
+                                            <Text className="text-sm text-slate-700">Netto: {vat.net_amount} €</Text>
+                                            <Text className="text-sm text-slate-700">ALV: {vat.vat_amount} €</Text>
+                                            <Text className="text-sm text-slate-700">Yhteensä: {vat.total} €</Text>
                                         </View>
                                     ))}
                                 </View>
@@ -113,11 +128,19 @@ export default function ReceiptScreen({ navigation }: any) {
                 </View>
 
                 <View className="mt-2 flex-row items-center justify-center gap-3">
-                    <TouchableOpacity disabled className="h-8 items-center justify-center rounded-lg border border-slate-300 bg-white px-3 opacity-60">
+                    <TouchableOpacity
+                        disabled={currentPage <= 1}
+                        onPress={() => setPage((p) => Math.max(1, p - 1))}
+                        className={`h-8 items-center justify-center rounded-lg border border-slate-300 bg-white px-3 ${currentPage <= 1 ? "opacity-60" : ""}`}
+                    >
                         <Text className="text-sm font-semibold text-slate-700">Edellinen</Text>
                     </TouchableOpacity>
-                    <Text className="text-sm text-slate-600">Sivu 1/1</Text>
-                    <TouchableOpacity disabled className="h-8 items-center justify-center rounded-lg border border-slate-300 bg-white px-3 opacity-60">
+                    <Text className="text-sm text-slate-600">Sivu {currentPage}/{totalPages}</Text>
+                    <TouchableOpacity
+                        disabled={currentPage >= totalPages}
+                        onPress={() => setPage((p) => Math.min(totalPages, p + 1))}
+                        className={`h-8 items-center justify-center rounded-lg border border-slate-300 bg-white px-3 ${currentPage >= totalPages ? "opacity-60" : ""}`}
+                    >
                         <Text className="text-sm font-semibold text-slate-700">Seuraava</Text>
                     </TouchableOpacity>
                 </View>
