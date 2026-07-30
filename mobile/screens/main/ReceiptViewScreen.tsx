@@ -1,107 +1,16 @@
-import { useEffect, useState } from "react";
-import { View, Alert, Text, TouchableOpacity, ScrollView, Image } from "react-native";
-import api from "../../services/api";
-import Categories from "../../components/Categories";
-import Deductible from "../../components/Deductible";
-import Toast from "react-native-toast-message";
+import { View, Text, ScrollView } from "react-native";
+import { useReceiptView } from "../../hooks/useReceiptView";
+
+import ReceiptHeader from "../../components/Receipt/ReceiptHeader";
+import ReceiptCard from "../../components/Receipt/ReceiptCard";
+import ReceiptImagePreview from "../../components/Receipt/ReceiptImagePreview";
 
 export default function ReceiptViewScreen({ navigation, route }: any) {
     const { id } = route.params;
-    const [receipt, setReceipt] = useState<any>();
-    const [fileUrl, setFileUrl] = useState<string | null>(null);
-    const [selectedCategory, setSelectedCategory] = useState<string>("");
-    const [isDeductible, setIsDeductible] = useState<boolean>(true);
-    const [deductiblePercentage, setDeductiblePercentage] = useState<number>(100);
-
-    // Request to change category on receipt
-    const handleCategoryChange = async (category: string) => {
-        const previousCategory = selectedCategory;
-        setSelectedCategory(category);
-        try {
-            await api.put(`/api/receipt/category/${id}`, { category });
-        } catch (error: any) {
-            setSelectedCategory(previousCategory);
-            Alert.alert(error.response?.data?.message || "Virhe, kategorian päivittäminen epäonnistui");
-        }
-    };
-
-    // Request to toggle deductible status on receipt
-    const handleDeductibleToggle = async () => {
-        const previousValue = isDeductible;
-        const newValue = !isDeductible;
-        setIsDeductible(newValue);
-        try {
-            await api.put(`/api/receipt/is_deductible/${id}`, { isDeductible: newValue });
-        } catch (error: any) {
-            setIsDeductible(previousValue);
-            Alert.alert(error.response?.data?.message || "Virhe, vähennyskelpoisuuden päivittäminen epäonnistui");
-        }
-    };
-
-    // Request to change deductible percentage on receipt
-    const handleDeductiblePercentageChange = async (value: number) => {
-        const previousValue = deductiblePercentage;
-        setDeductiblePercentage(value);
-        try {
-            await api.put(`/api/receipt/percentage/${id}`, { deductibilityPercentage: value });
-        } catch (error: any) {
-            setDeductiblePercentage(previousValue);
-            Alert.alert(error.response?.data?.message || "Virhe, prosenttiosuuden päivittäminen epäonnistui");
-        }
-    };
-
-    // Downloading file for image preview
-    const handleDownload = async (receipt_id: string) => {
-        const response = await api.get(`/api/storage/fileUrl/${receipt_id}`);
-        setFileUrl(response.data.url);
-    };
-
-    const handleDeleteReceipt = async () => {
-        Alert.alert(
-            "Poista kuitti",
-            "Haluatko varmasti poistaa kuitin?",
-            [
-                { text: "Peruuta", style: "cancel" },
-                {
-                    text: "Poista",
-                    style: "destructive",
-                    onPress: async () => {
-                        try {
-                            const response = await api.delete(`/api/storage/${id}`);
-                            Toast.show({
-                                type: "success",
-                                text1: "Onnistui",
-                                text2: response.data.message
-                            });
-                            navigation.goBack();
-                        } catch(error: any) {
-                            Alert.alert(error.response?.data?.message || "Virhe, Kuitin poistaminen epäonnistui");
-                        }
-                    }
-                }
-            ]
-        );
-    };
-
-    // Fetching all data of receipt
-    useEffect(() => {
-        const fetchReceiptById = async() => {
-            try {
-                const response = await api.get(`/api/receipt/${id}`);
-                setReceipt(response.data.receipt);
-                setSelectedCategory(response.data.receipt.category?.type ?? "");
-                setIsDeductible(response.data.receipt.is_deductible ?? true);
-                setDeductiblePercentage(response.data.receipt.vat_deductibility_percentage ?? 100);
-                await handleDownload(id);
-            } catch(error: any) {
-                return Alert.alert(error.response.data?.message || "Virhe, Kuitin hakeminen epäonnistui");
-            }
-        };
-        fetchReceiptById();
-    }, []);
+    const receiptView = useReceiptView(id, navigation);
 
     // Showing loading screen when data is not fetched yet.
-    if(!receipt) {
+    if(!receiptView.receipt) {
         return (
             <View className="flex-1 bg-slate-50 px-4 py-8">
                 <View className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
@@ -113,95 +22,9 @@ export default function ReceiptViewScreen({ navigation, route }: any) {
 
     return (
         <ScrollView className="flex-1 bg-slate-50">
-            <View className="border-b border-slate-200 bg-white px-4 py-4">
-                <Text className="text-2xl font-semibold text-slate-950">Kuitin tiedot</Text>
-                <Text className="mt-1 text-sm text-slate-500">Tarkastele kuitin tietoja, kuvaa ja toimintovaihtoehtoja.</Text>
-                <TouchableOpacity 
-                    onPress={() => navigation.navigate("Main", { screen: "Receipts" })}
-                    className="h-11 items-center justify-center rounded-lg border border-slate-200 bg-white px-4"
-                >
-                    <Text className="text-sm font-semibold text-slate-950">Takaisin</Text>
-                </TouchableOpacity>
-            </View>
-
-            <View className="gap-6 px-4 py-6">
-                <View className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                    <View className="flex-row items-start justify-between">
-                        <View>
-                            <Text className="mb-1 text-xs text-slate-500">Toimittaja</Text>
-                            <Text className="text-lg font-semibold text-slate-950">{receipt.vendor_name}</Text>
-                        </View>
-                    </View>
-
-                    <View className="mt-4 flex-row items-end justify-between">
-                        <View>
-                            <Text className="mb-1 text-xs text-slate-500">Päivämäärä</Text>
-                            <Text className="text-sm text-slate-700">
-                                {new Date(receipt.receipt_date).toLocaleDateString("fi-FI")}
-                            </Text>
-                        </View>
-                        <View className="items-end">
-                            <Text className="mb-1 text-xs text-slate-500">Yhteensä</Text>
-                            <Text className="text-lg font-semibold text-slate-950">{receipt.total_amount} €</Text>
-                        </View>
-                    </View>
-
-                    {receipt.receiptVats.length > 0 ? (
-                        <View className="mt-4 gap-2 rounded-lg border border-slate-200 bg-slate-50 p-4">
-                            <Text className="text-sm font-semibold text-slate-700">ALV-erittely</Text>
-                            {receipt.receiptVats.map((vat: any) => (
-                                <View key={vat.id} className="flex-row flex-wrap gap-x-4 gap-y-1">
-                                    <Text className="text-sm text-slate-700">Kanta: {vat.rate} %</Text>
-                                    <Text className="text-sm text-slate-700">Netto: {vat.net_amount} €</Text>
-                                    <Text className="text-sm text-slate-700">ALV: {vat.vat_amount} €</Text>
-                                    <Text className="text-sm text-slate-700">Yhteensä: {vat.total} €</Text>
-                                </View>
-                            ))}
-                        </View>
-                    ) : (
-                        <Text className="mt-4 text-sm text-slate-500">ALV-tietoja ei saatavilla.</Text>
-                    )}
-
-                    <View className="mt-4">
-                        <Categories
-                            selectedCategory={selectedCategory}
-                            handleCategoryChange={handleCategoryChange}
-                        />
-                    </View>
-
-                    <View className="mt-4">
-                        <Deductible
-                            handleDeductibleToggle={handleDeductibleToggle}
-                            isDeductible={isDeductible}
-                            deductiblePercentage={deductiblePercentage}
-                            handleDeductiblePercentageChange={handleDeductiblePercentageChange}
-                        />
-                    </View>
-
-                    <View className="mt-6 flex-row flex-wrap gap-3">
-                        <TouchableOpacity onPress={handleDeleteReceipt} className="h-9 items-center justify-center rounded-md bg-red-600 px-4">
-                            <Text className="text-sm font-semibold text-white">Poista kuitti</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-
-                <View className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                    <Text className="text-base font-semibold text-slate-950">Kuitin kuva</Text>
-                    <Text className="mt-1 text-sm text-slate-500">Esikatsele tähän kirjaukseen ladattu kuitti.</Text>
-
-                    {fileUrl ? (
-                        <Image
-                            source={{ uri: fileUrl }}
-                            style={{ width: "100%", height: 320, marginTop: 16, borderRadius: 24 }}
-                            resizeMode="contain"
-                        />
-                    ) : (
-                        <View className="mt-4 h-80 items-center justify-center rounded-3xl border border-slate-200 bg-slate-100">
-                            <Text className="text-sm text-slate-500">Esikatselu ei ole saatavilla.</Text>
-                        </View>
-                    )}
-                </View>
-            </View>
+            <ReceiptHeader navigation={navigation}/>
+            <ReceiptCard receiptView={receiptView} />
+            <ReceiptImagePreview receiptView={receiptView}/>
         </ScrollView>
     )
 };
