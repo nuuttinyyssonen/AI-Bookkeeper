@@ -31,3 +31,15 @@ export type UseLoginReturn = {
     isLoading: boolean;
     handleLogin: () => Promise<void>;
 };
+
+export type UsePasswordResetReturn = {
+    password: string;
+    setPassword: (value: string) => void;
+    passwordRepeat: string;
+    setPasswordRepeat: (value: string) => void;
+    email: string;
+    setEmail: (value: string) => void;
+    handleSendEmail: () => Promise<void>;
+    handleResetPassword: () => Promise<void>;
+    isLoading: boolean;
+};

@@ -5,8 +5,8 @@ import { AuthProvider, useAuth } from "./context/authContext";
 
 import LoginScreen from "./screens/auth/LoginScreen";
 import SignupScreen from "./screens/auth/SignupScreen";
-import ForgotPasswordForm from "./screens/auth/ForgotPasswordForm";
-import ResetPasswordForm from "./screens/auth/ResetPasswordForm";
+import ForgotPasswordScreen from "./screens/auth/ForgotPasswordScreen";
+import ResetPasswordScreen from "./screens/auth/ResetPasswordScreen";
 import ReceiptViewScreen from "./screens/main/ReceiptViewScreen";
 
 import MainTabNavigator from "./navigation/MainTabNavigator";
@@ -31,8 +31,8 @@ function RootNavigator() {
                 <>
                     <Stack.Screen name="Login" component={LoginScreen} />
                     <Stack.Screen name="Signup" component={SignupScreen} />
-                    <Stack.Screen name="ForgotPasswordForm" component={ForgotPasswordForm} />
-                    <Stack.Screen name="ResetPassword" component={ResetPasswordForm} />
+                    <Stack.Screen name="ForgotPasswordForm" component={ForgotPasswordScreen} />
+                    <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
                 </>
             )}
         </Stack.Navigator>
