@@ -7,10 +7,12 @@ import { UseLoginReturn } from "../types/auth";
 export const useLogin = (): UseLoginReturn => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const { login } = useAuth();
 
     const handleLogin = async () => {
+        setIsLoading(true);
         try {
             const response = await api.post('/api/auth/login', {
                 email,
@@ -19,12 +21,14 @@ export const useLogin = (): UseLoginReturn => {
             await login(response.data.user.token);
         } catch(error: any) {
             Alert.alert("Virhe", error.response?.data?.message || "Kirjautuminen epäonnistui");
+        } finally {
+            setIsLoading(false);
         }
     };
 
     return {
         email, setEmail,
         password, setPassword,
-        handleLogin
+        handleLogin, isLoading
     }
 };

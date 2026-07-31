@@ -20,6 +20,7 @@ export type UseSignupReturn = {
     selectedPlan: Plan;
     setSelectedPlan: (value: Plan) => void;
     handleSignup: () => Promise<void>;
+    isLoading: boolean;
 };
 
 export type UseLoginReturn = {
@@ -27,5 +28,6 @@ export type UseLoginReturn = {
     setEmail: (value: string) => void;
     password: string;
     setPassword: (value: string) => void;
+    isLoading: boolean;
     handleLogin: () => Promise<void>;
 };

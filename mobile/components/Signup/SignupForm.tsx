@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native"
 export default function SignupForm({selectedPlan, setSelectedPlan, setEmail, email,
     setFirst_name, first_name, setLast_name, last_name, setPhonenumber, phonenumber,
     setBusiness_id, business_id, password, setPassword, setPasswordRepeat, passwordRepeat,
-    checked, setChecked, handleSignup
+    checked, setChecked, handleSignup, isLoading
 }: UseSignupReturn) {
     const navigation = useNavigation<any>();
     return (
@@ -87,8 +87,13 @@ export default function SignupForm({selectedPlan, setSelectedPlan, setEmail, ema
                     </View>
                     <Text className="text-sm text-slate-600">Hyväksyn käyttöehdot ja tietosuojaselosteen</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={handleSignup} className="h-11 items-center justify-center rounded-lg bg-slate-950">
-                    <Text className="text-sm font-semibold text-white">Luo tili</Text>
+                <TouchableOpacity onPress={handleSignup}
+                disabled={isLoading} 
+                className={`h-11 items-center justify-center rounded-lg bg-slate-950 ${isLoading ? "opacity-60" : ""}`}
+                >
+                    <Text className="text-sm font-semibold text-white">
+                        {isLoading ? "Luodaan tiliä..." : "Luo tili"}
+                    </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate("Login")}>
                     <Text className="text-center text-sm leading-6 text-slate-500">

@@ -5,6 +5,7 @@ import { supabaseAdmin } from '../lib/supabase';
 import { ValidationError, ConflictError, ServerError } from '../utils/error';
 import { signupSchema } from '../schemas/auth.schema';
 import { idSchema } from '../schemas/id.schema';
+import { NotFoundError } from '../utils/error';
 
 /**
  * Registers a new user: creates the auth user in Supabase, hashes the password
@@ -94,6 +95,20 @@ export const deleteUser = async (req: Request<{id: string}>, res: Response, next
     const { id } = result.data;
     
     try {
+        const user = await prisma.user.findUnique({ where: { id: id } });
+        if(!user) {
+            return next(new NotFoundError("User was not found"));
+        }
+
+        // Delete supabase auth user before deleting user
+        if (user.supabase_id) {
+            const { error } = await supabaseAdmin.auth.admin.deleteUser(user.supabase_id);
+            if (error) {
+                return next(new ServerError("Failed to delete user. Try again"));
+            }
+        }
+
+        // Delete user from database
         await prisma.user.delete({ where: { id: id } });
         res.json({ message: 'User deleted' });
     } catch (error) {

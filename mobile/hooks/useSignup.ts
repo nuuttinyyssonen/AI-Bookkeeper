@@ -15,6 +15,7 @@ export const useSignup = (navigation: any): UseSignupReturn => {
     const [business_id, setBusiness_id] = useState("");
     const [checked, setChecked] = useState(false);    
     const [selectedPlan, setSelectedPlan] = useState<Plan>("BASIC");
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSignup = async () => {
         if(!checked) {
@@ -32,6 +33,7 @@ export const useSignup = (navigation: any): UseSignupReturn => {
         }
 
         let user_id: string = "";
+        setIsLoading(true);
         try {
             const response = await api.post('/api/auth/signup', {
                 email,
@@ -55,8 +57,8 @@ export const useSignup = (navigation: any): UseSignupReturn => {
             // (checkout-success / checkout-cancel) set up on the server side
             const result = await WebBrowser.openAuthSessionAsync(checkoutUrl, 'aibookkeeper://checkout');
 
-            if (result.type !== 'success' || !result.url.startsWith('aibookkeeper://checkout-success')) {
-                await api.delete(`/api/auth/signup/${user_id}`);
+            if (result.type !== 'success' || !result.url?.startsWith('aibookkeeper://checkout-success')) {
+                await api.delete(`/api/auth/signup/${user_id}`, { data: { id: user_id } });
                 return Alert.alert("Peruutettu", "Rekisteröityminen peruutettu");
             }
 
@@ -73,7 +75,7 @@ export const useSignup = (navigation: any): UseSignupReturn => {
                     navigation.navigate("Login");
                     Alert.alert("Onnistui", "Tilisi on aktivoitu. Kirjaudu sisään.");
                 } else {
-                    await api.delete(`/api/auth/signup/${user_id}`);
+                    await api.delete(`/api/auth/signup/${user_id}`, { data: { id: user_id } });
                     Alert.alert("Peruutettu", "Rekisteröityminen peruutettu");
                 }
             } catch(error: any) {
@@ -81,9 +83,15 @@ export const useSignup = (navigation: any): UseSignupReturn => {
             }
         } catch(error: any) {
             if(user_id) {
-                await api.delete(`/api/auth/signup/${user_id}`)
+                try {
+                    await api.delete(`/api/auth/signup/${user_id}`, { data: { id: user_id } });
+                } catch(deleteError: any) {
+                    console.log("Delete error:", deleteError.response?.data);
+                }
             }
-            Alert.alert("Virhe", error.response.data?.message || "Virhe luodessa käyttäjää");    
+            Alert.alert("Virhe", error.response?.data?.message || "Virhe luodessa käyttäjää");    
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -97,6 +105,6 @@ export const useSignup = (navigation: any): UseSignupReturn => {
         business_id, setBusiness_id,
         checked, setChecked,
         selectedPlan, setSelectedPlan,
-        handleSignup
+        handleSignup, isLoading
     }
 };
