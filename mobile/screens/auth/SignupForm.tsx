@@ -77,7 +77,6 @@ export default function SignupForm({ navigation }: any) {
                     Alert.alert("Peruutettu", "Rekisteröityminen peruutettu");
                 }
             } catch(error: any) {
-                console.log(error.response?.data);
                 Alert.alert("Virhe", "Virhe tapahtui");
             }
         } catch(error: any) {

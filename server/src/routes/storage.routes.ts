@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { uploadFile, deleteFile, downloadFile } from "../controllers/storage.controller";
+import { uploadFile, deleteFile, downloadFile, getFileUrl } from "../controllers/storage.controller";
 import { upload } from "../services/multer.service";
 import { authMiddleware } from "../middleware/authentication";
 import multer from "multer";
@@ -24,5 +24,6 @@ storageRouter.post('/', authMiddleware, requireSubscription, rateLimiters.upload
 // Download and delete routes with authentication and rate limiting
 storageRouter.get('/:id', authMiddleware, rateLimiters.heavyRead("storage_download"), downloadFile);
 storageRouter.delete('/:id', authMiddleware, rateLimiters.standard("storage_delete"), deleteFile);
+storageRouter.get('/fileUrl/:id', authMiddleware, rateLimiters.read("file_url"), getFileUrl);
 
 export default storageRouter;

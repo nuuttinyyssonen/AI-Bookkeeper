@@ -5,6 +5,7 @@ import { prisma } from "../lib/prisma";
 import { receiptQueue } from "../queues/queue";
 import { randomUUID } from "crypto";
 import { idSchema } from "../schemas/id.schema";
+import { supabaseAdmin } from "../lib/supabase";
 
 // Sanitizes file name by removing special characters and replacing them with underscores.
 // Also adds a timestamp prefix to avoid name conflicts in storage.
@@ -191,6 +192,48 @@ export const downloadFile = async (req: Request<{id: string}>, res: Response, ne
         res.setHeader("Content-Type", document.document_type || "application/octet-stream");
         res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
         res.send(fileBuffer);
+    } catch (error) {
+        return next(new ServerError("Internal server error"));
+    }
+}
+
+/**
+ * Returns file URL to preview in Mobile
+ * @param {Request} req.params - Receipt ID
+ * @param {Request} req.user - User from auth middleware
+ * @returns { url: string } Signed Supabase URL (valid 60min)
+ * @throws {ValidationError} 400 - If receipt ID fails validation
+ * @throws {NotFoundError} 404 - If receipt or document not found
+ * @throws {AuthenticationError} 401 - If the document does not belong to the user
+ * @throws {ServerError} 500 - If file download fails
+ */
+export const getFileUrl = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
+    // Getting id from params and validating with zod
+    const result = idSchema.safeParse(req.params);
+    if(!result.success) {
+        return next(new ValidationError(result.error.issues[0].message));
+    }
+
+    const { id } = result.data;
+
+    try {
+        const receipt = await prisma.receipt.findUnique({ where: { id, user_id: req.user.id } });
+        if (!receipt) {
+            return next(new NotFoundError("Receipt not found"));
+        }
+
+        const document = await prisma.document.findUnique({ where: { id: receipt.document_id, user_id: req.user.id} });
+        if (!document) {
+            return next(new NotFoundError("File not found"));
+        }
+
+        const { data, error } = await supabaseAdmin.storage
+            .from("Bookkeeper-FileSystem")
+            .createSignedUrl(document.document_name, 3600); // 60min
+
+        if (error) return next(new ServerError("Failed to generate URL"));
+
+        return res.json({ url: data.signedUrl });
     } catch (error) {
         return next(new ServerError("Internal server error"));
     }
