@@ -3,8 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthProvider, useAuth } from "./context/authContext";
 
-import LoginForm from "./screens/auth/LoginForm";
-import SignupForm from "./screens/auth/SignupForm";
+import LoginScreen from "./screens/auth/LoginScreen";
+import SignupScreen from "./screens/auth/SignupScreen";
 import ForgotPasswordForm from "./screens/auth/ForgotPasswordForm";
 import ResetPasswordForm from "./screens/auth/ResetPasswordForm";
 import ReceiptViewScreen from "./screens/main/ReceiptViewScreen";
@@ -29,8 +29,8 @@ function RootNavigator() {
                 </>
             ) : (
                 <>
-                    <Stack.Screen name="Login" component={LoginForm} />
-                    <Stack.Screen name="Signup" component={SignupForm} />
+                    <Stack.Screen name="Login" component={LoginScreen} />
+                    <Stack.Screen name="Signup" component={SignupScreen} />
                     <Stack.Screen name="ForgotPasswordForm" component={ForgotPasswordForm} />
                     <Stack.Screen name="ResetPassword" component={ResetPasswordForm} />
                 </>
