@@ -1,6 +1,5 @@
 import { View, Text, TouchableOpacity } from "react-native"
-
-export type Plan = "BASIC" | "PREMIUM";
+import { Plan } from "../../types/auth";
 
 interface PlanSelectorProps {
     selectedPlan: Plan;
