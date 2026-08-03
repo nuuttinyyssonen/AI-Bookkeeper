@@ -5,11 +5,13 @@ import * as ImagePicker from "expo-image-picker";
 import * as DocumentPicker from "expo-document-picker";
 import { SelectedFile } from "../types/file";
 import { UseUploadReturn } from "../types/file";
+import Toast from "react-native-toast-message";
 
 export const useUpload = (): UseUploadReturn => {
     const [selectedIncomeFile, setSelectedIncomeFile] = useState<SelectedFile | null>(null);
     const [selectedExpenseFile, setSelectedExpenseFile] = useState<SelectedFile | null>(null);
     const [isUploading, setIsUploading] = useState(false);
+    const [progress, setProgress] = useState<{ completed: number; total: number } | null>(null);
 
     const handleCamera = async (isIncome: boolean) => {
         const permission = await ImagePicker.requestCameraPermissionsAsync();
@@ -67,6 +69,27 @@ export const useUpload = (): UseUploadReturn => {
         }
     };
 
+    const pollBatchStatus = (batchId?: string) => {
+        return new Promise<{ pending_documents: number; completed_documents: number; total: number; processing_documents: number; failed_documents: number }>((resolve, reject) => {
+            const interval = setInterval(async () => {
+                try {
+                    if (!batchId) return;
+                    const response = await api.get(`/api/receipt/status/${batchId}`);
+                    const data = response.data
+                    console.log("Poll response:", data);
+                    setProgress({ completed: data.completed_documents, total: data.total });
+                    if (data.pending_documents === 0 && data.processing_documents === 0) {
+                        clearInterval(interval);
+                        resolve(data);
+                    }
+                } catch (error) {
+                    clearInterval(interval);
+                    reject(error);
+                }
+            }, 3000);
+        });
+    };
+
     const handleUpload = async (isIncome: boolean) => {
         setIsUploading(true);
         try {
@@ -90,9 +113,29 @@ export const useUpload = (): UseUploadReturn => {
                 headers: { "Content-Type": "multipart/form-data" },
             });
 
-            console.log(response.data);
-
-            // navigation.navigate("ReceiptView", { id: response.data.receipt.id });
+            try {
+                const data = await pollBatchStatus(response.data[0].upload_batch_id);
+                setProgress(null);
+                Toast.show({
+                    type: "success",
+                    text1: "Onnistui",
+                    text2: `${data.completed_documents}/${data.total} kuittia analysoitu`
+                });
+                if (data.failed_documents > 0) {
+                    Toast.show({
+                        type: "error",
+                        text1: "Virhe",
+                        text2: `${data.failed_documents} kuittia epäonnistui analysoinnissa`
+                    });
+                }
+            } catch {
+                setProgress(null);
+                Toast.show({
+                    type: "error",
+                    text1: "Virhe",
+                    text2: "Analyysi epäonnistui"
+                });
+            }
         } catch (error: any) {
             Alert.alert("Virhe", error.response?.data?.message || "Tiedoston lähetys epäonnistui");
         } finally {
@@ -113,6 +156,8 @@ export const useUpload = (): UseUploadReturn => {
         handleFilePicker,
         handleUpload,
         handleClearFile,
-        handleGallery
+        handleGallery,
+        pollBatchStatus,
+        progress
     };
 };

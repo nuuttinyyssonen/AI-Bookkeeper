@@ -12,6 +12,13 @@ export default function UploadScreen() {
                 <Text className="mt-1 text-sm text-slate-500">Lataa kuitti kamerasta, galleriasta tai tiedostoista.</Text>
             </View>
 
+            {upload.progress && <View className="flex-row items-center gap-3 rounded-lg border border-teal-200 bg-teal-50 px-4 py-3">
+                <View className="h-2 w-2 rounded-full bg-teal-500" />
+                <Text className="text-sm font-medium text-teal-700">
+                    {upload.progress.completed}/{upload.progress.total} kuittia analysoitu
+                </Text>
+            </View>}
+
             <View className="gap-4 px-4 py-6">
                 <ExpenseUpload {...upload} />
                 <IncomeUpload {...upload} />

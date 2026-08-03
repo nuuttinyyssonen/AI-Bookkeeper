@@ -13,4 +13,6 @@ export type UseUploadReturn = {
     handleUpload: (isIncome: boolean) => Promise<void>;
     handleGallery: (isIncome: boolean) => Promise<void>;
     handleClearFile: (isIncome: boolean) => void;
+    pollBatchStatus: (batchId?: string) => void;
+    progress: { completed: number; total: number } | null;
 };
