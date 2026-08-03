@@ -5,11 +5,12 @@ export type SelectedFile = {
 };
 
 export type UseUploadReturn = {
-    selectedFile: SelectedFile | null;
+    selectedExpenseFile: SelectedFile | null;
+    selectedIncomeFile: SelectedFile | null;
     isUploading: boolean;
-    handleCamera: () => Promise<void>;
-    handleFilePicker: () => Promise<void>;
+    handleCamera: (isIncome: boolean) => Promise<void>;
+    handleFilePicker: (isIncome: boolean) => Promise<void>;
     handleUpload: (isIncome: boolean) => Promise<void>;
-    handleGallery: () => Promise<void>;
-    handleClearFile: () => void;
+    handleGallery: (isIncome: boolean) => Promise<void>;
+    handleClearFile: (isIncome: boolean) => void;
 };

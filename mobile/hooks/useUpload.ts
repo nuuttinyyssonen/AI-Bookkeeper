@@ -7,10 +7,11 @@ import { SelectedFile } from "../types/file";
 import { UseUploadReturn } from "../types/file";
 
 export const useUpload = (): UseUploadReturn => {
-    const [selectedFile, setSelectedFile] = useState<SelectedFile | null>(null);
+    const [selectedIncomeFile, setSelectedIncomeFile] = useState<SelectedFile | null>(null);
+    const [selectedExpenseFile, setSelectedExpenseFile] = useState<SelectedFile | null>(null);
     const [isUploading, setIsUploading] = useState(false);
 
-    const handleCamera = async () => {
+    const handleCamera = async (isIncome: boolean) => {
         const permission = await ImagePicker.requestCameraPermissionsAsync();
         if (!permission.granted) {
             return Alert.alert("Virhe", "Kameran käyttöoikeus vaaditaan");
@@ -22,16 +23,17 @@ export const useUpload = (): UseUploadReturn => {
         });
 
         if (!result.canceled) {
-            const asset = result.assets[0];
-            setSelectedFile({
-                uri: asset.uri,
-                name: asset.fileName ?? "receipt.jpg",
-                type: asset.mimeType ?? "image/jpeg",
-            });
+            const file = result.assets[0];
+            const selectedFile = {
+                uri: file.uri,
+                name: file.fileName ?? "receipt.jpg",
+                type: file.mimeType ?? "image/jpeg",
+            }
+            isIncome ? setSelectedIncomeFile(selectedFile) : setSelectedExpenseFile(selectedFile);
         }
     };
 
-    const handleFilePicker = async () => {
+    const handleFilePicker = async (isIncome: boolean) => {
         const result = await DocumentPicker.getDocumentAsync({
             type: ["image/*", "application/pdf"],
             copyToCacheDirectory: true,
@@ -39,43 +41,48 @@ export const useUpload = (): UseUploadReturn => {
 
         if (!result.canceled) {
             const file = result.assets[0];
-            setSelectedFile({
+            const selectedFile = {
                 uri: file.uri,
                 name: file.name,
                 type: file.mimeType ?? "application/octet-stream",
-            });
+            };
+            isIncome ? setSelectedIncomeFile(selectedFile) : setSelectedExpenseFile(selectedFile);
         }
     };
 
-    const handleGallery = async () => {
+    const handleGallery = async (isIncome: boolean) => {
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ["images"],
             quality: 0.8,
         });
 
         if (!result.canceled) {
-            const asset = result.assets[0];
-            setSelectedFile({
-                uri: asset.uri,
-                name: asset.fileName ?? "receipt.jpg",
-                type: asset.mimeType ?? "image/jpeg",
-            });
+            const file = result.assets[0];
+            const selectedFile = {
+                uri: file.uri,
+                name: file.fileName ?? "receipt.jpg",
+                type: file.mimeType ?? "image/jpeg",
+            }
+            isIncome ? setSelectedIncomeFile(selectedFile) : setSelectedExpenseFile(selectedFile);
         }
     };
 
     const handleUpload = async (isIncome: boolean) => {
-        if (!selectedFile) {
-            return Alert.alert("Virhe", "Valitse tiedosto ensin");
-        }
-
         setIsUploading(true);
         try {
+            const file = isIncome ? selectedIncomeFile : selectedExpenseFile;
+
+            if (!file) {
+                return Alert.alert("Virhe", "Valitse tiedosto ensin");
+            }
+
             const formData = new FormData();
             formData.append("files", {
-                uri: selectedFile.uri,
-                name: selectedFile.name,
-                type: selectedFile.type,
+                uri: file.uri,
+                name: file.name,
+                type: file.type,
             } as any);
+            
 
             formData.append("receipt_type", isIncome ? "INCOME" : "EXPENSE");
 
@@ -90,13 +97,17 @@ export const useUpload = (): UseUploadReturn => {
             Alert.alert("Virhe", error.response?.data?.message || "Tiedoston lähetys epäonnistui");
         } finally {
             setIsUploading(false);
+            handleClearFile(isIncome)
         }
     };
 
-    const handleClearFile = () => setSelectedFile(null);
+    const handleClearFile = (isIncome: boolean) => {
+        isIncome ? setSelectedIncomeFile(null) : setSelectedExpenseFile(null);
+    }
 
     return {
-        selectedFile,
+        selectedIncomeFile,
+        selectedExpenseFile,
         isUploading,
         handleCamera,
         handleFilePicker,

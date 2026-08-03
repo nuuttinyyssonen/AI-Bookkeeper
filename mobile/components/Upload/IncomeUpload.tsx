@@ -1,7 +1,7 @@
 import { TouchableOpacity, View, Text } from "react-native"
 import { UseUploadReturn } from "../../types/file"
 
-export default function IncomeUpload({ selectedFile, isUploading, handleCamera, handleFilePicker, handleUpload, handleGallery }: UseUploadReturn) {
+export default function IncomeUpload({ handleClearFile, selectedIncomeFile, isUploading, handleCamera, handleFilePicker, handleUpload, handleGallery }: UseUploadReturn) {
 
     return (
         <View className="gap-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -16,32 +16,40 @@ export default function IncomeUpload({ selectedFile, isUploading, handleCamera, 
             </View>
 
             <View className="flex-row gap-2">
-                <TouchableOpacity onPress={handleCamera} className="h-11 flex-1 items-center justify-center rounded-lg border border-dashed border-slate-200 bg-slate-50">
+                <TouchableOpacity onPress={() => handleCamera(true)} className="h-11 flex-1 items-center justify-center rounded-lg border border-dashed border-slate-200 bg-slate-50">
                     <Text className="text-xs font-medium text-slate-600">Kamera</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={handleGallery} className="h-11 flex-1 items-center justify-center rounded-lg border border-dashed border-slate-200 bg-slate-50">
+                <TouchableOpacity onPress={() => handleGallery(true)} className="h-11 flex-1 items-center justify-center rounded-lg border border-dashed border-slate-200 bg-slate-50">
                     <Text className="text-xs font-medium text-slate-600">Galleria</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={handleFilePicker} className="h-11 flex-1 items-center justify-center rounded-lg border border-dashed border-slate-200 bg-slate-50">
+                <TouchableOpacity onPress={() => handleFilePicker(true)} className="h-11 flex-1 items-center justify-center rounded-lg border border-dashed border-slate-200 bg-slate-50">
                     <Text className="text-xs font-medium text-slate-600">Tiedostot</Text>
                 </TouchableOpacity>
             </View>
 
-            {selectedFile && (
+            {selectedIncomeFile && (
                 <View className="flex-row items-center gap-2 rounded-lg border border-slate-100 bg-slate-50 p-2">
                     <Text className="text-slate-400">📎</Text>
-                    <Text className="flex-1 text-xs text-slate-600" numberOfLines={1}>{selectedFile.name}</Text>
+                    <Text className="flex-1 text-xs text-slate-600" numberOfLines={1}>{selectedIncomeFile.name}</Text>
                 </View>
             )}
 
             <TouchableOpacity
                 onPress={() => handleUpload(true)}
-                disabled={isUploading || !selectedFile}
-                className={`h-11 items-center justify-center rounded-lg bg-slate-900 ${isUploading || !selectedFile ? "opacity-40" : ""}`}
+                disabled={isUploading || !selectedIncomeFile}
+                className={`h-11 items-center justify-center rounded-lg bg-slate-900 ${isUploading || !selectedIncomeFile ? "opacity-40" : ""}`}
             >
                 <Text className="text-sm font-semibold text-white">{isUploading ? "Lähetetään..." : "Lähetä"}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                onPress={() => handleClearFile(true)}
+                disabled={isUploading || !selectedIncomeFile}
+                className={`h-11 items-center justify-center rounded-lg bg-slate-900 ${isUploading || !selectedIncomeFile ? "opacity-40" : ""}`}
+            >
+                <Text className="text-sm font-semibold text-white">Tyhjennä</Text>
             </TouchableOpacity>
         </View>
     )
