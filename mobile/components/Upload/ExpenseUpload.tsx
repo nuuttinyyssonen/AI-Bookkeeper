@@ -1,7 +1,7 @@
 import { TouchableOpacity, View, Text } from "react-native"
 import { UseUploadReturn } from "../../types/file"
 
-export default function ExpenseUpload({ handleClearFile, selectedExpenseFile, isUploading, handleCamera, handleFilePicker, handleUpload, handleGallery }: UseUploadReturn) {
+export default function ExpenseUpload({ handleClearFile, selectedExpenseFiles, isUploading, handleCamera, handleFilePicker, handleUpload, handleGallery }: UseUploadReturn) {
 
     return (
         <View className="gap-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -29,25 +29,27 @@ export default function ExpenseUpload({ handleClearFile, selectedExpenseFile, is
                 </TouchableOpacity>
             </View>
 
-            {selectedExpenseFile && (
-                <View className="flex-row items-center gap-2 rounded-lg border border-slate-100 bg-slate-50 p-2">
-                    <Text className="text-slate-400">📎</Text>
-                    <Text className="flex-1 text-xs text-slate-600" numberOfLines={1}>{selectedExpenseFile.name}</Text>
-                </View>
+            {selectedExpenseFiles.length > 0 && (
+                selectedExpenseFiles.map((file, index) => (
+                    <View key={index} className="flex-row items-center gap-2 rounded-lg border border-slate-100 bg-slate-50 p-2">
+                        <Text className="text-slate-400">📎</Text>
+                        <Text className="flex-1 text-xs text-slate-600" numberOfLines={1}>{file.name}</Text>
+                    </View>
+                ))
             )}
 
             <TouchableOpacity
                 onPress={() => handleUpload(false)}
-                disabled={isUploading || !selectedExpenseFile}
-                className={`h-11 items-center justify-center rounded-lg bg-slate-900 ${isUploading || !selectedExpenseFile ? "opacity-40" : ""}`}
+                disabled={isUploading || !selectedExpenseFiles}
+                className={`h-11 items-center justify-center rounded-lg bg-slate-900 ${isUploading || !selectedExpenseFiles ? "opacity-40" : ""}`}
             >
                 <Text className="text-sm font-semibold text-white">{isUploading ? "Lähetetään..." : "Lähetä"}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
                 onPress={() => handleClearFile(false)}
-                disabled={isUploading || !selectedExpenseFile}
-                className={`h-11 items-center justify-center rounded-lg bg-slate-900 ${isUploading || !selectedExpenseFile ? "opacity-40" : ""}`}
+                disabled={isUploading || !selectedExpenseFiles}
+                className={`h-11 items-center justify-center rounded-lg bg-slate-900 ${isUploading || !selectedExpenseFiles ? "opacity-40" : ""}`}
             >
                 <Text className="text-sm font-semibold text-white">Tyhjennä</Text>
             </TouchableOpacity>

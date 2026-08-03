@@ -5,8 +5,8 @@ export type SelectedFile = {
 };
 
 export type UseUploadReturn = {
-    selectedExpenseFile: SelectedFile | null;
-    selectedIncomeFile: SelectedFile | null;
+    selectedExpenseFiles: SelectedFile[];
+    selectedIncomeFiles: SelectedFile[];
     isUploading: boolean;
     handleCamera: (isIncome: boolean) => Promise<void>;
     handleFilePicker: (isIncome: boolean) => Promise<void>;

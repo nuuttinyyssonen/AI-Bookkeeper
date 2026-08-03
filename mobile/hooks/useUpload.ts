@@ -8,8 +8,8 @@ import { UseUploadReturn } from "../types/file";
 import Toast from "react-native-toast-message";
 
 export const useUpload = (): UseUploadReturn => {
-    const [selectedIncomeFile, setSelectedIncomeFile] = useState<SelectedFile | null>(null);
-    const [selectedExpenseFile, setSelectedExpenseFile] = useState<SelectedFile | null>(null);
+    const [selectedExpenseFiles, setSelectedExpenseFiles] = useState<SelectedFile[]>([]);
+    const [selectedIncomeFiles, setSelectedIncomeFiles] = useState<SelectedFile[]>([]);
     const [isUploading, setIsUploading] = useState(false);
     const [progress, setProgress] = useState<{ completed: number; total: number } | null>(null);
 
@@ -26,12 +26,12 @@ export const useUpload = (): UseUploadReturn => {
 
         if (!result.canceled) {
             const file = result.assets[0];
-            const selectedFile = {
+            const selectedFile = [{
                 uri: file.uri,
                 name: file.fileName ?? "receipt.jpg",
                 type: file.mimeType ?? "image/jpeg",
-            }
-            isIncome ? setSelectedIncomeFile(selectedFile) : setSelectedExpenseFile(selectedFile);
+            }];
+            isIncome ? setSelectedIncomeFiles(selectedFile) : setSelectedExpenseFiles(selectedFile);
         }
     };
 
@@ -42,13 +42,12 @@ export const useUpload = (): UseUploadReturn => {
         });
 
         if (!result.canceled) {
-            const file = result.assets[0];
-            const selectedFile = {
+            const files = result.assets.map((file) => ({
                 uri: file.uri,
                 name: file.name,
                 type: file.mimeType ?? "application/octet-stream",
-            };
-            isIncome ? setSelectedIncomeFile(selectedFile) : setSelectedExpenseFile(selectedFile);
+            }));
+            isIncome ? setSelectedIncomeFiles(files) : setSelectedExpenseFiles(files);
         }
     };
 
@@ -56,16 +55,16 @@ export const useUpload = (): UseUploadReturn => {
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ["images"],
             quality: 0.8,
+            allowsMultipleSelection: true,
         });
 
         if (!result.canceled) {
-            const file = result.assets[0];
-            const selectedFile = {
-                uri: file.uri,
-                name: file.fileName ?? "receipt.jpg",
-                type: file.mimeType ?? "image/jpeg",
-            }
-            isIncome ? setSelectedIncomeFile(selectedFile) : setSelectedExpenseFile(selectedFile);
+            const files = result.assets.map((asset) => ({
+                uri: asset.uri,
+                name: asset.fileName ?? "receipt.jpg",
+                type: asset.mimeType ?? "image/jpeg",
+            }));
+            isIncome ? setSelectedIncomeFiles(files) : setSelectedExpenseFiles(files);
         }
     };
 
@@ -93,18 +92,20 @@ export const useUpload = (): UseUploadReturn => {
     const handleUpload = async (isIncome: boolean) => {
         setIsUploading(true);
         try {
-            const file = isIncome ? selectedIncomeFile : selectedExpenseFile;
+            const files = isIncome ? selectedIncomeFiles : selectedExpenseFiles;
 
-            if (!file) {
+            if (files.length === 0) {
                 return Alert.alert("Virhe", "Valitse tiedosto ensin");
             }
 
             const formData = new FormData();
-            formData.append("files", {
-                uri: file.uri,
-                name: file.name,
-                type: file.type,
-            } as any);
+            files.forEach((file) => {
+                formData.append("files", {
+                    uri: file.uri,
+                    name: file.name,
+                    type: file.type,
+                } as any);
+            });
             
 
             formData.append("receipt_type", isIncome ? "INCOME" : "EXPENSE");
@@ -145,12 +146,12 @@ export const useUpload = (): UseUploadReturn => {
     };
 
     const handleClearFile = (isIncome: boolean) => {
-        isIncome ? setSelectedIncomeFile(null) : setSelectedExpenseFile(null);
+        isIncome ? setSelectedIncomeFiles([]) : setSelectedExpenseFiles([]);
     }
 
     return {
-        selectedIncomeFile,
-        selectedExpenseFile,
+        selectedIncomeFiles,
+        selectedExpenseFiles,
         isUploading,
         handleCamera,
         handleFilePicker,
