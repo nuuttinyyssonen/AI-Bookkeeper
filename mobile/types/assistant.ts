@@ -36,4 +36,6 @@ export type UseAssistantScreenReturn = {
     fetchChatMessages: (id: string) => void;
     handleSend: (message: string, id: string) => void;
     handleNewChat: (message: string) => void;
+    isChatLoading: boolean;
+    isCreatingChat: boolean;
 };

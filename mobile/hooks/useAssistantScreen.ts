@@ -13,6 +13,8 @@ export const useAssistantScreen = ({ navigation }: any): UseAssistantScreenRetur
     const [historyOpen, setHistoryOpen] = useState(false)
     const [messages, setMessages] = useState<Message[]>([]);
     const [recentChats, setRecentChats] = useState([]);
+    const [isChatLoading, setIsChatLoading] = useState(false);
+    const [isCreatingChat, setIsCreatingChat] = useState(false);
 
     const insets = useSafeAreaInsets()
     const slideAnim = useRef(new Animated.Value(-SIDEBAR_WIDTH)).current
@@ -61,24 +63,30 @@ export const useAssistantScreen = ({ navigation }: any): UseAssistantScreenRetur
 
     const handleNewChat = async (message: string) => {
         setInput("");
+        setIsCreatingChat(true);
         try {
             const response = await api.post("/api/assistant/create", { message });
             const { chatRoomId } = response.data;
-            navigation.navigate("AssistantChatScreen", { 
-                id: chatRoomId, 
-                firstMessage: message 
+            navigation.navigate("AssistantChatScreen", {
+                id: chatRoomId,
+                firstMessage: message
             });
         } catch(error: any) {
             Alert.alert("Virhe", error.response?.data?.message || "Uuden chatin luominen epäonnistui");
+        } finally {
+            setIsCreatingChat(false);
         }
     };
 
     const fetchChatMessages = async (id: string) => {
+        setIsChatLoading(true);
         try {
             const response = await api.get(`/api/assistant/${id}`);
             setMessages(response.data.messages)
         } catch(error: any) {
             Alert.alert("Virhe", "Viesti historian hakeminen epäonnistui");
+        } finally {
+            setIsChatLoading(false);
         }
     };
 
@@ -132,6 +140,7 @@ export const useAssistantScreen = ({ navigation }: any): UseAssistantScreenRetur
         suggestions, backdropOpacity,
         handleNavigateToChat, messages,
         handleNavigateToMain, fetchChatMessages,
-        handleSend, handleNewChat
+        handleSend, handleNewChat,
+        isChatLoading, isCreatingChat
     };
 };
