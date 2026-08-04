@@ -11,13 +11,13 @@ const recentChats = [
     { id: "3", title: "Kassavirtaraportti", date: "28.7." },
 ]
 
-const suggestions = [
-    "Paljonko kulutin tässä kuussa?",
-    "Näytä alv-yhteenveto",
-    "Luokittele viimeisin kuitti",
+const messages = [
+    { id: 1, role: "AI", content: "Hei Nuutti! Miten voin auttaa kirjanpidossasi tänään?" },
+    { id: 2, role: "USER", content: "Paljonko olen käyttänyt ravintolakuluihin tässä kuussa?" },
+    { id: 3, role: "AI", content: "Elokuussa ravintolakuluja on kirjattu yhteensä 214,50 €, yhteensä 6 kuitilta. Haluatko näkymän eriteltynä kuitti kerrallaan?" },
 ]
 
-export default function AssistantScreen({ navigation }: any) {
+export default function AssistantChatScreen() {
     const insets = useSafeAreaInsets()
     const [input, setInput] = useState("")
     const [historyOpen, setHistoryOpen] = useState(false)
@@ -34,13 +34,7 @@ export default function AssistantScreen({ navigation }: any) {
     const backdropOpacity = slideAnim.interpolate({
         inputRange: [-SIDEBAR_WIDTH, 0],
         outputRange: [0, 0.4],
-    });
-
-    const handleNavigateToChat = (id: string) => {
-        navigation.navigate("AssistantChatScreen", { id });
-        setHistoryOpen(false);
-    };
-
+    })
 
     return (
         <KeyboardAvoidingView
@@ -63,6 +57,9 @@ export default function AssistantScreen({ navigation }: any) {
                         <Text className="text-xs text-slate-500">Kysy kirjanpidosta, kuiteista tai raporteista</Text>
                     </View>
                 </View>
+                <TouchableOpacity className="h-9 w-9 items-center justify-center rounded-lg border border-slate-200">
+                    <Ionicons name="add" size={18} color="#334155" />
+                </TouchableOpacity>
             </View>
 
             <Modal
@@ -107,7 +104,7 @@ export default function AssistantScreen({ navigation }: any) {
                             {recentChats.map((chat, index) => (
                                 <TouchableOpacity
                                     key={chat.id}
-                                    onPress={() => handleNavigateToChat(chat.id)}
+                                    onPress={() => setHistoryOpen(false)}
                                     className={`mb-1 flex-row items-center justify-between gap-2 rounded-xl px-3 py-2.5 ${
                                         index === 0 ? "bg-teal-50" : ""
                                     }`}
@@ -130,29 +127,47 @@ export default function AssistantScreen({ navigation }: any) {
                 </View>
             </Modal>
 
-            <View className="flex-1 items-center justify-center px-6">
-                <View className="mb-6 items-center">
-                    <View className="mb-4 h-14 w-14 items-center justify-center rounded-2xl bg-teal-600">
-                        <Ionicons name="sparkles" size={26} color="white" />
-                    </View>
-                    <Text className="text-xl font-semibold text-slate-900">Hei Nuutti!</Text>
-                    <Text className="mt-2 text-center text-sm text-slate-500">
-                        Kysy mitä tahansa kirjanpidosta, kuiteista tai raporteista
-                    </Text>
-                </View>
+            <ScrollView className="flex-1" contentContainerClassName="gap-4 px-4 py-6">
+                {messages.map((msg) => {
+                    const isUser = msg.role === "USER"
+                    return (
+                        <View key={msg.id} className={`flex-row items-end gap-2 ${isUser ? "justify-end" : "justify-start"}`}>
+                            {!isUser && (
+                                <View className="h-8 w-8 items-center justify-center rounded-full bg-teal-600">
+                                    <Text className="text-xs font-semibold text-white">AI</Text>
+                                </View>
+                            )}
+                            <View
+                                className={`max-w-[75%] rounded-2xl px-4 py-3 ${
+                                    isUser
+                                        ? "rounded-br-sm bg-slate-900"
+                                        : "rounded-bl-sm border border-slate-200 bg-white shadow-sm"
+                                }`}
+                            >
+                                <Text className={`text-sm leading-5 ${isUser ? "text-white" : "text-slate-800"}`}>
+                                    {msg.content}
+                                </Text>
+                            </View>
+                            {isUser && (
+                                <View className="h-8 w-8 items-center justify-center rounded-full bg-slate-900">
+                                    <Text className="text-xs font-semibold text-white">N</Text>
+                                </View>
+                            )}
+                        </View>
+                    )
+                })}
 
-                <View className="flex-row flex-wrap justify-center gap-2">
-                    {suggestions.map((suggestion) => (
-                        <TouchableOpacity
-                            key={suggestion}
-                            onPress={() => setInput(suggestion)}
-                            className="rounded-full border border-slate-200 bg-white px-4 py-2 shadow-sm"
-                        >
-                            <Text className="text-sm text-slate-600">{suggestion}</Text>
-                        </TouchableOpacity>
-                    ))}
+                <View className="flex-row items-end gap-2">
+                    <View className="h-8 w-8 items-center justify-center rounded-full bg-teal-600">
+                        <Text className="text-xs font-semibold text-white">AI</Text>
+                    </View>
+                    <View className="flex-row items-center gap-1.5 rounded-2xl rounded-bl-sm border border-slate-200 bg-white px-4 py-3 shadow-sm">
+                        <View className="h-1.5 w-1.5 rounded-full bg-slate-400" />
+                        <View className="h-1.5 w-1.5 rounded-full bg-slate-400" />
+                        <View className="h-1.5 w-1.5 rounded-full bg-slate-400" />
+                    </View>
                 </View>
-            </View>
+            </ScrollView>
 
             <View className="border-t border-slate-200 bg-white px-4 py-4">
                 <View className="flex-row items-end gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2">
