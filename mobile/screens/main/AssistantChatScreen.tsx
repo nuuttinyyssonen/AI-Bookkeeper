@@ -17,7 +17,7 @@ const messages = [
     { id: 3, role: "AI", content: "Elokuussa ravintolakuluja on kirjattu yhteensä 214,50 €, yhteensä 6 kuitilta. Haluatko näkymän eriteltynä kuitti kerrallaan?" },
 ]
 
-export default function AssistantChatScreen() {
+export default function AssistantChatScreen({ navigation }: any) {
     const insets = useSafeAreaInsets()
     const [input, setInput] = useState("")
     const [historyOpen, setHistoryOpen] = useState(false)
@@ -34,7 +34,12 @@ export default function AssistantChatScreen() {
     const backdropOpacity = slideAnim.interpolate({
         inputRange: [-SIDEBAR_WIDTH, 0],
         outputRange: [0, 0.4],
-    })
+    });
+
+    const handleNavigateToMain = () => {
+        navigation.goBack();
+        setHistoryOpen(false);
+    };
 
     return (
         <KeyboardAvoidingView
@@ -88,7 +93,7 @@ export default function AssistantChatScreen() {
 
                         <View className="px-3 py-3">
                             <TouchableOpacity
-                                onPress={() => setHistoryOpen(false)}
+                                onPress={handleNavigateToMain}
                                 className="flex-row items-center gap-2 rounded-xl border border-slate-200 px-3 py-2.5"
                             >
                                 <Ionicons name="add" size={16} color="#334155" />
