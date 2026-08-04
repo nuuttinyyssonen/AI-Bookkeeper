@@ -10,6 +10,9 @@ export default function ReceiptScreen({ navigation }: any) {
     const [expenseTotal, setExpenseTotal] = useState(0);
     const [incomeTotal, setIncomeTotal] = useState(0);
     const [page, setPage] = useState(1);
+    const [isProcessing, setIsProcessing] = useState(false);
+    const [isPending, setIsPending] = useState(false);
+
     const RECEIPTS_PER_PAGE = 5;
 
     const fetchReceipts = async () => {
@@ -24,10 +27,23 @@ export default function ReceiptScreen({ navigation }: any) {
             setIncomes(income_receipts);
             setExpenseTotal(response.data.expenseTotal);
             setIncomeTotal(response.data.incomeTotal);
+
+            setIsProcessing(response.data.is_documents_processing);
+            setIsPending(response.data.is_documents_pending);
         } catch(error: any) {
             Alert.alert("Virhe", "Kuittien hakeminen epäonnistui");
         }
     };
+
+    useEffect(() => {
+        if (!isProcessing && !isPending) return;
+
+        const interval = setInterval(async () => {
+            await fetchReceipts();
+        }, 2000);
+
+        return () => clearInterval(interval);
+    }, [isProcessing, isPending]);
 
     useFocusEffect(
         useCallback(() => {

@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { useAuth } from "../context/authContext";
 import api from "../services/api";
 import { Alert } from "react-native";
@@ -23,30 +24,33 @@ export const useDashboard = (): UseDashboardReturn => {
         await logout();
     };
 
-    useEffect(() => {
-        const fetchUserData = async() => {
-            try {
-                // Fetching data for revenue, expenses, net_profit and recent_receipts
-                const response = await api.get("/api/dashboard");
-                setRevenue(response.data.revenue._sum.total_amount);
-                setExpenses(response.data.expenses._sum.total_amount);
-                setNetProfit(response.data.net_profit);
-                setRecentReceipts(response.data.recent_receipts);
+    const fetchUserData = async() => {
+        try {
+            // Fetching data for revenue, expenses, net_profit and recent_receipts
+            const response = await api.get("/api/dashboard");
+            setRevenue(response.data.revenue._sum.total_amount);
+            setExpenses(response.data.expenses._sum.total_amount);
+            setNetProfit(response.data.net_profit);
+            setRecentReceipts(response.data.recent_receipts);
 
-                // Cashflow
-                const cashflow_response = await api.get('/api/dashboard/cashflow');
-                setCashflow(cashflow_response.data.cashflow)
+            // Cashflow
+            const cashflow_response = await api.get('/api/dashboard/cashflow');
+            setCashflow(cashflow_response.data.cashflow)
 
-                // Subscription status
-                const subscription_status_response = await api.get('/api/user/subscription');
-                setSusbcriptionType(subscription_status_response.data.subscription.subscription_type);
+            // Subscription status
+            const subscription_status_response = await api.get('/api/user/subscription');
+            setSusbcriptionType(subscription_status_response.data.subscription.subscription_type);
 
-            } catch(error: any) {
-                return Alert.alert("Virhe", "Käyttäjän datan hakeminen epäonnistui");
-            }
-        };
-        fetchUserData();
-    }, []);
+        } catch(error: any) {
+            return Alert.alert("Virhe", "Käyttäjän datan hakeminen epäonnistui");
+        }
+    };
+
+    useFocusEffect(
+        useCallback(() => {
+            fetchUserData();
+        }, [])
+    );
 
     return {
         handleLogout, subscriptionType,
