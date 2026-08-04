@@ -13,6 +13,12 @@ export type Message = {
     content: string;
 };
 
+export type ChatRoom = {
+    id: string;
+    title: string;
+    created_at: string;
+};
+
 export type UseAssistantScreenReturn = {
     SIDEBAR_WIDTH: number;
     insets: EdgeInsets;
