@@ -1,6 +1,7 @@
 import "./global.css";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider, useAuth } from "./context/authContext";
 
 import LoginScreen from "./screens/auth/LoginScreen";
@@ -8,6 +9,7 @@ import SignupScreen from "./screens/auth/SignupScreen";
 import ForgotPasswordScreen from "./screens/auth/ForgotPasswordScreen";
 import ResetPasswordScreen from "./screens/auth/ResetPasswordScreen";
 import ReceiptViewScreen from "./screens/main/ReceiptViewScreen";
+import AssistantChatScreen from "./screens/main/AssistantChatScreen";
 
 import MainTabNavigator from "./navigation/MainTabNavigator";
 
@@ -26,6 +28,7 @@ function RootNavigator() {
                 <>
                     <Stack.Screen name="Main" component={MainTabNavigator} />
                     <Stack.Screen name="ReceiptView" component={ReceiptViewScreen} />
+                    <Stack.Screen name="AssistantChatScreen" component={AssistantChatScreen} />
                 </>
             ) : (
                 <>
@@ -41,11 +44,13 @@ function RootNavigator() {
 
 export default function App() {
     return (
-        <AuthProvider>
-            <NavigationContainer>
-                <RootNavigator />
-            </NavigationContainer>
-            <Toast/>
-        </AuthProvider>
+        <SafeAreaProvider>
+            <AuthProvider>
+                <NavigationContainer>
+                    <RootNavigator />
+                </NavigationContainer>
+                <Toast/>
+            </AuthProvider>
+        </SafeAreaProvider>
     );
 };
