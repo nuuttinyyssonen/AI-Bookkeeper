@@ -9,7 +9,7 @@ type RecentChat = {
 
 export type Message = {
     id: number;
-    role: "AI" | "USER";
+    role: "AI" | "USER" | "ASSISTANT";
     content: string;
 };
 
@@ -33,4 +33,7 @@ export type UseAssistantScreenReturn = {
     handleNavigateToChat: (id: string) => void;
     messages: Message[];
     handleNavigateToMain: () => void;
+    fetchChatMessages: (id: string) => void;
+    handleSend: (message: string, id: string) => void;
+    handleNewChat: (message: string) => void;
 };
