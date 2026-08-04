@@ -4,7 +4,8 @@ import { UseAssistantScreenReturn } from "../../types/assistant"
 
 export default function ChatHistory({ historyOpen, setHistoryOpen, 
     slideAnim, SIDEBAR_WIDTH, insets, 
-    recentChats, handleNavigateToChat, backdropOpacity
+    recentChats, handleNavigateToChat, backdropOpacity,
+    handleNavigateToMain
 }: UseAssistantScreenReturn) {
     return (
         <Modal
@@ -33,7 +34,7 @@ export default function ChatHistory({ historyOpen, setHistoryOpen,
 
                         <View className="px-3 py-3">
                             <TouchableOpacity
-                                onPress={() => setHistoryOpen(false)}
+                                onPress={handleNavigateToMain}
                                 className="flex-row items-center gap-2 rounded-xl border border-slate-200 px-3 py-2.5"
                             >
                                 <Ionicons name="add" size={16} color="#334155" />

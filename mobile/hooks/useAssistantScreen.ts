@@ -2,6 +2,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useState, useRef, useEffect } from "react";
 import { Dimensions, Animated } from "react-native";
 import { UseAssistantScreenReturn } from "../types/assistant";
+import { Message } from "../types/assistant";
 
 export const useAssistantScreen = ({ navigation }: any): UseAssistantScreenReturn => {
     const SIDEBAR_WIDTH = Math.min(300, Dimensions.get("window").width * 0.8)
@@ -15,6 +16,12 @@ export const useAssistantScreen = ({ navigation }: any): UseAssistantScreenRetur
         { id: "1", title: "Kuittien luokittelu", date: "3.8." },
         { id: "2", title: "Alv-vähennykset", date: "1.8." },
         { id: "3", title: "Kassavirtaraportti", date: "28.7." },
+    ];
+
+    const messages: Message[] = [
+        { id: 1, role: "AI", content: "Hei Nuutti! Miten voin auttaa kirjanpidossasi tänään?" },
+        { id: 2, role: "USER", content: "Paljonko olen käyttänyt ravintolakuluihin tässä kuussa?" },
+        { id: 3, role: "AI", content: "Elokuussa ravintolakuluja on kirjattu yhteensä 214,50 €, yhteensä 6 kuitilta. Haluatko näkymän eriteltynä kuitti kerrallaan?" },
     ];
     
     const suggestions = [
@@ -41,12 +48,18 @@ export const useAssistantScreen = ({ navigation }: any): UseAssistantScreenRetur
         setHistoryOpen(false);
     };
 
+    const handleNavigateToMain = () => {
+        navigation.navigate("Main", { screen: "Assistant" });
+        setHistoryOpen(false);
+    };
+
     return {
         SIDEBAR_WIDTH, insets,
         input, setInput,
         historyOpen, setHistoryOpen,
         slideAnim, recentChats,
         suggestions, backdropOpacity,
-        handleNavigateToChat
+        handleNavigateToChat, messages,
+        handleNavigateToMain
     };
 };

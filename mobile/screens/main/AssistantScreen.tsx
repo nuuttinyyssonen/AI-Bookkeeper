@@ -1,5 +1,4 @@
-import { View, Text, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Modal, Pressable, Animated, Dimensions } from "react-native"
-import { Ionicons } from "@expo/vector-icons"
+import { KeyboardAvoidingView, Platform } from "react-native"
 import { useAssistantScreen } from "../../hooks/useAssistantScreen"
 
 import Header from "../../components/AI Assistant/Header"

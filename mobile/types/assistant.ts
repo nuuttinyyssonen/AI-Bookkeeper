@@ -7,6 +7,12 @@ type RecentChat = {
     date: string;
 };
 
+export type Message = {
+    id: number;
+    role: "AI" | "USER";
+    content: string;
+};
+
 export type UseAssistantScreenReturn = {
     SIDEBAR_WIDTH: number;
     insets: EdgeInsets;
@@ -19,4 +25,6 @@ export type UseAssistantScreenReturn = {
     suggestions: string[];
     backdropOpacity: Animated.AnimatedInterpolation<number>;
     handleNavigateToChat: (id: string) => void;
+    messages: Message[];
+    handleNavigateToMain: () => void;
 };
