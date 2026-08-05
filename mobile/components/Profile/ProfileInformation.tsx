@@ -2,7 +2,7 @@ import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { UseProfileReturn } from "../../types/profile";
 
 export default function ProfileInformation({isEditingInformation, information, setInformation, 
-    setIsEditingInformation, handleCancelInformation}: UseProfileReturn) {
+    setIsEditingInformation, handleCancelInformation, handleUpdateInformation}: UseProfileReturn) {
     return (
         <View className="gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <Text className="text-sm font-semibold text-slate-950">Perustiedot</Text>
@@ -73,7 +73,7 @@ export default function ProfileInformation({isEditingInformation, information, s
             {isEditingInformation ? (
                 <View className="flex-row gap-2">
                     <TouchableOpacity
-                        onPress={() => setIsEditingInformation(false)}
+                        onPress={handleUpdateInformation}
                         className="h-9 items-center justify-center rounded-md bg-teal-700 px-4"
                     >
                         <Text className="text-sm font-medium text-white">Tallenna</Text>

@@ -14,4 +14,6 @@ export type UseProfileReturn = {
     information: ProfileInformationType;
     setInformation: Dispatch<SetStateAction<ProfileInformationType>>;
     handleCancelInformation: () => void;
+    handleUpdateInformation: () => void;
+    isLoading: boolean;
 };

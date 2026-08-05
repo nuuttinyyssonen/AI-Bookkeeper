@@ -9,6 +9,14 @@ import ProfileDeletion from "../../components/Profile/ProfileDeletion";
 export default function ProfileScreen() {
     const profile = useProfile();
 
+    if (profile.isLoading) {
+        return (
+            <View className="flex-1 items-center justify-center bg-slate-50">
+                <Text className="text-sm text-slate-500">Ladataan...</Text>
+            </View>
+        );
+    }
+
     return (
         <ScrollView className="flex-1 bg-slate-50">
             <View className="border-b border-slate-200 bg-white px-4 py-4">
