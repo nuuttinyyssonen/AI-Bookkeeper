@@ -26,7 +26,7 @@ export default function ProfileScreen() {
             <View className="gap-4 px-4 py-6">
                 <ProfileInformation {...profile}/>
                 <ProfileSubscription />
-                <ProfilePaymentHistory />
+                <ProfilePaymentHistory {...profile}/>
                 <ProfileDeletion />
                 <TouchableOpacity className="items-center py-2">
                     <Text className="text-sm text-slate-500 underline">Takaisin hallintapaneeliin</Text>

@@ -8,6 +8,13 @@ export type ProfileInformationType = {
     businessId: string;
 };
 
+export type Payment = {
+    amount: string;
+    date: string;
+    description: string;
+    status: string
+};
+
 export type UseProfileReturn = {
     isEditingInformation: boolean;
     setIsEditingInformation: (value: boolean) => void;
@@ -16,4 +23,5 @@ export type UseProfileReturn = {
     handleCancelInformation: () => void;
     handleUpdateInformation: () => void;
     isLoading: boolean;
+    paymentHistory: Payment[];
 };

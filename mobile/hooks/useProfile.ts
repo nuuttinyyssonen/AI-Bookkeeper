@@ -27,6 +27,7 @@ export const useProfile = (): UseProfileReturn => {
             try {
                 const response = await api.get("/api/user");
                 const user = response.data.user
+
                 setInformation({
                     firstName: user.first_name,
                     lastName: user.last_name,
@@ -34,6 +35,8 @@ export const useProfile = (): UseProfileReturn => {
                     phoneNumber: user.phonenumber,
                     businessId: user.business_id,
                 });
+
+                setPaymentHistory(response.data.history);
             } catch(error: any) {
                 Alert.alert("Virhe", "Käyttäjä tietojen hakeminen epäonnistui");
             } finally {
@@ -68,6 +71,6 @@ export const useProfile = (): UseProfileReturn => {
         isEditingInformation, setIsEditingInformation,
         information, setInformation,
         handleCancelInformation, handleUpdateInformation,
-        isLoading
+        isLoading, paymentHistory
     };
 };
