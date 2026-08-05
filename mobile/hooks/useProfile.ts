@@ -3,7 +3,7 @@ import { UseProfileReturn } from "../types/profile";
 import api from "../services/api";
 import { Alert } from "react-native";
 import Toast from "react-native-toast-message";
-import { ProfileInformationType } from "../types/profile";
+import { ProfileInformationType, SubscriptionData } from "../types/profile";
 
 export const useProfile = ({ navigation }: any): UseProfileReturn => {
     const [isEditingInformation, setIsEditingInformation] = useState(false);
@@ -18,6 +18,11 @@ export const useProfile = ({ navigation }: any): UseProfileReturn => {
     const [isLoading, setIsLoading] = useState(false);
     const [confirmationInput, setConfirmationInput] = useState("");
     const [isDeletingUser, setIsDeletingUser] = useState(false);
+    const [subscription, setSubscription] = useState<SubscriptionData | null>(null);
+    const [isConfirmingCancelSubscription, setIsConfirmingCancelSubscription] = useState(false);
+    const [isCancellingSubscription, setIsCancellingSubscription] = useState(false);
+    const [isConfirmingReactivateSubscription, setIsConfirmingReactivateSubscription] = useState(false);
+    const [isReactivatingSubscription, setIsReactivatingSubscription] = useState(false);
 
     const handleCancelInformation = () => {
         setIsEditingInformation(false)
@@ -39,6 +44,7 @@ export const useProfile = ({ navigation }: any): UseProfileReturn => {
                 });
 
                 setPaymentHistory(response.data.history);
+                setSubscription(response.data.subscription);
             } catch(error: any) {
                 Alert.alert("Virhe", "Käyttäjä tietojen hakeminen epäonnistui");
             } finally {
@@ -97,11 +103,53 @@ export const useProfile = ({ navigation }: any): UseProfileReturn => {
         );
     };
 
+    const handleCancelSubscription = async () => {
+        setIsCancellingSubscription(true);
+        try {
+            await api.delete("/api/subscription/delete");
+            setIsConfirmingCancelSubscription(false);
+            setSubscription((prev) => prev ? { ...prev, cancel_at_period_end: true } : prev);
+
+            Toast.show({
+                type: "success",
+                text1: "Onnistui",
+                text2: "Tilaus peruutettu onnistuneesti"
+            });
+        } catch(error: any) {
+            Alert.alert("Virhe", "Tilauksen peruuttaminen epäonnistui");
+        } finally {
+            setIsCancellingSubscription(false);
+        }
+    };
+
+    const handleReactivateSubscription = async () => {
+        setIsReactivatingSubscription(true);
+        try {
+            await api.put("/api/subscription/revoke-plan");
+            setIsConfirmingReactivateSubscription(false);
+            setSubscription((prev) => prev ? { ...prev, cancel_at_period_end: false, subscription_status: "ACTIVE" } : prev);
+
+            Toast.show({
+                type: "success",
+                text1: "Onnistui",
+                text2: "Tilaus aktivoitu uudelleen onnistuneesti"
+            });
+        } catch(error: any) {
+            Alert.alert("Virhe", "Tilauksen uudelleenaktivointi epäonnistui");
+        } finally {
+            setIsReactivatingSubscription(false);
+        }
+    };
+
     return {
         isEditingInformation, setIsEditingInformation,
         information, setInformation,
         handleCancelInformation, handleUpdateInformation,
         isLoading, paymentHistory, handleDeleteUser, confirmationInput,
-        setConfirmationInput, isDeletingUser
+        setConfirmationInput, isDeletingUser, subscription,
+        isConfirmingCancelSubscription, setIsConfirmingCancelSubscription,
+        isCancellingSubscription, handleCancelSubscription,
+        isConfirmingReactivateSubscription, setIsConfirmingReactivateSubscription,
+        isReactivatingSubscription, handleReactivateSubscription
     };
 };

@@ -25,7 +25,7 @@ export default function ProfileScreen({ navigation }: any) {
             </View>
             <View className="gap-4 px-4 py-6">
                 <ProfileInformation {...profile}/>
-                <ProfileSubscription />
+                <ProfileSubscription {...profile}/>
                 <ProfilePaymentHistory {...profile}/>
                 <ProfileDeletion {...profile}/>
                 <TouchableOpacity className="items-center py-2">
