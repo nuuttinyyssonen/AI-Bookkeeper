@@ -10,6 +10,8 @@ import ForgotPasswordScreen from "./screens/auth/ForgotPasswordScreen";
 import ResetPasswordScreen from "./screens/auth/ResetPasswordScreen";
 import ReceiptViewScreen from "./screens/main/ReceiptViewScreen";
 import AssistantChatScreen from "./screens/main/AssistantChatScreen";
+import AccountDeletedScreen from "./screens/main/AccountDeletedScreen";
+import SubscriptionPlans from "./screens/main/SubscriptionPlans";
 
 import MainTabNavigator from "./navigation/MainTabNavigator";
 
@@ -29,6 +31,8 @@ function RootNavigator() {
                     <Stack.Screen name="Main" component={MainTabNavigator} />
                     <Stack.Screen name="ReceiptView" component={ReceiptViewScreen} />
                     <Stack.Screen name="AssistantChatScreen" component={AssistantChatScreen} />
+                    <Stack.Screen name="AccountDeletedScreen" component={AccountDeletedScreen} />
+                    <Stack.Screen name="SubscriptionPlans" component={SubscriptionPlans} />
                 </>
             ) : (
                 <>
