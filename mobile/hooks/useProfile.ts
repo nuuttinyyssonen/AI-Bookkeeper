@@ -5,7 +5,7 @@ import { Alert } from "react-native";
 import Toast from "react-native-toast-message";
 import { ProfileInformationType } from "../types/profile";
 
-export const useProfile = (): UseProfileReturn => {
+export const useProfile = ({ navigation }: any): UseProfileReturn => {
     const [isEditingInformation, setIsEditingInformation] = useState(false);
     const [information, setInformation] = useState<ProfileInformationType>({
         firstName: "",
@@ -16,6 +16,8 @@ export const useProfile = (): UseProfileReturn => {
     });
     const [paymentHistory, setPaymentHistory] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [confirmationInput, setConfirmationInput] = useState("");
+    const [isDeletingUser, setIsDeletingUser] = useState(false);
 
     const handleCancelInformation = () => {
         setIsEditingInformation(false)
@@ -67,10 +69,39 @@ export const useProfile = (): UseProfileReturn => {
         }
     };
 
+    const handleDeleteUser = async () => {
+        if(confirmationInput !== "DELETE") {
+            return Alert.alert('Virhe, Syötä "DELETE" poistaaksesi käyttäjä');
+        }
+        Alert.alert(
+            "Poista tili",
+            "Haluatko varmasti poistaa tilisi? Tätä toimintoa ei voi peruuttaa.",
+            [
+                { text: "Peruuta", style: "cancel" },
+                {
+                    text: "Poista",
+                    style: "destructive",
+                    onPress: async () => {
+                        setIsDeletingUser(true);
+                        try {
+                            await api.delete("/api/user");
+                            navigation.navigate("AccountDeletedScreen");
+                        } catch(error: any) {
+                            Alert.alert("Virhe", "Käyttäjän poistaminen epäonnistui");
+                        } finally {
+                            setIsDeletingUser(false);
+                        }
+                    }
+                }
+            ]
+        );
+    };
+
     return {
         isEditingInformation, setIsEditingInformation,
         information, setInformation,
         handleCancelInformation, handleUpdateInformation,
-        isLoading, paymentHistory
+        isLoading, paymentHistory, handleDeleteUser, confirmationInput,
+        setConfirmationInput, isDeletingUser
     };
 };

@@ -24,4 +24,8 @@ export type UseProfileReturn = {
     handleUpdateInformation: () => void;
     isLoading: boolean;
     paymentHistory: Payment[];
+    handleDeleteUser: () => void;
+    confirmationInput: string;
+    setConfirmationInput: (value: string) => void;
+    isDeletingUser: boolean;
 };

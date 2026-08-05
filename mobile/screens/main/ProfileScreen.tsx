@@ -6,8 +6,8 @@ import ProfileSubscription from "../../components/Profile/ProfileSubscription";
 import ProfilePaymentHistory from "../../components/Profile/ProfilePaymentHistory";
 import ProfileDeletion from "../../components/Profile/ProfileDeletion";
 
-export default function ProfileScreen() {
-    const profile = useProfile();
+export default function ProfileScreen({ navigation }: any) {
+    const profile = useProfile({ navigation });
 
     if (profile.isLoading) {
         return (
@@ -27,7 +27,7 @@ export default function ProfileScreen() {
                 <ProfileInformation {...profile}/>
                 <ProfileSubscription />
                 <ProfilePaymentHistory {...profile}/>
-                <ProfileDeletion />
+                <ProfileDeletion {...profile}/>
                 <TouchableOpacity className="items-center py-2">
                     <Text className="text-sm text-slate-500 underline">Takaisin hallintapaneeliin</Text>
                 </TouchableOpacity>
