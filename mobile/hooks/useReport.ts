@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { Report } from "../types/report";
 import { Alert } from "react-native";
 import api from "../services/api";
@@ -6,18 +7,25 @@ import { UseReportReturn } from "../types/report";
 
 export const useReport = (): UseReportReturn => {
     const [reports, setReports] = useState<Report[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
-    useEffect(() => {
-        const fetchReports = async () => {
-            try {
-                const response = await api.get("/api/report");
-                setReports(response.data.reports);
-            } catch(error: any) {
-                Alert.alert("Virhe", "Raporttien hakeminen epäonnistui");
-            }
-        };
-        fetchReports();
-    }, []);
+    const fetchReports = async () => {
+        setIsLoading(true);
+        try {
+            const response = await api.get("/api/report");
+            setReports(response.data.reports);
+        } catch(error: any) {
+            Alert.alert("Virhe", "Raporttien hakeminen epäonnistui");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useFocusEffect(
+        useCallback(() => {
+            fetchReports();
+        }, [])
+    );
 
     const handleCreateReport = async (timePeriod: string) => {
         try {
@@ -36,6 +44,7 @@ export const useReport = (): UseReportReturn => {
 
     return {
         reports,
-        handleCreateReport
-    }
+        handleCreateReport,
+        isLoading
+    };
 };

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity, Modal, Pressable } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Modal, Pressable, ActivityIndicator } from "react-native";
 import ReportCard from "../../components/Report/ReportCard";
 import NoReport from "../../components/Report/NoReport";
 import { useReport } from "../../hooks/useReport";
@@ -20,7 +20,7 @@ export default function ReportScreen({ navigation }: any) {
         navigation.navigate("ReportView", { id });
     };
 
-    const { reports, handleCreateReport } = useReport();
+    const { reports, handleCreateReport, isLoading } = useReport();
 
     const handleSelectTimePeriod = (timePeriod: string) => {
         setIsMenuOpen(false);
@@ -55,7 +55,11 @@ export default function ReportScreen({ navigation }: any) {
             </Modal>
 
             <View className="px-4 py-6">
-                {reports.length > 0 ? (
+                {isLoading ? (
+                    <View className="items-center justify-center py-12">
+                        <ActivityIndicator size="large" color="#0d9488" />
+                    </View>
+                ) : reports.length > 0 ? (
                     <View className="gap-4">
                         {reports.map((report) => {
                             return (

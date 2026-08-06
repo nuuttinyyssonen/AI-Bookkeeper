@@ -3,8 +3,9 @@ import { Report } from "../types/report";
 import { Alert } from "react-native";
 import api from "../services/api";
 import { UseReportByIdReturn } from "../types/report";
+import Toast from "react-native-toast-message";
 
-export const useReportById = (id: string): UseReportByIdReturn => {
+export const useReportById = (id: string, navigation: any): UseReportByIdReturn => {
     const [isLoading, setIsLoading] = useState(false);
     const [report, setReport] = useState<Report>({
         id: "",
@@ -39,7 +40,49 @@ export const useReportById = (id: string): UseReportByIdReturn => {
         fetchReport();
     }, []);
 
+    const handleDeleteReport = async () => {
+        Alert.alert(
+            "Poista raportti",
+            "Haluatko varmasti poistaa raportin?",
+            [
+                { text: "Peruuta", style: "cancel" },
+                {
+                    text: "Poista",
+                    style: "destructive",
+                    onPress: async () => {
+                        try {
+                            await api.delete(`/api/report/${id}`);
+                            Toast.show({
+                                type: "success",
+                                text1: "Onnistui",
+                                text2: "Raportti poistettiin onnistuneesti"
+                            });
+                            navigation.goBack();
+                        } catch(error: any) {
+                            Alert.alert("Virhe", "Raportin poistaminen epäonnistui");
+                        }
+                    }
+                }
+            ]
+        );
+    };
+
+    const handleUpdateReport = async () => {
+        try {
+            await api.put(`/api/report/${id}/declaration-sent`);
+            setReport((prev) => ({ ...prev, vat_declaration_sent: true }));
+            Toast.show({
+                type: "success",
+                text1: "Onnistui",
+                text2: "Raportti päivitettiin onnistuneesti"
+            });
+        } catch(error: any) {
+            Alert.alert("Virhe", "Raportin päivitys epäonnistui");
+        }
+    };
+
     return {
-        report, isLoading
-    }
+        report, isLoading, handleDeleteReport,
+        handleUpdateReport
+    };
 };

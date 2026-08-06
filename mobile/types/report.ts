@@ -31,9 +31,12 @@ export type Report = {
 export type UseReportReturn = {
     reports: Report[];
     handleCreateReport: (timePeriod: string) => void;
+    isLoading: boolean;
 };
 
 export type UseReportByIdReturn = {
     report: Report;
     isLoading: boolean;
+    handleDeleteReport: () => void;
+    handleUpdateReport: () => void;
 };
