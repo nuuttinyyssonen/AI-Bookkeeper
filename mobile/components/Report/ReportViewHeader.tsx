@@ -2,7 +2,7 @@ import { View, TouchableOpacity, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { UseReportByIdReturn } from "../../types/report";
 
-export default function ReportViewHeader({ report, handleDeleteReport }: UseReportByIdReturn) {
+export default function ReportViewHeader({ report, handleDeleteReport, handleDownloadPDF }: UseReportByIdReturn) {
     const navigation = useNavigation<any>();
     return (
         <View className="border-b border-slate-200 bg-white px-4 py-4">
@@ -32,7 +32,7 @@ export default function ReportViewHeader({ report, handleDeleteReport }: UseRepo
                     <Text className="text-sm font-semibold text-red-700">Poista</Text>
                 </TouchableOpacity>
                 <TouchableOpacity className="rounded-md bg-teal-600 px-4 py-2">
-                    <Text className="text-sm font-semibold text-white">Lataa PDF</Text>
+                    <Text onPress={handleDownloadPDF} className="text-sm font-semibold text-white">Lataa PDF</Text>
                 </TouchableOpacity>
             </View>
         </View>

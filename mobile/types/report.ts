@@ -39,4 +39,5 @@ export type UseReportByIdReturn = {
     isLoading: boolean;
     handleDeleteReport: () => void;
     handleUpdateReport: () => void;
+    handleDownloadPDF: () => void;
 };

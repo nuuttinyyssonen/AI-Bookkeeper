@@ -3,9 +3,10 @@ import { prisma } from "../lib/prisma";
 import { NotFoundError } from "../utils/error";
 import PDFDocument from "pdfkit";
 import { timePeriodSchema } from "../schemas/report.schema";
-import { ValidationError } from "../utils/error";
+import { ValidationError, ServerError } from "../utils/error";
 import { VatReportPeriod } from "@prisma/client";
 import { idSchema } from "../schemas/id.schema";
+import { supabaseAdmin } from "../lib/supabase";
 
 // Helper function to calculate the start and end dates based on the selected time period (quarterly, monthly, yearly)
 const getDateRange = (timePeriod: string): { start: Date; end: Date } => {
@@ -373,6 +374,149 @@ export const getReportPdf = async (req: Request<{id: string}>, res: Response, ne
             .text(`Generated: ${new Date().toLocaleDateString("fi-FI")}`, { align: "right" });
 
         doc.end();
+
+    } catch(error) {
+        next(error);
+    }
+};
+
+/**
+ * Generates a PDF summary of a VAT report and uploads it to Supabase storage,
+ * returning a signed URL for mobile download.
+ * @param {Request} req.params - Report ID
+ * @param {Request} req.user - User from auth middleware
+ * @returns { url: string } Signed Supabase URL valid for 1 hour
+ * @throws {ValidationError} 400 - If report ID fails validation
+ * @throws {NotFoundError} 404 - If report not found or does not belong to user
+ * @throws {ServerError} 500 - If PDF generation or Supabase upload fails
+ */
+export const getReportPdfUrl = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
+    const user = req.user;
+    const idResult = idSchema.safeParse(req.params);
+    if (!idResult.success) {
+        return next(new ValidationError(idResult.error.issues[0].message));
+    }
+
+    const { id } = idResult.data;
+
+    try {
+        const report = await prisma.vatReport.findUnique({
+            where: { id, user_id: user.id }
+        });
+
+        if (!report) {
+            return next(new NotFoundError("Report not found"));
+        }
+
+        const vatBreakdown = report.vat_breakdown as {
+            sales: { rate: number; net: number; vat_amount: number; gross: number }[];
+            purchases: { rate: number; net: number; vat_amount: number; gross: number }[];
+        };
+
+        const pdfBuffer = await new Promise<Buffer>((resolve, reject) => {
+            const doc = new PDFDocument({ margin: 50 });
+            const chunks: Buffer[] = [];
+
+            doc.on("data", (chunk) => chunks.push(Buffer.from(chunk)));
+            doc.on("end", () => resolve(Buffer.concat(chunks)));
+            doc.on("error", reject);
+
+            // Title
+            doc.fontSize(20).font("Helvetica-Bold").text("VAT Report", { align: "center" });
+            doc.moveDown(0.5);
+            doc.fontSize(12).font("Helvetica").text(`Period: ${report.period_type}`, { align: "center" });
+            doc.fontSize(10).text(
+                `${new Date(report.period_start).toLocaleDateString("fi-FI")} – ${new Date(report.period_end).toLocaleDateString("fi-FI")}`,
+                { align: "center" }
+            );
+
+            doc.moveDown(1.5);
+            doc.moveTo(50, doc.y).lineTo(550, doc.y).stroke();
+            doc.moveDown(1);
+
+            // Summary
+            doc.fontSize(14).font("Helvetica-Bold").text("Summary");
+            doc.moveDown(0.5);
+            doc.fontSize(10).font("Helvetica");
+            doc.text(`Sales VAT:        ${Number(report.sales_vat_amount).toFixed(2)} €`);
+            doc.text(`Purchase VAT:     ${Number(report.purchase_vat_amount).toFixed(2)} €`);
+            doc.moveDown(0.3);
+            const isRefund = Number(report.vat_payable) < 0;
+            doc.fontSize(11).font("Helvetica-Bold").text(
+                `${isRefund ? "VAT Refund" : "VAT Payable"}:      ${Math.abs(Number(report.vat_payable)).toFixed(2)} €`
+            );
+
+            doc.moveDown(1.5);
+
+            const col1 = 50, col2 = 150, col3 = 280, col4 = 410;
+
+            // Sales breakdown
+            doc.fontSize(13).font("Helvetica-Bold").text("Sales VAT Breakdown");
+            doc.moveDown(0.5);
+            doc.fontSize(9).font("Helvetica-Bold");
+            doc.text("VAT Rate", col1, doc.y, { width: 100 });
+            doc.text("Net", col2, doc.y - doc.currentLineHeight(), { width: 130 });
+            doc.text("VAT Amount", col3, doc.y - doc.currentLineHeight(), { width: 130 });
+            doc.text("Gross", col4, doc.y - doc.currentLineHeight(), { width: 100 });
+            doc.moveDown(0.3);
+            doc.moveTo(50, doc.y).lineTo(550, doc.y).stroke();
+            doc.moveDown(0.3);
+
+            doc.font("Helvetica").fontSize(9);
+            vatBreakdown.sales.forEach(row => {
+                doc.text(`${row.rate}%`, col1, doc.y, { width: 100 });
+                doc.text(`${row.net.toFixed(2)} €`, col2, doc.y - doc.currentLineHeight(), { width: 130 });
+                doc.text(`${row.vat_amount.toFixed(2)} €`, col3, doc.y - doc.currentLineHeight(), { width: 130 });
+                doc.text(`${row.gross.toFixed(2)} €`, col4, doc.y - doc.currentLineHeight(), { width: 100 });
+                doc.moveDown(0.3);
+            });
+
+            doc.moveDown(1);
+
+            // Purchases breakdown
+            doc.fontSize(13).font("Helvetica-Bold").text("Purchase VAT Breakdown");
+            doc.moveDown(0.5);
+            doc.fontSize(9).font("Helvetica-Bold");
+            doc.text("VAT Rate", col1, doc.y, { width: 100 });
+            doc.text("Net", col2, doc.y - doc.currentLineHeight(), { width: 130 });
+            doc.text("VAT Amount", col3, doc.y - doc.currentLineHeight(), { width: 130 });
+            doc.text("Gross", col4, doc.y - doc.currentLineHeight(), { width: 100 });
+            doc.moveDown(0.3);
+            doc.moveTo(50, doc.y).lineTo(550, doc.y).stroke();
+            doc.moveDown(0.3);
+
+            doc.font("Helvetica").fontSize(9);
+            vatBreakdown.purchases.forEach(row => {
+                doc.text(`${row.rate}%`, col1, doc.y, { width: 100 });
+                doc.text(`${row.net.toFixed(2)} €`, col2, doc.y - doc.currentLineHeight(), { width: 130 });
+                doc.text(`${row.vat_amount.toFixed(2)} €`, col3, doc.y - doc.currentLineHeight(), { width: 130 });
+                doc.text(`${row.gross.toFixed(2)} €`, col4, doc.y - doc.currentLineHeight(), { width: 100 });
+                doc.moveDown(0.3);
+            });
+
+            doc.moveDown(1);
+            doc.moveTo(50, doc.y).lineTo(550, doc.y).stroke();
+            doc.moveDown(0.5);
+            doc.fontSize(9).font("Helvetica").fillColor("#666666")
+                .text(`Generated: ${new Date().toLocaleDateString("fi-FI")}`, { align: "right" });
+
+            doc.end();
+        });
+
+        const fileName = `vat-report-${report.period_type}-${id}.pdf`;
+
+        await supabaseAdmin.storage.from("reports").upload(fileName, pdfBuffer, {
+            contentType: "application/pdf",
+            upsert: true,
+        });
+
+        const { data, error } = await supabaseAdmin.storage
+            .from("reports")
+            .createSignedUrl(fileName, 3600);
+
+        if (error) return next(new ServerError("Failed to generate URL"));
+
+        return res.json({ url: data.signedUrl });
 
     } catch(error) {
         next(error);

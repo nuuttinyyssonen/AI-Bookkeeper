@@ -4,6 +4,7 @@ import { Alert } from "react-native";
 import api from "../services/api";
 import { UseReportByIdReturn } from "../types/report";
 import Toast from "react-native-toast-message";
+import * as WebBrowser from "expo-web-browser";
 
 export const useReportById = (id: string, navigation: any): UseReportByIdReturn => {
     const [isLoading, setIsLoading] = useState(false);
@@ -81,8 +82,18 @@ export const useReportById = (id: string, navigation: any): UseReportByIdReturn 
         }
     };
 
+    const handleDownloadPDF = async () => {
+        try {
+            const response = await api.get(`/api/report/${id}/pdf/url`);
+            await WebBrowser.openBrowserAsync(response.data.url);
+        } catch(error: any) {
+            console.log(error.response?.data);
+            Alert.alert("Virhe", "PDF:n lataus epäonnistui");
+        }
+    };
+
     return {
         report, isLoading, handleDeleteReport,
-        handleUpdateReport
+        handleUpdateReport, handleDownloadPDF
     };
 };
