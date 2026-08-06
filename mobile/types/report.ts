@@ -32,3 +32,8 @@ export type UseReportReturn = {
     reports: Report[];
     handleCreateReport: (timePeriod: string) => void;
 };
+
+export type UseReportByIdReturn = {
+    report: Report;
+    isLoading: boolean;
+};
