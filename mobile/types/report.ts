@@ -16,13 +16,19 @@ export type Report = {
     period_end: string;
     period_type: string;
     vat_declaration_sent: boolean;
-    sales_vat_amount: number;
-    purchase_vat_amount: number;
-    vat_payable: number;
+    sales_vat_amount: string;
+    purchase_vat_amount: string;
+    vat_payable: string;
     created_at: string;
-    sales_net: number;
-    purchase_net: number;
+    sales_net: string;
+    purchase_net: string;
+    sales_gross: string;
+    purchase_gross: string;
     vat_breakdown: VatBreakdown;
-    sales_gross: number;
-    purchase_gross: number
+    pdf_path: string | null;
+};
+
+export type UseReportReturn = {
+    reports: Report[];
+    handleCreateReport: (timePeriod: string) => void;
 };

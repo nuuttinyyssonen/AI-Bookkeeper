@@ -3,9 +3,9 @@ import { Report } from "../../types/report"
 
 export default function ReportCard({ id, period_end, period_start, 
     period_type, vat_declaration_sent, sales_vat_amount, 
-    purchase_vat_amount, vat_payable, created_at, handleNavigateToReport 
+    vat_payable, created_at, handleNavigateToReport 
 }: Report & { handleNavigateToReport: (id: string) => void }) {
-    const isRefund = vat_payable < 0;
+    const isRefund = parseFloat(vat_payable) < 0;
 
     return (
         <View className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -30,13 +30,13 @@ export default function ReportCard({ id, period_end, period_start,
                 <View className="flex-1">
                     <Text className="text-xs text-slate-400">Myynnin ALV</Text>
                     <Text className="mt-0.5 text-sm font-medium text-teal-700">
-                        {sales_vat_amount.toFixed(2)} €
+                        {parseFloat(sales_vat_amount).toFixed(2)} € €
                     </Text>
                 </View>
                 <View className="flex-1">
                     <Text className="text-xs text-slate-400">Ostojen ALV</Text>
                     <Text className="mt-0.5 text-sm font-medium text-slate-700">
-                        {purchase_vat_amount.toFixed(2)} €
+                        {parseFloat(sales_vat_amount).toFixed(2)} € €
                     </Text>
                 </View>
             </View>
@@ -45,7 +45,7 @@ export default function ReportCard({ id, period_end, period_start,
                 <View>
                     <Text className="text-xs text-slate-400">{isRefund ? "Palautus" : "Maksettava"}</Text>
                     <Text className={`text-base font-semibold ${isRefund ? "text-teal-600" : "text-rose-600"}`}>
-                        {Math.abs(vat_payable).toFixed(2)} €
+                        {Math.abs(parseFloat(vat_payable)).toFixed(2)} € €
                     </Text>
                 </View>
                 <Text className="text-xs text-slate-500">
