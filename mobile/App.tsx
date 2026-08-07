@@ -13,6 +13,8 @@ import ReportViewScreen from "./screens/main/ReportViewScreen";
 import AssistantChatScreen from "./screens/main/AssistantChatScreen";
 import AccountDeletedScreen from "./screens/main/AccountDeletedScreen";
 import SubscriptionPlansScreen from "./screens/main/SubscriptionPlansScreen";
+import PrivacyPolicyScreen from "./screens/main/PrivacyPolicyScreen";
+import TermsOfServiceScreen from "./screens/main/TermsOfServiceScreen";
 
 import MainTabNavigator from "./navigation/MainTabNavigator";
 
@@ -44,6 +46,8 @@ function RootNavigator() {
                     <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
                 </>
             )}
+            <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicyScreen} />
+            <Stack.Screen name="TermsOfService" component={TermsOfServiceScreen} />
         </Stack.Navigator>
     );
 };
