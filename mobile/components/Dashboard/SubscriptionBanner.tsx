@@ -1,18 +1,25 @@
 import { View, Text } from "react-native"
 import { UseDashboardReturn } from "../../types/dashboard"
+import { useNavigation } from "@react-navigation/native"
 
 export default function SubscriptionBanner({ subscriptionType }: UseDashboardReturn) {
+    const navigation = useNavigation<any>();
     return (
         <View className="flex-row items-center justify-between rounded-lg border border-teal-200 bg-teal-50 px-4 py-3">
             {subscriptionType ? (
                 <>
                     <Text className="flex-1 text-sm text-teal-800">Olen {subscriptionType} paketissa</Text>
-                    <Text className="text-sm font-medium text-teal-800 underline">
+                    <Text onPress={() => navigation.navigate("SubscriptionPlans")} className="text-sm font-medium text-teal-800 underline">
                         {subscriptionType === "BASIC" ? "Päivitä Premiumiin" : "Selaa paketteja"}
                     </Text>
                 </>
             ) : (
-                <Text className="text-sm text-teal-800">Tilaus ei ole aktiivinen</Text>
+                <>
+                    <Text className="text-sm text-teal-800">Tilaus ei ole aktiivinen</Text>
+                    <Text onPress={() => navigation.navigate("SubscriptionPlans")} className="text-sm font-medium text-teal-800 underline">
+                        Selaa paketteja
+                    </Text>
+                </>
             )}
         </View>
     ) 
