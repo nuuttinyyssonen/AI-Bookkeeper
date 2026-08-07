@@ -12,7 +12,7 @@ import ReceiptViewScreen from "./screens/main/ReceiptViewScreen";
 import ReportViewScreen from "./screens/main/ReportViewScreen";
 import AssistantChatScreen from "./screens/main/AssistantChatScreen";
 import AccountDeletedScreen from "./screens/main/AccountDeletedScreen";
-import SubscriptionPlans from "./screens/main/SubscriptionPlans";
+import SubscriptionPlansScreen from "./screens/main/SubscriptionPlansScreen";
 
 import MainTabNavigator from "./navigation/MainTabNavigator";
 
@@ -34,7 +34,7 @@ function RootNavigator() {
                     <Stack.Screen name="ReportView" component={ReportViewScreen} />
                     <Stack.Screen name="AssistantChatScreen" component={AssistantChatScreen} />
                     <Stack.Screen name="AccountDeletedScreen" component={AccountDeletedScreen} />
-                    <Stack.Screen name="SubscriptionPlans" component={SubscriptionPlans} />
+                    <Stack.Screen name="SubscriptionPlans" component={SubscriptionPlansScreen} />
                 </>
             ) : (
                 <>
