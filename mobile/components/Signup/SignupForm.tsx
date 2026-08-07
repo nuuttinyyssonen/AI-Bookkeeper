@@ -78,15 +78,30 @@ export default function SignupForm({selectedPlan, setSelectedPlan, setEmail, ema
                     className="h-11 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950"
                     placeholderTextColor="#94a3b8"
                 />
-                <TouchableOpacity 
-                    onPress={() => setChecked(!checked)}
-                    className="flex-row items-center gap-2"
-                >
-                    <View className={`h-5 w-5 rounded border-2 items-center justify-center ${checked ? 'bg-slate-950 border-slate-950' : 'border-slate-300'}`}>
+                <View className="flex-row items-center gap-2">
+                    <TouchableOpacity
+                        onPress={() => setChecked(!checked)}
+                        className={`h-5 w-5 rounded border-2 items-center justify-center ${checked ? 'bg-slate-950 border-slate-950' : 'border-slate-300'}`}
+                    >
                         {checked && <Text className="text-white text-xs">✓</Text>}
-                    </View>
-                    <Text className="text-sm text-slate-600">Hyväksyn käyttöehdot ja tietosuojaselosteen</Text>
-                </TouchableOpacity>
+                    </TouchableOpacity>
+                    <Text className="flex-1 text-sm text-slate-600">
+                        Hyväksyn{" "}
+                        <Text
+                            className="font-semibold text-teal-700"
+                            onPress={() => navigation.navigate("TermsOfService")}
+                        >
+                            käyttöehdot
+                        </Text>{" "}
+                        ja{" "}
+                        <Text
+                            className="font-semibold text-teal-700"
+                            onPress={() => navigation.navigate("PrivacyPolicy")}
+                        >
+                            tietosuojaselosteen
+                        </Text>
+                    </Text>
+                </View>
                 <TouchableOpacity onPress={handleSignup}
                 disabled={isLoading} 
                 className={`h-11 items-center justify-center rounded-lg bg-slate-950 ${isLoading ? "opacity-60" : ""}`}
