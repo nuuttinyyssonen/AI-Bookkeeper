@@ -27,7 +27,7 @@ dotenv.config();
 const app = express();
 
 // Webhook
-app.use('/api/subscriptions', webhookRouter);
+// app.use('/api/subscriptions', webhookRouter);
 
 // CORS configuration to allow requests from frontend
 app.use(cors({
@@ -48,17 +48,17 @@ app.use(helmet());
 app.use(requestLogger);
 
 // Routes
-app.use('/api/auth/login', loginRouter);
-app.use('/api/auth/signup', signupRouter);
-app.use('/api/auth/logout', logoutRouter);
+// app.use('/api/auth/login', loginRouter);
+// app.use('/api/auth/signup', signupRouter);
+// app.use('/api/auth/logout', logoutRouter);
 app.use('/api/storage', storageRouter);
 app.use('/api/receipt', receiptRouter);
 app.use('/api/dashboard', dashboardRouter);
 app.use('/api/report', reportRouter);
-app.use('/api/assistant', assistantRouter);
-app.use('/api/subscription', subscriptionRouter);
+// app.use('/api/assistant', assistantRouter);
+// app.use('/api/subscription', subscriptionRouter);
 app.use('/api/user', userRouter);
-app.use('/api/auth/reset-password', passwordResetRouter);
+// app.use('/api/auth/reset-password', passwordResetRouter);
 if (process.env.NODE_ENV !== 'production') {
     app.use('/api/test-cleanup', cypressRouter);
 }
