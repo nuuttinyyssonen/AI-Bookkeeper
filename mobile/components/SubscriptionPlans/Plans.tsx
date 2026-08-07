@@ -1,10 +1,12 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 const plans = [
     {
         key: "basic",
         name: "Basic",
+        id: "BASIC",
+        yearlyId: "BASIC_YEARLY",
         description: "Yksityishenkilöille ja freelancereille",
         monthlyPrice: "€19.99",
         yearlyPrice: "€199.99",
@@ -15,6 +17,8 @@ const plans = [
     {
         key: "premium",
         name: "Premium",
+        id: "PREMIUM",
+        yearlyId: "PREMIUM_YEARLY",
         description: "Pienyrityksille",
         monthlyPrice: "€39.99",
         yearlyPrice: "€399.99",
@@ -24,19 +28,26 @@ const plans = [
     },
 ];
 
-export default function Plans({isYearly}: any) {
+export default function Plans({ isYearly, selectedPlan, pendingPlanId, handleChangePlan }: any) {
     return (
         <View className="gap-4">
             {plans.map((plan) => {
                 const price = isYearly ? plan.yearlyMonthly : plan.monthlyPrice;
+                const planId = isYearly ? plan.yearlyId : plan.id;
+                const isCurrent = selectedPlan === planId;
+                const isPending = pendingPlanId === planId;
                 return (
                     <View
                         key={plan.key}
                         className={`relative rounded-lg bg-white p-6 ${
-                            plan.popular ? "border-2 border-slate-200" : "border border-slate-200"
+                            isCurrent ? "border-2 border-teal-700" : plan.popular ? "border-2 border-slate-200" : "border border-slate-200"
                         }`}
                     >
-                        {plan.popular && (
+                        {isCurrent ? (
+                            <View className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full border border-teal-200 bg-teal-50 px-3 py-1">
+                                <Text className="text-xs font-medium text-teal-800">Nykyinen paketti</Text>
+                            </View>
+                        ) : plan.popular && (
                             <View className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1">
                                 <Text className="text-xs font-medium text-slate-600">Suosituin</Text>
                             </View>
@@ -63,15 +74,22 @@ export default function Plans({isYearly}: any) {
                             ))}
                         </View>
 
-                        <View
-                            className={`mt-4 h-10 items-center justify-center rounded-md ${
-                                plan.popular ? "bg-teal-700" : "border border-slate-300 bg-white"
-                            }`}
+                        <TouchableOpacity
+                            onPress={() => handleChangePlan(planId)}
+                            disabled={isCurrent || !!pendingPlanId}
+                            className={`mt-4 h-10 flex-row items-center justify-center gap-2 rounded-md ${
+                                isCurrent ? "bg-slate-100 border border-slate-200" : plan.popular ? "bg-teal-700" : "border border-slate-300 bg-white"
+                            } ${pendingPlanId && !isPending ? "opacity-50" : ""}`}
                         >
-                            <Text className={`text-sm font-medium ${plan.popular ? "text-white" : "text-slate-700"}`}>
-                                Valitse {plan.name}
+                            {isPending && (
+                                <ActivityIndicator size="small" color={plan.popular ? "#ffffff" : "#0f766e"} />
+                            )}
+                            <Text className={`text-sm font-medium ${
+                                isCurrent ? "text-slate-400" : plan.popular ? "text-white" : "text-slate-700"
+                            }`}>
+                                {isPending ? "Vaihdetaan..." : isCurrent ? "Nykyinen paketti" : `Valitse ${plan.name}`}
                             </Text>
-                        </View>
+                        </TouchableOpacity>
                     </View>
                 );
             })}
