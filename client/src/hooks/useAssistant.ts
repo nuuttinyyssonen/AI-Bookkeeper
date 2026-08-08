@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { getChatRooms, createNewChatRoom, deleteChatRoom } from "../app/(main)/assistant/action";
+import { useTranslations } from "next-intl";
+import { getChatRooms } from "../app/(main)/assistant/action";
 import { toast } from "sonner";
 
 interface ChatRoom {
@@ -11,27 +11,16 @@ interface ChatRoom {
 }
 
 export const useAssistant = () => {
-    const router = useRouter();
+    const t = useTranslations('demo');
     const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
     const [input, setInput] = useState("");
 
-    const handleNewChat = async (message: string) => {
-        setInput("");
-        const data = await createNewChatRoom(message);
-        if (data.error) {
-            toast.error(data.error);
-            return
-        }
-        router.push(`/assistant/${data.chatRoomId}?firstMessage=${encodeURIComponent(message)}`);
+    const handleNewChat = async (_message: string) => {
+        toast.error(t('assistantBlocked'));
     };
 
-    const onDelete = async (id: string) => {
-        const data = await deleteChatRoom(id);
-        if(data.error) {
-            toast.error(data.error)
-            return;
-        }
-        setChatRooms(prev => prev.filter(room => room.id !== id));
+    const onDelete = async (_id: string) => {
+        toast.error(t('chatDeleteBlocked'));
     };
 
     useEffect(() => {

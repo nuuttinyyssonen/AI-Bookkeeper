@@ -1,7 +1,7 @@
 'use client';
 
-import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 import CancelSubscription from "./CancelSubscription";
 import ReactivateSubscription from "./ReactivateSubscription";
 import { Subscription as SubscriptionData } from "@/app/types/subscription";
@@ -12,6 +12,7 @@ interface Props {
 
 export default function Subscription({ subscription }: Props) {
     const t = useTranslations('subscription');
+    const tDemo = useTranslations('demo');
 
     const periodEnd = subscription?.current_period_end
         ? new Date(subscription.current_period_end).toLocaleDateString('fi-FI')
@@ -66,12 +67,12 @@ export default function Subscription({ subscription }: Props) {
                 </div>
             </div>
             <div className="pt-2 flex flex-wrap gap-2">
-                <Link
-                    href="/pricing"
+                <button
+                    onClick={() => toast.error(tDemo('subscriptionBlocked'))}
                     className="h-9 px-4 rounded-md bg-teal-700 text-sm font-medium text-white hover:bg-teal-800 transition-colors flex items-center"
                 >
                     {t('changePlan')}
-                </Link>
+                </button>
                 {isCancelledAtPeriodEnd || isCancelled ? (
                     <ReactivateSubscription />
                 ) : (

@@ -15,9 +15,9 @@ export const getChatRooms = async () => {
             }
         });
 
-        if (response.status === 403) {
-            redirect('/pricing?message=subscription_required');
-        }
+        // if (response.status === 403) {
+        //     redirect('/pricing?message=subscription_required');
+        // }
 
         const data = await response.json();
 
@@ -44,9 +44,9 @@ export const getChatMessages = async (id: string) => {
             }
         });
 
-        if (response.status === 403) {
-            redirect('/pricing?message=subscription_required');
-        }
+        // if (response.status === 403) {
+        //     redirect('/pricing?message=subscription_required');
+        // }
 
         const data = await response.json();
 

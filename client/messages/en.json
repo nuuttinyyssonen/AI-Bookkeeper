@@ -619,11 +619,48 @@
   "mainNavigation": {
     "dashboard": "Dashboard",
     "receipts": "Receipts",
+    "upload": "Add documents",
     "reports": "Reports",
     "vatReturn": "VAT return",
     "assistant": "AI assistant",
     "settings": "Settings",
     "menu": "Menu"
+  },
+
+  "demoBanner": {
+    "badge": "DEMO",
+    "title": "This is a demo version of AI Bookkeeper",
+    "description": "The data is pre-filled with sample content and resets automatically after 15 minutes of inactivity.",
+    "availableTitle": "Available in the demo",
+    "available": [
+      "Browsing, editing and deleting receipts",
+      "Exporting receipts to Excel",
+      "Reports and VAT summaries",
+      "Dashboard and cash flow view"
+    ],
+    "blockedTitle": "Not available in the demo",
+    "blocked": [
+      "Receipt upload and AI analysis (OCR)",
+      "AI assistant",
+      "Submitting the VAT return",
+      "Changing, cancelling or reactivating the subscription",
+      "Deleting the account and editing information",
+      "Logging in and out"
+    ]
+  },
+
+  "demo": {
+    "assistantBlocked": "You can't use the AI assistant in demo mode",
+    "chatDeleteBlocked": "You can't delete chats in demo mode",
+    "vatReturnBlocked": "You can't use the VAT return in demo mode",
+    "uploadBlocked": "You can't upload receipts in demo mode",
+    "subscriptionBlocked": "You can't change your subscription in demo mode",
+    "paymentHistoryBlocked": "You can't download payment history in demo mode",
+    "accountDeleteBlocked": "You can't delete your account in demo mode",
+    "informationBlocked": "You can't edit information in demo mode",
+    "authBlocked": "Login, signup and password reset aren't available in the demo",
+    "logoutBlocked": "You can't log out in demo mode",
+    "exportBlocked": "You can't export receipts in demo mode"
   },
 
   "termsPage": {

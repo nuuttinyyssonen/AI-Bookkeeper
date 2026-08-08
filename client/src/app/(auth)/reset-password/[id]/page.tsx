@@ -1,5 +1,7 @@
-import PasswordResetForm from './components/PasswordResetForm';
+import { getTranslations } from "next-intl/server";
+import DemoBlocked from "@/components/DemoBlocked";
 
-export default function Page() {
-    return <PasswordResetForm />;
+export default async function Page() {
+    const t = await getTranslations('demo');
+    return <DemoBlocked message={t('authBlocked')} />;
 }

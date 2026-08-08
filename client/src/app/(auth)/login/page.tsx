@@ -1,11 +1,7 @@
-import LoginForm from './components/loginForm';
+import { getTranslations } from "next-intl/server";
+import DemoBlocked from "@/components/DemoBlocked";
 
-export default function Page() {
-    return (
-        <div>
-            <div>
-                <LoginForm />
-            </div>
-        </div>
-    )
+export default async function Page() {
+    const t = await getTranslations('demo');
+    return <DemoBlocked message={t('authBlocked')} />;
 };

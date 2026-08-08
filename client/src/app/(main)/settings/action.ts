@@ -16,6 +16,8 @@ export const getUserData = async () => {
             }
         });
 
+        console.log(response)
+
         if(!response.ok) {
             const data = await response.json();
             return { error: data.error || "Invalid or expired session token" };

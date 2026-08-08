@@ -9,6 +9,7 @@ import LanguageSwitcher from "./LanguageSwitcher";
 const navigationItems = [
     { key: "dashboard", href: "/dashboard" },
     { key: "receipts", href: "/receipts" },
+    { key: "upload", href: "/upload" },
     { key: "reports", href: "/reports" },
     { key: "vatReturn", href: "/vat-return" },
     { key: "assistant", href: "/assistant" },

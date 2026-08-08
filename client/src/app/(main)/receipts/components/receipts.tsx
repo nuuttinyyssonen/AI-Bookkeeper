@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 import { Receipt } from "@/lib/receipts";
 import { CardContent, CardDescription, CardHeader, CardTitle, Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,7 @@ interface Props {
 
 export default function Receipts({ filtered }: Props) {
     const t = useTranslations('receipts');
+    const tDemo = useTranslations('demo');
 
     return (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -66,7 +68,12 @@ export default function Receipts({ filtered }: Props) {
                             >
                                 {t('view')}
                             </Link>
-                            <Button className="flex-1 bg-teal-600 text-white hover:bg-teal-700">{t('export')}</Button>
+                            <Button
+                                onClick={() => toast.error(tDemo('exportBlocked'))}
+                                className="flex-1 bg-teal-600 text-white hover:bg-teal-700"
+                            >
+                                {t('export')}
+                            </Button>
                         </div>
                     </CardContent>
                 </Card>

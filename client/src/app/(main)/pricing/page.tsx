@@ -1,11 +1,7 @@
-import PricingProvider from "./components/PricingProvider";
-import { authenticateUser } from "@/lib/auth";
-import { getSubscriptionData } from "../dashboard/action";
+import { getTranslations } from "next-intl/server";
+import DemoBlocked from "@/components/DemoBlocked";
 
 export default async function Page() {
-    await authenticateUser();
-    const { subscription } = await getSubscriptionData();
-    return (
-        <PricingProvider subscription={subscription}/>
-    );
+    const t = await getTranslations('demo');
+    return <DemoBlocked message={t('subscriptionBlocked')} />;
 };

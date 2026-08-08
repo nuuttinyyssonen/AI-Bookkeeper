@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
-import { getChatRooms, getChatMessages, streamChatMessage, deleteChatRoom } from "../app/(main)/assistant/action";
+import { useTranslations } from "next-intl";
+import { getChatRooms, getChatMessages } from "../app/(main)/assistant/action";
 import { toast } from "sonner";
 
 interface Message {
@@ -17,52 +18,20 @@ interface ChatRoom {
 }
 
 export const useChat = (id: string) => {
+    const t = useTranslations('demo');
     const [messages, setMessages] = useState<Message[]>([]);
     const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
     const [input, setInput] = useState("");
     const initialized = useRef(false);
     const searchParams = useSearchParams();
 
-    const handleSend = async (message: string) => {
+    const handleSend = async (_message: string) => {
         setInput("");
-        setMessages(prev => [...prev, { id: Date.now(), role: "USER", content: message }]);
-
-        const stream = await streamChatMessage(id, message);
-        if (!stream || 'error' in stream) return;
-
-        const reader = (stream as ReadableStream).getReader();
-        const decoder = new TextDecoder();
-        const assistantId = Date.now() + 1;
-
-        setMessages(prev => [...prev, { id: assistantId, role: "ASSISTANT", content: "" }]);
-
-        while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
-
-            const chunk = decoder.decode(value);
-            const lines = chunk.split("\n\n").filter(Boolean);
-
-            for (const line of lines) {
-                const data = line.replace("data: ", "");
-                if (data === "[DONE]") break;
-                const { text } = JSON.parse(data);
-                setMessages(prev => prev.map(msg =>
-                    msg.id === assistantId
-                        ? { ...msg, content: msg.content + text }
-                        : msg
-                ));
-            }
-        }
+        toast.error(t('assistantBlocked'));
     };
 
-    const onDelete = async (id: string) => {
-        const data = await deleteChatRoom(id);
-        if (data.error) {
-            toast.error(data.error);
-            return
-        }
-        setChatRooms(prev => prev.filter(room => room.id !== id));
+    const onDelete = async (_id: string) => {
+        toast.error(t('chatDeleteBlocked'));
     };
 
     useEffect(() => {

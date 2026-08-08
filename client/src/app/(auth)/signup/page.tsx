@@ -1,9 +1,7 @@
-import SignupWithPlan from "./components/SignupWithPlan";
+import { getTranslations } from "next-intl/server";
+import DemoBlocked from "@/components/DemoBlocked";
 
-export default function Page() {
-    return (
-        <div>
-            <SignupWithPlan />
-        </div>
-    );
+export default async function Page() {
+    const t = await getTranslations('demo');
+    return <DemoBlocked message={t('authBlocked')} />;
 };

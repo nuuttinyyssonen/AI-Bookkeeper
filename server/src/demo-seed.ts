@@ -4,7 +4,7 @@ import { prisma } from "./lib/prisma";
 
 const DEMO_USER_ID = "demo-user-fixed-id";
 
-async function main() {
+export async function seedDemoData() {
     console.log("Seeding demo data...");
 
     // Clean existing demo data
@@ -273,6 +273,8 @@ async function main() {
     console.log("Demo data seeded successfully!");
 }
 
-main()
-    .catch(console.error)
-    .finally(() => prisma.$disconnect());
+if (require.main === module) {
+    seedDemoData()
+        .catch(console.error)
+        .finally(() => prisma.$disconnect());
+}

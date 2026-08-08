@@ -618,11 +618,48 @@
   "mainNavigation": {
     "dashboard": "Hallintapaneeli",
     "receipts": "Kuitit",
+    "upload": "Lisää dokumentteja",
     "reports": "Raportit",
     "vatReturn": "ALV-ilmoitus",
     "assistant": "Tekoälyavustaja",
     "settings": "Asetukset",
     "menu": "Valikko"
+  },
+
+  "demoBanner": {
+    "badge": "DEMO",
+    "title": "Tämä on demo-versio AI Bookkeeperista",
+    "description": "Data on esitäytetty esimerkkiaineistolla ja nollautuu automaattisesti, kun sovellusta ei ole käytetty 15 minuuttiin.",
+    "availableTitle": "Käytössä demossa",
+    "available": [
+      "Kuittien selaus, muokkaus ja poistaminen",
+      "Kuittien vienti Exceliin",
+      "Raportit ja ALV-yhteenvedot",
+      "Kojelauta ja kassavirtanäkymä"
+    ],
+    "blockedTitle": "Ei käytössä demossa",
+    "blocked": [
+      "Kuitin lataus ja tekoälyanalyysi (OCR)",
+      "Tekoälyavustaja",
+      "ALV-ilmoituksen lähettäminen",
+      "Tilauksen muuttaminen, peruutus ja maksutiedot",
+      "Tilin poistaminen ja tietojen muokkaus",
+      "Sisään- ja uloskirjautuminen"
+    ]
+  },
+
+  "demo": {
+    "assistantBlocked": "Et voi käyttää AI-avustajaa demo modessa",
+    "chatDeleteBlocked": "Et voi poistaa keskusteluja demo modessa",
+    "vatReturnBlocked": "Et voi käyttää ALV-ilmoitusta demo modessa",
+    "uploadBlocked": "Et voi ladata kuitteja demo modessa",
+    "subscriptionBlocked": "Et voi muuttaa tilaustasi demo modessa",
+    "paymentHistoryBlocked": "Et voi ladata maksuhistoriaa demo modessa",
+    "accountDeleteBlocked": "Et voi poistaa tiliäsi demo modessa",
+    "informationBlocked": "Et voi muokata tietoja demo modessa",
+    "authBlocked": "Kirjautuminen, rekisteröityminen ja salasanan vaihto eivät ole käytössä demossa",
+    "logoutBlocked": "Et voi kirjautua ulos demo modessa",
+    "exportBlocked": "Et voi viedä kuitteja demo modessa"
   },
 
   "termsPage": {

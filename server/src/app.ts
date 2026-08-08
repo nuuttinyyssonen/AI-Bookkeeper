@@ -55,7 +55,7 @@ app.use('/api/storage', storageRouter);
 app.use('/api/receipt', receiptRouter);
 app.use('/api/dashboard', dashboardRouter);
 app.use('/api/report', reportRouter);
-// app.use('/api/assistant', assistantRouter);
+app.use('/api/assistant', assistantRouter);
 // app.use('/api/subscription', subscriptionRouter);
 app.use('/api/user', userRouter);
 // app.use('/api/auth/reset-password', passwordResetRouter);

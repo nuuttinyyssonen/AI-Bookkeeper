@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 
 export default function LogoutButton() {
     const t = useTranslations('logoutButton');
+    const tDemo = useTranslations('demo');
     const [state, formAction] = useActionState(logoutUser, null);
     const searchParams = useSearchParams();
     const hasShownToast = useRef(false);
@@ -29,21 +30,18 @@ export default function LogoutButton() {
         }
     }, [searchParams]);
 
-    const test = () => {
-        toast.error("Et voi kirjautua ulos demo modessa");
+    const handleLogout = () => {
+        toast.error(tDemo('logoutBlocked'));
     }
 
     return (
-        // <form >
-        // <form action={formAction}>
         <>
             {state?.error && (
                 <p className="text-red-500 text-sm">{state.error}</p>
             )}
-            <button onClick={test} type="submit" className="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-700 hover:bg-slate-50 sm:w-auto sm:px-4">
+            <button onClick={handleLogout} type="submit" className="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-700 hover:bg-slate-50 sm:w-auto sm:px-4">
                 {t('logout')}
             </button>
         </>
-        //</form>
     );
 }

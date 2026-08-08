@@ -1,10 +1,13 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 export default function DemoButton() {
+    const tDemo = useTranslations('demo');
+
     const demoButton = () => {
-        toast.error("Et voi lisätä kuittia demo modessa");
+        toast.error(tDemo('uploadBlocked'));
     }
 
 
