@@ -3,6 +3,7 @@ import {
   ScanLine, Calculator, FileBarChart, MessagesSquare,
   Receipt, Wallet, AlertTriangle, Check, ArrowRight, Sparkles,
 } from "lucide-react";
+import { redirect } from "next/navigation";
 
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
@@ -214,18 +215,22 @@ async function Footer() {
   );
 }
 
+// export default function Home() {
+//   return (
+//     <div className="min-h-screen bg-white">
+//       <Nav />
+//       <main>
+//         <Hero />
+//         <Problem />
+//         <Features />
+//         <Pricing />
+//         <CTA />
+//       </main>
+//       <Footer />
+//     </div>
+//   );
+// }
+
 export default function Home() {
-  return (
-    <div className="min-h-screen bg-white">
-      <Nav />
-      <main>
-        <Hero />
-        <Problem />
-        <Features />
-        <Pricing />
-        <CTA />
-      </main>
-      <Footer />
-    </div>
-  );
+    redirect("/dashboard");
 }

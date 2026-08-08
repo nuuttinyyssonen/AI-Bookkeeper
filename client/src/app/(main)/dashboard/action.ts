@@ -87,27 +87,27 @@ export const getCashFlowData = async () => {
     }
 };
 
-export const getSubscriptionData = async () => {
-    try {
-        const cookieStore = await cookies();
-        const token = cookieStore.get("token")?.value;
+// export const getSubscriptionData = async () => {
+//     try {
+//         const cookieStore = await cookies();
+//         const token = cookieStore.get("token")?.value;
 
-        const response = await fetch("http://localhost:5001/api/subscription/status", {
-            method: 'GET',
-            headers: {
-                'Cookie': `token=${token}`
-            }
-        });
+//         const response = await fetch("http://localhost:5001/api/subscription/status", {
+//             method: 'GET',
+//             headers: {
+//                 'Cookie': `token=${token}`
+//             }
+//         });
 
-        // If response is not ok, return error message from server or a default one.
-        if(!response.ok) {
-            const data = await response.json();
-            return { error: data.error || "Invalid or expired session token" };
-        }
+//         // If response is not ok, return error message from server or a default one.
+//         if(!response.ok) {
+//             const data = await response.json();
+//             return { error: data.error || "Invalid or expired session token" };
+//         }
 
-        const data = await response.json();
-        return data;
-    } catch(error) {
-        console.error(error);
-    }
-};
+//         const data = await response.json();
+//         return data;
+//     } catch(error) {
+//         console.error(error);
+//     }
+// };
