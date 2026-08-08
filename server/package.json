@@ -43,7 +43,7 @@
     "rate-limiter-flexible": "^11.1.0",
     "redis": "^6.0.0",
     "resend": "^6.14.0",
-    "stripe": "^22.2.2",
+    "stripe": "^22.4.0",
     "winston": "^3.19.0",
     "zod": "^4.4.3"
   },
