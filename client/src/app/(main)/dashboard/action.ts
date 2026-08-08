@@ -36,7 +36,7 @@ export const getDashboardData = async () => {
         const token = cookieStore.get("token")?.value;
 
         // Sending logout request to our backend API route.
-        const response = await fetch("http://localhost:5001/api/dashboard", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/dashboard`, {
             method: 'GET',
             headers: {
                 'Cookie': `token=${token}`
@@ -67,7 +67,7 @@ export const getCashFlowData = async () => {
         const token = cookieStore.get("token")?.value;
 
         // Sending logout request to our backend API route.
-        const response = await fetch("http://localhost:5001/api/dashboard/cashflow", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/dashboard/cashflow`, {
             method: 'GET',
             headers: {
                 'Cookie': `token=${token}`

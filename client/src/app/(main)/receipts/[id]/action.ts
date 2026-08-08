@@ -14,7 +14,7 @@ export const updateReceiptDetails = async (
         const cookieStore = await cookies();
         const token = cookieStore.get("token")?.value;
 
-        const response = await fetch(`http://localhost:5001/api/receipt/${id}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/receipt/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ export const changeReceiptCategory = async (id: string, category: string): Promi
         const cookieStore = await cookies();
         const token = cookieStore.get("token")?.value;
 
-        const response = await fetch(`http://localhost:5001/api/receipt/category/${id}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/receipt/category/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ export const changeReceiptDeductible = async (id: string, isDeductible: boolean)
         const cookieStore = await cookies();
         const token = cookieStore.get("token")?.value;
 
-        const response = await fetch(`http://localhost:5001/api/receipt/is_deductible/${id}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/receipt/is_deductible/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ export const changeReceiptDeductiblePercentage = async (id: string, deductibilit
         const cookieStore = await cookies();
         const token = cookieStore.get("token")?.value;
 
-        const response = await fetch(`http://localhost:5001/api/receipt/percentage/${id}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/receipt/percentage/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

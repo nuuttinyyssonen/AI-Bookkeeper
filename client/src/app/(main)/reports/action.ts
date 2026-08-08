@@ -8,7 +8,7 @@ export const getReports = async () => {
         const cookieStore = await cookies();
         const token = cookieStore.get("token")?.value;
 
-        const response = await fetch("http://localhost:5001/api/report", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/report`, {
             method: 'GET',
             headers: {
                 'Cookie': `token=${token}`
@@ -32,7 +32,7 @@ export const createReport = async (timePeriod: string) => {
         const cookieStore = await cookies();
         const token = cookieStore.get("token")?.value;
 
-        const response = await fetch("http://localhost:5001/api/report", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/report`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -7,7 +7,7 @@ export const getReportById = async (id: string) => {
         const cookieStore = await cookies();
         const token = cookieStore.get("token")?.value;
 
-        const response = await fetch(`http://localhost:5001/api/report/${id}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/report/${id}`, {
             headers: { 'Cookie': `token=${token}` }
         });
 
@@ -23,7 +23,7 @@ export const deleteReportById = async (id: string) => {
         const cookieStore = await cookies();
         const token = cookieStore.get("token")?.value;
 
-        const response = await fetch(`http://localhost:5001/api/report/${id}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/report/${id}`, {
             method: 'DELETE',
             headers: { 'Cookie': `token=${token}` }
         });

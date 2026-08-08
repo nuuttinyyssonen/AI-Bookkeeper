@@ -32,7 +32,7 @@ const app = express();
 // CORS configuration to allow requests from frontend
 app.use(cors({
     origin: process.env.NODE_ENV === "production" 
-        ? "https://aibookkeeper.fi" 
+        ? process.env.CLIENT_URL
         : "http://localhost:3000",
     credentials: true
 }));

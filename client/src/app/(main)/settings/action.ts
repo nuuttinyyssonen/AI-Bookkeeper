@@ -9,7 +9,7 @@ export const getUserData = async () => {
     const token = cookieStore.get("token")?.value;
 
     try {
-        const response = await fetch("http://localhost:5001/api/user", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user`, {
             method: 'GET',
             headers: {
                 'Cookie': `token=${token}`
@@ -35,7 +35,7 @@ export const updateUserData = async (first_name: string, last_name: string, emai
     const token = cookieStore.get("token")?.value;
 
     try {
-        const response = await fetch("http://localhost:5001/api/user", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

@@ -8,7 +8,7 @@ export const getChatRooms = async () => {
         const cookieStore = await cookies();
         const token = cookieStore.get("token")?.value;
 
-        const response = await fetch("http://localhost:5001/api/assistant", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/assistant`, {
             method: 'GET',
             headers: {
                 'Cookie': `token=${token}`
@@ -37,7 +37,7 @@ export const getChatMessages = async (id: string) => {
         const cookieStore = await cookies();
         const token = cookieStore.get("token")?.value;
 
-        const response = await fetch(`http://localhost:5001/api/assistant/${id}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/assistant/${id}`, {
             method: 'GET',
             headers: {
                 'Cookie': `token=${token}`

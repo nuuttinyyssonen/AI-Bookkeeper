@@ -51,7 +51,7 @@ export const getReceipts = async (params: ReceiptParams = {}): Promise<ReceiptsR
         if (params.category) searchParams.set("category", params.category);
         if (params.type) searchParams.set("type", params.type);
 
-        const response = await fetch(`http://localhost:5001/api/receipt?${searchParams.toString()}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/receipt?${searchParams.toString()}`, {
             method: 'GET',
             headers: {
                 'Cookie': `token=${token}`
@@ -86,7 +86,7 @@ export const getReceiptById = async (id: string): Promise<{ receipt: Receipt } |
         const cookiesStore = await cookies();
         const token = cookiesStore.get("token")?.value;
 
-        const response = await fetch(`http://localhost:5001/api/receipt/${id}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/receipt/${id}`, {
             method: 'GET',
             headers: {
                 'Cookie': `token=${token}`
@@ -110,7 +110,7 @@ export const deleteReceiptById = async (id: string | undefined) => {
         const cookieStore = await cookies();
         const token = cookieStore.get("token")?.value;
 
-        const response = await fetch(`http://localhost:5001/api/storage/${id}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/storage/${id}`, {
             method: 'DELETE',
             headers: {
                 'Cookie': `token=${token}`
@@ -137,7 +137,7 @@ export const getReceiptFile = async (id: string | undefined): Promise<{ base64: 
         const cookieStore = await cookies();
         const token = cookieStore.get("token")?.value;
 
-        const response = await fetch(`http://localhost:5001/api/storage/${id}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/storage/${id}`, {
             method: 'GET',
             headers: {
                 'Cookie': `token=${token}`
