@@ -47,6 +47,9 @@ app.use(helmet());
 // Winston request logger
 app.use(requestLogger);
 
+// Health check point
+app.get('/health', (req, res) => res.json({ status: 'ok' }));
+
 // Routes
 // app.use('/api/auth/login', loginRouter);
 // app.use('/api/auth/signup', signupRouter);
