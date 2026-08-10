@@ -10,7 +10,7 @@ export const downloadReceiptsExcel = async (params: {
     if (params.to) searchParams.set("to", params.to);
     if (params.search) searchParams.set("search", params.search);
 
-    const response = await fetch(`http://localhost:5001/api/receipt/create/excel?${searchParams.toString()}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/receipt/create/excel?${searchParams.toString()}`, {
         method: 'GET',
         credentials: 'include',
     });
