@@ -24,8 +24,8 @@ export default function ReceiptDetails({ receipt, isEditing, form, handleChange,
 
     return (
         <CardHeader>
-            <div className="flex items-start justify-between">
-                <div>
+            <div className="flex flex-wrap items-start justify-between gap-3">
+                <div className="min-w-0 flex-1">
                     <p className="text-xs text-muted-foreground mb-1">{t('vendor')}</p>
                     {isEditing ? (
                         <input
@@ -35,19 +35,19 @@ export default function ReceiptDetails({ receipt, isEditing, form, handleChange,
                             className={inputClass}
                         />
                     ) : (
-                        <CardTitle>{receipt.vendor_name}</CardTitle>
+                        <CardTitle className="break-words">{receipt.vendor_name}</CardTitle>
                     )}
                 </div>
                 {!isEditing && (
                     <button
                         onClick={handleEdit}
-                        className="h-9 px-4 rounded-md border border-slate-300 bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+                        className="h-9 shrink-0 px-4 rounded-md border border-slate-300 bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
                     >
                         {t('editReceipt')}
                     </button>
                 )}
             </div>
-            <div className="flex items-end justify-between mt-1">
+            <div className="flex flex-col gap-3 mt-1 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                     <p className="text-xs text-muted-foreground mb-1">{t('date')}</p>
                     {isEditing ? (
@@ -64,7 +64,7 @@ export default function ReceiptDetails({ receipt, isEditing, form, handleChange,
                         </CardDescription>
                     )}
                 </div>
-                <div className="text-right">
+                <div className="sm:text-right">
                     <p className="text-xs text-muted-foreground mb-1">{t('total')}</p>
                     {isEditing ? (
                         <input
@@ -73,7 +73,7 @@ export default function ReceiptDetails({ receipt, isEditing, form, handleChange,
                             value={form.total_amount}
                             onChange={handleChange}
                             step="0.01"
-                            className={`${inputClass} text-right`}
+                            className={`${inputClass} sm:text-right`}
                         />
                     ) : (
                         <div className="text-lg font-semibold">{receipt.total_amount}</div>

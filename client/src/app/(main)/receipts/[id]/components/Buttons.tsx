@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
 interface Props {
@@ -13,6 +14,7 @@ interface Props {
 
 export default function Buttons({ handleDelete, isEditing, isLoading, handleSave, handleCancel }: Props) {
     const t = useTranslations('receiptButtons');
+    const tDemo = useTranslations('demo');
 
     return (
         <div className="mt-6 flex flex-wrap gap-3">
@@ -36,7 +38,7 @@ export default function Buttons({ handleDelete, isEditing, isLoading, handleSave
             ) : (
                 <>
                     <Button className="bg-red-600 text-white hover:bg-red-700" onClick={handleDelete}>{t('deleteReceipt')}</Button>
-                    <Button className="bg-teal-600 text-white hover:bg-teal-700">{t('downloadPdf')}</Button>
+                    <Button className="bg-teal-600 text-white hover:bg-teal-700" onClick={() => toast.error(tDemo('downloadPdfBlocked'))}>{t('downloadPdf')}</Button>
                 </>
             )}
         </div>

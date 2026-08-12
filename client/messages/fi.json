@@ -78,7 +78,8 @@
   "chatHistory": {
     "newChat": "Uusi chat",
     "recent": "Viimeisimmät",
-    "unnamedChat": "Nimetön chat"
+    "unnamedChat": "Nimetön chat",
+    "close": "Sulje"
   },
 
   "assistantHeader": {
@@ -659,7 +660,8 @@
     "informationBlocked": "Et voi muokata tietoja demo modessa",
     "authBlocked": "Kirjautuminen, rekisteröityminen ja salasanan vaihto eivät ole käytössä demossa",
     "logoutBlocked": "Et voi kirjautua ulos demo modessa",
-    "exportBlocked": "Et voi viedä kuitteja demo modessa"
+    "exportBlocked": "Et voi viedä kuitteja demo modessa",
+    "downloadPdfBlocked": "Et voi ladata PDF:ää demo modessa"
   },
 
   "termsPage": {

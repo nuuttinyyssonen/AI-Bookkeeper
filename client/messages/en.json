@@ -78,7 +78,8 @@
   "chatHistory": {
     "newChat": "New chat",
     "recent": "Recent",
-    "unnamedChat": "Unnamed chat"
+    "unnamedChat": "Unnamed chat",
+    "close": "Close"
   },
 
   "assistantHeader": {
@@ -660,7 +661,8 @@
     "informationBlocked": "You can't edit information in demo mode",
     "authBlocked": "Login, signup and password reset aren't available in the demo",
     "logoutBlocked": "You can't log out in demo mode",
-    "exportBlocked": "You can't export receipts in demo mode"
+    "exportBlocked": "You can't export receipts in demo mode",
+    "downloadPdfBlocked": "You can't download the PDF in demo mode"
   },
 
   "termsPage": {

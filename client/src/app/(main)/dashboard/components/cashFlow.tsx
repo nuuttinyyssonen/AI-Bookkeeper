@@ -22,12 +22,12 @@ export default async function Cashflow({ cashflow }: Props) {
                 </div>
             </div>
             <div className="mt-6 overflow-x-auto">
-                <div className="grid h-72 min-w-[34rem] grid-cols-6 items-end gap-3 border-b border-slate-200 pb-4">
+                <div className="grid h-72 grid-cols-6 items-end gap-1.5 border-b border-slate-200 pb-4 sm:min-w-[34rem] sm:gap-3">
                     {cashflow.map((item) => (
                         <div key={item.month} className="flex h-full flex-col justify-end gap-3">
-                            <div className="flex flex-1 items-end justify-center gap-2">
-                                <div className="w-5 rounded-t-md bg-teal-600" style={{ height: `${toPercent(item.income)}%` }} />
-                                <div className="w-5 rounded-t-md bg-amber-500" style={{ height: `${toPercent(item.expense)}%` }} />
+                            <div className="flex flex-1 items-end justify-center gap-1 sm:gap-2">
+                                <div className="w-2.5 rounded-t-md bg-teal-600 sm:w-5" style={{ height: `${toPercent(item.income)}%` }} />
+                                <div className="w-2.5 rounded-t-md bg-amber-500 sm:w-5" style={{ height: `${toPercent(item.expense)}%` }} />
                             </div>
                             <p className="text-center text-xs font-medium text-slate-500">{item.month}</p>
                         </div>

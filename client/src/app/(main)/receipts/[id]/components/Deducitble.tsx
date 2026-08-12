@@ -54,9 +54,9 @@ export default function Deductible({ handleDeductibleToggle, isDeductible, deduc
                 </button>
             </div>
             {isDeductible && (
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-3">
                     <span className="text-xs text-slate-500 shrink-0">{t('percentage')}</span>
-                    <div className="flex gap-1.5 items-center">
+                    <div className="flex flex-wrap gap-1.5 items-center">
                         {[50, 100].map(pct => (
                             <button
                                 key={pct}

@@ -17,12 +17,12 @@ export default function Header({report, id, setDeleted}: Props) {
 
     return (
         <header className="border-b border-slate-200 bg-white px-4 py-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <Link href="/reports" className="text-sm text-slate-500 hover:text-slate-700">
                         ← {t('back')}
                     </Link>
-                    <h1 className="mt-1 text-2xl font-semibold tracking-tight text-slate-950">
+                    <h1 className="mt-1 text-xl font-semibold tracking-tight text-slate-950 sm:text-2xl">
                         {t('title', { period: report.period_type })}
                     </h1>
                     <p className="mt-1 text-sm text-slate-500">

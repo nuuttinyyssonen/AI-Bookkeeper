@@ -17,7 +17,7 @@ export default function SalesVatBreakdown({vatBreakdown, report}: Props) {
                 <h2 className="font-semibold text-slate-900">{t('title')}</h2>
                 <p className="text-xs text-slate-500 mt-0.5">{t('description')}</p>
             </div>
-            <table className="w-full text-sm">
+            <table className="hidden w-full text-sm md:table">
                 <thead>
                     <tr className="border-b border-slate-100 bg-slate-50 text-left">
                         <th className="px-5 py-3 font-medium text-slate-500">{t('vatRate')}</th>
@@ -45,6 +45,44 @@ export default function SalesVatBreakdown({vatBreakdown, report}: Props) {
                     </tr>
                 </tfoot>
             </table>
+            <div className="divide-y divide-slate-100 md:hidden">
+                {vatBreakdown.sales.map((row) => (
+                    <div key={row.rate} className="px-5 py-4">
+                        <p className="font-medium text-slate-900">{row.rate}%</p>
+                        <div className="mt-2 grid grid-cols-3 gap-2 text-right">
+                            <div>
+                                <p className="text-xs text-slate-500">{t('net')}</p>
+                                <p className="text-sm text-slate-600">{row.net.toFixed(2)} €</p>
+                            </div>
+                            <div>
+                                <p className="text-xs text-slate-500">{t('vatAmount')}</p>
+                                <p className="text-sm font-medium text-teal-700">{row.vat_amount.toFixed(2)} €</p>
+                            </div>
+                            <div>
+                                <p className="text-xs text-slate-500">{t('gross')}</p>
+                                <p className="text-sm text-slate-600">{row.gross.toFixed(2)} €</p>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+                <div className="bg-slate-50 px-5 py-4">
+                    <p className="font-semibold text-slate-900">{t('total')}</p>
+                    <div className="mt-2 grid grid-cols-3 gap-2 text-right">
+                        <div>
+                            <p className="text-xs text-slate-500">{t('net')}</p>
+                            <p className="text-sm font-semibold text-slate-900">{Number(report.sales_net).toFixed(2)} €</p>
+                        </div>
+                        <div>
+                            <p className="text-xs text-slate-500">{t('vatAmount')}</p>
+                            <p className="text-sm font-semibold text-teal-700">{Number(report.sales_vat_amount).toFixed(2)} €</p>
+                        </div>
+                        <div>
+                            <p className="text-xs text-slate-500">{t('gross')}</p>
+                            <p className="text-sm font-semibold text-slate-900">{Number(report.sales_gross).toFixed(2)} €</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

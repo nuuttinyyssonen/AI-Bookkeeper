@@ -1,7 +1,13 @@
-import { getTranslations } from 'next-intl/server';
+'use client';
 
-export default async function Header() {
-    const t = await getTranslations('assistantHeader');
+import { useTranslations } from 'next-intl';
+
+interface Props {
+    onToggleHistory: () => void;
+}
+
+export default function Header({ onToggleHistory }: Props) {
+    const t = useTranslations('assistantHeader');
 
     return (
         <header className="border-b border-slate-200 bg-white px-4 py-4 sm:px-6">
@@ -17,7 +23,7 @@ export default async function Header() {
                         <p className="text-xs text-slate-500">{t('subtitle')}</p>
                     </div>
                 </div>
-                <button className="sm:hidden rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600">
+                <button onClick={onToggleHistory} className="sm:hidden rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600">
                     {t('chats')}
                 </button>
             </div>
