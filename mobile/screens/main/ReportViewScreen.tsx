@@ -15,14 +15,14 @@ export default function ReportViewScreen({ route }: any) {
 
     if (report.isLoading) {
         return (
-            <View className="flex-1 items-center justify-center bg-slate-50">
+            <View className="flex-1 items-center justify-center bg-slate-50 dark:bg-slate-900">
                 <ActivityIndicator size="large" color="#0d9488" />
             </View>
         );
     }
 
     return (
-        <ScrollView className="flex-1 bg-slate-50">
+        <ScrollView className="flex-1 bg-slate-50 dark:bg-slate-900">
             <ReportViewHeader {...report}/>
             <View className="gap-6 px-4 py-6">
                 <VATSummaryCards {...report}/>

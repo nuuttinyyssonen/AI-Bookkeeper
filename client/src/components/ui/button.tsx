@@ -6,7 +6,7 @@ function Button({ className, ...props }: React.ComponentProps<"button">) {
     <button
       data-slot="button"
       className={cn(
-        "inline-flex h-11 w-full items-center justify-center rounded-lg bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-teal-700 disabled:pointer-events-none disabled:opacity-60",
+        "inline-flex h-11 w-full items-center justify-center rounded-lg bg-slate-950 dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-teal-700 disabled:pointer-events-none disabled:opacity-60",
         className
       )}
       {...props}

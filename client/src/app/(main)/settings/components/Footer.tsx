@@ -33,13 +33,13 @@ export default function Footer() {
 
     return (
         <div>
-            <div className="rounded-lg border border-red-200 bg-white p-6 space-y-3">
-                <h2 className="text-sm font-medium text-slate-950">{t('dangerZone')}</h2>
+            <div className="rounded-lg border border-red-200 dark:border-red-700 bg-white dark:bg-slate-950 p-6 space-y-3">
+                <h2 className="text-sm font-medium text-slate-950 dark:text-slate-50">{t('dangerZone')}</h2>
                 <p className="text-sm text-muted-foreground">{t('deleteWarning')}</p>
 
                 {confirming ? (
                     <form action={formAction} className="space-y-3">
-                        <p className="text-sm text-slate-700">
+                        <p className="text-sm text-slate-700 dark:text-slate-200">
                             {t.rich('typeToConfirm', {
                                 phrase: (chunks) => <span className="font-mono font-semibold">{chunks}</span>,
                                 value: CONFIRM_PHRASE,
@@ -50,13 +50,13 @@ export default function Footer() {
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                             placeholder={CONFIRM_PHRASE}
-                            className="h-9 w-full max-w-xs px-3 rounded-md border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+                            className="h-9 w-full max-w-xs px-3 rounded-md border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:dark:ring-red-400"
                         />
                         <div className="flex gap-2">
                             <button
                                 type="submit"
                                 disabled={input !== CONFIRM_PHRASE || isPending}
-                                className="h-9 px-4 rounded-md bg-red-600 text-sm font-medium text-white hover:bg-red-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                                className="h-9 px-4 rounded-md bg-red-600 dark:bg-red-700 text-sm font-medium text-white hover:bg-red-700 hover:dark:bg-red-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                             >
                                 {t('confirmDeletion')}
                             </button>
@@ -64,7 +64,7 @@ export default function Footer() {
                                 type="button"
                                 onClick={handleCancel}
                                 disabled={isPending}
-                                className="h-9 px-4 rounded-md border border-slate-200 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+                                className="h-9 px-4 rounded-md border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 hover:dark:bg-slate-900 transition-colors"
                             >
                                 {t('cancel')}
                             </button>
@@ -73,7 +73,7 @@ export default function Footer() {
                 ) : (
                     <button
                         onClick={handleDeleteClick}
-                        className="h-9 px-4 rounded-md bg-red-600 text-sm font-medium text-white hover:bg-red-700 transition-colors"
+                        className="h-9 px-4 rounded-md bg-red-600 dark:bg-red-700 text-sm font-medium text-white hover:bg-red-700 hover:dark:bg-red-600 transition-colors"
                     >
                         {t('deleteAccount')}
                     </button>
@@ -81,7 +81,7 @@ export default function Footer() {
             </div>
 
             <div className="text-center">
-                <Link href="/dashboard" className="text-sm text-muted-foreground hover:text-slate-700 underline">
+                <Link href="/dashboard" className="text-sm text-muted-foreground hover:text-slate-700 hover:dark:text-slate-200 underline">
                     {t('backToDashboard')}
                 </Link>
             </div>

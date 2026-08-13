@@ -22,11 +22,11 @@ export default function ReceiptImage({ loadingFile, fileError, fileUrl, fileType
             </CardHeader>
             <CardContent>
                 {loadingFile ? (
-                    <div className="flex h-80 items-center justify-center rounded-3xl border border-slate-200 bg-slate-100 text-sm text-slate-500">{t('loading')}</div>
+                    <div className="flex h-80 items-center justify-center rounded-3xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-sm text-slate-500 dark:text-slate-400">{t('loading')}</div>
                 ) : fileError ? (
-                    <div className="flex h-80 items-center justify-center rounded-3xl border border-slate-200 bg-slate-100 text-sm text-slate-500">{fileError}</div>
+                    <div className="flex h-80 items-center justify-center rounded-3xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-sm text-slate-500 dark:text-slate-400">{fileError}</div>
                 ) : fileUrl ? (
-                    <div className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-100">
+                    <div className="overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800">
                         {fileType?.includes("pdf") ? (
                             <iframe src={fileUrl} title={fileName ?? "Receipt PDF"} className="h-96 w-full" />
                         ) : (
@@ -34,7 +34,7 @@ export default function ReceiptImage({ loadingFile, fileError, fileUrl, fileType
                         )}
                     </div>
                 ) : (
-                    <div className="flex h-80 items-center justify-center rounded-3xl border border-slate-200 bg-slate-100 text-sm text-slate-500">{t('noPreview')}</div>
+                    <div className="flex h-80 items-center justify-center rounded-3xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-sm text-slate-500 dark:text-slate-400">{t('noPreview')}</div>
                 )}
             </CardContent>
         </Card>

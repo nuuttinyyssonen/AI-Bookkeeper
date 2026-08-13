@@ -25,7 +25,7 @@ export default function PasswordResetEmailForm() {
     }, [state.success]);
 
     return (
-        <main className="grid min-h-screen place-items-center bg-[radial-gradient(circle_at_top_left,rgba(20,184,166,0.18),transparent_34%),linear-gradient(135deg,#f8fafc_0%,#eef2f7_48%,#fff7ed_100%)] px-4 py-8 text-slate-950">
+        <main className="grid min-h-screen place-items-center bg-[radial-gradient(circle_at_top_left,rgba(20,184,166,0.18),transparent_34%),linear-gradient(135deg,#f8fafc_0%,#eef2f7_48%,#fff7ed_100%)] dark:bg-[radial-gradient(circle_at_top_left,rgba(20,184,166,0.15),transparent_34%),linear-gradient(135deg,#020617_0%,#0f172a_48%,#1c1917_100%)] px-4 py-8 text-slate-950 dark:text-slate-50">
             <Card className="w-full max-w-md">
                 <CardHeader>
                     <CardTitle>{t('title')}</CardTitle>
@@ -50,7 +50,7 @@ export default function PasswordResetEmailForm() {
                                     {isPending ? t('submitting') : t('submit')}
                                 </Button>
                                 <FieldDescription className="px-6 text-center">
-                                    <Link className="font-semibold text-teal-700 hover:underline" href="/login">{t('backToLogin')}</Link>
+                                    <Link className="font-semibold text-teal-700 dark:text-teal-200 hover:underline" href="/login">{t('backToLogin')}</Link>
                                 </FieldDescription>
                             </Field>
                         </FieldGroup>

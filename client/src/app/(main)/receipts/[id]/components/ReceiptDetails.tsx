@@ -20,7 +20,7 @@ interface Props {
 
 export default function ReceiptDetails({ receipt, isEditing, form, handleChange, handleEdit }: Props) {
     const t = useTranslations('receiptDetails');
-    const inputClass = "w-full h-9 px-3 rounded-md border border-slate-300 text-sm text-slate-950 focus:outline-none focus:ring-1 focus:ring-teal-700";
+    const inputClass = "w-full h-9 px-3 rounded-md border border-slate-300 dark:border-slate-600 text-sm text-slate-950 dark:text-slate-50 focus:outline-none focus:ring-1 focus:ring-teal-700";
 
     return (
         <CardHeader>
@@ -41,7 +41,7 @@ export default function ReceiptDetails({ receipt, isEditing, form, handleChange,
                 {!isEditing && (
                     <button
                         onClick={handleEdit}
-                        className="h-9 px-4 rounded-md border border-slate-300 bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+                        className="h-9 px-4 rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-950 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 hover:dark:bg-slate-900 transition-colors"
                     >
                         {t('editReceipt')}
                     </button>

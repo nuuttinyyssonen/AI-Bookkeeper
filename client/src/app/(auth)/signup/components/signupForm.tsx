@@ -122,12 +122,12 @@ export default function SignupForm({ selectedPlan }: SignupFormProps) {
                                         id="termsOfAgreement"
                                         name="termsOfAgreement"
                                         type="checkbox"
-                                        className="h-4 w-4 shrink-0 rounded border-gray-300 text-teal-700 accent-teal-700 focus:ring-2 focus:ring-teal-700 focus:ring-offset-2"
+                                        className="h-4 w-4 shrink-0 rounded border-gray-300 dark:border-gray-600 text-teal-700 dark:text-teal-200 accent-teal-700 focus:ring-2 focus:ring-teal-700 focus:ring-offset-2"
                                     />
                                     <FieldLabel htmlFor="termsOfAgreement" className="font-normal text-sm leading-snug">
                                         {t.rich('termsOfAgreement', {
-                                            terms: (chunks) => <Link className="font-semibold text-teal-700 hover:underline" href="/terms">{chunks}</Link>,
-                                            privacy: (chunks) => <Link className="font-semibold text-teal-700 hover:underline" href="/privacy">{chunks}</Link>,
+                                            terms: (chunks) => <Link className="font-semibold text-teal-700 dark:text-teal-200 hover:underline" href="/terms">{chunks}</Link>,
+                                            privacy: (chunks) => <Link className="font-semibold text-teal-700 dark:text-teal-200 hover:underline" href="/privacy">{chunks}</Link>,
                                         })}
                                     </FieldLabel>
                                 </div>
@@ -138,7 +138,7 @@ export default function SignupForm({ selectedPlan }: SignupFormProps) {
                                     {isPending ? t('submitting') : t('submit')}
                                 </Button>
                                 <FieldDescription className="px-6 text-center">
-                                    {t('alreadyHaveAccount')} <Link className="font-semibold text-teal-700 hover:underline" href="/login">{t('signIn')}</Link>
+                                    {t('alreadyHaveAccount')} <Link className="font-semibold text-teal-700 dark:text-teal-200 hover:underline" href="/login">{t('signIn')}</Link>
                                 </FieldDescription>
                             </Field>
                         </FieldGroup>

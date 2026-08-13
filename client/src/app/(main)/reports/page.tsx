@@ -7,7 +7,7 @@ export default async function ReportsPage() {
     const reports = await getReports();
 
     return (
-        <div className="min-h-screen bg-slate-50">
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
             <ReportsProvider initalReports={reports} />
         </div>
     );

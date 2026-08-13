@@ -32,9 +32,9 @@ export default function LogoutButton() {
     return (
         <form action={formAction}>
             {state?.error && (
-                <p className="text-red-500 text-sm">{state.error}</p>
+                <p className="text-red-500 dark:text-red-400 text-sm">{state.error}</p>
             )}
-            <button type="submit" className="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-700 hover:bg-slate-50 sm:w-auto sm:px-4">
+            <button type="submit" className="h-10 w-full rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-950 px-3 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 hover:dark:bg-slate-900 sm:w-auto sm:px-4">
                 {t('logout')}
             </button>
         </form>

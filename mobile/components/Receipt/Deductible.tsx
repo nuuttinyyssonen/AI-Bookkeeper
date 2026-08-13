@@ -42,14 +42,14 @@ export default function Deductible({
     };
 
     return (
-        <View className="gap-3 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
+        <View className="gap-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 px-4 py-3">
             <View className="flex-row items-center justify-between">
-                <Text className="text-sm font-medium text-slate-700">Vähennyskelpoinen</Text>
+                <Text className="text-sm font-medium text-slate-700 dark:text-slate-200">Vähennyskelpoinen</Text>
                 <TouchableOpacity
                     onPress={handleDeductibleToggle}
-                    className={`rounded-full px-4 py-1.5 ${isDeductible ? "bg-teal-600" : "bg-red-100"}`}
+                    className={`rounded-full px-4 py-1.5 ${isDeductible ? "bg-teal-600" : "bg-red-100 dark:bg-red-800"}`}
                 >
-                    <Text className={`text-sm font-medium ${isDeductible ? "text-white" : "text-red-700"}`}>
+                    <Text className={`text-sm font-medium ${isDeductible ? "text-white" : "text-red-700 dark:text-red-200"}`}>
                         {isDeductible ? "Kyllä" : "Ei"}
                     </Text>
                 </TouchableOpacity>
@@ -57,7 +57,7 @@ export default function Deductible({
 
             {isDeductible && (
                 <View className="flex-row flex-wrap items-center gap-2">
-                    <Text className="shrink-0 text-xs text-slate-500">Osuus</Text>
+                    <Text className="shrink-0 text-xs text-slate-500 dark:text-slate-400">Osuus</Text>
                     {PRESETS.map((pct) => {
                         const isActive = !customMode && deductiblePercentage === pct;
                         return (
@@ -65,10 +65,10 @@ export default function Deductible({
                                 key={pct}
                                 onPress={() => handlePreset(pct)}
                                 className={`rounded-full px-3 py-1 ${
-                                    isActive ? "bg-teal-600" : "border border-slate-200 bg-white"
+                                    isActive ? "bg-teal-600" : "border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950"
                                 }`}
                             >
-                                <Text className={`text-xs font-medium ${isActive ? "text-white" : "text-slate-600"}`}>
+                                <Text className={`text-xs font-medium ${isActive ? "text-white" : "text-slate-600 dark:text-slate-300"}`}>
                                     {pct}%
                                 </Text>
                             </TouchableOpacity>
@@ -77,10 +77,10 @@ export default function Deductible({
                     <TouchableOpacity
                         onPress={handleMuu}
                         className={`rounded-full px-3 py-1 ${
-                            customMode ? "bg-teal-600" : "border border-slate-200 bg-white"
+                            customMode ? "bg-teal-600" : "border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950"
                         }`}
                     >
-                        <Text className={`text-xs font-medium ${customMode ? "text-white" : "text-slate-600"}`}>
+                        <Text className={`text-xs font-medium ${customMode ? "text-white" : "text-slate-600 dark:text-slate-300"}`}>
                             Muu
                         </Text>
                     </TouchableOpacity>
@@ -95,9 +95,9 @@ export default function Deductible({
                                 onBlur={handleCustomSubmit}
                                 onSubmitEditing={handleCustomSubmit}
                                 placeholder="0–100"
-                                className="w-16 rounded-md border border-slate-200 bg-white px-2 py-1 text-xs text-slate-700"
+                                className="w-16 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-2 py-1 text-xs text-slate-700 dark:text-slate-200"
                             />
-                            <Text className="text-xs text-slate-500">%</Text>
+                            <Text className="text-xs text-slate-500 dark:text-slate-400">%</Text>
                         </View>
                     )}
                 </View>

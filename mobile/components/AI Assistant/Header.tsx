@@ -5,7 +5,7 @@ import { UseAssistantScreenReturn } from "../../types/assistant";
 export default function Header({ setHistoryOpen }: UseAssistantScreenReturn) {
 
     return (
-        <View className="flex-row items-center justify-between border-b border-slate-200 bg-white px-4 py-4">
+        <View className="flex-row items-center justify-between border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-4">
             <View className="flex-row items-center gap-3">
                 <TouchableOpacity
                     onPress={() => setHistoryOpen(true)}
@@ -17,8 +17,8 @@ export default function Header({ setHistoryOpen }: UseAssistantScreenReturn) {
                     <Ionicons name="sparkles" size={18} color="white" />
                 </View>
                 <View>
-                    <Text className="text-base font-semibold text-slate-900">AI-avustaja</Text>
-                    <Text className="text-xs text-slate-500">Kysy kirjanpidosta, kuiteista tai raporteista</Text>
+                    <Text className="text-base font-semibold text-slate-900 dark:text-slate-50">AI-avustaja</Text>
+                    <Text className="text-xs text-slate-500 dark:text-slate-400">Kysy kirjanpidosta, kuiteista tai raporteista</Text>
                 </View>
             </View>
         </View>

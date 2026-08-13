@@ -7,9 +7,9 @@ export default function ReportEmpty() {
     const t = useTranslations('reportEmpty');
 
     return(
-        <div className="rounded-xl border border-dashed border-slate-200 bg-white p-16 text-center">
-            <p className="text-lg font-semibold text-slate-900">{t('title')}</p>
-            <p className="mt-2 text-sm text-slate-500">
+        <div className="rounded-xl border border-dashed border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 p-16 text-center">
+            <p className="text-lg font-semibold text-slate-900 dark:text-slate-50">{t('title')}</p>
+            <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
                 {t('description')}
             </p>
             <Link

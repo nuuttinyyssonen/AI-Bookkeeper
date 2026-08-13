@@ -13,7 +13,7 @@ export default function LanguageSwitcher() {
     };
 
     return (
-        <div className="flex rounded-md border border-slate-200 overflow-hidden">
+        <div className="flex rounded-md border border-slate-200 dark:border-slate-700 overflow-hidden">
             {['en', 'fi'].map((lang) => (
                 <button
                     key={lang}
@@ -21,8 +21,8 @@ export default function LanguageSwitcher() {
                     disabled={isPending || locale === lang}
                     className={`px-3 py-1.5 text-xs font-medium transition-colors ${
                         locale === lang
-                            ? 'bg-slate-950 text-white'
-                            : 'bg-white text-slate-600 hover:bg-slate-50'
+                            ? 'bg-slate-950 dark:bg-slate-800 text-white'
+                            : 'bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-300 hover:bg-slate-50 hover:dark:bg-slate-900'
                     }`}
                 >
                     {lang.toUpperCase()}

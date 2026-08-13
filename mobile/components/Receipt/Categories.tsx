@@ -61,22 +61,22 @@ export default function Categories({ selectedCategory, handleCategoryChange }: P
 
     return (
         <View className="gap-1.5">
-            <Text className="text-sm font-medium text-slate-700">Kategoria</Text>
+            <Text className="text-sm font-medium text-slate-700 dark:text-slate-200">Kategoria</Text>
 
             <TouchableOpacity
                 onPress={() => setIsOpen(true)}
-                className="h-11 flex-row items-center justify-between rounded-lg border border-slate-200 bg-white px-3"
+                className="h-11 flex-row items-center justify-between rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3"
             >
-                <Text className={selectedLabel ? "text-sm text-slate-900" : "text-sm text-slate-400"}>
+                <Text className={selectedLabel ? "text-sm text-slate-900 dark:text-slate-50" : "text-sm text-slate-400 dark:text-slate-500"}>
                     {selectedLabel ?? "Valitse kategoria"}
                 </Text>
-                <Text className="text-xs text-slate-400">▼</Text>
+                <Text className="text-xs text-slate-400 dark:text-slate-500">▼</Text>
             </TouchableOpacity>
 
             <Modal visible={isOpen} transparent animationType="fade" onRequestClose={() => setIsOpen(false)}>
                 <Pressable className="flex-1 justify-end bg-black/40" onPress={() => setIsOpen(false)}>
-                    <Pressable className="max-h-[70%] rounded-t-2xl bg-white p-4">
-                        <Text className="mb-2 px-2 text-base font-semibold text-slate-950">Valitse kategoria</Text>
+                    <Pressable className="max-h-[70%] rounded-t-2xl bg-white dark:bg-slate-950 p-4">
+                        <Text className="mb-2 px-2 text-base font-semibold text-slate-950 dark:text-slate-50">Valitse kategoria</Text>
                         <ScrollView>
                             {CATEGORY_TYPES.map((type) => {
                                 const isSelected = selectedCategory === type;
@@ -87,9 +87,9 @@ export default function Categories({ selectedCategory, handleCategoryChange }: P
                                             handleCategoryChange(type);
                                             setIsOpen(false);
                                         }}
-                                        className={`rounded-lg px-3 py-3 ${isSelected ? "bg-teal-50" : ""}`}
+                                        className={`rounded-lg px-3 py-3 ${isSelected ? "bg-teal-50 dark:bg-teal-900" : ""}`}
                                     >
-                                        <Text className={isSelected ? "text-sm font-semibold text-teal-800" : "text-sm text-slate-700"}>
+                                        <Text className={isSelected ? "text-sm font-semibold text-teal-800 dark:text-teal-100" : "text-sm text-slate-700 dark:text-slate-200"}>
                                             {CATEGORY_LABELS[type]}
                                         </Text>
                                     </TouchableOpacity>

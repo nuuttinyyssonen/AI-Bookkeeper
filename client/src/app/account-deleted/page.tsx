@@ -9,13 +9,13 @@ export default async function AccountDeletedPage() {
         redirect("/");
     }
     return (
-        <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-slate-50 to-white px-4">
+        <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-slate-50 dark:from-slate-900 to-white dark:to-slate-950 px-4">
             <div className="flex flex-col items-center text-center max-w-md space-y-6">
                 <div className="grid h-14 w-14 place-items-center rounded-2xl bg-teal-600 text-white">
                     <Sparkles className="h-7 w-7" />
                 </div>
                 <div className="space-y-2">
-                    <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Account deleted</h1>
+                    <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-slate-50">Account deleted</h1>
                     <p className="text-sm text-muted-foreground">Your account and all associated data have been permanently deleted.</p>
                 </div>
                 <Link

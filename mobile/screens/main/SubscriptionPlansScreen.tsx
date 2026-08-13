@@ -12,7 +12,7 @@ export default function SubscriptionPlansScreen() {
     const { isYearly, setIsYearly, handleChangePlan, selectedPlan, pendingPlanId } = useSubscription(subscription?.subscription_type);
 
     return (
-        <ScrollView className="flex-1 bg-slate-50">
+        <ScrollView className="flex-1 bg-slate-50 dark:bg-slate-900">
             <SubscriptionHeader />
             <View className="gap-6 px-4 py-6">
                 <Toggelbutton isYearly={isYearly} setIsYearly={setIsYearly}/>

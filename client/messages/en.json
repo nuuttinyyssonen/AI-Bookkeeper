@@ -623,7 +623,11 @@
     "vatReturn": "VAT return",
     "assistant": "AI assistant",
     "settings": "Settings",
-    "menu": "Menu"
+    "menu": "Menu",
+    "toggleTheme": "Toggle theme",
+    "lightMode": "Light mode",
+    "darkMode": "Dark mode",
+    "systemMode": "System"
   },
 
   "termsPage": {

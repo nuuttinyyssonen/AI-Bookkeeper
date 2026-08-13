@@ -121,17 +121,17 @@ export const ReceiptData = ({ initialData }: ReceiptDataProps) => {
                 {totalPages > 1 && (
                     <div className="mt-6 flex items-center justify-center gap-3">
                         <button
-                            className="h-8 px-3 text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-100 disabled:opacity-60 disabled:pointer-events-none"
+                            className="h-8 px-3 text-sm font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-100 hover:dark:bg-slate-800 disabled:opacity-60 disabled:pointer-events-none"
                             onClick={() => setPage((p) => p - 1)}
                             disabled={page <= 1}
                         >
                             {t('previous')}
                         </button>
-                        <span className="text-sm text-slate-600">
+                        <span className="text-sm text-slate-600 dark:text-slate-300">
                             {t('page', { page, totalPages })}
                         </span>
                         <button
-                            className="h-8 px-3 text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-100 disabled:opacity-60 disabled:pointer-events-none"
+                            className="h-8 px-3 text-sm font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-100 hover:dark:bg-slate-800 disabled:opacity-60 disabled:pointer-events-none"
                             onClick={() => setPage((p) => p + 1)}
                             disabled={page >= totalPages}
                         >

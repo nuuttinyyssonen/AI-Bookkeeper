@@ -24,17 +24,17 @@ export default async function Page() {
 
     return (
         <>
-            <header className="border-b border-slate-200 bg-white px-4 py-4 sm:px-6 lg:px-8">
+            <header className="border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <p className="text-sm font-medium text-teal-700">{t('label')}</p>
-                        <h1 className="mt-1 text-2xl font-semibold tracking-normal text-slate-950 sm:text-3xl">
+                        <p className="text-sm font-medium text-teal-700 dark:text-teal-200">{t('label')}</p>
+                        <h1 className="mt-1 text-2xl font-semibold tracking-normal text-slate-950 dark:text-slate-50 sm:text-3xl">
                             {t('title')}
                         </h1>
                     </div>
                     <div className="grid grid-cols-3 gap-2 sm:flex sm:items-center">
                         <LogoutButton />
-                        <button data-testid="export-button" className="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-700 hover:bg-slate-50 sm:w-auto sm:px-4">
+                        <button data-testid="export-button" className="h-10 w-full rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-950 px-3 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 hover:dark:bg-slate-900 sm:w-auto sm:px-4">
                             {t('export')}
                         </button>
                         <Link href="/upload" data-testid="upload-link" className="h-10 w-full rounded-md bg-teal-600 px-3 text-sm font-semibold text-white hover:bg-teal-700 sm:w-auto sm:px-4 flex items-center justify-center">

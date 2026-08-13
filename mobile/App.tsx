@@ -1,8 +1,10 @@
 import "./global.css";
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { StatusBar } from 'expo-status-bar';
 import { AuthProvider, useAuth } from "./context/authContext";
+import { ThemeProvider, useTheme } from "./context/themeContext";
 
 import LoginScreen from "./screens/auth/LoginScreen";
 import SignupScreen from "./screens/auth/SignupScreen";
@@ -52,15 +54,26 @@ function RootNavigator() {
     );
 };
 
+function AppContent() {
+    const { resolvedTheme } = useTheme();
+
+    return (
+        <AuthProvider>
+            <NavigationContainer theme={resolvedTheme === "dark" ? DarkTheme : DefaultTheme}>
+                <RootNavigator />
+            </NavigationContainer>
+            <StatusBar style={resolvedTheme === "dark" ? "light" : "dark"} />
+            <Toast/>
+        </AuthProvider>
+    );
+}
+
 export default function App() {
     return (
         <SafeAreaProvider>
-            <AuthProvider>
-                <NavigationContainer>
-                    <RootNavigator />
-                </NavigationContainer>
-                <Toast/>
-            </AuthProvider>
+            <ThemeProvider>
+                <AppContent />
+            </ThemeProvider>
         </SafeAreaProvider>
     );
 };

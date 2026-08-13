@@ -36,13 +36,13 @@ export default function Messages({messages}: Props) {
                             )}
                             <div data-testid="chat-message" data-role={msg.role} className={`max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                                 isUser
-                                    ? "rounded-br-sm bg-slate-900 text-white"
-                                    : "rounded-bl-sm border border-slate-200 bg-white text-slate-800 shadow-sm"
+                                    ? "rounded-br-sm bg-slate-900 dark:bg-slate-800 text-white"
+                                    : "rounded-bl-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-100 shadow-sm"
                             }`}>
                                 {msg.content}
                             </div>
                             {isUser && (
-                                <div className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-slate-900 text-xs font-semibold text-white">
+                                <div className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-slate-900 dark:bg-slate-800 text-xs font-semibold text-white">
                                     N
                                 </div>
                             )}
@@ -56,10 +56,10 @@ export default function Messages({messages}: Props) {
                     <div className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-teal-600 text-xs font-semibold text-white">
                         AI
                     </div>
-                    <div className="flex items-center gap-1.5 rounded-2xl rounded-bl-sm border border-slate-200 bg-white px-4 py-3 shadow-sm">
-                        <span className="typing-dot h-2 w-2 rounded-full bg-slate-400" style={{ animationDelay: "0ms" }} />
-                        <span className="typing-dot h-2 w-2 rounded-full bg-slate-400" style={{ animationDelay: "0.2s" }} />
-                        <span className="typing-dot h-2 w-2 rounded-full bg-slate-400" style={{ animationDelay: "0.4s" }} />
+                    <div className="flex items-center gap-1.5 rounded-2xl rounded-bl-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-3 shadow-sm">
+                        <span className="typing-dot h-2 w-2 rounded-full bg-slate-400 dark:bg-slate-500" style={{ animationDelay: "0ms" }} />
+                        <span className="typing-dot h-2 w-2 rounded-full bg-slate-400 dark:bg-slate-500" style={{ animationDelay: "0.2s" }} />
+                        <span className="typing-dot h-2 w-2 rounded-full bg-slate-400 dark:bg-slate-500" style={{ animationDelay: "0.4s" }} />
                     </div>
                 </div>
                 )}

@@ -7,7 +7,7 @@ export default function ResetPasswordScreen({ navigation, route }: any) {
     const passwordReset = usePasswordReset(navigation, token)
 
     return(
-        <View className="flex-1 justify-center bg-slate-50 px-4">
+        <View className="flex-1 justify-center bg-slate-50 dark:bg-slate-900 px-4">
             <ResetPasswordForm {...passwordReset}/>
         </View>
     )
