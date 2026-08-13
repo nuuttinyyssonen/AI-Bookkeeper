@@ -9,14 +9,14 @@ import FillMe from "../../components/Legal/FillMe";
 
 export default function PrivacyPolicyScreen() {
     return (
-        <ScrollView className="flex-1 bg-slate-50">
+        <ScrollView className="flex-1 bg-slate-50 dark:bg-slate-900">
             <LegalHeader
                 eyebrow="GDPR 2016/679 · artiklat 13 & 14"
                 title="Tietosuojaseloste"
                 description="Kuvaus siitä, miten AI-Bookkeeper käsittelee kuiteista ja tositteista poimittavia henkilötietoja."
                 meta={
-                    <View className="mt-3 self-start rounded-full border border-dashed border-amber-400 bg-white px-3 py-1">
-                        <Text className="text-xs font-medium text-amber-700">
+                    <View className="mt-3 self-start rounded-full border border-dashed border-amber-400 dark:border-amber-500 bg-white dark:bg-slate-950 px-3 py-1">
+                        <Text className="text-xs font-medium text-amber-700 dark:text-amber-200">
                             Päivitetty: <FillMe>PVM</FillMe>
                         </Text>
                     </View>
@@ -29,24 +29,24 @@ export default function PrivacyPolicyScreen() {
                 </DraftBanner>
 
                 <LegalSection num="01" title="Rekisterinpitäjä">
-                    <Text className="text-sm leading-6 text-slate-600">AI-Bookkeeper</Text>
-                    <Text className="text-sm leading-6 text-slate-600">
+                    <Text className="text-sm leading-6 text-slate-600 dark:text-slate-300">AI-Bookkeeper</Text>
+                    <Text className="text-sm leading-6 text-slate-600 dark:text-slate-300">
                         Y-tunnus: <FillMe>1234567-8</FillMe>
                     </Text>
-                    <Text className="text-sm leading-6 text-slate-600">
+                    <Text className="text-sm leading-6 text-slate-600 dark:text-slate-300">
                         Osoite: <FillMe>osoite</FillMe>
                     </Text>
-                    <Text className="text-sm leading-6 text-slate-600">Sähköposti: nuutti.nyyssonen@gmail.com</Text>
-                    <Text className="text-sm leading-6 text-slate-600">Puhelin: 040 123 4567</Text>
+                    <Text className="text-sm leading-6 text-slate-600 dark:text-slate-300">Sähköposti: nuutti.nyyssonen@gmail.com</Text>
+                    <Text className="text-sm leading-6 text-slate-600 dark:text-slate-300">Puhelin: 040 123 4567</Text>
                 </LegalSection>
 
                 <LegalSection num="02" title="Yhteyshenkilö tietosuoja-asioissa">
-                    <Text className="text-sm leading-6 text-slate-600">AI-Bookkeeper</Text>
-                    <Text className="text-sm leading-6 text-slate-600">Sähköposti: nuutti.nyyssonen@gmail.com</Text>
+                    <Text className="text-sm leading-6 text-slate-600 dark:text-slate-300">AI-Bookkeeper</Text>
+                    <Text className="text-sm leading-6 text-slate-600 dark:text-slate-300">Sähköposti: nuutti.nyyssonen@gmail.com</Text>
                 </LegalSection>
 
                 <LegalSection num="03" title="Käsiteltävät henkilötiedot">
-                    <Text className="text-sm leading-6 text-slate-600">
+                    <Text className="text-sm leading-6 text-slate-600 dark:text-slate-300">
                         Sovellus käsittelee kirjanpidon kuiteista ja tositteista poimittavia tietoja, kuten:
                     </Text>
                     <LegalList
@@ -61,7 +61,7 @@ export default function PrivacyPolicyScreen() {
                 </LegalSection>
 
                 <LegalSection num="04" title="Käsittelyn tarkoitus ja oikeusperuste">
-                    <Text className="text-sm leading-6 text-slate-600">Henkilötietoja käsitellään seuraaviin tarkoituksiin:</Text>
+                    <Text className="text-sm leading-6 text-slate-600 dark:text-slate-300">Henkilötietoja käsitellään seuraaviin tarkoituksiin:</Text>
                     <LegalTable
                         headers={["Tarkoitus", "Oikeusperuste"]}
                         rows={[
@@ -75,13 +75,13 @@ export default function PrivacyPolicyScreen() {
                             ],
                         ]}
                     />
-                    <Text className="text-sm leading-6 text-slate-600">
+                    <Text className="text-sm leading-6 text-slate-600 dark:text-slate-300">
                         Tietoja ei käytetä automaattiseen päätöksentekoon tai profilointiin, joka vaikuttaisi rekisteröityyn oikeudellisesti tai merkittävästi.
                     </Text>
                 </LegalSection>
 
                 <LegalSection num="05" title="Automaattinen käsittely: OCR ja tekoäly (LLM)">
-                    <Text className="text-sm leading-6 text-slate-600">
+                    <Text className="text-sm leading-6 text-slate-600 dark:text-slate-300">
                         Kuiteista poimitaan tietoja automaattisesti optisen tekstintunnistuksen (OCR) ja kielimallipohjaisen (LLM) teknologian avulla. Tämä käsittely:
                     </Text>
                     <LegalList
@@ -95,7 +95,7 @@ export default function PrivacyPolicyScreen() {
                 </LegalSection>
 
                 <LegalSection num="06" title="Tietojen vastaanottajat ja käsittelijät">
-                    <Text className="text-sm leading-6 text-slate-600">
+                    <Text className="text-sm leading-6 text-slate-600 dark:text-slate-300">
                         Tietoja voidaan siirtää seuraaville käsittelijöille tietojenkäsittelysopimuksen (GDPR art. 28) nojalla:
                     </Text>
                     <LegalTable
@@ -108,33 +108,33 @@ export default function PrivacyPolicyScreen() {
                 </LegalSection>
 
                 <LegalSection num="07" title="Tietojen siirto EU/ETA-alueen ulkopuolelle">
-                    <Text className="text-sm leading-6 text-slate-600">
+                    <Text className="text-sm leading-6 text-slate-600 dark:text-slate-300">
                         Osa henkilötietojen käsittelystä tapahtuu EU/ETA-alueen ulkopuolella, koska käytämme kuittien automaattiseen tulkintaan OpenAI:n tarjoamaa tekoälypalvelua (OpenAI OpCo, LLC / OpenAI Ireland Ltd.). OpenAI toimii tässä käsittelyssä henkilötietojen käsittelijänä, ja käsittelyä säätelee OpenAI:n tietojenkäsittelyä koskeva lisäosa (Data Processing Addendum), joka on osa OpenAI:n palvelusopimusta.
                     </Text>
                     <Callout label="Suojatoimi">
-                        <Text className="text-sm leading-6 text-teal-900">
+                        <Text className="text-sm leading-6 text-teal-900 dark:text-teal-50">
                             Siltä osin kuin henkilötietoja siirretään Euroopan talousalueen tai Sveitsin ulkopuolelle, siirto perustuu Euroopan komission hyväksymiin vakiosopimuslausekkeisiin (Standard Contractual Clauses, SCC), jotka varmistavat henkilötietojen suojan tason vastaavan EU:n tietosuojalainsäädännön vaatimuksia.
                         </Text>
                     </Callout>
                 </LegalSection>
 
                 <LegalSection num="08" title="Tietojen säilytysaika">
-                    <Text className="text-sm leading-6 text-slate-600">
+                    <Text className="text-sm leading-6 text-slate-600 dark:text-slate-300">
                         Kirjanpitolain (1336/1997) mukaan tositteet ja niihin liittyvät tiedot säilytetään vähintään{" "}
-                        <Text className="font-semibold text-slate-950">kuusi (6) vuotta</Text>{" "}
+                        <Text className="font-semibold text-slate-950 dark:text-slate-50">kuusi (6) vuotta</Text>{" "}
                         sen tilikauden päättymisestä, jonka aikana tosite on syntynyt. Tämän jälkeen tiedot poistetaan tai anonymisoidaan, ellei muu lainsäädäntö edellytä pidempää säilytystä.
                     </Text>
                 </LegalSection>
 
                 <LegalSection num="09" title="Tietoturva">
-                    <Text className="text-sm leading-6 text-slate-600">
+                    <Text className="text-sm leading-6 text-slate-600 dark:text-slate-300">
                         Tietoja suojataan asianmukaisin teknisin ja organisatorisin toimenpitein, kuten:
                     </Text>
                     <LegalList items={["Tallennettujen tietojen salaus", "Käyttöoikeuksien rajaaminen"]} />
                 </LegalSection>
 
                 <LegalSection num="10" title="Rekisteröidyn oikeudet">
-                    <Text className="text-sm leading-6 text-slate-600">
+                    <Text className="text-sm leading-6 text-slate-600 dark:text-slate-300">
                         Rekisteröidyllä (esim. kuitissa mainitulla myyjän edustajalla tai asiakkaalla) on oikeus:
                     </Text>
                     <LegalList
@@ -145,10 +145,10 @@ export default function PrivacyPolicyScreen() {
                             "tehdä valitus valvontaviranomaiselle",
                         ]}
                     />
-                    <Text className="text-sm leading-6 text-slate-600">
+                    <Text className="text-sm leading-6 text-slate-600 dark:text-slate-300">
                         Valvontaviranomainen Suomessa: Tietosuojavaltuutetun toimisto,{" "}
                         <Text
-                            className="text-teal-700 underline"
+                            className="text-teal-700 dark:text-teal-200 underline"
                             onPress={() => Linking.openURL("https://www.tietosuoja.fi")}
                         >
                             www.tietosuoja.fi
@@ -157,7 +157,7 @@ export default function PrivacyPolicyScreen() {
                 </LegalSection>
 
                 <LegalSection num="11" title="Yhteydenotot">
-                    <Text className="text-sm leading-6 text-slate-600">
+                    <Text className="text-sm leading-6 text-slate-600 dark:text-slate-300">
                         Rekisteröidyn oikeuksien käyttöä koskevat pyynnöt osoitetaan kohdassa 1 mainittuun rekisterinpitäjään.
                     </Text>
                 </LegalSection>

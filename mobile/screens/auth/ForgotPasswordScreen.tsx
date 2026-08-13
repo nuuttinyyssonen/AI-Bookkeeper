@@ -6,7 +6,7 @@ export default function ForgotPasswordScreen({ navigation }: any) {
     const passwordReset = usePasswordReset(navigation);
 
     return(
-        <View className="flex-1 justify-center bg-slate-50 px-4">
+        <View className="flex-1 justify-center bg-slate-50 dark:bg-slate-900 px-4">
             <ForgotPasswordForm {...passwordReset}/>
         </View>
     )

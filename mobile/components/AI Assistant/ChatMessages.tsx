@@ -18,7 +18,7 @@ export default function ChatMessages({ messages, isChatLoading }: UseAssistantSc
         return (
             <View className="flex-1 items-center justify-center gap-3">
                 <ActivityIndicator size="small" color="#0d9488" />
-                <Text className="text-sm text-slate-400">Ladataan keskustelua...</Text>
+                <Text className="text-sm text-slate-400 dark:text-slate-500">Ladataan keskustelua...</Text>
             </View>
         )
     }
@@ -42,16 +42,16 @@ export default function ChatMessages({ messages, isChatLoading }: UseAssistantSc
                         <View
                             className={`max-w-[75%] rounded-2xl px-4 py-3 ${
                                 isUser
-                                    ? "rounded-br-sm bg-slate-900"
-                                    : "rounded-bl-sm border border-slate-200 bg-white shadow-sm"
+                                    ? "rounded-br-sm bg-slate-900 dark:bg-slate-800"
+                                    : "rounded-bl-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 shadow-sm"
                             }`}
                         >
-                            <Text className={`text-sm leading-5 ${isUser ? "text-white" : "text-slate-800"}`}>
+                            <Text className={`text-sm leading-5 ${isUser ? "text-white" : "text-slate-800 dark:text-slate-100"}`}>
                                 {msg.content}
                             </Text>
                         </View>
                         {isUser && (
-                            <View className="h-8 w-8 items-center justify-center rounded-full bg-slate-900">
+                            <View className="h-8 w-8 items-center justify-center rounded-full bg-slate-900 dark:bg-slate-800">
                                 <Text className="text-xs font-semibold text-white">N</Text>
                             </View>
                         )}
@@ -64,10 +64,10 @@ export default function ChatMessages({ messages, isChatLoading }: UseAssistantSc
                     <View className="h-8 w-8 items-center justify-center rounded-full bg-teal-600">
                         <Text className="text-xs font-semibold text-white">AI</Text>
                     </View>
-                    <View className="flex-row items-center gap-1.5 rounded-2xl rounded-bl-sm border border-slate-200 bg-white px-4 py-3 shadow-sm">
-                        <View className="h-1.5 w-1.5 rounded-full bg-slate-400" />
-                        <View className="h-1.5 w-1.5 rounded-full bg-slate-400" />
-                        <View className="h-1.5 w-1.5 rounded-full bg-slate-400" />
+                    <View className="flex-row items-center gap-1.5 rounded-2xl rounded-bl-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-3 shadow-sm">
+                        <View className="h-1.5 w-1.5 rounded-full bg-slate-400 dark:bg-slate-500" />
+                        <View className="h-1.5 w-1.5 rounded-full bg-slate-400 dark:bg-slate-500" />
+                        <View className="h-1.5 w-1.5 rounded-full bg-slate-400 dark:bg-slate-500" />
                     </View>
                 </View>
             )}

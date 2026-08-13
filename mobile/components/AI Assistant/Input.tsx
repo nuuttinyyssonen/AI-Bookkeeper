@@ -5,8 +5,8 @@ import { UseAssistantScreenReturn } from "../../types/assistant"
 export default function Input({ input, setInput, handleSend, handleNewChat, isCreatingChat, id }: UseAssistantScreenReturn & { id?: string }) {
 
     return (
-        <View className="border-t border-slate-200 bg-white px-4 py-4">
-            <View className="flex-row items-end gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2">
+        <View className="border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-4">
+            <View className="flex-row items-end gap-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 px-4 py-2">
                 <TextInput
                     value={input}
                     onChangeText={setInput}
@@ -14,7 +14,7 @@ export default function Input({ input, setInput, handleSend, handleNewChat, isCr
                     placeholderTextColor="#94a3b8"
                     multiline
                     editable={!isCreatingChat}
-                    className="flex-1 py-2 text-sm text-slate-900"
+                    className="flex-1 py-2 text-sm text-slate-900 dark:text-slate-50"
                 />
                 <TouchableOpacity
                     disabled={isCreatingChat}
@@ -34,7 +34,7 @@ export default function Input({ input, setInput, handleSend, handleNewChat, isCr
                     )}
                 </TouchableOpacity>
             </View>
-            <Text className="mt-2 text-center text-xs text-slate-400">
+            <Text className="mt-2 text-center text-xs text-slate-400 dark:text-slate-500">
                 AI-avustaja voi tehdä virheitä. Tarkista tärkeät tiedot.
             </Text>
         </View>

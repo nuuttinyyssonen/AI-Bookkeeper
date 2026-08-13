@@ -7,7 +7,7 @@ export default function SignupScreen({ navigation }: any) {
 
     return(
         <ScrollView
-            className="flex-1 bg-slate-50"
+            className="flex-1 bg-slate-50 dark:bg-slate-900"
             contentContainerClassName="flex-grow justify-center px-4 py-8"
             keyboardShouldPersistTaps="handled"
         >

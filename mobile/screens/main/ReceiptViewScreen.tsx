@@ -12,16 +12,16 @@ export default function ReceiptViewScreen({ navigation, route }: any) {
     // Showing loading screen when data is not fetched yet.
     if(!receiptView.receipt) {
         return (
-            <View className="flex-1 bg-slate-50 px-4 py-8">
-                <View className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-                    <Text className="text-lg font-semibold text-slate-900">Ladataan...</Text>
+            <View className="flex-1 bg-slate-50 dark:bg-slate-900 px-4 py-8">
+                <View className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 p-8 shadow-sm">
+                    <Text className="text-lg font-semibold text-slate-900 dark:text-slate-50">Ladataan...</Text>
                 </View>
             </View>
         )
     }
 
     return (
-        <ScrollView className="flex-1 bg-slate-50">
+        <ScrollView className="flex-1 bg-slate-50 dark:bg-slate-900">
             <ReceiptHeader navigation={navigation}/>
             <ReceiptCard receiptView={receiptView} />
             <ReceiptImagePreview receiptView={receiptView}/>

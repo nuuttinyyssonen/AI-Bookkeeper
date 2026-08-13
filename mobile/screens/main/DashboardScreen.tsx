@@ -11,7 +11,7 @@ export default function DashboardScreen() {
     const dashboard = useDashboard();
 
     return(
-        <ScrollView className="flex-1 bg-slate-50">
+        <ScrollView className="flex-1 bg-slate-50 dark:bg-slate-900">
             <Header {...dashboard}/>
             <View className="gap-6 px-4 py-6">
                 <SubscriptionBanner {...dashboard}/>
