@@ -25,7 +25,20 @@
     "plugins": [
       "expo-secure-store",
       "expo-web-browser",
-      "expo-sharing"
-    ]
+      "expo-sharing",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#0f172a"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "be3cf500-97f2-4883-a7e8-125003556ec4"
+      }
+    },
+    "owner": "nuuttinyyssonen"
   }
 }
