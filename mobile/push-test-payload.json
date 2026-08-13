@@ -1,0 +1,10 @@
+{
+  "aps": {
+    "alert": {
+      "title": "Testi-ilmoitus",
+      "body": "Paikallisesti simuloitu ilmoitus"
+    },
+    "sound": "default"
+  },
+  "screen": "Profile"
+}

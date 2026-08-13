@@ -22,6 +22,11 @@ import MainTabNavigator from "./navigation/MainTabNavigator";
 
 import Toast from 'react-native-toast-message';
 
+import { useEffect, useRef } from "react";
+import * as Notifications from "expo-notifications";
+import { usePushNotifications } from "./hooks/usePushNotifications";
+
+
 const Stack = createNativeStackNavigator();
 
 function RootNavigator() {
@@ -56,23 +61,46 @@ function RootNavigator() {
 
 function AppContent() {
     const { resolvedTheme } = useTheme();
+    const { isAuthenticated } = useAuth();
+    const { registerForPushNotifications } = usePushNotifications();
+    const navigationRef = useRef<any>(null);
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            registerForPushNotifications();
+        }
+    }, [isAuthenticated]);
+
+    useEffect(() => {
+        const responseSubscription = Notifications.addNotificationResponseReceivedListener((response) => {
+            const screen = response.notification.request.content.data?.screen;
+            if (screen) {
+                navigationRef.current?.navigate(screen);
+            }
+        });
+
+        return () => responseSubscription.remove();
+    }, []);
 
     return (
-        <AuthProvider>
-            <NavigationContainer theme={resolvedTheme === "dark" ? DarkTheme : DefaultTheme}>
+        <>
+            <NavigationContainer ref={navigationRef} theme={resolvedTheme === "dark" ? DarkTheme : DefaultTheme}>
                 <RootNavigator />
             </NavigationContainer>
             <StatusBar style={resolvedTheme === "dark" ? "light" : "dark"} />
             <Toast/>
-        </AuthProvider>
+        </>
     );
 }
+
 
 export default function App() {
     return (
         <SafeAreaProvider>
             <ThemeProvider>
-                <AppContent />
+                <AuthProvider>
+                    <AppContent />
+                </AuthProvider>
             </ThemeProvider>
         </SafeAreaProvider>
     );

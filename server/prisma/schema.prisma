@@ -15,6 +15,7 @@ model User {
   phonenumber         String
   supabase_id         String?              @unique
   business_id         String               @unique
+  push_token          String?
   documents           Document[]
   receipts            Receipt[]
   vatReports          VatReport[]

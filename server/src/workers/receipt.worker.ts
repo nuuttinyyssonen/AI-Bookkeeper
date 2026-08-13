@@ -5,6 +5,7 @@ import { downloadFileFromSupabase } from "../services/supabase.service";
 import { prisma } from "../lib/prisma";
 import { ReceiptType } from "@prisma/client";
 import logger from "../lib/logger";
+import { sendPushNotification } from "../services/pushNotifications.service";
 
 // Retry logic with exponential backoff for handling race conditions
 const retryWithBackoff = async (
@@ -140,6 +141,13 @@ const worker = new Worker(
           where: { id: document.id },
           data: { status: "COMPLETED" }
       });
+
+       await sendPushNotification(
+          document.user_id,
+          "Kuitti käsitelty",
+          `${aiData.vendor} — ${aiData.total}€ lisätty kirjanpitoosi.`,
+          { screen: "Receipts" }
+      );
 
       return receipt;
     } catch (err) {
