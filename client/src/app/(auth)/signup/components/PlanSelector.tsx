@@ -44,7 +44,7 @@ export default function PlanSelector({ selectedPlan, onSelect }: PlanSelectorPro
                 <div>
                   <p className="text-sm font-medium">{plan.name}</p>
                   {plan.badge && (
-                    <span className="inline-block text-xs font-medium px-2 py-0.5 rounded bg-teal-50 text-teal-800 mt-1">
+                    <span className="inline-block text-xs font-medium px-2 py-0.5 rounded bg-teal-50 dark:bg-teal-900 text-teal-800 dark:text-teal-100 mt-1">
                       {plan.badge}
                     </span>
                   )}
@@ -55,7 +55,7 @@ export default function PlanSelector({ selectedPlan, onSelect }: PlanSelectorPro
                   }`}
                 >
                   {isSelected && (
-                    <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-white dark:bg-slate-950" />
                   )}
                 </div>
               </div>
@@ -71,7 +71,7 @@ export default function PlanSelector({ selectedPlan, onSelect }: PlanSelectorPro
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex items-center gap-2 text-xs text-muted-foreground">
                     <svg
-                      className="w-3.5 h-3.5 text-teal-700 flex-shrink-0"
+                      className="w-3.5 h-3.5 text-teal-700 dark:text-teal-200 flex-shrink-0"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"

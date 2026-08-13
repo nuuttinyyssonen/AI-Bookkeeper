@@ -26,8 +26,8 @@ export default function ReactivateSubscription() {
 
     if (isConfirming) {
         return (
-            <div className="rounded-lg border border-teal-200 bg-teal-50 p-3 space-y-2">
-                <p className="text-xs text-teal-800">
+            <div className="rounded-lg border border-teal-200 bg-teal-50 dark:bg-teal-900 p-3 space-y-2">
+                <p className="text-xs text-teal-800 dark:text-teal-100">
                     {t('warning')}
                 </p>
                 <div className="flex gap-2">
@@ -41,7 +41,7 @@ export default function ReactivateSubscription() {
                     <button
                         onClick={() => setIsConfirming(false)}
                         disabled={isLoading}
-                        className="flex-1 h-8 rounded-md border border-slate-300 bg-white text-xs font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50 transition-colors"
+                        className="flex-1 h-8 rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-950 text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 hover:dark:bg-slate-900 disabled:opacity-50 transition-colors"
                     >
                         {t('cancel')}
                     </button>
@@ -53,7 +53,7 @@ export default function ReactivateSubscription() {
     return (
         <button
             onClick={() => setIsConfirming(true)}
-            className="h-9 px-4 rounded-md border border-teal-300 bg-white text-sm font-medium text-teal-700 hover:bg-teal-50 transition-colors"
+            className="h-9 px-4 rounded-md border border-teal-300 bg-white dark:bg-slate-950 text-sm font-medium text-teal-700 dark:text-teal-200 hover:bg-teal-50 hover:dark:bg-teal-900 transition-colors"
         >
             {t('reactivateSubscription')}
         </button>

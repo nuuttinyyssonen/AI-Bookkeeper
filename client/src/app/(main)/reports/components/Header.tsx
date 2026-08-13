@@ -35,14 +35,14 @@ export default function Header({reports, setReports}: Props) {
         setIsPending(false);
     };
     return (
-        <header className="border-b border-slate-200 bg-white px-4 py-4 sm:px-6 lg:px-8">
+        <header className="border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-4 sm:px-6 lg:px-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                    <p className="text-sm font-medium text-teal-700">{t('eyebrow')}</p>
-                    <h1 className="mt-1 text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
+                    <p className="text-sm font-medium text-teal-700 dark:text-teal-200">{t('eyebrow')}</p>
+                    <h1 className="mt-1 text-2xl font-semibold tracking-tight text-slate-950 dark:text-slate-50 sm:text-3xl">
                         {t('title')}
                     </h1>
-                    <p className="mt-1 text-sm text-slate-500">
+                    <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                         {t('description')}
                     </p>
                 </div>
@@ -56,15 +56,15 @@ export default function Header({reports, setReports}: Props) {
 
                 {isOpen && (
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                        <div className="rounded-xl bg-white p-6 shadow-xl w-full max-w-sm">
-                            <h2 className="text-lg font-semibold text-slate-900">{t('modalTitle')}</h2>
-                            <p className="mt-1 text-sm text-slate-500">{t('modalDescription')}</p>
+                        <div className="rounded-xl bg-white dark:bg-slate-950 p-6 shadow-xl w-full max-w-sm">
+                            <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">{t('modalTitle')}</h2>
+                            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{t('modalDescription')}</p>
 
                             <select
                                 data-testid="select-timeperiod"
                                 value={timePeriod}
                                 onChange={(e) => setTimePeriod(e.target.value)}
-                                className="mt-4 w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-600"
+                                className="mt-4 w-full rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-50 focus:outline-none focus:ring-2 focus:ring-teal-600"
                             >
                                 <option data-testid="new-report-Q1" value="Q1">{t('periodQ1')}</option>
                                 <option data-testid="new-report-Q2" value="Q2">{t('periodQ2')}</option>
@@ -77,7 +77,7 @@ export default function Header({reports, setReports}: Props) {
                             <div className="mt-6 flex gap-3">
                                 <button
                                     onClick={() => setIsOpen(false)}
-                                    className="flex-1 rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+                                    className="flex-1 rounded-lg border border-slate-200 dark:border-slate-700 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 hover:dark:bg-slate-900"
                                 >
                                     {t('cancel')}
                                 </button>

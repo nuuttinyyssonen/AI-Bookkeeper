@@ -52,8 +52,8 @@ export default function Information({ user }: Props) {
     };
 
     return (
-        <div className="rounded-lg border border-border bg-white p-6 space-y-4">
-            <h2 className="text-sm font-medium text-slate-950">{t('title')}</h2>
+        <div className="rounded-lg border border-border bg-white dark:bg-slate-950 p-6 space-y-4">
+            <h2 className="text-sm font-medium text-slate-950 dark:text-slate-50">{t('title')}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
                     <p className="text-xs text-muted-foreground">{t('firstName')}</p>
@@ -62,10 +62,10 @@ export default function Information({ user }: Props) {
                             name="first_name"
                             value={form.first_name}
                             onChange={handleChange}
-                            className="w-full h-9 px-3 rounded-md border border-slate-300 text-sm text-slate-950 focus:outline-none focus:ring-1 focus:ring-teal-700"
+                            className="w-full h-9 px-3 rounded-md border border-slate-300 dark:border-slate-600 text-sm text-slate-950 dark:text-slate-50 focus:outline-none focus:ring-1 focus:ring-teal-700"
                         />
                     ) : (
-                        <p className="text-sm font-medium text-slate-950">{user.first_name}</p>
+                        <p className="text-sm font-medium text-slate-950 dark:text-slate-50">{user.first_name}</p>
                     )}
                 </div>
                 <div className="space-y-1">
@@ -75,10 +75,10 @@ export default function Information({ user }: Props) {
                             name="last_name"
                             value={form.last_name}
                             onChange={handleChange}
-                            className="w-full h-9 px-3 rounded-md border border-slate-300 text-sm text-slate-950 focus:outline-none focus:ring-1 focus:ring-teal-700"
+                            className="w-full h-9 px-3 rounded-md border border-slate-300 dark:border-slate-600 text-sm text-slate-950 dark:text-slate-50 focus:outline-none focus:ring-1 focus:ring-teal-700"
                         />
                     ) : (
-                        <p className="text-sm font-medium text-slate-950">{user.last_name}</p>
+                        <p className="text-sm font-medium text-slate-950 dark:text-slate-50">{user.last_name}</p>
                     )}
                 </div>
                 <div className="space-y-1">
@@ -88,10 +88,10 @@ export default function Information({ user }: Props) {
                             name="email"
                             value={form.email}
                             onChange={handleChange}
-                            className="w-full h-9 px-3 rounded-md border border-slate-300 text-sm text-slate-950 focus:outline-none focus:ring-1 focus:ring-teal-700"
+                            className="w-full h-9 px-3 rounded-md border border-slate-300 dark:border-slate-600 text-sm text-slate-950 dark:text-slate-50 focus:outline-none focus:ring-1 focus:ring-teal-700"
                         />
                     ) : (
-                        <p className="text-sm font-medium text-slate-950">{user.email}</p>
+                        <p className="text-sm font-medium text-slate-950 dark:text-slate-50">{user.email}</p>
                     )}
                 </div>
                 <div className="space-y-1">
@@ -101,10 +101,10 @@ export default function Information({ user }: Props) {
                             name="phonenumber"
                             value={form.phonenumber}
                             onChange={handleChange}
-                            className="w-full h-9 px-3 rounded-md border border-slate-300 text-sm text-slate-950 focus:outline-none focus:ring-1 focus:ring-teal-700"
+                            className="w-full h-9 px-3 rounded-md border border-slate-300 dark:border-slate-600 text-sm text-slate-950 dark:text-slate-50 focus:outline-none focus:ring-1 focus:ring-teal-700"
                         />
                     ) : (
-                        <p className="text-sm font-medium text-slate-950">{user.phonenumber}</p>
+                        <p className="text-sm font-medium text-slate-950 dark:text-slate-50">{user.phonenumber}</p>
                     )}
                 </div>
                 <div className="space-y-1">
@@ -114,10 +114,10 @@ export default function Information({ user }: Props) {
                             name="businessId"
                             value={form.businessId}
                             onChange={handleChange}
-                            className="w-full h-9 px-3 rounded-md border border-slate-300 text-sm text-slate-950 focus:outline-none focus:ring-1 focus:ring-teal-700"
+                            className="w-full h-9 px-3 rounded-md border border-slate-300 dark:border-slate-600 text-sm text-slate-950 dark:text-slate-50 focus:outline-none focus:ring-1 focus:ring-teal-700"
                         />
                     ) : (
-                        <p className="text-sm font-medium text-slate-950">{user.business_id}</p>
+                        <p className="text-sm font-medium text-slate-950 dark:text-slate-50">{user.business_id}</p>
                     )}
                 </div>
             </div>
@@ -134,7 +134,7 @@ export default function Information({ user }: Props) {
                         <button
                             onClick={handleCancel}
                             disabled={isLoading}
-                            className="h-9 px-4 rounded-md border border-slate-300 bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50 transition-colors"
+                            className="h-9 px-4 rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-950 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 hover:dark:bg-slate-900 disabled:opacity-50 transition-colors"
                         >
                             {t('cancel')}
                         </button>
@@ -142,7 +142,7 @@ export default function Information({ user }: Props) {
                 ) : (
                     <button
                         onClick={() => setIsEditing(true)}
-                        className="h-9 px-4 rounded-md border border-slate-300 bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+                        className="h-9 px-4 rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-950 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 hover:dark:bg-slate-900 transition-colors"
                     >
                         {t('editInformation')}
                     </button>

@@ -55,7 +55,7 @@ export default async function TermsPage() {
                     <div className="max-w-2xl">
                         <DraftBanner>{t("draftBanner")}</DraftBanner>
 
-                        <div className="divide-y divide-slate-200">
+                        <div className="divide-y divide-slate-200 dark:divide-slate-700">
                             {sections.slice(0, 7).map((section) => (
                                 <LegalSection key={section.id} id={section.id} num={section.num} title={section.title}>
                                     <SectionBlocks content={section.content} />

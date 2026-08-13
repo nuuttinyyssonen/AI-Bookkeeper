@@ -34,7 +34,7 @@ export default function ReportOverview({report, id}: Props) {
     );
 
     return (
-        <div className="min-h-screen bg-slate-50">
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
             <Header report={report} id={id} setDeleted={setDeleted}/>
             <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8 space-y-6">
                 <SummaryCards report={report} isRefund={isRefund}/>

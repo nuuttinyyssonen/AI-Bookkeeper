@@ -34,7 +34,7 @@ export default function Receipts({ filtered }: Props) {
                     <CardContent>
                         <div className="space-y-3">
                             {Array.isArray(r.receiptVats) && r.receiptVats.length > 0 ? (
-                                <div className="space-y-2 rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+                                <div className="space-y-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 p-4 text-sm text-slate-700 dark:text-slate-200">
                                     <div className="font-semibold">{t('vatBreakdown')}</div>
                                     {r.receiptVats.map((vat) => (
                                         <div key={vat.id} className="grid gap-2 sm:grid-cols-4">
@@ -46,15 +46,15 @@ export default function Receipts({ filtered }: Props) {
                                     ))}
                                 </div>
                             ) : (
-                                <div className="text-sm text-slate-500">{t('vatNotAvailable')}</div>
+                                <div className="text-sm text-slate-500 dark:text-slate-400">{t('vatNotAvailable')}</div>
                             )}
                         </div>
 
                         <div className="mt-3 flex items-center justify-between text-sm">
-                            <span className="text-slate-500">
+                            <span className="text-slate-500 dark:text-slate-400">
                                 {r.category?.label ?? t('noCategory')}
                             </span>
-                            <span className={`font-medium ${r.is_deductible ? "text-teal-600" : "text-red-500"}`}>
+                            <span className={`font-medium ${r.is_deductible ? "text-teal-600 dark:text-teal-300" : "text-red-500 dark:text-red-400"}`}>
                                 {r.is_deductible ? t('deductible') : t('notDeductible')}
                             </span>
                         </div>
@@ -62,7 +62,7 @@ export default function Receipts({ filtered }: Props) {
                         <div className="mt-4 flex gap-2">
                             <Link
                                 href={`/receipts/${r.id}`}
-                                className="inline-flex flex-1 h-11 items-center justify-center rounded-lg bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-slate-700"
+                                className="inline-flex flex-1 h-11 items-center justify-center rounded-lg bg-slate-950 dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-slate-700 hover:dark:bg-slate-700"
                             >
                                 {t('view')}
                             </Link>

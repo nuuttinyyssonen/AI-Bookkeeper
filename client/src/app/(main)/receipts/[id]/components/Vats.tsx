@@ -20,13 +20,13 @@ interface Props {
 
 export default function Vats({ receipt, isEditing, vatForms, handleVatChange }: Props) {
     const t = useTranslations('vats');
-    const inputClass = "w-full h-8 px-2 rounded-md border border-slate-300 text-sm text-slate-950 focus:outline-none focus:ring-1 focus:ring-teal-700";
+    const inputClass = "w-full h-8 px-2 rounded-md border border-slate-300 dark:border-slate-600 text-sm text-slate-950 dark:text-slate-50 focus:outline-none focus:ring-1 focus:ring-teal-700";
     const hasVats = Array.isArray(receipt.receiptVats) && receipt.receiptVats.length > 0;
 
     return (
         <div className="space-y-3">
             {hasVats ? (
-                <div className="space-y-2 rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+                <div className="space-y-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 p-4 text-sm text-slate-700 dark:text-slate-200">
                     <div className="font-semibold">{t('breakdown')}</div>
                     {isEditing ? (
                         vatForms.map((vat, index) => (
@@ -85,7 +85,7 @@ export default function Vats({ receipt, isEditing, vatForms, handleVatChange }: 
                     )}
                 </div>
             ) : (
-                <div className="text-sm text-slate-500">{t('notAvailable')}</div>
+                <div className="text-sm text-slate-500 dark:text-slate-400">{t('notAvailable')}</div>
             )}
         </div>
     );

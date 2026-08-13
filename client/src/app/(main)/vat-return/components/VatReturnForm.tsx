@@ -115,15 +115,15 @@ export default function VatReturnForm({ user, reports }: Props) {
     };
 
     const DisplayRow = ({ label, value }: { label: string; value: string | number | undefined }) => (
-        <div className="flex items-center justify-between py-3 border-b border-slate-100">
-            <span className="text-sm text-slate-500 w-48">{label}</span>
-            <span className="text-sm font-medium text-slate-800">{value ?? "—"}</span>
+        <div className="flex items-center justify-between py-3 border-b border-slate-100 dark:border-slate-800">
+            <span className="text-sm text-slate-500 dark:text-slate-400 w-48">{label}</span>
+            <span className="text-sm font-medium text-slate-800 dark:text-slate-100">{value ?? "—"}</span>
         </div>
     );
 
     const EditRow = ({ label, fieldKey, value }: { label: string; fieldKey: keyof VatFields; value: string | number }) => (
-        <div className="flex items-center justify-between py-3 border-b border-slate-100">
-            <span className="text-sm text-slate-500 w-48">{label}</span>
+        <div className="flex items-center justify-between py-3 border-b border-slate-100 dark:border-slate-800">
+            <span className="text-sm text-slate-500 dark:text-slate-400 w-48">{label}</span>
             {editing ? (
                 <input
                     type={typeof value === "number" ? "number" : "text"}
@@ -132,20 +132,20 @@ export default function VatReturnForm({ user, reports }: Props) {
                         ...f!,
                         [fieldKey]: typeof value === "number" ? Number(e.target.value) : e.target.value
                     }))}
-                    className="w-48 h-8 rounded-md border border-slate-200 px-3 text-sm text-right"
+                    className="w-48 h-8 rounded-md border border-slate-200 dark:border-slate-700 px-3 text-sm text-right"
                 />
             ) : (
-                <span className="text-sm font-medium text-slate-800">{value}</span>
+                <span className="text-sm font-medium text-slate-800 dark:text-slate-100">{value}</span>
             )}
         </div>
     );
 
     return (
-        <div className="max-w-xl bg-white rounded-xl border border-slate-200 p-6 space-y-4">
+        <div className="max-w-xl bg-white dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-700 p-6 space-y-4">
             <h2 className="text-lg font-medium">{t('title')}</h2>
 
             <select
-                className="w-full h-9 rounded-md border border-slate-200 px-3 text-sm text-slate-700"
+                className="w-full h-9 rounded-md border border-slate-200 dark:border-slate-700 px-3 text-sm text-slate-700 dark:text-slate-200"
                 value={selectedReportId}
                 onChange={(e) => handleReportSelect(e.target.value)}
             >
@@ -172,7 +172,7 @@ export default function VatReturnForm({ user, reports }: Props) {
                     <div className="flex gap-2">
                         <button
                             onClick={() => setEditing(e => !e)}
-                            className="h-9 px-4 text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-100"
+                            className="h-9 px-4 text-sm font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-100 hover:dark:bg-slate-800"
                         >
                             {editing ? t('cancel') : t('edit')}
                         </button>
@@ -186,13 +186,13 @@ export default function VatReturnForm({ user, reports }: Props) {
                     </div>
 
                     {result?.UniqueIdentifier && (
-                        <div className="text-sm p-4 rounded-lg bg-green-50 border border-green-200">
-                            <p className="text-green-700 font-medium">{t('filedSuccess')}</p>
-                            <p className="text-slate-600 mt-1">{t('id', { id: result.UniqueIdentifier })}</p>
-                            <p className="text-slate-600">{t('timestamp', { timestamp: result.AcceptedTimestamp ?? '' })}</p>
+                        <div className="text-sm p-4 rounded-lg bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700">
+                            <p className="text-green-700 dark:text-green-200 font-medium">{t('filedSuccess')}</p>
+                            <p className="text-slate-600 dark:text-slate-300 mt-1">{t('id', { id: result.UniqueIdentifier })}</p>
+                            <p className="text-slate-600 dark:text-slate-300">{t('timestamp', { timestamp: result.AcceptedTimestamp ?? '' })}</p>
                             <button
                                 onClick={handleGetReturn}
-                                className="mt-3 h-8 px-3 text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-100"
+                                className="mt-3 h-8 px-3 text-sm font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-100 hover:dark:bg-slate-800"
                             >
                                 {t('viewFiled')}
                             </button>
@@ -200,14 +200,14 @@ export default function VatReturnForm({ user, reports }: Props) {
                     )}
 
                     {result?.ErrorText && (
-                        <div className="text-sm p-4 rounded-lg bg-red-50 border border-red-200">
-                            <p className="text-red-600">{result.ErrorText}</p>
+                        <div className="text-sm p-4 rounded-lg bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700">
+                            <p className="text-red-600 dark:text-red-300">{result.ErrorText}</p>
                         </div>
                     )}
 
                     {filedReturn && (
-                        <div className="border-t border-slate-100 pt-4">
-                            <p className="text-sm font-medium text-slate-700 mb-2">{t('filedDetails')}</p>
+                        <div className="border-t border-slate-100 dark:border-slate-800 pt-4">
+                            <p className="text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">{t('filedDetails')}</p>
                             <DisplayRow label={t('status')} value={filedReturn.Status} />
                             <DisplayRow label={t('submitted')} value={filedReturn.SubmittedDate} />
                             <DisplayRow label={t('vatHigh')} value={filedReturn.VATOnDomesticSales?.HighVATRate} />

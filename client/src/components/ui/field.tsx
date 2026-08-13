@@ -25,7 +25,7 @@ function FieldLabel({ className, ...props }: React.ComponentProps<"label">) {
   return (
     <label
       data-slot="field-label"
-      className={cn("text-sm font-medium leading-none text-slate-800", className)}
+      className={cn("text-sm font-medium leading-none text-slate-800 dark:text-slate-100", className)}
       {...props}
     />
   );
@@ -35,7 +35,7 @@ function FieldDescription({ className, ...props }: React.ComponentProps<"p">) {
   return (
     <p
       data-slot="field-description"
-      className={cn("text-sm leading-5 text-slate-500", className)}
+      className={cn("text-sm leading-5 text-slate-500 dark:text-slate-400", className)}
       {...props}
     />
   );
@@ -53,7 +53,7 @@ function FieldError({
   return (
     <p
       data-slot="field-error"
-      className={cn("text-sm font-medium leading-5 text-red-600", className)}
+      className={cn("text-sm font-medium leading-5 text-red-600 dark:text-red-300", className)}
       {...props}
     >
       {children}

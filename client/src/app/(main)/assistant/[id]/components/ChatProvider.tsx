@@ -17,7 +17,7 @@ export default function ChatProvider({ header }: Props) {
     const { messages, setMessages, chatRooms, input, setInput, handleSend, onDelete } = useChat(id);
 
     return (
-        <div className="flex h-dvh bg-slate-50">
+        <div className="flex h-dvh bg-slate-50 dark:bg-slate-900">
             <ChatHistory onDelete={onDelete} chatRooms={chatRooms} activeChatId={id as string} />
             <div className="flex flex-1 flex-col">
                 {header}

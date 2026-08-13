@@ -26,7 +26,7 @@ export default async function PrivacyPage() {
                 title={t("title")}
                 description={t("description")}
                 meta={
-                    <span className="rounded-full border border-dashed border-amber-400 bg-white px-3 py-1 text-xs font-medium text-amber-700">
+                    <span className="rounded-full border border-dashed border-amber-400 dark:border-amber-500 bg-white dark:bg-slate-950 px-3 py-1 text-xs font-medium text-amber-700 dark:text-amber-200">
                         {t("updatedLabel")}: <FillMe>{t("updatedPlaceholder")}</FillMe>
                     </span>
                 }
@@ -38,7 +38,7 @@ export default async function PrivacyPage() {
                 <div className="lg:grid lg:grid-cols-[13rem_1fr] lg:gap-14">
                     <LegalToc items={toc} />
 
-                    <div className="max-w-2xl divide-y divide-slate-200">
+                    <div className="max-w-2xl divide-y divide-slate-200 dark:divide-slate-700">
                         <LegalSection id="p1" num="01" title={t("s1.title")}>
                             <p>
                                 AI-Bookkeeper<br />
@@ -71,16 +71,16 @@ export default async function PrivacyPage() {
 
                         <LegalSection id="p4" num="04" title={t("s4.title")}>
                             <p>{t("s4.intro")}</p>
-                            <div className="overflow-x-auto rounded-lg border border-slate-200">
+                            <div className="overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-700">
                                 <table className="w-full text-left text-sm">
-                                    <thead className="bg-slate-50 text-xs font-medium uppercase tracking-wider text-slate-500">
+                                    <thead className="bg-slate-50 dark:bg-slate-900 text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         <tr>
                                             {(t.raw("s4.tableHeaders") as string[]).map((header) => (
                                                 <th key={header} className="px-4 py-3">{header}</th>
                                             ))}
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y divide-slate-200">
+                                    <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
                                         {s4Rows.map((row) => (
                                             <tr key={row[0]}>
                                                 {row.map((cell, i) => (
@@ -105,16 +105,16 @@ export default async function PrivacyPage() {
 
                         <LegalSection id="p6" num="06" title={t("s6.title")}>
                             <p>{t("s6.intro")}</p>
-                            <div className="overflow-x-auto rounded-lg border border-slate-200">
+                            <div className="overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-700">
                                 <table className="w-full text-left text-sm">
-                                    <thead className="bg-slate-50 text-xs font-medium uppercase tracking-wider text-slate-500">
+                                    <thead className="bg-slate-50 dark:bg-slate-900 text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         <tr>
                                             {(t.raw("s6.tableHeaders") as string[]).map((header) => (
                                                 <th key={header} className="px-4 py-3">{header}</th>
                                             ))}
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y divide-slate-200">
+                                    <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
                                         {s6Rows.map((row) => (
                                             <tr key={row.provider}>
                                                 <td className="px-4 py-3"><FillMe>{row.provider}</FillMe></td>

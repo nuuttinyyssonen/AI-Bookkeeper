@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* in your globals.css */
 @keyframes typing {
     0%, 60%, 100% { transform: translateY(0); }

@@ -29,10 +29,10 @@ export default function PricingProvider({ subscription }: Props) {
     }, [message]);
 
     return (
-        <main className="grid min-h-screen place-items-center bg-[radial-gradient(circle_at_top_left,rgba(20,184,166,0.18),transparent_34%),linear-gradient(135deg,#f8fafc_0%,#eef2f7_48%,#fff7ed_100%)] px-4 py-8">
+        <main className="grid min-h-screen place-items-center bg-[radial-gradient(circle_at_top_left,rgba(20,184,166,0.18),transparent_34%),linear-gradient(135deg,#f8fafc_0%,#eef2f7_48%,#fff7ed_100%)] dark:bg-[radial-gradient(circle_at_top_left,rgba(20,184,166,0.15),transparent_34%),linear-gradient(135deg,#020617_0%,#0f172a_48%,#1c1917_100%)] px-4 py-8">
             <div className="w-full max-w-4xl space-y-8">
                 <div className="text-center space-y-2">
-                    <h1 className="text-3xl font-semibold text-slate-950">{t('title')}</h1>
+                    <h1 className="text-3xl font-semibold text-slate-950 dark:text-slate-50">{t('title')}</h1>
                     <p className="text-sm text-muted-foreground">{t('subtitle')}</p>
                 </div>
 
@@ -40,7 +40,7 @@ export default function PricingProvider({ subscription }: Props) {
                 <PricingCards isYearly={isYearly} subscription={subscription} />
 
                 <div className="text-center">
-                    <Link href="/dashboard" className="text-sm text-muted-foreground hover:text-slate-700 underline">
+                    <Link href="/dashboard" className="text-sm text-muted-foreground hover:text-slate-700 hover:dark:text-slate-200 underline">
                         {t('backToDashboard')}
                     </Link>
                 </div>

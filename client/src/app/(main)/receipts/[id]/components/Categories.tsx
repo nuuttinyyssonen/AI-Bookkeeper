@@ -36,11 +36,11 @@ export default function Categories({ selectedCategory, handleCategoryChange }: P
 
     return (
         <div className="space-y-1.5">
-            <label className="text-sm font-medium text-slate-700">{t('label')}</label>
+            <label className="text-sm font-medium text-slate-700 dark:text-slate-200">{t('label')}</label>
             <select
                 value={selectedCategory}
                 onChange={(e) => handleCategoryChange(e.target.value)}
-                className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-950"
+                className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2 text-sm text-slate-900 dark:text-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-950 focus:dark:ring-slate-800"
             >
                 <option value="" disabled>{t('placeholder')}</option>
                 {CATEGORY_TYPES.map((type) => (

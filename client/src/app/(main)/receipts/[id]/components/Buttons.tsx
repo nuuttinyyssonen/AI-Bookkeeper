@@ -28,14 +28,14 @@ export default function Buttons({ handleDelete, isEditing, isLoading, handleSave
                     <button
                         onClick={handleCancel}
                         disabled={isLoading}
-                        className="h-9 px-4 rounded-md border border-slate-300 bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50 transition-colors"
+                        className="h-9 px-4 rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-950 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 hover:dark:bg-slate-900 disabled:opacity-50 transition-colors"
                     >
                         {t('cancel')}
                     </button>
                 </>
             ) : (
                 <>
-                    <Button className="bg-red-600 text-white hover:bg-red-700" onClick={handleDelete}>{t('deleteReceipt')}</Button>
+                    <Button className="bg-red-600 dark:bg-red-700 text-white hover:bg-red-700 hover:dark:bg-red-600" onClick={handleDelete}>{t('deleteReceipt')}</Button>
                     <Button className="bg-teal-600 text-white hover:bg-teal-700">{t('downloadPdf')}</Button>
                 </>
             )}
