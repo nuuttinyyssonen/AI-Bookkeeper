@@ -203,3 +203,25 @@ export const getUserSubscription = async (req: Request, res: Response, next: Nex
         next(error);
     }
 };
+
+/**
+ * Saves or updates the authenticated user's Expo push token.
+ * @param {Request} req.user - User from auth middleware
+ * @param {Request} req.body - `push_token` string
+ * @returns 200 with success message
+ * @throws {Error} 500 - If database update fails
+ */
+export const updatePushToken = async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    const { push_token } = req.body;
+
+    try {
+        await prisma.user.update({
+            where: { id: user.id },
+            data: { push_token: push_token }
+        });
+        res.status(200).json({ message: "Push token updated successfully" });
+    } catch(error) {
+        next(error);
+    }
+};

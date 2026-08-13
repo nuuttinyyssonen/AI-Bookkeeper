@@ -3,6 +3,7 @@ import * as Notifications from "expo-notifications";
 import * as Device from "expo-device";
 import Constants from "expo-constants";
 import { Platform } from "react-native";
+import api from "../services/api";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -59,6 +60,7 @@ export const usePushNotifications = () => {
         try {
             const { data: token } = await Notifications.getExpoPushTokenAsync({ projectId });
             setPushToken(token);
+            await api.put("/api/user/push-token", { push_token: token });
             return token;
         } catch (e) {
             setError("Push-tokenin hakeminen epäonnistui.");

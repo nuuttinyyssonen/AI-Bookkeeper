@@ -1,4 +1,4 @@
-import { getUserData, updateUserData, deleteUser, getUserSubscription } from "../controllers/user.controller";
+import { getUserData, updateUserData, deleteUser, getUserSubscription, updatePushToken } from "../controllers/user.controller";
 import { authMiddleware } from "../middleware/authentication";
 import { rateLimiters } from "../utils/rateLimiter";
 import { Router } from "express";
@@ -10,5 +10,6 @@ userRouter.get("/", authMiddleware, rateLimiters.read("get_user_data"), getUserD
 userRouter.put("/", authMiddleware, rateLimiters.write("update_user_data"), updateUserData);
 userRouter.delete("/", authMiddleware, rateLimiters.sensitive("delete_user"), deleteUser);
 userRouter.get("/subscription", authMiddleware, rateLimiters.read("get_subscription"), getUserSubscription);
+userRouter.put("/push-token", authMiddleware, rateLimiters.write("push-token"), updatePushToken);
 
 export default userRouter;
