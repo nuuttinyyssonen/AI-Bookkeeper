@@ -30,11 +30,6 @@ export const usePushNotifications = () => {
     const [error, setError] = useState<string | null>(null);
 
     const registerForPushNotifications = async () => {
-        if (!Device.isDevice) {
-            setError("Push-ilmoitukset vaativat oikean laitteen (ei simulaattoria/emulaattoria)")
-            return null;
-        }
-
         await setupAndroidChannel();
 
         const { status: existingStatus } = await Notifications.getPermissionsAsync();
