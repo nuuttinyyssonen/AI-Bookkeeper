@@ -2,6 +2,8 @@
 
 > AI-powered bookkeeping application for Finnish sole traders and small businesses. Built as a master's thesis project.
 
+<img width="1146" height="720" alt="Nytttallennus2026-08-14kello13 00 40-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/8a66fa0d-d48a-45d4-8427-4eb0fbe60a57" />
+
 **🔗 [Live Demo](https://ai-bookkeeper-theta.vercel.app)**
 
 ---
