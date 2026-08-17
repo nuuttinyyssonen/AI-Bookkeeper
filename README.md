@@ -4,9 +4,9 @@
 
 <img width="1146" height="720" alt="Nytttallennus2026-08-14kello13 00 40-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/8a66fa0d-d48a-45d4-8427-4eb0fbe60a57" />
 
-<img width="300" alt="Mobile Demo" src="https://github.com/user-attachments/assets/f05cd7c5-8cee-4fd4-8a37-c145a671dbd1" />
-<img width="300" alt="Mobile demo" src="https://github.com/user-attachments/assets/1eba7662-704d-454d-9937-30c618003530" />
-<img width="300" alt="Mobile demo" src="https://github.com/user-attachments/assets/bda5a40a-b4e2-4944-be56-b9a356f40448" />
+<img width="270" alt="Mobile Demo" src="https://github.com/user-attachments/assets/f05cd7c5-8cee-4fd4-8a37-c145a671dbd1" />
+<img width="270" alt="Mobile demo" src="https://github.com/user-attachments/assets/1eba7662-704d-454d-9937-30c618003530" />
+<img width="270" alt="Mobile demo" src="https://github.com/user-attachments/assets/bda5a40a-b4e2-4944-be56-b9a356f40448" />
 
 
 **🔗 [Live Demo](https://ai-bookkeeper-theta.vercel.app)**
