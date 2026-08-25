@@ -38,13 +38,7 @@
 ---
 
 ## Architecture
-
-Monorepo with three packages:
-
-AI-Bookkeeper/  
-├── client/ # Next.js web app  
-├── server/ # Node.js/Express backend  
-└── mobile/ # React Native / Expo app  
+<img width="533" height="368" alt="Näyttökuva 2026-08-25 kello 10 10 44" src="https://github.com/user-attachments/assets/3350393c-43cf-41ea-aeb6-c15e8e078839" />
 
 ---
 
